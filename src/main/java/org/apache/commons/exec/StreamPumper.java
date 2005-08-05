@@ -1,0 +1,125 @@
+/* 
+ * Copyright 2005  The Apache Software Foundation
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
+package org.apache.commons.exec;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+/**
+ * Copies all data from an input stream to an output stream.
+ */
+public class StreamPumper implements Runnable {
+
+    // TODO: make SIZE an instance variable.
+    // TODO: add a status flag to note if an error occurred in run.
+
+    private static final int SIZE = 128;
+
+    private InputStream is;
+
+    private OutputStream os;
+
+    private boolean finished;
+
+    private boolean closeWhenExhausted;
+
+    /**
+     * Create a new stream pumper.
+     * 
+     * @param is
+     *            input stream to read data from
+     * @param os
+     *            output stream to write data to.
+     * @param closeWhenExhausted
+     *            if true, the output stream will be closed when the input is
+     *            exhausted.
+     */
+    public StreamPumper(final InputStream is, final OutputStream os,
+            final boolean closeWhenExhausted) {
+        this.is = is;
+        this.os = os;
+        this.closeWhenExhausted = closeWhenExhausted;
+    }
+
+    /**
+     * Create a new stream pumper.
+     * 
+     * @param is
+     *            input stream to read data from
+     * @param os
+     *            output stream to write data to.
+     */
+    public StreamPumper(final InputStream is, final OutputStream os) {
+        this(is, os, false);
+    }
+
+    /**
+     * Copies data from the input stream to the output stream. Terminates as
+     * soon as the input stream is closed or an error occurs.
+     */
+    public void run() {
+        synchronized (this) {
+            // Just in case this object is reused in the future
+            finished = false;
+        }
+
+        final byte[] buf = new byte[SIZE];
+
+        int length;
+        try {
+            while ((length = is.read(buf)) > 0) {
+                os.write(buf, 0, length);
+            }
+        } catch (Exception e) {
+            // ignore errors
+        } finally {
+            if (closeWhenExhausted) {
+                try {
+                    os.close();
+                } catch (IOException e) {
+                    // ignore
+                }
+            }
+            synchronized (this) {
+                finished = true;
+                notifyAll();
+            }
+        }
+    }
+
+    /**
+     * Tells whether the end of the stream has been reached.
+     * 
+     * @return true is the stream has been exhausted.
+     */
+    public synchronized boolean isFinished() {
+        return finished;
+    }
+
+    /**
+     * This method blocks until the stream pumper finishes.
+     * 
+     * @see #isFinished()
+     */
+    public synchronized void waitFor() throws InterruptedException {
+        while (!isFinished()) {
+            wait();
+        }
+    }
+}
