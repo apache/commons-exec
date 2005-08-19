@@ -46,11 +46,6 @@ public class Exec {
 
     private boolean incompatibleWithSpawn = false;
 
-    /**
-     * Controls whether the VM (1.3 and above) is used to execute the command.
-     */
-    private boolean vmLauncher = true;
-
     public Exec() {
         // default cnstr
     }
@@ -300,18 +295,6 @@ public class Exec {
      */
 
     /**
-     * Sets a flag indicating if we want to launch new process with VM,
-     * otherwise use the OS's shell. Default value of the flag is true.
-     * 
-     * @param vmLauncher
-     *            true if we want to launch new process with VM, false if we
-     *            want to use the OS's shell.
-     */
-    public void setVMLauncher(final boolean vmLauncher) {
-        this.vmLauncher = vmLauncher;
-    }
-
-    /**
      * Create an Execute instance with the correct working directory set.
      * 
      * @param error
@@ -339,7 +322,6 @@ public class Exec {
                 createWatchdog());
 
         exe.setWorkingDirectory(dir);
-        exe.setVMLauncher(vmLauncher);
 
         exe.setNewEnvironment(newEnvironment);
         exe.setEnvironment(env.getVariables());

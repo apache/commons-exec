@@ -52,16 +52,10 @@ public class Execute {
 
     private boolean newEnvironment = false;
 
-    /** Controls whether the VM is used to launch commands, where possible */
-    private boolean useVMLauncher = true;
-
     private static String userWorkingDirectory = System.getProperty("user.dir");
 
     private static CommandLauncher vmLauncher = CommandLauncherFactory
             .createVMLauncher();
-
-    private static CommandLauncher shellLauncher = CommandLauncherFactory
-            .createShellLauncher();
 
     /** Used to destroy processes when the VM exits. */
     private static ProcessDestroyer processDestroyer = new ProcessDestroyer();
@@ -212,20 +206,6 @@ public class Execute {
     }
 
     /**
-     * Launch this execution through the VM, where possible, rather than through
-     * the OS's shell. In some cases and operating systems using the shell will
-     * allow the shell to perform additional processing such as associating an
-     * executable with a script, etc
-     * 
-     * @param useVMLauncher
-     *            true if exec should launch through the VM, false if the shell
-     *            should be used to launch the command.
-     */
-    public void setVMLauncher(final boolean useVMLauncher) {
-        this.useVMLauncher = useVMLauncher;
-    }
-
-    /**
      * Creates a process that runs a command.
      * 
      * @param command
@@ -241,18 +221,9 @@ public class Execute {
      *             forwarded from the particular launcher used
      */
     public static Process launch(final CommandLine command,
-            final Environment env, final File dir, final boolean useVM)
+            final Environment env, final File dir)
             throws IOException {
-        CommandLauncher launcher;
-        if (vmLauncher != null) {
-            launcher = vmLauncher;
-        } else {
-            launcher = shellLauncher;
-        }
-
-        if (!useVM) {
-            launcher = shellLauncher;
-        }
+        CommandLauncher launcher = vmLauncher;
 
         if (dir != null && !dir.exists()) {
             throw new IOException(dir + " doesn't exist.");
@@ -274,7 +245,7 @@ public class Execute {
         }
 
         final Process process = launch(getCommandline(), getEnvironment(),
-                workingDirectory, useVMLauncher);
+                workingDirectory);
 
         try {
             streamHandler.setProcessInputStream(process.getOutputStream());
@@ -327,7 +298,7 @@ public class Execute {
             throw new ExecuteException(workingDirectory + " doesn't exist.");
         }
         final Process process = launch(getCommandline(), getEnvironment(),
-                workingDirectory, useVMLauncher);
+                workingDirectory);
         if (OS.isFamilyWindows()) {
             try {
                 Thread.sleep(1000);
