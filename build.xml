@@ -71,7 +71,7 @@
     </condition>
   </target>
   <target name="get-deps" depends="test-offline" description="Download all dependencies" unless="maven.mode.offline">
-    <mkdir dir="${maven.repo.local}"/>
+    <mkdir dir="${maven.repo.local}/commons-logging/commons-logging-api/1.0.4/"/>
     <get src="http://repo1.maven.org/maven2/commons-logging/commons-logging-api/1.0.4/commons-logging-api-1.0.4.jar" dest="${maven.repo.local}/commons-logging/commons-logging-api/1.0.4/commons-logging-api-1.0.4.jar" usetimestamp="true" ignoreerrors="true"/>
   </target>
 </project>
