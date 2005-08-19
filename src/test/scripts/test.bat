@@ -16,4 +16,4 @@ REM  limitations under the License.
 REM
 REM
 
-@echo FOO %TEST_ENV_VAR% %1
+@echo FOO.%TEST_ENV_VAR%.%1

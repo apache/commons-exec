@@ -41,7 +41,7 @@ public class ExecTest extends TestCase {
 
         exec.execute(cl, baos, baos);
 
-        assertEquals("FOO", baos.toString().trim());
+        assertEquals("FOO..", baos.toString().trim());
     }
 
     public void testExecuteWithArg() throws Exception {
@@ -52,7 +52,7 @@ public class ExecTest extends TestCase {
         cl.addArgument("BAR");
         exec.execute(cl, baos, baos);
 
-        assertEquals("FOO  BAR", baos.toString().trim());
+        assertEquals("FOO..BAR", baos.toString().trim());
     }
 
     public void testExecuteWithEnv() throws Exception {
@@ -66,7 +66,7 @@ public class ExecTest extends TestCase {
 
         exec.execute(cl, env, baos, baos);
 
-        assertEquals("FOO XYZ", baos.toString().trim());
+        assertEquals("FOO.XYZ.", baos.toString().trim());
     }
 
     protected void tearDown() throws Exception {
