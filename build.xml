@@ -49,7 +49,7 @@
         <pathelement location="${maven.build.output}"/>
         <pathelement location="${maven.test.output}"/>
       </classpath>
-      <batchtest>
+      <batchtest todir="${maven.test.reports}">
         <fileset dir="src/test/java">
           <include name="**/*Test.java"/>
           <exclude name="**/*Abstract*Test.java"/>
