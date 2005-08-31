@@ -17,6 +17,7 @@
 
 package org.apache.commons.exec.environment;
 
+import java.io.IOException;
 import java.util.Iterator;
 
 import junit.framework.TestCase;
@@ -63,7 +64,7 @@ public class EnvironmentTest extends TestCase {
                 .createEnvironmentVariable("dum", "my")));
     }
 
-    public void testGetEnvironment() {
+    public void testGetEnvironment() throws IOException {
         Environment env = Environment.getProcEnvironment();
 
         for (Iterator iter = env.keySet().iterator(); iter.hasNext();) {

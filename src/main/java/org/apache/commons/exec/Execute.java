@@ -158,8 +158,10 @@ public class Execute {
      * Returns the environment used to create a subprocess.
      * 
      * @return the environment used to create a subprocess
+     * @throws IOException If the environment can not be
+     * 	retrived.
      */
-    public Environment getEnvironment() {
+    public Environment getEnvironment() throws IOException {
         if (environment == null || newEnvironment) {
             return environment;
         }
@@ -396,8 +398,9 @@ public class Execute {
      * Patch the current environment with the new values from the user.
      * 
      * @return the patched environment
+     * @throws IOException if the procssing environment can not be retrived
      */
-    private Environment patchEnvironment() {
+    private Environment patchEnvironment() throws IOException {
         // On OpenVMS Runtime#exec() doesn't support the environment array,
         // so we only return the new values which then will be set in
         // the generated DCL script, inheriting the parent process environment
@@ -405,8 +408,8 @@ public class Execute {
             return environment;
         }
 
-        Environment osEnv = (Environment) Environment.getProcEnvironment()
-                .clone();
+        Environment procEnv = Environment.getProcEnvironment();
+        Environment osEnv = (Environment) procEnv.clone();
 
         osEnv.putAll(environment);
 

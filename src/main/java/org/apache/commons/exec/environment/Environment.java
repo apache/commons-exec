@@ -22,20 +22,28 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.CommandLineImpl;
 import org.apache.commons.exec.Execute;
 import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Wrapper for environment variables.
+ * @todo change from inheritence to delegation, implement map
  */
 public class Environment extends HashMap {
+
+    private static Log LOG = LogFactory.getLog(Environment.class);
 
     public static Environment createEnvironment() {
         if (OS.isFamilyOpenVms()) {
@@ -62,18 +70,31 @@ public class Environment extends HashMap {
      */
     private static final long serialVersionUID = 3256443594801165364L;
 
-    /**
-     * a vector of type EnvirommentVariable
-     * 
-     * @see EnvironmentVariable
-     */
-
     private static Environment procEnvironment;
 
     /**
-     * constructor
+     * Default constructor, creates an empty environment
      */
     protected Environment() {
+    }
+
+    /**
+     * Creates an environment from a @link Map of @link String
+     * keys and values.
+     * 
+     * @param env A map containg the environment variable name
+     * as @link String key and the variable value as @link String 
+     * value 
+     */
+    protected Environment(Map env) {
+        this();
+
+        Set entries = env.entrySet();
+        for (Iterator iter = entries.iterator(); iter.hasNext();) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            addVariable((String) entry.getKey(),
+                        (String) entry.getValue());
+        }
     }
 
     /**
@@ -116,14 +137,32 @@ public class Environment extends HashMap {
      * 
      * @return a vector containing the environment variables the vector elements
      *         are strings formatted like variable = value
+     * @throws IOException
      */
-    public static synchronized Environment getProcEnvironment() {
-        if (procEnvironment != null) {
-            return procEnvironment;
+    public static synchronized Environment getProcEnvironment() throws IOException {
+        if (procEnvironment == null) {
+            try
+            {
+                Method getenvs = System.class.getMethod( "getenv", null );
+                Map env = (Map) getenvs.invoke( null, null );
+                procEnvironment = new Environment( env );
+            }
+            catch ( NoSuchMethodException e )
+            {
+                // ok, just not on JDK 1.5
+            }
+            catch ( IllegalAccessException e )
+            {
+                LOG.warn( "Unexpected error obtaining environment - using JDK 1.4 method" );
+            }
+            catch ( InvocationTargetException e )
+            {
+                LOG.warn( "Unexpected error obtaining environment - using JDK 1.4 method" );
+            }
         }
 
-        procEnvironment = new Environment();
-        try {
+        if(procEnvironment == null) {
+            procEnvironment = new Environment();
             BufferedReader in = runProcEnvCommand();
 
             String var = null;
@@ -151,9 +190,6 @@ public class Environment extends HashMap {
                 procEnvironment.addVariable(EnvironmentVariable
                         .createEnvironmentVariable(var));
             }
-        } catch (java.io.IOException exc) {
-            exc.printStackTrace();
-            // Just try to see how much we got
         }
         return procEnvironment;
     }
