@@ -32,6 +32,9 @@ import java.util.Vector;
  */
 public class CommandLineImpl implements Cloneable, CommandLine {
 
+    private static final String SINGLE_QUOTE = "\'";
+    private static final String DOUBLE_QUOTE = "\"";
+    
     /**
      * The arguments of the command.
      */
@@ -187,16 +190,16 @@ public class CommandLineImpl implements Cloneable, CommandLine {
      * 
      */
     public static String quoteArgument(final String argument) {
-        if (argument.indexOf("\"") > -1) {
-            if (argument.indexOf("\'") > -1) {
+        final StringBuffer buf = new StringBuffer();
+        if (argument.indexOf(DOUBLE_QUOTE) > -1) {
+            if (argument.indexOf(SINGLE_QUOTE) > -1) {
                 throw new IllegalArgumentException(
-                        "Can\'t handle single and double"
-                        + " quotes in same argument");
+                        "Can\'t handle single and double quotes in same argument");
             } else {
-                return '\'' + argument + '\'';
+                return buf.append(SINGLE_QUOTE).append(argument).append(SINGLE_QUOTE).toString();
             }
-        } else if (argument.indexOf("\'") > -1 || argument.indexOf(" ") > -1) {
-            return '\"' + argument + '\"';
+        } else if (argument.indexOf(SINGLE_QUOTE) > -1 || argument.indexOf(" ") > -1) {
+            return buf.append(DOUBLE_QUOTE).append(argument).append(DOUBLE_QUOTE).toString();
         } else {
             return argument;
         }
