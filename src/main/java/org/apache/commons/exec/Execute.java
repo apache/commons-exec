@@ -58,7 +58,7 @@ public class Execute {
             .createVMLauncher();
 
     /** Used to destroy processes when the VM exits. */
-    private static ProcessDestroyer processDestroyer = new ProcessDestroyer();
+    private static ProcessDestroyer processDestroyer = new ShutdownHookProcessDestroyer();
 
     /**
      * ByteArrayOutputStream#toString doesn't seem to work reliably on OS/390,
@@ -216,14 +216,11 @@ public class Execute {
      *            the environment for the command
      * @param dir
      *            the working directory for the command
-     * @param useVM
-     *            use the built-in exec command for JDK 1.3 if available.
      * @return the process started
      * @throws IOException
      *             forwarded from the particular launcher used
      */
-    public static Process launch(final CommandLine command,
-            final Environment env, final File dir)
+    public static Process launch(final CommandLine command, final Environment env, final File dir)
             throws IOException {
         CommandLauncher launcher = vmLauncher;
 
@@ -311,7 +308,7 @@ public class Execute {
         }
 
         OutputStream dummyOut = new OutputStream() {
-            public void write(final int b) throws IOException {
+            public void write(final int b) {
             }
         };
 
