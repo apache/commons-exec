@@ -44,6 +44,10 @@ import org.apache.commons.logging.LogFactory;
 public class Environment extends HashMap {
 
     private static Log LOG = LogFactory.getLog(Environment.class);
+    /**
+     * TODO move this and other final static / constants into a constants class ?
+     */
+    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     public static Environment createEnvironment() {
         if (OS.isFamilyOpenVms()) {
@@ -141,22 +145,15 @@ public class Environment extends HashMap {
      */
     public static synchronized Environment getProcEnvironment() throws IOException {
         if (procEnvironment == null) {
-            try
-            {
+            try {
                 Method getenvs = System.class.getMethod( "getenv", null );
                 Map env = (Map) getenvs.invoke( null, null );
                 procEnvironment = new Environment( env );
-            }
-            catch ( NoSuchMethodException e )
-            {
+            } catch ( NoSuchMethodException e ) {
                 // ok, just not on JDK 1.5
-            }
-            catch ( IllegalAccessException e )
-            {
+            } catch ( IllegalAccessException e ) {
                 LOG.warn( "Unexpected error obtaining environment - using JDK 1.4 method" );
-            }
-            catch ( InvocationTargetException e )
-            {
+            } catch ( InvocationTargetException e ) {
                 LOG.warn( "Unexpected error obtaining environment - using JDK 1.4 method" );
             }
         }
@@ -166,15 +163,15 @@ public class Environment extends HashMap {
             BufferedReader in = runProcEnvCommand();
 
             String var = null;
-            String line, lineSep = System.getProperty("line.separator");
+            String line;
             while ((line = in.readLine()) != null) {
                 if (line.indexOf('=') == -1) {
                     // Chunk part of previous env var (UNIX env vars can
                     // contain embedded new lines).
                     if (var == null) {
-                        var = lineSep + line;
+                        var = LINE_SEPARATOR + line;
                     } else {
-                        var += lineSep + line;
+                        var += LINE_SEPARATOR + line;
                     }
                 } else {
                     // New env var...append the previous one if we have it.
