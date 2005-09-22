@@ -45,6 +45,10 @@ public interface CommandLine {
      */
     void addArguments(final String[] line);
 
+    /**
+     * Append a single argument to the current command.
+     * @param arg the argument to add.
+     */
     void addArgument(final String arg);
 
     /**
