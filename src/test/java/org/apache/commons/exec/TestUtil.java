@@ -22,7 +22,6 @@ import junit.framework.AssertionFailedError;
 public final class TestUtil {
 
     private TestUtil() {
-
     }
 
     public static String resolveScriptForOS(String script) {

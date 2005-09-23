@@ -36,10 +36,6 @@ import org.apache.commons.exec.environment.Environment;
  */
 public class VmsCommandLauncher extends Java13CommandLauncher {
 
-    public VmsCommandLauncher() throws NoSuchMethodException {
-        super();
-    }
-
     /**
      * Launches the given command in a new process.
      */
@@ -104,5 +100,4 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
         }
         return script;
     }
-
 }

@@ -39,8 +39,6 @@ public class Java13CommandLauncher extends CommandLauncherImpl {
 	 * Launches the given command in a new process, in the given working
 	 * directory
 	 * 
-	 * @param project
-	 *            the ant project
 	 * @param cmd
 	 *            the command line to execute as an array of strings
 	 * @param env
@@ -58,9 +56,8 @@ public class Java13CommandLauncher extends CommandLauncherImpl {
 		if(env != null) {
 			envVars = env.getVariables();
 		}
-		
-		
-		return (Process) Runtime.getRuntime().exec(cmd.getCommandline(),
-				envVars, workingDir);
+
+		return Runtime.getRuntime().exec(cmd.getCommandline(),
+                envVars, workingDir);
 	}
 }

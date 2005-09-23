@@ -91,8 +91,6 @@ public class Environment extends HashMap {
      * value
      */
     protected Environment(Map env) {
-        this();
-
         Set entries = env.entrySet();
         for (Iterator iter = entries.iterator(); iter.hasNext();) {
             Map.Entry entry = (Map.Entry) iter.next();
@@ -302,5 +300,4 @@ public class Environment extends HashMap {
         }
         return bos.toString();
     }
-
 }

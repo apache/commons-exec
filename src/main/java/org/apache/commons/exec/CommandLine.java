@@ -72,5 +72,4 @@ public interface CommandLine {
      * operation.
      */
     void clearArgs();
-
 }

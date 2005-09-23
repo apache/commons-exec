@@ -53,8 +53,6 @@ public class LogOutputStream extends OutputStream {
     /**
      * Creates a new instance of this class.
      * 
-     * @param task
-     *            the task for whom to log
      * @param level
      *            loglevel used to log data written to this stream.
      */
@@ -168,5 +166,4 @@ public class LogOutputStream extends OutputStream {
             blockStartOffset = offset;
         }
     }
-
 }

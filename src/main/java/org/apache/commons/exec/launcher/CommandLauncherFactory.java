@@ -22,7 +22,6 @@ import org.apache.commons.exec.OS;
 /**
  * Builds a command launcher for the OS and JVM we are running under.
  */
-
 public final class CommandLauncherFactory {
 
     private CommandLauncherFactory() {

@@ -30,9 +30,7 @@ public class ExecuteException extends IOException {
      * Construct a new exception with <code>null</code> as its detail message.
      */
     public ExecuteException() {
-
         super();
-
     }
 
     /**
@@ -42,9 +40,7 @@ public class ExecuteException extends IOException {
      *            The detail message
      */
     public ExecuteException(final String message) {
-
         super(message);
-
     }
 
     /**
@@ -55,9 +51,7 @@ public class ExecuteException extends IOException {
      *            The underlying cause
      */
     public ExecuteException(final Throwable cause) {
-
         this((cause == null) ? null : cause.toString(), cause);
-
     }
 
     /**
@@ -69,10 +63,8 @@ public class ExecuteException extends IOException {
      *            The underlying cause
      */
     public ExecuteException(final String message, final Throwable cause) {
-
         super(message + " (Caused by " + cause + ")");
         this.cause = cause; // Two-argument version requires JDK 1.4 or later
-
     }
 
     /**
@@ -84,8 +76,6 @@ public class ExecuteException extends IOException {
      * Return the underlying cause of this exception (if any).
      */
     public Throwable getCause() {
-
         return (this.cause);
-
     }
 }

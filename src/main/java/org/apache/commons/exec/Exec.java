@@ -339,10 +339,8 @@ public class Exec {
      *             streams of the process
      */
     protected final void runExecute(final Execute exe) throws IOException {
-        int returnCode = -1; // assume the worst
-
         if (!spawn) {
-            returnCode = exe.execute();
+            int returnCode = exe.execute();
 
             // test for and handle a forced process death
             if (exe.killedProcess()) {
@@ -420,5 +418,4 @@ public class Exec {
      */
     protected void logFlush() {
     }
-
 }

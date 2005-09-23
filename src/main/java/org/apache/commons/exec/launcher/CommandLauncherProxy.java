@@ -38,8 +38,6 @@ public abstract class CommandLauncherProxy extends CommandLauncherImpl {
      * Launches the given command in a new process. Delegates this method to the
      * proxied launcher
      * 
-     * @param project
-     *            the ant project
      * @param cmd
      *            the command line to execute as an array of strings
      * @param env
@@ -51,5 +49,4 @@ public abstract class CommandLauncherProxy extends CommandLauncherImpl {
             throws IOException {
         return myLauncher.exec(cmd, env);
     }
-
 }

@@ -33,6 +33,7 @@ import java.util.Vector;
 public class CommandLineImpl implements Cloneable, CommandLine {
 
     private static final String SINGLE_QUOTE = "\'";
+
     private static final String DOUBLE_QUOTE = "\"";
     
     /**
@@ -77,7 +78,6 @@ public class CommandLineImpl implements Cloneable, CommandLine {
      * This method calls <code>this.createArgument(false)</code>.
      * </p>
      * 
-     * @see #createArgument(boolean)
      * @return the argument object.
      */
     private CommandLineArgument createArgument(final String value) {
@@ -86,9 +86,6 @@ public class CommandLineImpl implements Cloneable, CommandLine {
         return argument;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.exec.CommandLineIn#setExecutable(java.lang.String)
-     */
     public void setExecutable(final String executable) {
         if (executable == null || executable.length() == 0) {
             return;
@@ -97,32 +94,20 @@ public class CommandLineImpl implements Cloneable, CommandLine {
                 '\\', File.separatorChar);
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.exec.CommandLineIn#getExecutable()
-     */
     public String getExecutable() {
         return executable;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.exec.CommandLineIn#addArguments(java.lang.String[])
-     */
     public void addArguments(final String[] line) {
         for (int i = 0; i < line.length; i++) {
             createArgument(line[i]);
         }
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.exec.CommandLineIn#addArgument(java.lang.String)
-     */
     public void addArgument(final String arg) {
         createArgument(arg);
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.exec.CommandLineIn#getCommandline()
-     */
     public String[] getCommandline() {
         List commands = new LinkedList();
         ListIterator list = commands.listIterator();
@@ -143,9 +128,6 @@ public class CommandLineImpl implements Cloneable, CommandLine {
         addArgumentsToList(list);
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.exec.CommandLineIn#getArguments()
-     */
     public String[] getArguments() {
         List result = new ArrayList(arguments.size() * 2);
         addArgumentsToList(result.listIterator());
@@ -327,17 +309,11 @@ public class CommandLineImpl implements Cloneable, CommandLine {
         return c;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.exec.CommandLineIn#clear()
-     */
     public void clear() {
         executable = null;
         arguments.removeAllElements();
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.exec.CommandLineIn#clearArgs()
-     */
     public void clearArgs() {
         arguments.removeAllElements();
     }

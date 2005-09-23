@@ -42,8 +42,6 @@ public class OS2CommandLauncher extends CommandLauncherProxy {
      * Launches the given command in a new process, in the given working
      * directory.
      * 
-     * @param project
-     *            the ant project
      * @param cmd
      *            the command line to execute as an array of strings
      * @param env

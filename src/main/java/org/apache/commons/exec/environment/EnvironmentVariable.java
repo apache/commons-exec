@@ -19,7 +19,6 @@ package org.apache.commons.exec.environment;
 
 import java.io.File;
 
-
 /**
  * representation of a single env value
  */

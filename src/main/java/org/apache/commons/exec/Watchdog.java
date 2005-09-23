@@ -80,5 +80,4 @@ public class Watchdog implements Runnable {
             fireTimeoutOccured();
         }
     }
-
 }

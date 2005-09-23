@@ -56,5 +56,4 @@ public interface CommandLauncher {
      */
     Process exec(final CommandLine cmd, final Environment env,
             final File workingDir) throws IOException;
-
 }

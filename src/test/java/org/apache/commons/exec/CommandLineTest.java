@@ -58,5 +58,4 @@ public class CommandLineTest extends TestCase {
         cmdl.addArgument("ba'r");
         assertEquals("test foo \"ba'r\"", cmdl.toString());
     }
-
 }

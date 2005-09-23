@@ -29,12 +29,7 @@ import org.apache.commons.exec.environment.Environment;
  * working directory.
  */
 public abstract class CommandLauncherImpl implements CommandLauncher {
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.commons.exec.launcher.CommandLauncherIn#exec(java.lang.String[],
-     *      java.lang.String[])
-     */
+
     public Process exec(final CommandLine cmd, final Environment env)
             throws IOException {
         String[] envVar = null;
@@ -46,12 +41,6 @@ public abstract class CommandLauncherImpl implements CommandLauncher {
                 envVar);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.commons.exec.launcher.CommandLauncherIn#exec(java.lang.String[],
-     *      java.lang.String[], java.io.File)
-     */
     public abstract Process exec(final CommandLine cmd, final Environment env,
             final File workingDir) throws IOException;
 }

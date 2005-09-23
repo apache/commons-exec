@@ -33,8 +33,10 @@ public class OpenVmsEnvironment extends Environment {
     private static final long serialVersionUID = 3762535598665117752L;
 
     protected OpenVmsEnvironment() {
-
     }
+/*
+ This method could not possibly be useful or called from anywhere as it will
+ simply just call itself and recurse infinitely.
 
     public static synchronized Environment getProcEnvironment() {
         Environment procEnvironment = getProcEnvironment();
@@ -54,7 +56,7 @@ public class OpenVmsEnvironment extends Environment {
 
         return procEnvironment;
     }
-
+*/
     protected static CommandLine getProcEnvCommand() {
         CommandLine commandLine = new CommandLineImpl();
         commandLine.setExecutable("show");
