@@ -85,10 +85,10 @@ public class Environment extends HashMap {
     /**
      * Creates an environment from a @link Map of @link String
      * keys and values.
-     * 
+     *
      * @param env A map containg the environment variable name
-     * as @link String key and the variable value as @link String 
-     * value 
+     * as @link String key and the variable value as @link String
+     * value
      */
     protected Environment(Map env) {
         this();
@@ -104,7 +104,7 @@ public class Environment extends HashMap {
     /**
      * add a variable. Validity checking is <i>not</i> performed at this point.
      * Duplicates are not caught either.
-     * 
+     *
      * @param var
      *            new variable.
      */
@@ -112,13 +112,43 @@ public class Environment extends HashMap {
         put(var.getKey(), var);
     }
 
+    /**
+     * add a variable. Validity checking is <i>not</i> performed at this point.
+     * Duplicates are not caught either.
+     *
+     * @param key
+     *            new key.
+     * @param value
+     *            new value.
+     * @throws NullPointerException if </CODE>key</CODE> or <CODE>value</CODE> is <CODE>null</CODE>.
+     */
     public void addVariable(final String key, final String value) {
         put(key, EnvironmentVariable.createEnvironmentVariable(key, value));
     }
 
     /**
+     * Retrieve a variable using its key.
+     *
+     * @param key
+     *            the key.
+     */
+    public EnvironmentVariable getVariable(final String key) {
+        return (EnvironmentVariable) get(key);
+    }
+
+    /**
+     * Retrieve a variable's value using its key.
+     *
+     * @param key
+     *            the key.
+     */
+    public String getVariableValue(final String key) {
+        return ((EnvironmentVariable) get(key)).getValue();
+    }
+
+    /**
      * get the variable list as an array
-     * 
+     *
      * @return array of key=value assignment strings
      */
     public String[] getVariables() {
@@ -130,7 +160,7 @@ public class Environment extends HashMap {
         for (Iterator iter = entrySet().iterator(); iter.hasNext();) {
             Map.Entry entry = (Map.Entry) iter.next();
 
-            result[i] = ((EnvironmentVariable) entry.getValue()).toString();
+            result[i] = entry.getValue().toString();
             i++;
         }
         return result;
@@ -138,7 +168,7 @@ public class Environment extends HashMap {
 
     /**
      * Find the list of environment variables for this process.
-     * 
+     *
      * @return a vector containing the environment variables the vector elements
      *         are strings formatted like variable = value
      * @throws IOException
@@ -205,8 +235,7 @@ public class Environment extends HashMap {
         if (retval != 0) {
             // Just try to use what we got
         }
-        BufferedReader in = new BufferedReader(new StringReader(toString(out)));
-        return in;
+        return new BufferedReader(new StringReader(toString(out)));
     }
 
     protected static CommandLine getProcEnvCommand() {
