@@ -31,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Runs an external program.
  */
-public class Execute {
+public class Execute implements Cloneable {
 
     private static Log LOG = LogFactory.getLog(Execute.class);
 

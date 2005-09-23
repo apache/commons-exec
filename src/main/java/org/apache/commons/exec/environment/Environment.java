@@ -24,10 +24,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.CommandLineImpl;
@@ -39,15 +36,21 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * Wrapper for environment variables.
- * @todo change from inheritence to delegation, implement map
  */
-public class Environment extends HashMap {
+public class Environment implements Cloneable {
 
     private static Log LOG = LogFactory.getLog(Environment.class);
+
     /**
      * TODO move this and other final static / constants into a constants class ?
      */
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
+
+    private Map environment = new HashMap();
+
+    // ----------------------------------------------------------------------
+    // Static factory methods
+    // ----------------------------------------------------------------------
 
     public static Environment createEnvironment() {
         if (OS.isFamilyOpenVms()) {
@@ -107,7 +110,7 @@ public class Environment extends HashMap {
      *            new variable.
      */
     public void addVariable(final EnvironmentVariable var) {
-        put(var.getKey(), var);
+        environment.put(var.getKey(), var);
     }
 
     /**
@@ -121,7 +124,48 @@ public class Environment extends HashMap {
      * @throws NullPointerException if </CODE>key</CODE> or <CODE>value</CODE> is <CODE>null</CODE>.
      */
     public void addVariable(final String key, final String value) {
-        put(key, EnvironmentVariable.createEnvironmentVariable(key, value));
+        environment.put(key, EnvironmentVariable.createEnvironmentVariable(key, value));
+    }
+
+    public void putAll(Map map) {
+        environment.putAll( map );
+    }
+
+    public void putAll(Environment environment) {
+        this.environment.putAll( environment.environment );
+    }
+
+    public Set keySet() {
+        return new HashSet( environment.keySet() );
+    }
+
+    public Set entrySet() {
+        return new HashSet( environment.entrySet() );
+    }
+
+    public Object get( String key )
+    {
+        return environment.get( key );
+    }
+
+    public int size()
+    {
+        return environment.size();
+    }
+
+    public void clear()
+    {
+        environment.clear();
+    }
+
+    public boolean containsKey(String key)
+    {
+        return environment.containsKey( key );
+    }
+
+    public boolean containsValue(Object value)
+    {
+        return environment.containsValue(value);
     }
 
     /**
@@ -131,7 +175,7 @@ public class Environment extends HashMap {
      *            the key.
      */
     public EnvironmentVariable getVariable(final String key) {
-        return (EnvironmentVariable) get(key);
+        return (EnvironmentVariable) environment.get(key);
     }
 
     /**
@@ -141,7 +185,7 @@ public class Environment extends HashMap {
      *            the key.
      */
     public String getVariableValue(final String key) {
-        return ((EnvironmentVariable) get(key)).getValue();
+        return ((EnvironmentVariable) environment.get(key)).getValue();
     }
 
     /**
@@ -150,12 +194,12 @@ public class Environment extends HashMap {
      * @return array of key=value assignment strings
      */
     public String[] getVariables() {
-        if (size() == 0) {
+        if (environment.size() == 0) {
             return null;
         }
-        String[] result = new String[size()];
+        String[] result = new String[environment.size()];
         int i = 0;
-        for (Iterator iter = entrySet().iterator(); iter.hasNext();) {
+        for (Iterator iter = environment.entrySet().iterator(); iter.hasNext();) {
             Map.Entry entry = (Map.Entry) iter.next();
 
             result[i] = entry.getValue().toString();
@@ -299,5 +343,23 @@ public class Environment extends HashMap {
             }
         }
         return bos.toString();
+    }
+
+    // ----------------------------------------------------------------------
+    // Object Overrides
+    // ----------------------------------------------------------------------
+
+    public Object clone() {
+        Environment copy = null;
+
+        try {
+            copy = (Environment) super.clone();
+        } catch (CloneNotSupportedException e) {
+            // this won't happen, the super class is Object
+        }
+
+        copy.environment = new HashMap( this.environment );
+
+        return copy;
     }
 }

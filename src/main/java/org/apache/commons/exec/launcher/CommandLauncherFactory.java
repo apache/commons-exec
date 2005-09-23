@@ -33,17 +33,14 @@ public final class CommandLauncherFactory {
      */
     public static CommandLauncher createVMLauncher() {
         // Try using a JDK 1.3 launcher
-        CommandLauncher launcher = null;
-        try {
-            if (OS.isFamilyOpenVms()) {
-                launcher = new VmsCommandLauncher();
-                // TODO why not use Java13CommandLauncher on OS2?
-                //} else if (!OS.isFamilyOS2()) {
-            } else {
-                launcher = new Java13CommandLauncher();
-            }
-        } catch (NoSuchMethodException exc) {
-            // Ignore and keep trying
+        CommandLauncher launcher;
+
+        if (OS.isFamilyOpenVms()) {
+            launcher = new VmsCommandLauncher();
+            // TODO why not use Java13CommandLauncher on OS2?
+            //} else if (!OS.isFamilyOS2()) {
+        } else {
+            launcher = new Java13CommandLauncher();
         }
 
         return launcher;
