@@ -7,6 +7,13 @@
   <url>http://jakarta.apache.org/commons/sandbox/exec/</url>
   <ciManagement>
     <system>continuum</system>
+    <notifiers>
+      <notifier>
+        <configuration>
+          <address>brett@apache.org</address>
+        </configuration>
+      </notifier>
+    </notifiers>
   </ciManagement>
   <dependencies>
     <dependency>
