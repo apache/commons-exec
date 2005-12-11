@@ -1,20 +1,15 @@
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.apache.commons</groupId>
+  <parent>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>sandbox-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
   <artifactId>commons-exec</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>Commons Exec</name>
   <url>http://jakarta.apache.org/commons/sandbox/exec/</url>
-  <ciManagement>
-    <system>continuum</system>
-    <notifiers>
-      <notifier>
-        <configuration>
-          <address>brett@apache.org</address>
-        </configuration>
-      </notifier>
-    </notifiers>
-  </ciManagement>
   <dependencies>
     <dependency>
       <groupId>commons-logging</groupId>
@@ -55,65 +50,11 @@
     <developerConnection>scm:svn:https://svn.apache.org/repos/asf/jakarta/commons/sandbox/exec/trunk</developerConnection>
     <url>http://svn.apache.org/repos/asf/jakarta/commons/sandbox/exec/trunk</url>
   </scm>
-  <!-- TODO: these will be moved to a commons parent eventually -->
-  <organization>
-    <name>The Apache Software Foundation</name>
-    <url>http://jakarta.apache.org</url>
-  </organization>
-  <licenses>
-    <license>
-      <name>The Apache Software License, Version 2.0</name>
-      <url>/LICENSE.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </reporting>
-  <mailingLists>
-    <mailingList>
-      <name>Commons Dev List</name>
-      <subscribe>commons-dev-subscribe@jakarta.apache.org</subscribe>
-      <unsubscribe>commons-dev-unsubscribe@jakarta.apache.org</unsubscribe>
-      <post>commons-dev@jakarta.apache.org</post>
-      <archive>http://mail-archives.apache.org/mod_mbox/jakarta-commons-dev</archive>
-    </mailingList>
-    <mailingList>
-      <name>Commons User List</name>
-      <subscribe>commons-user-subscribe@jakarta.apache.org</subscribe>
-      <unsubscribe>commons-user-unsubscribe@jakarta.apache.org</unsubscribe>
-      <post>commons-user@jakarta.apache.org</post>
-      <archive>http://mail-archives.apache.org/mod_mbox/jakarta-commons-user</archive>
-    </mailingList>
-  </mailingLists>
   <distributionManagement>
-    <!-- No releases until out of sandbox, besides - m2 repo not up yet
-    <repository>
-      <id>apache.releases</id>
-      <name>Apache Release Repository</name>
-      <url>scp://minotaur.apache.org/www/www.apache.org/dist/maven-repository</url>
-    </repository>
-    -->
-    <!-- TODO: setup m2 repo in new layout -->
-    <snapshotRepository>
-      <id>apache.snapshots</id>
-      <name>Apache Snapshot Repository</name>
-      <url>scp://minotaur.apache.org/www/cvs.apache.org/repository</url>
-      <layout>legacy</layout>
-    </snapshotRepository>
     <site>
       <id>website</id>
       <name>Apache Website</name>
       <url>scp://minotaur.apache.org/www/jakarta.apache.org/commons/sandbox/exec/</url>
     </site>
   </distributionManagement>
-  <issueManagement>
-    <system>bugzilla</system>
-    <url>http://issues.apache.org/bugzilla/</url>
-  </issueManagement>
 </project>
