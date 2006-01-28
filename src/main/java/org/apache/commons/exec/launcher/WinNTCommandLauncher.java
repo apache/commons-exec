@@ -19,10 +19,10 @@ package org.apache.commons.exec.launcher;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.CommandLineImpl;
-import org.apache.commons.exec.environment.Environment;
 
 /**
  * A command launcher for Windows XP/2000/NT that uses 'cmd.exe' when launching
@@ -46,7 +46,7 @@ public class WinNTCommandLauncher extends CommandLauncherProxy {
      * @throws IOException
      *             forwarded from the exec method of the command launcher
      */
-    public Process exec(final CommandLine cmd, final Environment env,
+    public Process exec(final CommandLine cmd, final Map env,
             final File workingDir) throws IOException {
         if (workingDir == null) {
             return exec(cmd, env);

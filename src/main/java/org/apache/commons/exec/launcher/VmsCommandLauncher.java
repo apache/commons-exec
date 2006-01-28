@@ -22,12 +22,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.CommandLineImpl;
-import org.apache.commons.exec.environment.Environment;
 
 /**
  * A command launcher for VMS that writes the command to a temporary DCL script
@@ -39,7 +39,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
     /**
      * Launches the given command in a new process.
      */
-    public Process exec(final CommandLine cmd, final Environment env)
+    public Process exec(final CommandLine cmd, final Map env)
             throws IOException {
         CommandLine vmsCmd = new CommandLineImpl();
         vmsCmd.setExecutable(createCommandFile(cmd, env).getPath());
@@ -53,7 +53,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
      * only works if <code>workingDir</code> is null or the logical
      * JAVA$FORK_SUPPORT_CHDIR needs to be set to TRUE.
      */
-    public Process exec(final CommandLine cmd, final Environment env,
+    public Process exec(final CommandLine cmd, final Map env,
             final File workingDir) throws IOException {
         CommandLine vmsCmd = new CommandLineImpl();
         vmsCmd.setExecutable(createCommandFile(cmd, env).getPath());
@@ -65,7 +65,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
      * Writes the command into a temporary DCL script and returns the
      * corresponding File object. The script will be deleted on exit.
      */
-    private File createCommandFile(final CommandLine cmd, final Environment env)
+    private File createCommandFile(final CommandLine cmd, final Map env)
             throws IOException {
         File script = File.createTempFile("ANT", ".COM");
         script.deleteOnExit();

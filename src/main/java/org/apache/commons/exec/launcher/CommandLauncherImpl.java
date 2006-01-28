@@ -19,9 +19,10 @@ package org.apache.commons.exec.launcher;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.environment.Environment;
+import org.apache.commons.exec.environment.EnvironmentUtil;
 
 /**
  * A command launcher for a particular JVM/OS platform. This class is a general
@@ -30,17 +31,17 @@ import org.apache.commons.exec.environment.Environment;
  */
 public abstract class CommandLauncherImpl implements CommandLauncher {
 
-    public Process exec(final CommandLine cmd, final Environment env)
+    public Process exec(final CommandLine cmd, final Map env)
             throws IOException {
         String[] envVar = null;
         if(env != null) {
-            envVar = env.getVariables();
+            envVar = EnvironmentUtil.toStrings(env);
         }
         
         return Runtime.getRuntime().exec(cmd.getCommandline(),
                 envVar);
     }
 
-    public abstract Process exec(final CommandLine cmd, final Environment env,
+    public abstract Process exec(final CommandLine cmd, final Map env,
             final File workingDir) throws IOException;
 }

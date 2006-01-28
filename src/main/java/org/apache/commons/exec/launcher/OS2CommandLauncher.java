@@ -19,10 +19,10 @@ package org.apache.commons.exec.launcher;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.CommandLineImpl;
-import org.apache.commons.exec.environment.Environment;
 
 /**
  * A command launcher for OS/2 that uses 'cmd.exe' when launching commands in
@@ -51,7 +51,7 @@ public class OS2CommandLauncher extends CommandLauncherProxy {
      * @throws IOException
      *             forwarded from the exec method of the command launcher
      */
-    public Process exec(final CommandLine cmd, final Environment env,
+    public Process exec(final CommandLine cmd, final Map env,
             final File workingDir) throws IOException {
         if (workingDir == null) {
             return exec(cmd, env);

@@ -18,10 +18,10 @@
 package org.apache.commons.exec;
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import junit.framework.TestCase;
-
-import org.apache.commons.exec.environment.Environment;
 
 public class ExecTest extends TestCase {
 
@@ -56,8 +56,8 @@ public class ExecTest extends TestCase {
     }
 
     public void testExecuteWithEnv() throws Exception {
-        Environment env = Environment.createEnvironment();
-        env.addVariable("TEST_ENV_VAR", "XYZ");
+        Map env = new HashMap();
+        env.put("TEST_ENV_VAR", "XYZ");
 
         CommandLine cl = new CommandLineImpl();
         cl.setExecutable(testScript);

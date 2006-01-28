@@ -1,0 +1,99 @@
+/* 
+ * Copyright 2006  The Apache Software Foundation
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
+package org.apache.commons.exec.environment;
+
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
+
+import org.apache.commons.exec.OS;
+
+/**
+ * Wrapper for environment variables.
+ */
+public class EnvironmentUtil {
+
+	private static DefaultProcessingEnvironment procEnvironment;
+	
+	static {
+        if (OS.isFamilyOpenVms()) {
+        	procEnvironment = new OpenVmsProcessingEnvironment();
+        } else {
+        	procEnvironment = new DefaultProcessingEnvironment();
+        }
+	}
+	
+    /**
+     * Disable constructor
+     */
+    private EnvironmentUtil() {
+
+    }
+
+    /**
+     * get the variable list as an array
+     *
+     * @return array of key=value assignment strings
+     */
+    public static String[] toStrings(Map environment) {
+        if (environment.size() == 0) {
+            return null;
+        }
+        String[] result = new String[environment.size()];
+        int i = 0;
+        for (Iterator iter = environment.entrySet().iterator(); iter.hasNext();) {
+            Map.Entry entry = (Map.Entry) iter.next();
+
+            result[i] = entry.getKey().toString() + "=" + entry.getValue().toString();
+            i++;
+        }
+        return result;
+    }
+
+    private static String[] parseEnvironmentVariable(final String keyAndValue) {
+        int index = keyAndValue.indexOf('=');
+        if (index == -1) {
+            throw new IllegalArgumentException(
+                    "Environment variable for this platform "
+                            + "must contain an equals sign ('=')");
+        }
+
+        String[] result = new String[2];
+        result[0] = keyAndValue.substring(0, index);
+        result[1] = keyAndValue.substring(index + 1);
+        
+        return result;
+    }
+    
+    /**
+     * Find the list of environment variables for this process.
+     *
+     * @return a vector containing the environment variables the vector elements
+     *         are strings formatted like variable = value
+     * @throws IOException
+     */
+    public static synchronized Map getProcEnvironment() throws IOException {
+    	return procEnvironment.getProcEnvironment();
+    }
+
+	public static void addVariableToEnvironment(Map environment, String keyAndValue) {
+		String[] parsedVarible = parseEnvironmentVariable(keyAndValue);
+		
+		environment.put(parsedVarible[0], parsedVarible[1]);
+	}
+}

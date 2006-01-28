@@ -21,8 +21,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.apache.commons.exec.environment.Environment;
+import org.apache.commons.exec.environment.EnvironmentUtil;
 import org.apache.commons.exec.launcher.CommandLauncher;
 import org.apache.commons.exec.launcher.CommandLauncherFactory;
 import org.apache.commons.logging.Log;
@@ -40,7 +42,7 @@ public class Execute implements Cloneable {
 
     private CommandLine cmdl = null;
 
-    private Environment environment = null;
+    private Map environment = null;
 
     private int exitValue = INVALID;
 
@@ -161,7 +163,7 @@ public class Execute implements Cloneable {
      * @throws IOException If the environment can not be
      * 	retrived.
      */
-    public Environment getEnvironment() throws IOException {
+    public Map getEnvironment() throws IOException {
         if (environment == null || newEnvironment) {
             return environment;
         }
@@ -171,21 +173,10 @@ public class Execute implements Cloneable {
     /**
      * Sets the environment variables for the subprocess to launch.
      * 
-     * @param envVars
-     *            array of Strings, each element of which has an environment
-     *            variable settings in format <em>key=value</em>
-     */
-    public void setEnvironment(final String[] envVars) {
-        this.environment = Environment.createEnvironment(envVars);
-    }
-
-    /**
-     * Sets the environment variables for the subprocess to launch.
-     * 
      * @param env
      *            environment to set
      */
-    public void setEnvironment(final Environment env) {
+    public void setEnvironment(final Map env) {
         this.environment = env;
     }
 
@@ -220,7 +211,7 @@ public class Execute implements Cloneable {
      * @throws IOException
      *             forwarded from the particular launcher used
      */
-    public static Process launch(final CommandLine command, final Environment env, final File dir)
+    public static Process launch(final CommandLine command, final Map env, final File dir)
             throws IOException {
         CommandLauncher launcher = vmLauncher;
 
@@ -397,7 +388,7 @@ public class Execute implements Cloneable {
      * @return the patched environment
      * @throws IOException if the procssing environment can not be retrived
      */
-    private Environment patchEnvironment() throws IOException {
+    private Map patchEnvironment() throws IOException {
         // On OpenVMS Runtime#exec() doesn't support the environment array,
         // so we only return the new values which then will be set in
         // the generated DCL script, inheriting the parent process environment
@@ -405,8 +396,8 @@ public class Execute implements Cloneable {
             return environment;
         }
 
-        Environment procEnv = Environment.getProcEnvironment();
-        Environment osEnv = (Environment) procEnv.clone();
+        Map procEnv = EnvironmentUtil.getProcEnvironment();
+        Map osEnv = new HashMap(procEnv);
 
         osEnv.putAll(environment);
 

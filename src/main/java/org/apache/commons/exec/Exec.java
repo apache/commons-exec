@@ -21,8 +21,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.apache.commons.exec.environment.Environment;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -203,7 +204,7 @@ public class Exec {
         execute(cl, null, new LogOutputStream(1), new LogOutputStream(2));
     }
 
-    public void execute(final CommandLine cl, final Environment env)
+    public void execute(final CommandLine cl, final Map env)
             throws IOException {
         execute(cl, env, new LogOutputStream(1), new LogOutputStream(2));
     }
@@ -214,14 +215,14 @@ public class Exec {
 
     }
 
-    public void execute(final CommandLine cmdl, final Environment env,
+    public void execute(final CommandLine cmdl, final Map env,
             final OutputStream out, final OutputStream error)
             throws IOException {
         File savedDir = dir; // possibly altered in prepareExec
 
-        Environment environment;
+        Map environment;
         if (env == null) {
-            environment = Environment.createEnvironment();
+            environment = new HashMap();
         } else {
             environment = env;
         }
@@ -237,14 +238,14 @@ public class Exec {
         }
     }
 
-    public void execute(final CommandLine cmdl, final Environment env,
+    public void execute(final CommandLine cmdl, final Map env,
             final InputStream in, final OutputStream out,
             final OutputStream error) throws ExecuteException {
         File savedDir = dir; // possibly altered in prepareExec
 
-        Environment environment;
+        Map environment;
         if (env == null) {
-            environment = Environment.createEnvironment();
+            environment = new HashMap();
         } else {
             environment = env;
         }
@@ -303,13 +304,13 @@ public class Exec {
      * @throws ExecuteException
      *             under unknown circumstances.
      */
-    protected Execute prepareExec(final Environment env,
+    protected Execute prepareExec(final Map env,
             final OutputStream out, final OutputStream error)
             throws ExecuteException {
         return prepareExec(env, null, out, error);
     }
 
-    protected Execute prepareExec(final Environment env, final InputStream in,
+    protected Execute prepareExec(final Map env, final InputStream in,
             final OutputStream out, final OutputStream error)
             throws ExecuteException {
         // default directory to the current directory
@@ -324,7 +325,7 @@ public class Exec {
         exe.setWorkingDirectory(dir);
 
         exe.setNewEnvironment(newEnvironment);
-        exe.setEnvironment(env.getVariables());
+        exe.setEnvironment(env);
         return exe;
     }
 

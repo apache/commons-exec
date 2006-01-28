@@ -17,7 +17,10 @@
 
 package org.apache.commons.exec;
 
+import java.util.Arrays;
+
 import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
 
 public final class TestUtil {
 
@@ -32,5 +35,30 @@ public final class TestUtil {
         } else {
             throw new AssertionFailedError("Test not supported for this OS");
         }
+    }
+    
+    
+    public static void assertEquals(Object[] expected, Object[] actual, boolean orderSignificant) {
+    	
+    	if(expected == null && actual == null) {
+    		// all good
+    	} else if (actual == null) {
+    		throw new AssertionFailedError("Expected non null array");
+    	} else if (expected == null) {
+    		throw new AssertionFailedError("Expected null array");
+    	} else {
+    		if(expected.length != actual.length) {
+    			throw new AssertionFailedError("Arrays not of same length");
+    		}
+    		
+    		if(!orderSignificant) {
+    			Arrays.sort(expected);
+    			Arrays.sort(actual);
+    		}
+    		
+    		for (int i = 0; i < actual.length; i++) {
+				TestCase.assertEquals("Array element at " + i, expected[i], actual[i]);
+			}
+    	}
     }
 }
