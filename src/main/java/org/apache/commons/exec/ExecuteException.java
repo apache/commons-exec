@@ -26,32 +26,26 @@ public class ExecuteException extends IOException {
      */
     private static final long serialVersionUID = 3256443620654331699L;
 
-    /**
-     * Construct a new exception with <code>null</code> as its detail message.
-     */
-    public ExecuteException() {
-        super();
-    }
+	/**
+	 * The underlying cause of this exception.
+	 */
+	private Throwable cause = null;
 
+	/**
+	 * The exit value returned by the failed process
+	 */
+	private int exitValue = 0;
+    
     /**
      * Construct a new exception with the specified detail message.
      * 
      * @param message
      *            The detail message
+     * @param exitValue The exit value
      */
-    public ExecuteException(final String message) {
-        super(message);
-    }
-
-    /**
-     * Construct a new exception with the specified cause and a derived detail
-     * message.
-     * 
-     * @param cause
-     *            The underlying cause
-     */
-    public ExecuteException(final Throwable cause) {
-        this((cause == null) ? null : cause.toString(), cause);
+    public ExecuteException(final String message, int exitValue) {
+        super(message + "(Exit value: " + exitValue + ")");
+        this.exitValue = exitValue;
     }
 
     /**
@@ -59,23 +53,28 @@ public class ExecuteException extends IOException {
      * 
      * @param message
      *            The detail message
+     * @param exitValue The exit value
      * @param cause
      *            The underlying cause
      */
-    public ExecuteException(final String message, final Throwable cause) {
-        super(message + " (Caused by " + cause + ")");
+    public ExecuteException(final String message, int exitValue, final Throwable cause) {
+        super(message + " (Exit value: " + exitValue + ". Caused by " + cause + ")");
         this.cause = cause; // Two-argument version requires JDK 1.4 or later
+        this.exitValue = exitValue;
     }
-
-    /**
-     * The underlying cause of this exception.
-     */
-    private Throwable cause = null;
 
     /**
      * Return the underlying cause of this exception (if any).
      */
     public Throwable getCause() {
         return (this.cause);
+    }
+
+    /**
+     * Gets the exit value returned by the failed process
+     * @return The exit value
+     */
+    public int getExitValue() {
+    	return exitValue;
     }
 }

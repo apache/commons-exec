@@ -148,10 +148,9 @@ public class ExecuteWatchdog implements TimeoutObserver {
      *             a wrapped exception over the one that was silently swallowed
      *             and stored during the process run.
      */
-    public void checkException() throws IOException {
+    public void checkException() throws Exception {
         if (caught != null) {
-            throw new ExecuteException("Exception in ExecuteWatchdog.run: "
-                    + caught.getMessage(), caught);
+            throw caught;
         }
     }
 

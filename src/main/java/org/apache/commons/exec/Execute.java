@@ -264,7 +264,13 @@ public class Execute implements Cloneable {
             closeStreams(process);
 
             if (watchdog != null) {
-                watchdog.checkException();
+                try{
+                	watchdog.checkException();
+                } catch(Exception e) {
+                	// TODO: include cause
+                	throw new IOException(e.getMessage());
+                }
+                
             }
             return getExitValue();
         } finally {
@@ -285,7 +291,7 @@ public class Execute implements Cloneable {
      */
     public void spawn() throws IOException {
         if (workingDirectory != null && !workingDirectory.exists()) {
-            throw new ExecuteException(workingDirectory + " doesn't exist.");
+            throw new IOException(workingDirectory + " doesn't exist.");
         }
         final Process process = launch(getCommandline(), getEnvironment(),
                 workingDirectory);
@@ -414,7 +420,7 @@ public class Execute implements Cloneable {
      *             if the command does not return 0.
      */
     public static void runCommand(final CommandLine cmdline)
-            throws ExecuteException {
+            throws IOException {
         try {
             LOG.debug(cmdline);
             Execute exe = new Execute(new LogStreamHandler(999, 999));
@@ -423,10 +429,10 @@ public class Execute implements Cloneable {
             int retval = exe.execute();
             if (isFailure(retval)) {
                 throw new ExecuteException(cmdline.getExecutable()
-                        + " failed with return code " + retval);
+                        + " failed with return code", retval);
             }
         } catch (java.io.IOException exc) {
-            throw new ExecuteException("Could not launch "
+            throw new IOException("Could not launch "
                     + cmdline.getExecutable() + ": " + exc);
         }
     }

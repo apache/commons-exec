@@ -240,7 +240,7 @@ public class Exec {
 
     public void execute(final CommandLine cmdl, final Map env,
             final InputStream in, final OutputStream out,
-            final OutputStream error) throws ExecuteException {
+            final OutputStream error) throws IOException {
         File savedDir = dir; // possibly altered in prepareExec
 
         Map environment;
@@ -268,20 +268,20 @@ public class Exec {
      *             if there are missing required parameters
      */
     protected void checkConfiguration(final CommandLine cmdl)
-            throws ExecuteException {
+            throws IOException {
         if (cmdl.getExecutable() == null) {
-            throw new ExecuteException("No executable specified");
+            throw new IOException("No executable specified");
         }
         if (dir != null && !dir.exists()) {
-            throw new ExecuteException("The directory you specified does not "
+            throw new IOException("The directory you specified does not "
                     + "exist");
         }
         if (dir != null && !dir.isDirectory()) {
-            throw new ExecuteException("The directory you specified is not a "
+            throw new IOException("The directory you specified is not a "
                     + "directory");
         }
         if (spawn && incompatibleWithSpawn) {
-            throw new ExecuteException("Spawn also does not allow timeout");
+            throw new IOException("Spawn also does not allow timeout");
         }
         // setupRedirector();
     }
@@ -345,13 +345,13 @@ public class Exec {
 
             // test for and handle a forced process death
             if (exe.killedProcess()) {
-                throw new ExecuteException("Timeout: killed the sub-process");
+                throw new IOException("Timeout: killed the sub-process");
             }
 
             // redirector.complete();
             if (Execute.isFailure(returnCode)) {
                 throw new ExecuteException(exe.getCommandline().getExecutable()
-                        + " returned: " + returnCode);
+                        + " failed with return code", returnCode);
             }
         } else {
             exe.spawn();
@@ -369,15 +369,13 @@ public class Exec {
      *             failIfExecFails is set to true (the default)
      */
     protected void runExec(final Execute exe, final CommandLine cmdl)
-            throws ExecuteException {
+            throws IOException {
         // show the command
         log.debug(cmdl.toString());
 
         exe.setCommandline(cmdl);
         try {
             runExecute(exe);
-        } catch (IOException e) {
-            throw new ExecuteException("Execute failed: " + e.toString(), e);
         } finally {
             // close the output file if required
             logFlush();
