@@ -21,9 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.CommandLineImpl;
-
 /**
  * A command launcher for Windows XP/2000/NT that uses 'cmd.exe' when launching
  * commands in directories other than the current working directory.
@@ -46,7 +43,7 @@ public class WinNTCommandLauncher extends CommandLauncherProxy {
      * @throws IOException
      *             forwarded from the exec method of the command launcher
      */
-    public Process exec(final CommandLine cmd, final Map env,
+    public Process exec(final String[] cmd, final Map env,
             final File workingDir) throws IOException {
         if (workingDir == null) {
             return exec(cmd, env);
@@ -54,10 +51,15 @@ public class WinNTCommandLauncher extends CommandLauncherProxy {
 
         // Use cmd.exe to change to the specified directory before running
         // the command
-        CommandLine newCmd = new CommandLineImpl();
-        newCmd.setExecutable("cmd");
-        newCmd.addArgument("/c");
-        newCmd.addArguments(cmd.getCommandline());
+        // TODO add code for switching to working dir
+        
+        String[] newCmd = new String[cmd.length + 2];
+        newCmd[0] = "cmd";
+        newCmd[1] = "/c";
+
+        for (int i = 0; i < cmd.length; i++) {
+			newCmd[i + 2] = cmd[i];
+		}
 
         return exec(newCmd, env);
     }

@@ -17,6 +17,7 @@
 
 package org.apache.commons.exec;
 
+import java.io.File;
 import java.util.Arrays;
 
 import junit.framework.AssertionFailedError;
@@ -28,13 +29,17 @@ public final class TestUtil {
     }
 
     public static String resolveScriptForOS(String script) {
+    	String scriptFileName;
+    	
         if (OS.isFamilyWindows()) {
-            return script + ".bat";
+        	scriptFileName = script + ".bat";
         } else if (OS.isFamilyUnix()) {
-            return script + ".sh";
+        	scriptFileName = script + ".sh";
         } else {
             throw new AssertionFailedError("Test not supported for this OS");
         }
+        
+        return new File(scriptFileName).getAbsolutePath();
     }
     
     

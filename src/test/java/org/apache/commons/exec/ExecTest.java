@@ -18,6 +18,7 @@
 package org.apache.commons.exec;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,8 +37,7 @@ public class ExecTest extends TestCase {
     public void testExecute() throws Exception {
         Exec exec = new Exec();
 
-        CommandLine cl = new CommandLineImpl();
-        cl.setExecutable(testScript);
+        String[] cl = new String[]{new File(testScript).getAbsolutePath()};
 
         exec.execute(cl, baos, baos);
 
@@ -47,9 +47,7 @@ public class ExecTest extends TestCase {
     public void testExecuteWithArg() throws Exception {
         Exec exec = new Exec();
 
-        CommandLine cl = new CommandLineImpl();
-        cl.setExecutable(testScript);
-        cl.addArgument("BAR");
+        String[] cl = new String[]{testScript, "BAR"};
         exec.execute(cl, baos, baos);
 
         assertEquals("FOO..BAR", baos.toString().trim());
@@ -59,8 +57,7 @@ public class ExecTest extends TestCase {
         Map env = new HashMap();
         env.put("TEST_ENV_VAR", "XYZ");
 
-        CommandLine cl = new CommandLineImpl();
-        cl.setExecutable(testScript);
+        String[] cl = new String[]{testScript};
 
         Exec exec = new Exec();
 

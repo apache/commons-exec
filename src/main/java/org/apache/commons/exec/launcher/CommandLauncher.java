@@ -21,9 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.environment.EnvironmentUtil;
-
 public interface CommandLauncher {
 
     /**
@@ -37,7 +34,7 @@ public interface CommandLauncher {
      * @throws IOException
      *             if attempting to run a command in a specific directory
      */
-    Process exec(final CommandLine cmd, final Map env)
+    Process exec(final String[] cmd, final Map env)
             throws IOException;
 
     /**
@@ -55,6 +52,6 @@ public interface CommandLauncher {
      * @throws IOException
      *             if trying to change directory
      */
-    Process exec(final CommandLine cmd, final Map env,
+    Process exec(final String[] cmd, final Map env,
             final File workingDir) throws IOException;
 }

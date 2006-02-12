@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.environment.EnvironmentUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -49,7 +48,7 @@ public class Java13CommandLauncher extends CommandLauncherImpl {
 	 * @throws IOException
 	 *             probably forwarded from Runtime#exec
 	 */
-	public Process exec(final CommandLine cmd, final Map env,
+	public Process exec(final String[] cmd, final Map env,
 			final File workingDir) throws IOException {
 		log.debug("Execute:Java13CommandLauncher: " + cmd);
 
@@ -58,7 +57,7 @@ public class Java13CommandLauncher extends CommandLauncherImpl {
 			envVars = EnvironmentUtil.toStrings(env);
 		}
 
-		return Runtime.getRuntime().exec(cmd.getCommandline(),
+		return Runtime.getRuntime().exec(cmd,
                 envVars, workingDir);
 	}
 }

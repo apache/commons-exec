@@ -23,9 +23,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.CommandLineImpl;
-
 public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
 
     public synchronized Map getProcEnvironment() throws IOException {
@@ -41,11 +38,8 @@ public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
         return procEnvironment;
     }
 
-    protected CommandLine getProcEnvCommand() {
-        CommandLine commandLine = new CommandLineImpl();
-        commandLine.setExecutable("show");
-        commandLine.addArgument("logical");
-        return commandLine;
+    protected String[] getProcEnvCommand() {
+        return new String[]{"show", "logical"};
     }
 
     /**

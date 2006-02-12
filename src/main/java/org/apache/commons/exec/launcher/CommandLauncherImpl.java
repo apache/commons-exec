@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.environment.EnvironmentUtil;
 
 /**
@@ -31,17 +30,17 @@ import org.apache.commons.exec.environment.EnvironmentUtil;
  */
 public abstract class CommandLauncherImpl implements CommandLauncher {
 
-    public Process exec(final CommandLine cmd, final Map env)
+    public Process exec(final String[] cmd, final Map env)
             throws IOException {
         String[] envVar = null;
         if(env != null) {
             envVar = EnvironmentUtil.toStrings(env);
         }
         
-        return Runtime.getRuntime().exec(cmd.getCommandline(),
+        return Runtime.getRuntime().exec(cmd,
                 envVar);
     }
 
-    public abstract Process exec(final CommandLine cmd, final Map env,
+    public abstract Process exec(final String[] cmd, final Map env,
             final File workingDir) throws IOException;
 }

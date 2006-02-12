@@ -26,9 +26,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.CommandLineImpl;
-
 /**
  * A command launcher for VMS that writes the command to a temporary DCL script
  * before launching commands. This is due to limitations of both the DCL
@@ -39,10 +36,10 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
     /**
      * Launches the given command in a new process.
      */
-    public Process exec(final CommandLine cmd, final Map env)
+    public Process exec(final String[] cmd, final Map env)
             throws IOException {
-        CommandLine vmsCmd = new CommandLineImpl();
-        vmsCmd.setExecutable(createCommandFile(cmd, env).getPath());
+        String[] vmsCmd = new String[1];
+        vmsCmd[0] = createCommandFile(cmd, env).getPath();
 
         return super.exec(vmsCmd, env);
     }
@@ -53,10 +50,10 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
      * only works if <code>workingDir</code> is null or the logical
      * JAVA$FORK_SUPPORT_CHDIR needs to be set to TRUE.
      */
-    public Process exec(final CommandLine cmd, final Map env,
+    public Process exec(final String[] cmd, final Map env,
             final File workingDir) throws IOException {
-        CommandLine vmsCmd = new CommandLineImpl();
-        vmsCmd.setExecutable(createCommandFile(cmd, env).getPath());
+        String[] vmsCmd = new String[1];
+        vmsCmd[0] = createCommandFile(cmd, env).getPath();
 
         return super.exec(vmsCmd, env, workingDir);
     }
@@ -65,9 +62,9 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
      * Writes the command into a temporary DCL script and returns the
      * corresponding File object. The script will be deleted on exit.
      */
-    private File createCommandFile(final CommandLine cmd, final Map env)
+    private File createCommandFile(final String[] cmd, final Map env)
             throws IOException {
-        File script = File.createTempFile("ANT", ".COM");
+        File script = File.createTempFile("EXEC", ".COM");
         script.deleteOnExit();
         PrintWriter out = null;
         try {
@@ -87,11 +84,15 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
                 }
             }
 
-            out.print("$ " + cmd.getExecutable());
-            String[] args = cmd.getArguments();
-            for (int i = 0; i < args.length; i++) {
-                out.println(" -");
-                out.print(args[i]);
+            if(cmd.length == 0) {
+            	throw new IOException("Can not execute empty command");
+            } else {
+	            out.print("$ " + cmd[0]);
+	
+	            for (int i = 1; i < cmd.length; i++) {
+	                out.println(" -");
+	                out.print(cmd[i]);
+	            }
             }
         } finally {
             if (out != null) {
