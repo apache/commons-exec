@@ -149,7 +149,6 @@ public class Exec {
         // try to find the executable
         File executableFile = new File(exec);
         if (executableFile.exists()) {
-        	
             return executableFile.getAbsolutePath();
         }
 
@@ -201,22 +200,22 @@ public class Exec {
      *             <li>this list is not exhaustive or limitative</li>
      *             </ul>
      */
-    public void execute(final String[] cl) throws IOException {
+    public void execute(final CommandLine cl) throws IOException {
         execute(cl, null, new LogOutputStream(1), new LogOutputStream(2));
     }
 
-    public void execute(final String[] cl, final Map env)
+    public void execute(final CommandLine cl, final Map env)
             throws IOException {
         execute(cl, env, new LogOutputStream(1), new LogOutputStream(2));
     }
 
-    public void execute(final String[] cl, final OutputStream out,
+    public void execute(final CommandLine cl, final OutputStream out,
             final OutputStream error) throws IOException {
         execute(cl, null, out, error);
 
     }
 
-    public void execute(final String[] cmdl, final Map env,
+    public void execute(final CommandLine cmdl, final Map env,
             final OutputStream out, final OutputStream error)
             throws IOException {
         File savedDir = dir; // possibly altered in prepareExec
@@ -228,8 +227,7 @@ public class Exec {
             environment = env;
         }
 
-        cmdl[0] = resolveExecutable(cmdl[0], false);
-
+        cmdl.setExecutable(resolveExecutable(executable, false));
         checkConfiguration(cmdl);
 
         try {
@@ -240,7 +238,7 @@ public class Exec {
         }
     }
 
-    public void execute(final String[] cmdl, final Map env,
+    public void execute(final CommandLine cmdl, final Map env,
             final InputStream in, final OutputStream out,
             final OutputStream error) throws IOException {
         File savedDir = dir; // possibly altered in prepareExec
@@ -252,7 +250,7 @@ public class Exec {
             environment = env;
         }
 
-        cmdl[0] = resolveExecutable(cmdl[0], false);
+        cmdl.setExecutable(resolveExecutable(executable, false));
         checkConfiguration(cmdl);
 
         try {
@@ -269,9 +267,9 @@ public class Exec {
      * @throws ExecuteException
      *             if there are missing required parameters
      */
-    protected void checkConfiguration(final String[] cmdl)
+    protected void checkConfiguration(final CommandLine cmdl)
             throws IOException {
-        if (cmdl.length == 0) {
+        if (cmdl.getExecutable() == null) {
             throw new IOException("No executable specified");
         }
         if (dir != null && !dir.exists()) {
@@ -352,7 +350,7 @@ public class Exec {
 
             // redirector.complete();
             if (Execute.isFailure(returnCode)) {
-                throw new ExecuteException(exe.getCommandline()[0]
+                throw new ExecuteException(exe.getCommandline().getExecutable()
                         + " failed with return code", returnCode);
             }
         } else {
@@ -370,7 +368,7 @@ public class Exec {
      *             if the new process could not be started only if
      *             failIfExecFails is set to true (the default)
      */
-    protected void runExec(final Execute exe, final String[] cmdl)
+    protected void runExec(final Execute exe, final CommandLine cmdl)
             throws IOException {
         // show the command
         log.debug(cmdl.toString());

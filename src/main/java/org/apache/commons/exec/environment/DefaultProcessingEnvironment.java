@@ -27,6 +27,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.Execute;
 import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
@@ -114,39 +115,37 @@ public class DefaultProcessingEnvironment {
         return new BufferedReader(new StringReader(toString(out)));
     }
 
-    protected String[] getProcEnvCommand() {
-        String[] commandLine;
+    protected CommandLine getProcEnvCommand() {
+        CommandLine commandLine = new CommandLine();
         if (OS.isFamilyOS2()) {
             // OS/2 - use same mechanism as Windows 2000
-        	commandLine = new String[]{"cmd", "/c", "set"};
+            commandLine.setExecutable("cmd");
+            commandLine.addArguments(new String[] {"/c", "set"});
         } else if (OS.isFamilyWindows()) {
             // Determine if we're running under XP/2000/NT or 98/95
-        	commandLine = new String[3];
             if (OS.isFamilyWin9x()) {
-                commandLine[0] = "command.com";
+                commandLine.setExecutable("command.com");
                 // Windows 98/95
             } else {
-            	commandLine[0] = "cmd";
+                commandLine.setExecutable("cmd");
                 // Windows XP/2000/NT/2003
             }
-            commandLine[1] = "/c";
-            commandLine[2] = "set";
+            commandLine.addArguments(new String[] {"/c", "set"});
         } else if (OS.isFamilyZOS() || OS.isFamilyUnix()) {
             // On most systems one could use: /bin/sh -c env
 
             // Some systems have /bin/env, others /usr/bin/env, just try
-        	commandLine = new String[1];
             if (new File("/bin/env").canRead()) {
-                commandLine[0] = "/bin/env";
+                commandLine.setExecutable("/bin/env");
             } else if (new File("/usr/bin/env").canRead()) {
-            	commandLine[0] = "/usr/bin/env";
+                commandLine.setExecutable("/usr/bin/env");
             } else {
                 // rely on PATH
-            	commandLine[0] =  "env";
+                commandLine.setExecutable("env");
             }
         } else if (OS.isFamilyNetware() || OS.isFamilyOS400()) {
             // rely on PATH
-        	commandLine = new String[]{"env"};
+            commandLine.setExecutable("env");
         } else {
             // MAC OS 9 and previous
             // TODO: I have no idea how to get it, someone must fix it

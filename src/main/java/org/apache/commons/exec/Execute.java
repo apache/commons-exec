@@ -40,7 +40,7 @@ public class Execute implements Cloneable {
     /** Invalid exit code. * */
     public static final int INVALID = Integer.MAX_VALUE;
 
-    private String[] cmdl = null;
+    private CommandLine cmdl = null;
 
     private Map environment = null;
 
@@ -132,7 +132,7 @@ public class Execute implements Cloneable {
      * 
      * @return the command line used to create a subprocess
      */
-    public String[] getCommandline() {
+    public CommandLine getCommandline() {
         return cmdl;
     }
 
@@ -142,7 +142,7 @@ public class Execute implements Cloneable {
      * @param commandline
      *            the command line of the subprocess to launch
      */
-    public void setCommandline(final String[] commandline) {
+    public void setCommandline(final CommandLine commandline) {
         cmdl = commandline;
     }
 
@@ -211,7 +211,7 @@ public class Execute implements Cloneable {
      * @throws IOException
      *             forwarded from the particular launcher used
      */
-    public static Process launch(final String[] command, final Map env, final File dir)
+    public static Process launch(final CommandLine command, final Map env, final File dir)
             throws IOException {
         CommandLauncher launcher = vmLauncher;
 
@@ -419,7 +419,7 @@ public class Execute implements Cloneable {
      * @throws ExecuteException
      *             if the command does not return 0.
      */
-    public static void runCommand(final String[] cmdline)
+    public static void runCommand(final CommandLine cmdline)
             throws IOException {
         try {
             LOG.debug(cmdline);
@@ -428,12 +428,12 @@ public class Execute implements Cloneable {
             exe.setCommandline(cmdline);
             int retval = exe.execute();
             if (isFailure(retval)) {
-                throw new ExecuteException(cmdline[0]
+                throw new ExecuteException(cmdline.getExecutable()
                         + " failed with return code", retval);
             }
         } catch (java.io.IOException exc) {
             throw new IOException("Could not launch "
-                    + cmdline[0] + ": " + exc);
+                    + cmdline.getExecutable() + ": " + exc);
         }
     }
 

@@ -65,6 +65,15 @@ public class ExecuteWatchdog implements TimeoutObserver {
     }
 
     /**
+     * @see #ExecuteWatchdog(long)
+     * @deprecated Use constructor with a long type instead. (1.4.x
+     *             compatibility)
+     */
+    public ExecuteWatchdog(final int timeout) {
+        this((long) timeout);
+    }
+
+    /**
      * Watches the given process and terminates it, if it runs for too long. All
      * information from the previous run are reset.
      * 
