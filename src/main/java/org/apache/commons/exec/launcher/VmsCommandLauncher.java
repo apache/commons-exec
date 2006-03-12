@@ -40,8 +40,9 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
      */
     public Process exec(final CommandLine cmd, final Map env)
             throws IOException {
-        CommandLine vmsCmd = new CommandLine();
-        vmsCmd.setExecutable(createCommandFile(cmd, env).getPath());
+        CommandLine vmsCmd = new CommandLine(
+                createCommandFile(cmd, env).getPath()
+        );
 
         return super.exec(vmsCmd, env);
     }
@@ -54,8 +55,9 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
      */
     public Process exec(final CommandLine cmd, final Map env,
             final File workingDir) throws IOException {
-        CommandLine vmsCmd = new CommandLine();
-        vmsCmd.setExecutable(createCommandFile(cmd, env).getPath());
+        CommandLine vmsCmd = new CommandLine(
+                createCommandFile(cmd, env).getPath()
+        );
 
         return super.exec(vmsCmd, env, workingDir);
     }

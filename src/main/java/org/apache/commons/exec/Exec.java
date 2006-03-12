@@ -39,8 +39,6 @@ public class Exec {
 
     private Long timeout = null;
 
-    private String executable;
-
     private boolean resolveExecutable = false;
 
     private boolean spawn = false;
@@ -227,7 +225,7 @@ public class Exec {
             environment = env;
         }
 
-        cmdl.setExecutable(resolveExecutable(executable, false));
+        //cmdl.setExecutable(resolveExecutable(executable, false));
         checkConfiguration(cmdl);
 
         try {
@@ -250,7 +248,7 @@ public class Exec {
             environment = env;
         }
 
-        cmdl.setExecutable(resolveExecutable(executable, false));
+        //cmdl.setExecutable(resolveExecutable(executable, false));
         checkConfiguration(cmdl);
 
         try {

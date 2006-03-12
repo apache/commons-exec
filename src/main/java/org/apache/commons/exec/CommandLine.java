@@ -19,6 +19,8 @@ package org.apache.commons.exec;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -27,15 +29,14 @@ import java.util.Vector;
 
 /**
  * CommandLine objects help handling command lines specifying processes to
- * execute. The class can be used to define a command line as nested elements or
- * as a helper to define a command line by an application.
+ * execute. The class can be used to a command line by an application.
  */
 public class CommandLine {
 
     private static final String SINGLE_QUOTE = "\'";
 
     private static final String DOUBLE_QUOTE = "\"";
-    
+
     /**
      * The arguments of the command.
      */
@@ -49,117 +50,106 @@ public class CommandLine {
     /**
      * Create a command line from a string.
      * 
-     * @param toProcess
+     * @param line
      *            the line: the first element becomes the executable, the rest
      *            the arguments
+     * @throws IllegalArgumentException If line is null or all whitespace
      */
-    public CommandLine(final String toProcess) {
-        super();
-        String[] tmp = translateCommandline(toProcess);
-        if (tmp != null && tmp.length > 0) {
-            setExecutable(tmp[0]);
+    public static CommandLine parse(final String line) {
+        if (line == null) {
+            throw new IllegalArgumentException("Command line can not be null");
+        } else if (line.trim().length() == 0) {
+            throw new IllegalArgumentException("Command line can not be empty");
+        } else {
+            String[] tmp = translateCommandline(line);
+
+            CommandLine cl = new CommandLine(tmp[0]);
             for (int i = 1; i < tmp.length; i++) {
-                createArgument(tmp[i]);
+                cl.addArgument(tmp[i]);
             }
+
+            return cl;
         }
     }
 
     /**
-     * Create an empty command line.
+     * Create a command line without any arguments.
      */
-    public CommandLine() {
-        super();
+    public CommandLine(String executable) {
+        setExecutable(executable);
     }
 
-    /**
-     * Creates an argument object.
-     * <p>
-     * Each commandline object has at most one instance of the argument class.
-     * This method calls <code>this.createArgument(false)</code>.
-     * </p>
-     * 
-     * @return the argument object.
-     */
-    private CommandLineArgument createArgument(final String value) {
-        CommandLineArgument argument = new CommandLineArgument(value);
-        arguments.addElement(argument);
-        return argument;
-    }
-
-    public void setExecutable(final String executable) {
-        if (executable == null || executable.length() == 0) {
-            return;
-        }
-        this.executable = executable.replace('/', File.separatorChar).replace(
+    private void setExecutable(final String executable) {
+        if (executable == null) {
+            throw new IllegalArgumentException("Executable can not be null");
+        } else if(executable.trim().length() == 0) {
+            throw new IllegalArgumentException("Executable can not be empty");
+        } else {
+             this.executable = executable.replace('/', File.separatorChar).replace(
                 '\\', File.separatorChar);
+        }
     }
 
+    /**
+     * Returns the executable
+     * 
+     * @return The executable
+     */
     public String getExecutable() {
         return executable;
     }
 
-    public void addArguments(final String[] line) {
-        for (int i = 0; i < line.length; i++) {
-            createArgument(line[i]);
-        }
-    }
-
-    public void addArgument(final String arg) {
-        createArgument(arg);
-    }
-
-    public String[] getCommandline() {
-        List commands = new LinkedList();
-        ListIterator list = commands.listIterator();
-        addCommandToList(list);
-        final String[] result = new String[commands.size()];
-        return (String[]) commands.toArray(result);
-    }
-
     /**
-     * Add the entire command, including (optional) executable to a list.
+     * Add multiple arguments
      * 
-     * @param list
+     * @param arguments An array of arguments
+     * @return The command line itself
      */
-    private void addCommandToList(final ListIterator list) {
-        if (executable != null) {
-            list.add(executable);
-        }
-        addArgumentsToList(list);
-    }
-
-    public String[] getArguments() {
-        List result = new ArrayList(arguments.size() * 2);
-        addArgumentsToList(result.listIterator());
-        String[] res = new String[result.size()];
-        return (String[]) result.toArray(res);
-    }
-
-    /**
-     * append all the arguments to the tail of a supplied list
-     * 
-     * @param list
-     */
-    private void addArgumentsToList(final ListIterator list) {
-        for (int i = 0; i < arguments.size(); i++) {
-            CommandLineArgument arg = (CommandLineArgument) arguments
-                    .elementAt(i);
-            String[] s = arg.getParts();
-            if (s != null) {
-                for (int j = 0; j < s.length; j++) {
-                    list.add(s[j]);
-                }
+    public CommandLine addArguments(final String[] arguments) {
+        if (arguments != null) {
+            for (int i = 0; i < arguments.length; i++) {
+                addArgument(arguments[i]);
             }
         }
+        
+        return this;
     }
 
     /**
-     * Stringify operator returns the command line as a string.
+     * Add multiple arguments. Handles parsing of quotes and whitespace.
      * 
-     * @return the command line
+     * @param arguments An string containing multiple arguments. 
+     * @return The command line itself
      */
-    public String toString() {
-        return toString(getCommandline());
+    public CommandLine addArguments(final String arguments) {
+        if (arguments != null) {
+            String[] argmentsArray = translateCommandline(arguments);
+    
+            addArguments(argmentsArray);
+        }
+        
+        return this;
+    }
+
+    /**
+     * Add a single argument. Handles quoting.
+     * @param argument The argument to add
+     * @throws IllegalArgumentException If argument contains both single and double quotes
+     */
+    public void addArgument(final String argument) {
+        if (argument == null)
+            return;
+
+        arguments.add(quoteArgument(argument));
+    }
+
+    /**
+     * Returns the quoted arguments 
+     * @return The quoted arguments
+     */
+    public String[] getArguments() {
+        String[] res = new String[arguments.size()];
+        return (String[]) arguments.toArray(res);
     }
 
     /**
@@ -170,45 +160,35 @@ public class CommandLine {
      * double quotes.
      * </p>
      * 
+     * @throws IllegalArgumentException If argument contains both types of quotes
      */
-    public static String quoteArgument(final String argument) {
+    private static String quoteArgument(final String argument) {
+        String cleanedArgument = argument.trim();
+        
+        while(cleanedArgument.startsWith(SINGLE_QUOTE) || cleanedArgument.startsWith(DOUBLE_QUOTE)) {
+            cleanedArgument = cleanedArgument.substring(1);
+        }
+        while(cleanedArgument.endsWith(SINGLE_QUOTE) || cleanedArgument.endsWith(DOUBLE_QUOTE)) {
+            cleanedArgument = cleanedArgument.substring(0, cleanedArgument.length() - 1);
+        }
+
+        
         final StringBuffer buf = new StringBuffer();
-        if (argument.indexOf(DOUBLE_QUOTE) > -1) {
-            if (argument.indexOf(SINGLE_QUOTE) > -1) {
+        if (cleanedArgument.indexOf(DOUBLE_QUOTE) > -1) {
+            if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1) {
                 throw new IllegalArgumentException(
-                        "Can\'t handle single and double quotes in same argument");
+                        "Can't handle single and double quotes in same argument");
             } else {
-                return buf.append(SINGLE_QUOTE).append(argument).append(SINGLE_QUOTE).toString();
+                return buf.append(SINGLE_QUOTE).append(cleanedArgument).append(
+                        SINGLE_QUOTE).toString();
             }
-        } else if (argument.indexOf(SINGLE_QUOTE) > -1 || argument.indexOf(" ") > -1) {
-            return buf.append(DOUBLE_QUOTE).append(argument).append(DOUBLE_QUOTE).toString();
+        } else if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1
+                || cleanedArgument.indexOf(" ") > -1) {
+            return buf.append(DOUBLE_QUOTE).append(cleanedArgument).append(
+                    DOUBLE_QUOTE).toString();
         } else {
-            return argument;
+            return cleanedArgument;
         }
-    }
-
-    /**
-     * Quotes the parts of the given array in way that makes them usable as
-     * command line arguments.
-     * 
-     * @return empty string for null or no command, else every argument split by
-     *         spaces and quoted by quoting rules
-     */
-    public static String toString(final String[] line) {
-        // empty path return empty string
-        if (line == null || line.length == 0) {
-            return "";
-        }
-
-        // path containing one or more elements
-        final StringBuffer result = new StringBuffer();
-        for (int i = 0; i < line.length; i++) {
-            if (i > 0) {
-                result.append(' ');
-            }
-            result.append(quoteArgument(line[i]));
-        }
-        return result.toString();
     }
 
     /**
@@ -219,7 +199,7 @@ public class CommandLine {
      * @return the command line broken into strings. An empty or null toProcess
      *         parameter results in a zero sized array
      */
-    public static String[] translateCommandline(final String toProcess) {
+    private static String[] translateCommandline(final String toProcess) {
         if (toProcess == null || toProcess.length() == 0) {
             // no command? no string
             return new String[0];
@@ -278,8 +258,8 @@ public class CommandLine {
         }
 
         if (state == inQuote || state == inDoubleQuote) {
-            throw new IllegalArgumentException(
-                    "Unbalanced quotes in " + toProcess);
+            throw new IllegalArgumentException("Unbalanced quotes in "
+                    + toProcess);
         }
 
         String[] args = new String[v.size()];
@@ -288,33 +268,41 @@ public class CommandLine {
     }
 
     /**
-     * size operator. This actually creates the command line, so it is not a
-     * zero cost operation.
-     * 
-     * @return number of elements in the command, including the executable
+     * Returns the command line as an array of strings, correctly quoted
+     * for use in executing the command.
+     * @return The command line as an string array
      */
-    public int size() {
-        return getCommandline().length;
+    public String[] toStrings() {
+        final String[] result = new String[arguments.size() + 1];
+        result[0] = executable;
+
+        int index = 1;
+        for (Iterator iter = arguments.iterator(); iter.hasNext();) {
+            result[index] = (String) iter.next();
+
+            index++;
+        }
+
+        return result;
     }
 
     /**
-     * Generate a deep clone of the contained object.
+     * Stringify operator returns the command line as a string.
      * 
-     * @return a clone of the contained object
-     * @throws CloneNotSupportedException 
+     * @return the command line
      */
-    public Object clone() throws CloneNotSupportedException {
-        CommandLine c = (CommandLine) super.clone();
-        c.arguments = (Vector) arguments.clone();
-        return c;
-    }
+    public String toString() {
+        String[] strings = toStrings();
 
-    public void clear() {
-        executable = null;
-        arguments.removeAllElements();
-    }
+        StringBuffer sb = new StringBuffer();
 
-    public void clearArgs() {
-        arguments.removeAllElements();
+        for (int i = 0; i < strings.length; i++) {
+            if (i > 0) {
+                sb.append(' ');
+            }
+            sb.append(strings[i]);
+        }
+
+        return sb.toString();
     }
 }

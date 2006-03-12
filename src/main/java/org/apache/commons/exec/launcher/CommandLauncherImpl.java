@@ -38,7 +38,7 @@ public abstract class CommandLauncherImpl implements CommandLauncher {
             envVar = EnvironmentUtil.toStrings(env);
         }
         
-        return Runtime.getRuntime().exec(cmd.getCommandline(),
+        return Runtime.getRuntime().exec(cmd.toStrings(),
                 envVar);
     }
 

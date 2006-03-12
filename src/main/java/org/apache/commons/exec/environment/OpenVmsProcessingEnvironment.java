@@ -41,8 +41,7 @@ public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
     }
 
     protected CommandLine getProcEnvCommand() {
-        CommandLine commandLine = new CommandLine();
-        commandLine.setExecutable("show");
+        CommandLine commandLine = new CommandLine("show");
         commandLine.addArgument("logical");
         return commandLine;
     }

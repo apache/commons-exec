@@ -116,40 +116,47 @@ public class DefaultProcessingEnvironment {
     }
 
     protected CommandLine getProcEnvCommand() {
-        CommandLine commandLine = new CommandLine();
+        String executable;
+        String[] arguments = null;
         if (OS.isFamilyOS2()) {
             // OS/2 - use same mechanism as Windows 2000
-            commandLine.setExecutable("cmd");
-            commandLine.addArguments(new String[] {"/c", "set"});
+            executable = "cmd";
+            
+            arguments = new String[] {"/c", "set"};
         } else if (OS.isFamilyWindows()) {
             // Determine if we're running under XP/2000/NT or 98/95
             if (OS.isFamilyWin9x()) {
-                commandLine.setExecutable("command.com");
+                executable = "command.com";
                 // Windows 98/95
             } else {
-                commandLine.setExecutable("cmd");
+                executable = "cmd";
                 // Windows XP/2000/NT/2003
             }
-            commandLine.addArguments(new String[] {"/c", "set"});
+            arguments = new String[] {"/c", "set"};
         } else if (OS.isFamilyZOS() || OS.isFamilyUnix()) {
             // On most systems one could use: /bin/sh -c env
 
             // Some systems have /bin/env, others /usr/bin/env, just try
             if (new File("/bin/env").canRead()) {
-                commandLine.setExecutable("/bin/env");
+                executable = "/bin/env";
             } else if (new File("/usr/bin/env").canRead()) {
-                commandLine.setExecutable("/usr/bin/env");
+                executable = "/usr/bin/env";
             } else {
                 // rely on PATH
-                commandLine.setExecutable("env");
+                executable = "env";
             }
         } else if (OS.isFamilyNetware() || OS.isFamilyOS400()) {
             // rely on PATH
-            commandLine.setExecutable("env");
+            executable = "env";
         } else {
             // MAC OS 9 and previous
             // TODO: I have no idea how to get it, someone must fix it
-            commandLine = null;
+            executable = null;
+        }
+        CommandLine commandLine = null;
+        if(executable != null) {
+            commandLine = new CommandLine(executable);
+            commandLine.addArguments(arguments);
         }
         return commandLine;
     }

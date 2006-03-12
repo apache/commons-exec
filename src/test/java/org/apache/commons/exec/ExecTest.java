@@ -36,8 +36,7 @@ public class ExecTest extends TestCase {
     public void testExecute() throws Exception {
         Exec exec = new Exec();
 
-        CommandLine cl = new CommandLine();
-        cl.setExecutable(testScript);
+        CommandLine cl = new CommandLine(testScript);
 
         exec.execute(cl, baos, baos);
 
@@ -47,8 +46,7 @@ public class ExecTest extends TestCase {
     public void testExecuteWithArg() throws Exception {
         Exec exec = new Exec();
 
-        CommandLine cl = new CommandLine();
-        cl.setExecutable(testScript);
+        CommandLine cl = new CommandLine(testScript);
         cl.addArgument("BAR");
         exec.execute(cl, baos, baos);
 
@@ -59,8 +57,7 @@ public class ExecTest extends TestCase {
         Map env = new HashMap();
         env.put("TEST_ENV_VAR", "XYZ");
 
-        CommandLine cl = new CommandLine();
-        cl.setExecutable(testScript);
+        CommandLine cl = new CommandLine(testScript);
 
         Exec exec = new Exec();
 

@@ -56,10 +56,9 @@ public class OS2CommandLauncher extends CommandLauncherProxy {
             return exec(cmd, env);
         }
 
-        CommandLine newCmd = new CommandLine();
-        newCmd.setExecutable("cmd");
+        CommandLine newCmd = new CommandLine("cmd");
         newCmd.addArgument("/c");
-        newCmd.addArguments(cmd.getCommandline());
+        newCmd.addArguments(cmd.toStrings());
 
         return exec(newCmd, env);
     }

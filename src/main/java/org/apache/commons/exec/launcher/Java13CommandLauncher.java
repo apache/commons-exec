@@ -58,7 +58,7 @@ public class Java13CommandLauncher extends CommandLauncherImpl {
 			envVars = EnvironmentUtil.toStrings(env);
 		}
 
-		return Runtime.getRuntime().exec(cmd.getCommandline(),
+		return Runtime.getRuntime().exec(cmd.toStrings(),
                 envVars, workingDir);
 	}
 }
