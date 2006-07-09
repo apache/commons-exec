@@ -28,7 +28,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.Execute;
+import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.logging.Log;
@@ -104,11 +105,10 @@ public class DefaultProcessingEnvironment {
      */
     protected BufferedReader runProcEnvCommand() throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        Execute exe = new Execute(new PumpStreamHandler(out));
-        exe.setCommandline(getProcEnvCommand());
-        // Make sure we do not recurse forever
-        exe.setNewEnvironment(true);
-        int retval = exe.execute();
+        Executor exe = new DefaultExecutor();
+        exe.setStreamHandler(new PumpStreamHandler(out));
+
+        int retval = exe.execute(getProcEnvCommand(), new HashMap());
         if (retval != 0) {
             // Just try to use what we got
         }

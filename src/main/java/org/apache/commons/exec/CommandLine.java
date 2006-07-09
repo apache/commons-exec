@@ -79,6 +79,13 @@ public class CommandLine {
         setExecutable(executable);
     }
 
+    /**
+     * Create a command line without any arguments.
+     */
+    public CommandLine(File executable) {
+        setExecutable(executable.getAbsolutePath());
+    }
+
     private void setExecutable(final String executable) {
         if (executable == null) {
             throw new IllegalArgumentException("Executable can not be null");

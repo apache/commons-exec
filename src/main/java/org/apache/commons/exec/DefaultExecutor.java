@@ -101,30 +101,20 @@ public class DefaultExecutor implements Executor {
         return execute(command, (Map) null);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.commons.exec.Executor#execute(java.lang.String[],
-     *      java.util.Map)
-     */
-    public int execute(final CommandLine command, Map environment)
-            throws ExecuteException, IOException {
+    private int executeInternal(final CommandLine command, final Map environment, 
+            final File dir, final ExecuteStreamHandler streams) throws IOException {
 
-        if (workingDirectory != null && !workingDirectory.exists()) {
-            throw new IOException(workingDirectory + " doesn't exist.");
-        }
-
-        final Process process = launch(command, environment, workingDirectory);
+        final Process process = launch(command, environment, dir);
 
         try {
-            streamHandler.setProcessInputStream(process.getOutputStream());
-            streamHandler.setProcessOutputStream(process.getInputStream());
-            streamHandler.setProcessErrorStream(process.getErrorStream());
+            streams.setProcessInputStream(process.getOutputStream());
+            streams.setProcessOutputStream(process.getInputStream());
+            streams.setProcessErrorStream(process.getErrorStream());
         } catch (IOException e) {
             process.destroy();
             throw e;
         }
-        streamHandler.start();
+        streams.start();
 
         try {
             // add the process to the list of those to destroy if the VM exits
@@ -144,7 +134,7 @@ public class DefaultExecutor implements Executor {
             if (watchdog != null) {
                 watchdog.stop();
             }
-            streamHandler.stop();
+            streams.stop();
             closeStreams(process);
 
             if (watchdog != null) {
@@ -157,7 +147,10 @@ public class DefaultExecutor implements Executor {
 
             }
 
-            // TODO check exitValue and throw if not OK
+            if(isFailure(exitValue)) {
+                throw new ExecuteException("Process exited with an error: " + exitValue, exitValue);
+            }
+            
             return exitValue;
         } finally {
             // remove the process to the list of those to destroy if the VM
@@ -165,6 +158,25 @@ public class DefaultExecutor implements Executor {
             //
             // processDestroyer.remove(process);
         }
+
+        
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.apache.commons.exec.Executor#execute(java.lang.String[],
+     *      java.util.Map)
+     */
+    public int execute(final CommandLine command, Map environment)
+            throws ExecuteException, IOException {
+
+        if (workingDirectory != null && !workingDirectory.exists()) {
+            throw new IOException(workingDirectory + " doesn't exist.");
+        }
+        
+        return executeInternal(command, environment, workingDirectory, streamHandler);
+
     }
 
     /**
@@ -203,7 +215,7 @@ public class DefaultExecutor implements Executor {
      */
     public void execute(final CommandLine command, ExecuteResultHandler handler)
             throws ExecuteException, IOException {
-        // TODO Auto-generated method stub
+        execute(command, null, handler);
 
     }
 
@@ -215,8 +227,35 @@ public class DefaultExecutor implements Executor {
      */
     public void execute(final CommandLine command, final Map environment,
             final ExecuteResultHandler handler) throws ExecuteException, IOException {
-        // TODO Auto-generated method stub
+        if (workingDirectory != null && !workingDirectory.exists()) {
+            throw new IOException(workingDirectory + " doesn't exist.");
+        }
 
+        new Thread() {
+
+            /* (non-Javadoc)
+             * @see java.lang.Thread#run()
+             */
+            public void run() {
+                int exitValue = Executor.INVALID_EXITVALUE;
+                try {
+                    
+                    exitValue = executeInternal(command, environment, workingDirectory, streamHandler);
+
+                    // TODO check exitValue and throw if not OK
+                    handler.onProcessComplete(exitValue);
+                } catch (ExecuteException e) {
+                    handler.onProcessFailed(e);
+                } catch(Exception e) {
+                    handler.onProcessFailed(new ExecuteException("Execution failed", exitValue, e));
+                } finally {
+                    // remove the process to the list of those to destroy if the VM
+                    // exits
+                    //
+                    // processDestroyer.remove(process);
+                }
+            }
+        }.start();
     }
 
     /**
@@ -240,6 +279,32 @@ public class DefaultExecutor implements Executor {
             process.getErrorStream().close();
         } catch (IOException eyeOhEx) {
             // ignore error
+        }
+    }
+    
+    /**
+     * Checks whether <code>exitValue</code> signals a failure on the current
+     * system (OS specific).
+     * <p>
+     * <b>Note</b> that this method relies on the conventions of the OS, it
+     * will return false results if the application you are running doesn't
+     * follow these conventions. One notable exception is the Java VM provided
+     * by HP for OpenVMS - it will return 0 if successful (like on any other
+     * platform), but this signals a failure on OpenVMS. So if you execute a new
+     * Java VM on OpenVMS, you cannot trust this method.
+     * </p>
+     * 
+     * @param exitValue
+     *            the exit value (return code) to be checked
+     * @return <code>true</code> if <code>exitValue</code> signals a failure
+     */
+    public static boolean isFailure(final int exitValue) {
+        if (OS.isFamilyOpenVms()) {
+            // even exit value signals failure
+            return (exitValue % 2) == 0;
+        } else {
+            // non zero exit value signals failure
+            return exitValue != 0;
         }
     }
 }

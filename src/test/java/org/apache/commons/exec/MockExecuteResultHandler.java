@@ -34,6 +34,7 @@ public class MockExecuteResultHandler implements ExecuteResultHandler {
      */
     public void onProcessFailed(ExecuteException e) {
         this.exception = e;
+        exitValue = e.getExitValue();
     }
 
     /**

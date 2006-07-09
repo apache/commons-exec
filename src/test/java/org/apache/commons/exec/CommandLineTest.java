@@ -56,7 +56,7 @@ public class CommandLineTest extends TestCase {
 
     public void testNullExecutable() {
         try {
-            CommandLine cmdl = new CommandLine(null);
+            CommandLine cmdl = new CommandLine((String)null);
             fail("Must throw IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             // Expected

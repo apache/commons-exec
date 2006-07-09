@@ -26,29 +26,38 @@ import junit.framework.TestCase;
 
 public class DefaultExecutorTest extends TestCase {
 
-    private String testDir = "src/test/scripts";
+    
+    private Executor exec = new DefaultExecutor();
+    private File testDir = new File("src/test/scripts");
     private ByteArrayOutputStream baos;
-    private String testScript = TestUtil.resolveScriptForOS(testDir + "/test");
+    private File testScript = TestUtil.resolveScriptForOS(testDir + "/test");
+    private File errorTestScript = TestUtil.resolveScriptForOS(testDir + "/error");
 
     protected void setUp() throws Exception {
         baos = new ByteArrayOutputStream();
+        exec.setStreamHandler(new PumpStreamHandler(baos, baos));
     }
 
     public void testExecute() throws Exception {
-        Executor exec = new DefaultExecutor();
-        exec.setStreamHandler(new PumpStreamHandler(baos, baos));
-
-        CommandLine cl = new CommandLine(new File(testScript).getAbsolutePath());
+        CommandLine cl = new CommandLine(testScript);
 
         int exitValue = exec.execute(cl);
         assertEquals("FOO..", baos.toString().trim());
         assertEquals(0, exitValue);
     }
 
-    public void testExecuteWithArg() throws Exception {
-        Executor exec = new DefaultExecutor();
-        exec.setStreamHandler(new PumpStreamHandler(baos, baos));
+    public void testExecuteWithError() throws Exception {
+        CommandLine cl = new CommandLine(errorTestScript);
+        
+        try{
+            exec.execute(cl);
+            fail("Must throw ExecuteException");
+        } catch(ExecuteException e) {
+            assertEquals(1, e.getExitValue());
+        }
+    }
 
+    public void testExecuteWithArg() throws Exception {
         CommandLine cl = new CommandLine(testScript);
         cl.addArgument("BAR");
         int exitValue = exec.execute(cl);
@@ -58,9 +67,6 @@ public class DefaultExecutorTest extends TestCase {
     }
 
     public void testExecuteWithEnv() throws Exception {
-        Executor exec = new DefaultExecutor();
-        exec.setStreamHandler(new PumpStreamHandler(baos, baos));
-    	
     	Map env = new HashMap();
         env.put("TEST_ENV_VAR", "XYZ");
 
@@ -72,10 +78,7 @@ public class DefaultExecutorTest extends TestCase {
         assertEquals(0, exitValue);
     }
 
-    public void disabledtestExecuteAsync() throws Exception {
-        Executor exec = new DefaultExecutor();
-        exec.setStreamHandler(new PumpStreamHandler(baos, baos));
-        
+    public void testExecuteAsync() throws Exception {
         CommandLine cl = new CommandLine(testScript);
         
         MockExecuteResultHandler handler = new MockExecuteResultHandler();
@@ -83,10 +86,25 @@ public class DefaultExecutorTest extends TestCase {
         exec.execute(cl, handler);
         
         // wait for script to run
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         
-        assertEquals("FOO..", baos.toString().trim());
         assertEquals(0, handler.getExitValue());
+        assertEquals("FOO..", baos.toString().trim());
+    }
+
+    public void testExecuteAsyncWithError() throws Exception {
+        CommandLine cl = new CommandLine(errorTestScript);
+        
+        MockExecuteResultHandler handler = new MockExecuteResultHandler();
+        
+        exec.execute(cl, handler);
+        
+        // wait for script to run
+        Thread.sleep(2000);
+        
+        assertEquals(1, handler.getExitValue());
+        assertTrue(handler.getException() instanceof ExecuteException);
+        assertEquals("FOO..", baos.toString().trim());
     }
     
     
