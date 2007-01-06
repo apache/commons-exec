@@ -3,6 +3,5 @@
     <menu name="Commons Exec">
       <item name="Overview" href="/index.html" />
     </menu>
-    ${reports}
   </body>
 </site>

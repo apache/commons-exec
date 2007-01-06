@@ -6,7 +6,6 @@
     <artifactId>commons-sandbox</artifactId>
     <version>1-SNAPSHOT</version>
   </parent>
-  <groupId>org.apache.commons</groupId>
   <artifactId>commons-exec</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>Commons Exec</name>
@@ -34,7 +33,7 @@
     </developer>
     <developer>
       <id>trygvis</id>
-      <name>Trygve Laugst&#x00F8;</name>
+      <name>Trygve Laugst&#x00F8;l</name>
       <email>trygvis AT apache DOT org</email>
       <organization>Apache</organization>
       <timezone>+1</timezone>
@@ -47,9 +46,9 @@
     </contributor>
   </contributors>
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/jakarta/commons/sandbox/exec/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/jakarta/commons/sandbox/exec/trunk</developerConnection>
-    <url>http://svn.apache.org/repos/asf/jakarta/commons/sandbox/exec/trunk</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/jakarta/commons/sandbox/exec/trunk/</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/jakarta/commons/sandbox/exec/trunk/</developerConnection>
+    <url>http://svn.apache.org/repos/asf/jakarta/commons/sandbox/exec/trunk/</url>
   </scm>
   <distributionManagement>
     <site>
