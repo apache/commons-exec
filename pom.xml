@@ -50,6 +50,19 @@
     <developerConnection>scm:svn:https://svn.apache.org/repos/asf/jakarta/commons/sandbox/exec/trunk/</developerConnection>
     <url>http://svn.apache.org/repos/asf/jakarta/commons/sandbox/exec/trunk/</url>
   </scm>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>**/TestUtil.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
   <distributionManagement>
     <site>
       <id>website</id>
