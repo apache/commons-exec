@@ -71,7 +71,7 @@ public class DefaultExecutor implements Executor {
      * @see org.apache.commons.exec.Executor#setWatchdog(org.apache.commons.exec.ExecuteWatchdog)
      */
     public void setWatchdog(ExecuteWatchdog watchDog) {
-        this.watchdog = watchdog;
+        this.watchdog = watchDog;
     }
 
     /*
