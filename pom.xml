@@ -8,7 +8,7 @@
   </parent>
   <artifactId>commons-exec</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>Exec</name>
+  <name>Exec (Sandbox)</name>
   <url>http://commons.apache.org/sandbox/exec/</url>
   <dependencies>
     <dependency>
