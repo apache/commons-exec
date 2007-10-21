@@ -22,7 +22,7 @@
   <groupId>commons-jexl</groupId>
   <artifactId>commons-jexl</artifactId>
   <inceptionYear>2003</inceptionYear>
-  <currentVersion>1.1.1-SNAPSHOT</currentVersion>
+  <currentVersion>SNAPSHOT</currentVersion>
   <name>Commons JEXL</name>
   <shortDescription>Commons JEXL Expression Language Engine</shortDescription>
   <description>Jexl is an implementation of the JSTL Expression Language with extensions.</description>
@@ -140,13 +140,13 @@
     </dependency>
     <dependency>
       <groupId>maven</groupId>
-      <artifactId>maven-xdoc-plugin</artifactId>
-      <version>1.9.2</version>
-      <url>http://maven.apache.org/maven-1.x/reference/plugins/xdoc/</url>
+      <artifactId>maven-jcoverage-plugin</artifactId>
+      <version>1.0.9</version>
+      <url>http://maven.apache.org/maven-1.x/plugins/jcoverage/</url>
       <type>plugin</type>
       <properties>
         <comment>
-            &lt;strong&gt;Site Only&lt;/strong&gt; - v1.9.2 (minimum)
+            &lt;strong&gt;Site Only&lt;/strong&gt;
         </comment>
       </properties>
     </dependency>

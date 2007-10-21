@@ -107,5 +107,10 @@
                    file="${maven.dist.dir}/${maven.final.name}-src.tar.gz.md5" />
 
     </postGoal>
+    
+    <!-- javacc helpers -->
+    <preGoal name="java:compile">
+        <attainGoal name="javacc"/>
+    </preGoal>
 
 </project>

@@ -148,20 +148,10 @@ public class ExpressionFactory {
         // throw an exception.
         SimpleNode node = (SimpleNode) tree.jjtGetChild(0);
 
-        // TODO: Can we get rid of these checks?
-        if (node instanceof ASTReferenceExpression
-            || node instanceof ASTExpressionExpression
-            || node instanceof ASTStatementExpression
-            || node instanceof ASTIfStatement
-            || node instanceof ASTWhileStatement
-            || node instanceof ASTForeachStatement
-            ) {
-            return new ExpressionImpl(expression, node);
-        }
-        log.error("Invalid Expression, node of type: "
-            + node.getClass().getName());
-        throw new Exception("Invalid Expression: not a Reference, Expression, "
-            + "Statement or If");
+        Interpreter interpreter = new Interpreter();
+        // TODO: remove this from the parser.
+        // interpreter.setUberspect(parser.getUberspect());
+        return new ExpressionImpl(expression, node, interpreter);
     }
 
     /**

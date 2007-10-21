@@ -53,7 +53,8 @@ public class ParserTest extends TestCase
 
          JexlContext jc = JexlHelper.createContext();
 
-         sn.interpret(jc);
+		// TODO: Remove
+        //sn.interpret(jc);
      }
 
     public void testParse2()
@@ -64,9 +65,11 @@ public class ParserTest extends TestCase
         JexlContext jc = JexlHelper.createContext();
 
         SimpleNode sn = parser.parse(new StringReader("foo = \"bar\";"));
-        sn.interpret(jc);
+        // TODO: Remove
+        //sn.interpret(jc);
         sn = parser.parse(new StringReader("foo = 'bar';"));
-        sn.interpret(jc);
+        // TODO: Remove
+        //sn.interpret(jc);
     }
 
     public static void main(String[] args)

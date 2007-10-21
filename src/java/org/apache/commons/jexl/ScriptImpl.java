@@ -29,7 +29,7 @@ class ScriptImpl implements Script {
     private final String text;
     /** syntax tree. */
     private final ASTJexlScript parsedScript;
-    
+
     /**
      * Create a new Script from the given string and parsed syntax.
      * @param scriptText the text of the script.
@@ -44,8 +44,9 @@ class ScriptImpl implements Script {
      * {@inheritDoc}
      */
     public Object execute(JexlContext context) throws Exception {
-        // TODO Auto-generated method stub
-        return parsedScript.value(context);
+        Interpreter interpreter = new Interpreter();
+        return interpreter.interpret(parsedScript, context);
+        //return parsedScript.value(context);
     }
 
     /**
