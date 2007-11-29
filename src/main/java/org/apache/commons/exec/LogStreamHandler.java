@@ -18,12 +18,14 @@
 
 package org.apache.commons.exec;
 
-import java.io.IOException;
+import org.apache.commons.exec.PumpStreamHandler;
 
 /**
- * Logs standard output and error of a subprocess to the log system of ant.
+ * Logs standard output and error to the system streams.
  */
-public class LogStreamHandler extends PumpStreamHandler {
+public class LogStreamHandler
+        extends PumpStreamHandler
+{
 
     /**
      * Creates log stream handler.
@@ -42,11 +44,5 @@ public class LogStreamHandler extends PumpStreamHandler {
      */
     public void stop() {
         super.stop();
-        try {
-            getErr().close();
-            getOut().close();
-        } catch (IOException e) {
-            // ignore
-        }
     }
 }

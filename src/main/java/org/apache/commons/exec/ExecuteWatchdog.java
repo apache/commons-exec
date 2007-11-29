@@ -33,7 +33,7 @@ import java.io.IOException;
  * }
  * </pre>
  * 
- * @see org.apache.commons.exec.Execute
+ * @see org.apache.commons.exec.Executor
  * @see org.apache.commons.exec.Watchdog
  */
 public class ExecuteWatchdog implements TimeoutObserver {
@@ -63,15 +63,6 @@ public class ExecuteWatchdog implements TimeoutObserver {
     public ExecuteWatchdog(final long timeout) {
         watchdog = new Watchdog(timeout);
         watchdog.addTimeoutObserver(this);
-    }
-
-    /**
-     * @see #ExecuteWatchdog(long)
-     * @deprecated Use constructor with a long type instead. (1.4.x
-     *             compatibility)
-     */
-    public ExecuteWatchdog(final int timeout) {
-        this((long) timeout);
     }
 
     /**

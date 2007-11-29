@@ -19,12 +19,7 @@
 package org.apache.commons.exec;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -54,6 +49,7 @@ public class CommandLine {
      * @param line
      *            the line: the first element becomes the executable, the rest
      *            the arguments
+     * @return the parsed command line
      * @throws IllegalArgumentException If line is null or all whitespace
      */
     public static CommandLine parse(final String line) {
@@ -75,6 +71,8 @@ public class CommandLine {
 
     /**
      * Create a command line without any arguments.
+     *
+     * @param executable the executable
      */
     public CommandLine(String executable) {
         setExecutable(executable);
@@ -82,6 +80,8 @@ public class CommandLine {
 
     /**
      * Create a command line without any arguments.
+     *
+     * @param  executable the executable 
      */
     public CommandLine(File executable) {
         setExecutable(executable.getAbsolutePath());
@@ -167,7 +167,9 @@ public class CommandLine {
      * contains double quotes, use single quotes - else surround the argument by
      * double quotes.
      * </p>
-     * 
+     *
+     * @param argument the argument to be quoted
+     * @return the quoted argument
      * @throws IllegalArgumentException If argument contains both types of quotes
      */
     private static String quoteArgument(final String argument) {

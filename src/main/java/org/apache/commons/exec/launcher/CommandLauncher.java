@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.environment.EnvironmentUtil;
 
 public interface CommandLauncher {
 

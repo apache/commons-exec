@@ -31,9 +31,10 @@ import org.apache.commons.logging.LogFactory;
  * TODO: This class can be split to implement other line based processing of
  * data written to the stream.
  */
-public class LogOutputStream extends OutputStream {
+public class LogOutputStream
+        extends OutputStream {
 
-    private static Log log = LogFactory.getLog(LogOutputStream.class);
+    private static Log log = LogFactory.getLog( LogOutputStream.class);
 
     /** Initial buffer size. */
     private static final int INTIAL_SIZE = 132;
@@ -110,8 +111,8 @@ public class LogOutputStream extends OutputStream {
     /**
      * Logs a line to the log system of ant.
      * 
-     * @param line
-     *            the line to log.
+     * @param line the line to log.
+     * @param level the log level to use
      */
     protected void processLine(final String line, final int level) {
         log.debug(line);
@@ -127,6 +128,9 @@ public class LogOutputStream extends OutputStream {
         super.close();
     }
 
+    /**
+     * @return the trace level of the log system
+     */
     public int getMessageLevel() {
         return level;
     }

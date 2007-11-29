@@ -20,6 +20,7 @@ package org.apache.commons.exec;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,16 +28,22 @@ import junit.framework.TestCase;
 
 public class DefaultExecutorTest extends TestCase {
 
-    
     private Executor exec = new DefaultExecutor();
     private File testDir = new File("src/test/scripts");
     private ByteArrayOutputStream baos;
     private File testScript = TestUtil.resolveScriptForOS(testDir + "/test");
     private File errorTestScript = TestUtil.resolveScriptForOS(testDir + "/error");
+    private File foreverTestScript = TestUtil.resolveScriptForOS(testDir + "/forever");
+    private File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir + "/grmpffffff");
+
 
     protected void setUp() throws Exception {
         baos = new ByteArrayOutputStream();
         exec.setStreamHandler(new PumpStreamHandler(baos, baos));
+    }
+
+    protected void tearDown() throws Exception {
+        baos.close();
     }
 
     public void testExecute() throws Exception {
@@ -45,6 +52,29 @@ public class DefaultExecutorTest extends TestCase {
         int exitValue = exec.execute(cl);
         assertEquals("FOO..", baos.toString().trim());
         assertEquals(0, exitValue);
+    }
+
+    public void testExecuteWithWorkingDirectory() throws Exception {
+        File workingDir = new File(".");
+        CommandLine cl = new CommandLine(testScript);
+        exec.setWorkingDirectory(new File("."));
+        int exitValue = exec.execute(cl);
+        assertEquals("FOO..", baos.toString().trim());
+        assertEquals(0, exitValue);
+        assertEquals(exec.getWorkingDirectory(), workingDir);
+    }
+
+    public void testExecuteWithInvalidWorkingDirectory() throws Exception {
+        File workingDir = new File("/foo/bar");
+        CommandLine cl = new CommandLine(testScript);
+        exec.setWorkingDirectory(workingDir);
+        try {
+            exec.execute(cl);
+            fail("Expected exception due to invalid working directory");
+        }
+        catch(IOException e) {
+            return;
+        }
     }
 
     public void testExecuteWithError() throws Exception {
@@ -107,10 +137,103 @@ public class DefaultExecutorTest extends TestCase {
         assertTrue(handler.getException() instanceof ExecuteException);
         assertEquals("FOO..", baos.toString().trim());
     }
-    
-    
 
-    protected void tearDown() throws Exception {
-        baos.close();
+    /**
+     * Start a scipt looping forever and check if the ExecuteWatchdog
+     * kicks in killing the run away process.
+     */
+    public void testExecuteWatchdog() throws Exception {
+        long timeout = 10000;
+        CommandLine cl = new CommandLine(foreverTestScript);
+        DefaultExecutor executor = new DefaultExecutor();
+        executor.setWorkingDirectory(new File("."));
+        ExecuteWatchdog watchdog = new ExecuteWatchdog(timeout);
+        executor.setWatchdog(watchdog);
+        try {
+            executor.execute(cl);
+        }
+        catch(ExecuteException e) {
+            assertTrue( executor.getWatchdog().killedProcess() );
+            return;
+        }
+        catch(Throwable t) {
+            fail(t.getMessage());    
+        }
+
+        fail("Process was not killed");
     }
+
+    /**
+     * Try to start an non-existing application which should result
+     * in an exception.
+     */
+    public void testExecuteNonExistingApplication() throws Exception {
+        CommandLine cl = new CommandLine(nonExistingTestScript);
+        DefaultExecutor executor = new DefaultExecutor();
+        try {
+            executor.execute(cl);
+        }
+        catch( IOException e) {
+            // expected
+            return;
+        }
+        fail("Got no exception when executing an non-existing application");                
+    }
+
+    /**
+     * Try to start an non-existing application asynchronously which should result
+     * in an exception.
+     */
+    public void testExecuteAsyncWithNonExistingApplication() throws Exception {
+        CommandLine cl = new CommandLine(nonExistingTestScript);
+        MockExecuteResultHandler handler = new MockExecuteResultHandler();
+        exec.execute(cl, handler);
+        Thread.sleep(2000);
+        assertEquals(Executor.INVALID_EXITVALUE, handler.getExitValue());
+        assertTrue(handler.getException() instanceof ExecuteException);
+    }
+
+    /**
+     * Start any processes in a loop to make sure that we do
+     * not leave any handles/resources open.
+     */
+    public void testExecuteStability() throws Exception {
+        for(int i=0; i<1000; i++) {
+            Map env = new HashMap();
+            env.put("TEST_ENV_VAR", new Integer(i));
+            CommandLine cl = new CommandLine(testScript);
+            int exitValue = exec.execute(cl,env);
+            assertEquals(0, exitValue);
+            assertEquals("FOO." + i + ".", baos.toString().trim());
+            baos.reset();
+        }
+    }
+
+    /**
+     * Invoke the error script but define that "1" is a good
+     * exit value and therefore no exception should be thrown.
+     */
+    public void testExecuteWithCustomExitValue1() throws Exception {
+        // consider "1" s good exit value
+        exec.setExitValue(1);
+        CommandLine cl = new CommandLine(errorTestScript);
+        exec.execute(cl);
+    }
+
+    /**
+     * Invoke the error script but define that "1" is a bad
+     * exit value and therefore no exception should be thrown.
+     */
+    public void testExecuteWithCustomExitValue2() throws Exception {
+        // consider "2" s good exit value and fail
+        CommandLine cl = new CommandLine(errorTestScript);
+        exec.setExitValue(2);
+        try{
+            exec.execute(cl);
+            fail("Must throw ExecuteException");
+        } catch(ExecuteException e) {
+            assertEquals(1, e.getExitValue());
+            return;
+        }
+    }    
 }
