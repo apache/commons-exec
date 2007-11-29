@@ -25,9 +25,25 @@ import java.util.Map;
 public interface Executor {
 
     /** Invalid exit code. * */
-    public static final int INVALID_EXITVALUE = Integer.MAX_VALUE;
+    int INVALID_EXITVALUE = Integer.MAX_VALUE;
 
-    
+    /*
+     * Define the exit code of the process to considered
+     * successful.
+     */
+    void setExitValue(int value);
+
+    /*
+     * Define the exit code of the process to considered
+     * successful using one of the following values
+     * <ul>
+     *  <li>an array of exit values to be considered successful</li>
+     *  <li>an empty array for auto-detect of successful exit codes</li>
+     *  <li>null to indicate to skip checking of exit codes</li>
+     * </ul>
+     */
+    void setExitValues(int[] values);
+
     /*
      * StreamHandlers are used for providing input, 
      * retriving the output. Also used for logging.  
@@ -41,7 +57,10 @@ public interface Executor {
      */
     ExecuteWatchdog getWatchdog();
     void setWatchdog(ExecuteWatchdog watchDog);
-    
+
+    /*
+     * Set the working directory of the created process.
+     */
     File getWorkingDirectory();
     void setWorkingDirectory(File dir);
 
@@ -57,5 +76,4 @@ public interface Executor {
      */
     void execute(CommandLine command, ExecuteResultHandler handler) throws ExecuteException, IOException;
     void execute(CommandLine command, Map environment, ExecuteResultHandler handler) throws ExecuteException, IOException;
-
 }

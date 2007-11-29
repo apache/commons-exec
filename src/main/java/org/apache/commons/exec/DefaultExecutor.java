@@ -28,81 +28,237 @@ import org.apache.commons.exec.launcher.CommandLauncherFactory;
  */
 public class DefaultExecutor implements Executor {
 
-    private ExecuteStreamHandler streamHandler = new LogStreamHandler(1, 1);
+    /** taking care of output and error stream */
+    private ExecuteStreamHandler streamHandler;
 
+    /** the working directory of the process */
     private File workingDirectory;
 
+    /** monitoring of long running processes */
     private ExecuteWatchdog watchdog;
 
-    // TODO replace with generic launcher
-    private CommandLauncher launcher = CommandLauncherFactory
-            .createVMLauncher();
+    /** the exit values considerd to be successful */
+    private int[] exitValues;
 
-    /*
-     * (non-Javadoc)
-     * 
+    // TODO replace with generic launcher
+    private CommandLauncher launcher;
+
+    /**
+     * Default Constrctor
+     */
+    public DefaultExecutor() {
+        this.streamHandler = new PumpStreamHandler();
+        this.launcher = CommandLauncherFactory.createVMLauncher();
+        this.exitValues = new int[0];
+    }
+
+    /**
      * @see org.apache.commons.exec.Executor#getStreamHandler()
      */
     public ExecuteStreamHandler getStreamHandler() {
         return streamHandler;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.apache.commons.exec.Executor#setStreamHandler(org.apache.commons.exec.ExecuteStreamHandler)
      */
     public void setStreamHandler(ExecuteStreamHandler streamHandler) {
         this.streamHandler = streamHandler;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.apache.commons.exec.Executor#getWatchdog()
      */
     public ExecuteWatchdog getWatchdog() {
         return watchdog;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.apache.commons.exec.Executor#setWatchdog(org.apache.commons.exec.ExecuteWatchdog)
      */
     public void setWatchdog(ExecuteWatchdog watchDog) {
         this.watchdog = watchDog;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.apache.commons.exec.Executor#getWorkingDirectory()
      */
     public File getWorkingDirectory() {
         return workingDirectory;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.apache.commons.exec.Executor#setWorkingDirectory(java.io.File)
      */
     public void setWorkingDirectory(File dir) {
         this.workingDirectory = dir;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.commons.exec.Executor#execute(java.lang.String[])
+    /**
+     * @see org.apache.commons.exec.Executor#execute(CommandLine)
      */
     public int execute(final CommandLine command) throws ExecuteException,
             IOException {
         return execute(command, (Map) null);
     }
 
-    private int executeInternal(final CommandLine command, final Map environment, 
+    /**
+     * @see org.apache.commons.exec.Executor#execute(CommandLine, java.util.Map)
+     */
+    public int execute(final CommandLine command, Map environment)
+            throws ExecuteException, IOException {
+
+        if (workingDirectory != null && !workingDirectory.exists()) {
+            throw new IOException(workingDirectory + " doesn't exist.");
+        }
+        
+        return executeInternal(command, environment, workingDirectory, streamHandler);
+
+    }
+
+    /**
+     * @see org.apache.commons.exec.Executor#execute(CommandLine,
+     *      org.apache.commons.exec.ExecuteResultHandler)
+     */
+    public void execute(final CommandLine command, ExecuteResultHandler handler)
+            throws ExecuteException, IOException {
+        execute(command, null, handler);
+    }
+
+    /**
+     * @see org.apache.commons.exec.Executor#execute(CommandLine,
+     *      java.util.Map, org.apache.commons.exec.ExecuteResultHandler)
+     */
+    public void execute(final CommandLine command, final Map environment,
+            final ExecuteResultHandler handler) throws ExecuteException, IOException {
+        if (workingDirectory != null && !workingDirectory.exists()) {
+            throw new IOException(workingDirectory + " doesn't exist.");
+        }
+
+        new Thread() {
+
+            /* (non-Javadoc)
+             * @see java.lang.Thread#run()
+             */
+            public void run() {
+                int exitValue = Executor.INVALID_EXITVALUE;
+                try {
+                    
+                    exitValue = executeInternal(command, environment, workingDirectory, streamHandler);
+
+                    // TODO check exitValue and throw if not OK
+                    handler.onProcessComplete(exitValue);
+                } catch (ExecuteException e) {
+                    handler.onProcessFailed(e);
+                } catch(Exception e) {
+                    handler.onProcessFailed(new ExecuteException("Execution failed", exitValue, e));
+                } finally {
+                    // remove the process to the list of those to destroy if the VM
+                    // exits
+                    //
+                    // processDestroyer.remove(process);
+                }
+            }
+        }.start();
+    }
+
+
+    /*
+     * Define the exit code of the process to considered
+     * successful.
+     */
+    public void setExitValue( int value ) {
+        this.setExitValues(new int[] {value});
+    }
+
+
+    /*
+     * Define the exist code of the process to considered
+     * successful.
+     */
+    public void setExitValues( int[] values ) {
+        this.exitValues = values;
+    }
+
+    /**
+     * Checks whether <code>exitValue</code> signals a failure on the current
+     * system (OS specific).
+     * <p>
+     * <b>Note</b> that this method relies on the conventions of the OS, it
+     * will return false results if the application you are running doesn't
+     * follow these conventions. One notable exception is the Java VM provided
+     * by HP for OpenVMS - it will return 0 if successful (like on any other
+     * platform), but this signals a failure on OpenVMS. So if you execute a new
+     * Java VM on OpenVMS, you cannot trust this method.
+     * </p>
+     * 
+     * @param exitValue
+     *            the exit value (return code) to be checked
+     * @return <code>true</code> if <code>exitValue</code> signals a failure
+     */
+    public static boolean isFailure(final int exitValue) {
+        if (OS.isFamilyOpenVms()) {
+            // even exit value signals failure
+            return (exitValue % 2) == 0;
+        } else {
+            // non zero exit value signals failure
+            return exitValue != 0;
+        }
+    }
+
+
+    /**
+     * Close the streams belonging to the given Process.
+     *
+     * @param process
+     *            the <CODE>Process</CODE>.
+     */
+    private void closeStreams(final Process process) {
+        try {
+            process.getInputStream().close();
+        } catch (IOException eyeOhEx) {
+            // ignore error
+        }
+        try {
+            process.getOutputStream().close();
+        } catch (IOException eyeOhEx) {
+            // ignore error
+        }
+        try {
+            process.getErrorStream().close();
+        } catch (IOException eyeOhEx) {
+            // ignore error
+        }
+    }
+
+    /**
+     * Creates a process that runs a command.
+     *
+     * @param command
+     *            the command to run
+     * @param env
+     *            the environment for the command
+     * @param dir
+     *            the working directory for the command
+     * @return the process started
+     * @throws IOException
+     *             forwarded from the particular launcher used
+     */
+    private Process launch(final CommandLine command, final Map env,
+            final File dir) throws IOException {
+        CommandLauncher launcher = this.launcher;
+
+        if (launcher == null) {
+            throw new IllegalStateException("CommandLauncher can not be null");
+        }
+
+        if (dir != null && !dir.exists()) {
+            throw new IOException(dir + " doesn't exist.");
+        }
+        return launcher.exec(command, env, dir);
+    }
+    
+    private int executeInternal(final CommandLine command, final Map environment,
             final File dir, final ExecuteStreamHandler streams) throws IOException {
 
         final Process process = launch(command, environment, dir);
@@ -148,10 +304,10 @@ public class DefaultExecutor implements Executor {
 
             }
 
-            if(isFailure(exitValue)) {
+            if(!this.isSuccess(exitValue)) {
                 throw new ExecuteException("Process exited with an error: " + exitValue, exitValue);
             }
-            
+
             return exitValue;
         } finally {
             // remove the process to the list of those to destroy if the VM
@@ -159,153 +315,23 @@ public class DefaultExecutor implements Executor {
             //
             // processDestroyer.remove(process);
         }
-
-        
-    }
-    
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.commons.exec.Executor#execute(java.lang.String[],
-     *      java.util.Map)
-     */
-    public int execute(final CommandLine command, Map environment)
-            throws ExecuteException, IOException {
-
-        if (workingDirectory != null && !workingDirectory.exists()) {
-            throw new IOException(workingDirectory + " doesn't exist.");
-        }
-        
-        return executeInternal(command, environment, workingDirectory, streamHandler);
-
     }
 
-    /**
-     * Creates a process that runs a command.
-     * 
-     * @param command
-     *            the command to run
-     * @param env
-     *            the environment for the command
-     * @param dir
-     *            the working directory for the command
-     * @return the process started
-     * @throws IOException
-     *             forwarded from the particular launcher used
-     */
-    private Process launch(final CommandLine command, final Map env,
-            final File dir) throws IOException {
-        CommandLauncher launcher = this.launcher;
+    private boolean isSuccess(final int exitValue) {
 
-        if (launcher == null) {
-            throw new IllegalStateException("CommandLauncher can not be null");
-
+        if(this.exitValues == null) {
+            return true;
         }
-
-        if (dir != null && !dir.exists()) {
-            throw new IOException(dir + " doesn't exist.");
+        else if(this.exitValues.length == 0) {
+            return !isFailure(exitValue);
         }
-        return launcher.exec(command, env, dir);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.commons.exec.Executor#execute(java.lang.String[],
-     *      org.apache.commons.exec.ExecuteResultHandler)
-     */
-    public void execute(final CommandLine command, ExecuteResultHandler handler)
-            throws ExecuteException, IOException {
-        execute(command, null, handler);
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.commons.exec.Executor#execute(java.lang.String[],
-     *      java.util.Map, org.apache.commons.exec.ExecuteResultHandler)
-     */
-    public void execute(final CommandLine command, final Map environment,
-            final ExecuteResultHandler handler) throws ExecuteException, IOException {
-        if (workingDirectory != null && !workingDirectory.exists()) {
-            throw new IOException(workingDirectory + " doesn't exist.");
-        }
-
-        new Thread() {
-
-            /* (non-Javadoc)
-             * @see java.lang.Thread#run()
-             */
-            public void run() {
-                int exitValue = Executor.INVALID_EXITVALUE;
-                try {
-                    
-                    exitValue = executeInternal(command, environment, workingDirectory, streamHandler);
-
-                    // TODO check exitValue and throw if not OK
-                    handler.onProcessComplete(exitValue);
-                } catch (ExecuteException e) {
-                    handler.onProcessFailed(e);
-                } catch(Exception e) {
-                    handler.onProcessFailed(new ExecuteException("Execution failed", exitValue, e));
-                } finally {
-                    // remove the process to the list of those to destroy if the VM
-                    // exits
-                    //
-                    // processDestroyer.remove(process);
+        else {
+            for(int i=0; i<this.exitValues.length; i++) {
+                if(this.exitValues[i] == exitValue) {
+                    return true;
                 }
             }
-        }.start();
-    }
-
-    /**
-     * Close the streams belonging to the given Process.
-     * 
-     * @param process
-     *            the <CODE>Process</CODE>.
-     */
-    private void closeStreams(final Process process) {
-        try {
-            process.getInputStream().close();
-        } catch (IOException eyeOhEx) {
-            // ignore error
         }
-        try {
-            process.getOutputStream().close();
-        } catch (IOException eyeOhEx) {
-            // ignore error
-        }
-        try {
-            process.getErrorStream().close();
-        } catch (IOException eyeOhEx) {
-            // ignore error
-        }
-    }
-    
-    /**
-     * Checks whether <code>exitValue</code> signals a failure on the current
-     * system (OS specific).
-     * <p>
-     * <b>Note</b> that this method relies on the conventions of the OS, it
-     * will return false results if the application you are running doesn't
-     * follow these conventions. One notable exception is the Java VM provided
-     * by HP for OpenVMS - it will return 0 if successful (like on any other
-     * platform), but this signals a failure on OpenVMS. So if you execute a new
-     * Java VM on OpenVMS, you cannot trust this method.
-     * </p>
-     * 
-     * @param exitValue
-     *            the exit value (return code) to be checked
-     * @return <code>true</code> if <code>exitValue</code> signals a failure
-     */
-    public static boolean isFailure(final int exitValue) {
-        if (OS.isFamilyOpenVms()) {
-            // even exit value signals failure
-            return (exitValue % 2) == 0;
-        } else {
-            // non zero exit value signals failure
-            return exitValue != 0;
-        }
+        return false;
     }
 }
