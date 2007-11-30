@@ -6,10 +6,12 @@
     <artifactId>commons-sandbox-parent</artifactId>
     <version>3-SNAPSHOT</version>
   </parent>
+  
   <artifactId>commons-exec</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>Commons Exec (Sandbox)</name>
-  <url>http://commons.apache.org/sandbox/exec/</url>
+  <url>http://commons.apache.org/sandbox/exec/</url>  
+  
   <dependencies>
     <dependency>
       <groupId>commons-logging</groupId>
@@ -24,6 +26,7 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  
   <developers>
     <developer>
       <id>brett</id>
@@ -39,18 +42,28 @@
       <organization>Apache</organization>
       <timezone>+1</timezone>
     </developer>
+    <developer>
+      <id>sgoeschl</id>
+      <name>Siegfried Goeschl</name>
+      <email>sgoeschl AT apache DOT org</email>
+      <organization>Apache</organization>
+      <timezone>+1</timezone>
+    </developer>
   </developers>
+  
   <contributors>
     <contributor>
       <name>Niklas Gustavsson</name>
       <email>niklas AT protocol7 DOT com</email>
     </contributor>
   </contributors>
+  
   <scm>
     <connection>scm:svn:http://svn.apache.org/repos/asf/commons/sandbox/exec/trunk/</connection>
     <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/sandbox/exec/trunk/</developerConnection>
     <url>http://svn.apache.org/repos/asf/commons/sandbox/exec/trunk/</url>
   </scm>
+  
   <build>
     <plugins>
       <plugin>
@@ -64,6 +77,7 @@
       </plugin>
     </plugins>
   </build>
+  
   <distributionManagement>
     <site>
       <id>website</id>
@@ -72,14 +86,27 @@
     </site>
   </distributionManagement>
 
-  <!-- Avoid broken Cobertura 2.1 plugin -->
   <reporting>
     <plugins>
+      <!-- Avoid broken Cobertura 2.1 plugin -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
         <version>2.0</version>
       </plugin>
+      <!-- generate the changes report from changes.xml -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-changes-plugin</artifactId>
+        <version>2.0-beta-1</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>changes-report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>      
     </plugins>
   </reporting>
 
