@@ -61,7 +61,7 @@
   <scm>
     <connection>scm:svn:http://svn.apache.org/repos/asf/commons/sandbox/exec/trunk/</connection>
     <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/sandbox/exec/trunk/</developerConnection>
-    <url>http://svn.apache.org/repos/asf/commons/sandbox/exec/trunk/</url>
+    <url>http://svn.apache.org/viewvc/commons/sandbox/exec/trunk/</url>
   </scm>
   
   <build>
@@ -77,7 +77,7 @@
       </plugin>
     </plugins>
   </build>
-  
+    
   <distributionManagement>
     <site>
       <id>website</id>
@@ -107,6 +107,14 @@
           </reportSet>
         </reportSets>
       </plugin>      
+      <!-- generate the changelog report to simplify reviewing the changes -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-changelog-plugin</artifactId>
+        <configuration>
+          <basedir>${basedir}</basedir>
+        </configuration>        
+      </plugin>            
     </plugins>
   </reporting>
 
