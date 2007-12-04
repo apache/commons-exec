@@ -203,4 +203,43 @@ public class CommandLineTest extends TestCase {
             // Expected
         }
     }
+
+   /**
+    * Create a command line with pre-quoted strings to test SANDBOX-192,
+    * e.g. "runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""
+    */
+    public void testComplexAddArgument() {
+        CommandLine cmdl = new CommandLine("runMemorySud.cmd");
+        cmdl.addArgument("10", false);
+        cmdl.addArgument("30", false);
+        cmdl.addArgument("-XX:+UseParallelGC", false);
+        cmdl.addArgument("\"-XX:ParallelGCThreads=2\"", false);
+        assertEquals("runMemorySud.cmd 10 30 -XX:+UseParallelGC \"-XX:ParallelGCThreads=2\"", cmdl.toString());
+        assertEquals(new String[] {"runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""}, cmdl.toStrings());
+    }
+
+    /**
+     * Create a command line with pre-quoted strings to test SANDBOX-192,
+     * e.g. "runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""
+     */
+     public void testComplexAddArguments1() {
+         CommandLine cmdl = new CommandLine("runMemorySud.cmd");
+         cmdl.addArguments(new String[] {"10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""}, false);
+         assertEquals("runMemorySud.cmd 10 30 -XX:+UseParallelGC \"-XX:ParallelGCThreads=2\"", cmdl.toString());
+         assertEquals(new String[] {"runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""}, cmdl.toStrings());
+     }
+
+    /**
+     * Create a command line with pre-quoted strings to test SANDBOX-192,
+     * e.g. "runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""
+     * Please not that we re forced to add additional single quotes to get the test working -
+     * don't know if this is a bug or a feature.
+     */
+     public void testComplexAddArguments2() {
+         CommandLine cmdl = new CommandLine("runMemorySud.cmd");
+         cmdl.addArguments("10 30 -XX:+UseParallelGC '\"-XX:ParallelGCThreads=2\"'", false);
+         assertEquals("runMemorySud.cmd 10 30 -XX:+UseParallelGC \"-XX:ParallelGCThreads=2\"", cmdl.toString());
+         assertEquals(new String[] {"runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""}, cmdl.toStrings());
+     }
+
 }

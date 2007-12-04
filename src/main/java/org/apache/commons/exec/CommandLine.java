@@ -87,17 +87,6 @@ public class CommandLine {
         setExecutable(executable.getAbsolutePath());
     }
 
-    private void setExecutable(final String executable) {
-        if (executable == null) {
-            throw new IllegalArgumentException("Executable can not be null");
-        } else if(executable.trim().length() == 0) {
-            throw new IllegalArgumentException("Executable can not be empty");
-        } else {
-             this.executable = executable.replace('/', File.separatorChar).replace(
-                '\\', File.separatorChar);
-        }
-    }
-
     /**
      * Returns the executable
      * 
@@ -108,18 +97,29 @@ public class CommandLine {
     }
 
     /**
-     * Add multiple arguments
+     * Add multiple arguments. Handles parsing of quotes and whitespace.
      * 
      * @param arguments An array of arguments
      * @return The command line itself
      */
     public CommandLine addArguments(final String[] arguments) {
+        return this.addArguments(arguments, true);
+    }
+
+    /**
+     * Add multiple arguments.
+     *
+     * @param arguments An array of arguments
+     * @param handleQuoting Add the argument with/without handling quoting
+     * @return The command line itself
+     */
+    public CommandLine addArguments(final String[] arguments, boolean handleQuoting) {
         if (arguments != null) {
             for (int i = 0; i < arguments.length; i++) {
-                addArgument(arguments[i]);
+                addArgument(arguments[i], handleQuoting);
             }
         }
-        
+
         return this;
     }
 
@@ -130,26 +130,55 @@ public class CommandLine {
      * @return The command line itself
      */
     public CommandLine addArguments(final String arguments) {
+        return this.addArguments(arguments, true);
+    }
+
+    /**
+     * Add multiple arguments. Handles parsing of quotes and whitespace.
+     *
+     * @param arguments An string containing multiple arguments.
+     * @param handleQuoting Add the argument with/without handling quoting
+     * @return The command line itself
+     */
+    public CommandLine addArguments(final String arguments, boolean handleQuoting) {
         if (arguments != null) {
             String[] argmentsArray = translateCommandline(arguments);
-    
-            addArguments(argmentsArray);
+            addArguments(argmentsArray, handleQuoting);
         }
-        
+
         return this;
     }
 
     /**
      * Add a single argument. Handles quoting.
      * @param argument The argument to add
+     * @return The command line itself
      * @throws IllegalArgumentException If argument contains both single and double quotes
      */
-    public void addArgument(final String argument) {
-        if (argument == null)
-            return;
-
-        arguments.add(quoteArgument(argument));
+    public CommandLine addArgument(final String argument) {
+        return this.addArgument(argument, true);
     }
+
+   /**
+    * Add a single argument.
+    * @param argument The argument to add
+    * @param handleQuoting Add the argument with/without handling quoting
+    * @return The command line itself
+    */
+   public CommandLine addArgument(final String argument, boolean handleQuoting) {
+        if (argument == null) {
+           return this;
+        }
+
+        if(handleQuoting) {
+            arguments.add(quoteArgument(argument));
+        }
+        else {
+            arguments.add(argument);
+        }
+
+        return this;
+   }
 
     /**
      * Returns the quoted arguments 
@@ -159,6 +188,8 @@ public class CommandLine {
         String[] res = new String[arguments.size()];
         return (String[]) arguments.toArray(res);
     }
+
+    // --- Implementation ---------------------------------------------------
 
     /**
      * Put quotes around the given String if necessary.
@@ -201,9 +232,49 @@ public class CommandLine {
         }
     }
 
+
+    /**
+     * Returns the command line as an array of strings, correctly quoted
+     * for use in executing the command.
+     * @return The command line as an string array
+     */
+    public String[] toStrings() {
+        final String[] result = new String[arguments.size() + 1];
+        result[0] = executable;
+
+        int index = 1;
+        for (Iterator iter = arguments.iterator(); iter.hasNext();) {
+            result[index] = (String) iter.next();
+
+            index++;
+        }
+
+        return result;
+    }
+
+    /**
+     * Stringify operator returns the command line as a string.
+     * 
+     * @return the command line
+     */
+    public String toString() {
+        String[] strings = toStrings();
+
+        StringBuffer sb = new StringBuffer();
+
+        for (int i = 0; i < strings.length; i++) {
+            if (i > 0) {
+                sb.append(' ');
+            }
+            sb.append(strings[i]);
+        }
+
+        return sb.toString();
+    }
+
     /**
      * Crack a command line.
-     * 
+     *
      * @param toProcess
      *            the command line to process
      * @return the command line broken into strings. An empty or null toProcess
@@ -277,42 +348,15 @@ public class CommandLine {
         return args;
     }
 
-    /**
-     * Returns the command line as an array of strings, correctly quoted
-     * for use in executing the command.
-     * @return The command line as an string array
-     */
-    public String[] toStrings() {
-        final String[] result = new String[arguments.size() + 1];
-        result[0] = executable;
-
-        int index = 1;
-        for (Iterator iter = arguments.iterator(); iter.hasNext();) {
-            result[index] = (String) iter.next();
-
-            index++;
+    private void setExecutable(final String executable) {
+        if (executable == null) {
+            throw new IllegalArgumentException("Executable can not be null");
+        } else if(executable.trim().length() == 0) {
+            throw new IllegalArgumentException("Executable can not be empty");
+        } else {
+             this.executable = executable.replace('/', File.separatorChar).replace(
+                '\\', File.separatorChar);
         }
-
-        return result;
     }
 
-    /**
-     * Stringify operator returns the command line as a string.
-     * 
-     * @return the command line
-     */
-    public String toString() {
-        String[] strings = toStrings();
-
-        StringBuffer sb = new StringBuffer();
-
-        for (int i = 0; i < strings.length; i++) {
-            if (i > 0) {
-                sb.append(' ');
-            }
-            sb.append(strings[i]);
-        }
-
-        return sb.toString();
-    }
 }
