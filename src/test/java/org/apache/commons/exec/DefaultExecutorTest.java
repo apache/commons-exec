@@ -151,7 +151,7 @@ public class DefaultExecutorTest extends TestCase {
         // wait for script to run
         Thread.sleep(2000);
         // teminate it
-        watchdog.destroy();
+        watchdog.destroyProcess();
         assertTrue(watchdog.killedProcess());
     }
 
@@ -168,7 +168,7 @@ public class DefaultExecutorTest extends TestCase {
         // wait for script to be terminated by the watchdog
         Thread.sleep(6000);
         // try to teminate the already terminated process
-        watchdog.destroy();
+        watchdog.destroyProcess();
         assertTrue(watchdog.killedProcess());
     }
 

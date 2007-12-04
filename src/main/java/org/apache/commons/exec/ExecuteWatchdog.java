@@ -103,7 +103,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
     /**
      * Destroys the running process manually.
      */
-    public synchronized void destroy() {
+    public synchronized void destroyProcess() {
         this.timeoutOccured(new Watchdog(1));
         this.stop();
     }
