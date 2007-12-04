@@ -18,8 +18,6 @@
 
 package org.apache.commons.exec;
 
-import java.io.IOException;
-
 /**
  * Destroys a process running for too long. For example:
  * 
