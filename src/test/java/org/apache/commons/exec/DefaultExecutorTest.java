@@ -139,6 +139,40 @@ public class DefaultExecutorTest extends TestCase {
     }
 
     /**
+     * Start a async process and terminate it manually before the
+     * wacthdog timeout occurs. 
+     */
+    public void testExecuteAsyncWithTimelyUserTermination() throws Exception {
+        CommandLine cl = new CommandLine(foreverTestScript);
+        ExecuteWatchdog watchdog = new ExecuteWatchdog(Integer.MAX_VALUE);
+        exec.setWatchdog(watchdog);
+        MockExecuteResultHandler handler = new MockExecuteResultHandler();
+        exec.execute(cl, handler);
+        // wait for script to run
+        Thread.sleep(2000);
+        // teminate it
+        watchdog.destroy();
+        assertTrue(watchdog.killedProcess());
+    }
+
+    /**
+     * Start a async process and try to terminate it manually but
+     * the process was already terminated by the watchdog.
+     */
+    public void testExecuteAsyncWithTooLateUserTermination() throws Exception {
+        CommandLine cl = new CommandLine(foreverTestScript);
+        ExecuteWatchdog watchdog = new ExecuteWatchdog(3000);
+        exec.setWatchdog(watchdog);
+        MockExecuteResultHandler handler = new MockExecuteResultHandler();
+        exec.execute(cl, handler);
+        // wait for script to be terminated by the watchdog
+        Thread.sleep(6000);
+        // try to teminate the already terminated process
+        watchdog.destroy();
+        assertTrue(watchdog.killedProcess());
+    }
+
+    /**
      * Start a scipt looping forever and check if the ExecuteWatchdog
      * kicks in killing the run away process.
      */

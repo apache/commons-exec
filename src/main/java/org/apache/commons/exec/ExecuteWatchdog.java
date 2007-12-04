@@ -42,13 +42,13 @@ public class ExecuteWatchdog implements TimeoutObserver {
     private Process process;
 
     /** Say whether or not the watchdog is currently monitoring a process. */
-    private boolean watch = false;
+    private boolean watch;
 
     /** Exception that might be thrown during the process execution. */
-    private Exception caught = null;
+    private Exception caught;
 
     /** Say whether or not the process was killed due to running overtime. */
-    private boolean killedProcess = false;
+    private boolean killedProcess;
 
     /** Will tell us whether timeout has occurred. */
     private Watchdog watchdog;
@@ -61,8 +61,10 @@ public class ExecuteWatchdog implements TimeoutObserver {
      *            greater than 0.
      */
     public ExecuteWatchdog(final long timeout) {
-        watchdog = new Watchdog(timeout);
-        watchdog.addTimeoutObserver(this);
+        this.killedProcess = false;
+        this.watch = false;
+        this.watchdog = new Watchdog(timeout);
+        this.watchdog.addTimeoutObserver(this);
     }
 
     /**
@@ -99,17 +101,27 @@ public class ExecuteWatchdog implements TimeoutObserver {
     }
 
     /**
+     * Destroys the running process manually.
+     */
+    public synchronized void destroy() {
+        this.timeoutOccured(new Watchdog(1));
+        this.stop();
+    }
+
+    /**
      * Called after watchdog has finished.
      */
-    public void timeoutOccured(final Watchdog w) {
+    public synchronized void timeoutOccured(final Watchdog w) {
         try {
             try {
                 // We must check if the process was not stopped
                 // before being here
-                process.exitValue();
+                if(process != null) {
+                    process.exitValue();
+                }
             } catch (IllegalThreadStateException itse) {
                 // the process is not terminated, if this is really
-                // a timeout and not a manual stop then kill it.
+                // a timeout and not a manual stop then destroy it.
                 if (watch) {
                     killedProcess = true;
                     process.destroy();
@@ -122,13 +134,6 @@ public class ExecuteWatchdog implements TimeoutObserver {
         }
     }
 
-    /**
-     * reset the monitor flag and the process.
-     */
-    protected void cleanUp() {
-        watch = false;
-        process = null;
-    }
 
     /**
      * This method will rethrow the exception that was possibly caught during
@@ -140,7 +145,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
      *             a wrapped exception over the one that was silently swallowed
      *             and stored during the process run.
      */
-    public void checkException() throws Exception {
+    public synchronized void checkException() throws Exception {
         if (caught != null) {
             throw caught;
         }
@@ -152,17 +157,25 @@ public class ExecuteWatchdog implements TimeoutObserver {
      * @return <tt>true</tt> if the process is still running, otherwise
      *         <tt>false</tt>.
      */
-    public boolean isWatching() {
+    public synchronized boolean isWatching() {
         return watch;
     }
 
     /**
-     * Indicates whether the last process run was killed on timeout or not.
+     * Indicates whether the last process run was killed.
      * 
-     * @return <tt>true</tt> if the process was killed otherwise
+     * @return <tt>true</tt> if the process was killed
      *         <tt>false</tt>.
      */
-    public boolean killedProcess() {
+    public synchronized boolean killedProcess() {
         return killedProcess;
     }
+
+    /**
+     * reset the monitor flag and the process.
+     */
+    protected void cleanUp() {
+        watch = false;
+        process = null;
+    }    
 }

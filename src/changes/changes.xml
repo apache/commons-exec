@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <title>commons-exec</title>
+    <author email="sgoeschl@apache.org">Siegfried Goeschl</author>
+  </properties>
+  <body>
+    <release version="1.0-SNAPSHOT" date="as in SVN" description="Sandbox release">
+      <action dev="sgoeschl" type="add" issue="SANDBOX-193">
+        Exposing a ExecuteWatchdog.destroy() to kill an asynchrounous process
+        manually. This formalizes a workaround described in the JIRA
+      </action>
+      <action dev="sgoeschl" type="add" issue="SANDBOX-203">
+      	Extending exit value handling to support applications returning an error
+      	code.
+      </action>    
+      <action dev="sgoeschl" type="fix" issue="SANDBOX-204">
+        Cleaned up the source code to get rid of javadoc errors and
+        unused imports.
+      </action>    
+      <action dev="sgoeschl" type="add" issue="SANDBOX-204">
+        Added a few regression tests for the watchdog since they were missing.
+      </action>    
+    </release>
+  </body>
+</document>
