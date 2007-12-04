@@ -6,7 +6,10 @@
   </properties>
   <body>
     <release version="1.0-SNAPSHOT" date="as in SVN" description="Sandbox release">
-      <action dev="sgoeschl" type="add" issue="SANDBOX-193">
+      <action dev="sgoeschl" type="add" issue="SANDBOX-192" due-to="Reinhold Fuereder">
+        Added methods to provide pre-quoted arguments.
+      </action>
+      <action dev="sgoeschl" type="add" issue="SANDBOX-193" due-to="Reinhold Fuereder">
         Exposing a ExecuteWatchdog.destroy() to kill an asynchrounous process
         manually. This formalizes a workaround described in the JIRA
       </action>
