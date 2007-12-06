@@ -40,15 +40,16 @@ public class EnvironmentUtil {
 	}
 	
     /**
-     * Disable constructor
+     * Disable constructor.
      */
     private EnvironmentUtil() {
 
     }
 
     /**
-     * get the variable list as an array
+     * Get the variable list as an array.
      *
+     * @param environment the environment to use
      * @return array of key=value assignment strings
      */
     public static String[] toStrings(Map environment) {
@@ -66,6 +67,28 @@ public class EnvironmentUtil {
         return result;
     }
 
+    /**
+     * Find the list of environment variables for this process.
+     *
+     * @return a vector containing the environment variables the vector elements
+     *         are strings formatted like variable = value
+     * @throws IOException the operation failed
+     */
+    public static synchronized Map getProcEnvironment() throws IOException {
+    	return procEnvironment.getProcEnvironment();
+    }
+
+    /**
+     * Add a key/value pair to the given environment.
+     *
+     * @param environment the current environment
+     * @param keyAndValue the key/value pair 
+     */
+    public static void addVariableToEnvironment(Map environment, String keyAndValue) {
+		String[] parsedVarible = parseEnvironmentVariable(keyAndValue);		
+		environment.put(parsedVarible[0], parsedVarible[1]);
+	}
+
     private static String[] parseEnvironmentVariable(final String keyAndValue) {
         int index = keyAndValue.indexOf('=');
         if (index == -1) {
@@ -77,24 +100,8 @@ public class EnvironmentUtil {
         String[] result = new String[2];
         result[0] = keyAndValue.substring(0, index);
         result[1] = keyAndValue.substring(index + 1);
-        
+
         return result;
     }
     
-    /**
-     * Find the list of environment variables for this process.
-     *
-     * @return a vector containing the environment variables the vector elements
-     *         are strings formatted like variable = value
-     * @throws IOException
-     */
-    public static synchronized Map getProcEnvironment() throws IOException {
-    	return procEnvironment.getProcEnvironment();
-    }
-
-	public static void addVariableToEnvironment(Map environment, String keyAndValue) {
-		String[] parsedVarible = parseEnvironmentVariable(keyAndValue);
-		
-		environment.put(parsedVarible[0], parsedVarible[1]);
-	}
 }

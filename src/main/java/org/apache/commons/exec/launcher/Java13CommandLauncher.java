@@ -24,17 +24,17 @@ import java.util.Map;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.environment.EnvironmentUtil;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * A command launcher for JDK/JRE 1.3 (and higher). Uses the built-in
  * Runtime.exec() command
  */
 public class Java13CommandLauncher extends CommandLauncherImpl {
-	private static Log log = LogFactory.getLog(Java13CommandLauncher.class);
 
-	public Java13CommandLauncher() {
+    /**
+     * Constructor
+     */
+    public Java13CommandLauncher() {
 	}
 
 	/**
@@ -52,7 +52,6 @@ public class Java13CommandLauncher extends CommandLauncherImpl {
 	 */
 	public Process exec(final CommandLine cmd, final Map env,
 			final File workingDir) throws IOException {
-		log.debug("Execute:Java13CommandLauncher: " + cmd);
 
 		String[] envVars = null;
 		if(env != null) {

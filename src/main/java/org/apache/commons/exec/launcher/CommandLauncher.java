@@ -34,6 +34,8 @@ public interface CommandLauncher {
      * @param env
      *            The environment for the new process. If null, the environment
      *            of the current process is used.
+     * 
+     * @return the newly created process
      * @throws IOException
      *             if attempting to run a command in a specific directory
      */
@@ -52,6 +54,8 @@ public interface CommandLauncher {
      * @param workingDir
      *            The directory to start the command in. If null, the current
      *            directory is used
+     *
+     * @return the newly created process
      * @throws IOException
      *             if trying to change directory
      */

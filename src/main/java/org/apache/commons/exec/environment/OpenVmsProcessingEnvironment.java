@@ -25,9 +25,19 @@ import java.util.Map;
 
 import org.apache.commons.exec.CommandLine;
 
+/**
+ * Helper class to determine the environment variable
+ * for VMS.
+ */
 public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
 
-    public synchronized Map getProcEnvironment() throws IOException {
+    /**
+     * Find the list of environment variables for this process.
+     *
+     * @return a amp containing the environment variables
+     * @throws IOException the operation failed
+     */    
+    protected synchronized Map createProcEnvironment() throws IOException {
         if (procEnvironment == null) {
             procEnvironment = new HashMap();
 
@@ -40,6 +50,12 @@ public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
         return procEnvironment;
     }
 
+    /**
+     * Determine the OS specific command line to get a list of environment
+     * variables.
+     *
+     * @return the command line
+     */    
     protected CommandLine getProcEnvCommand() {
         CommandLine commandLine = new CommandLine("show");
         commandLine.addArgument("logical");
@@ -54,12 +70,17 @@ public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
      * that a logical defined in multiple tables only gets added from the
      * highest order table. Logicals with multiple equivalence names are mapped
      * to a variable with multiple values separated by a comma (,).
+     *
+     * @param environment the current environment
+     * @param in the reader from the process to determine VMS env variables
+     * @return the updated environment
+     * @throws IOException operation failed
      */
     private Map addVMSLogicals(final Map environment,
             final BufferedReader in) throws IOException {
+        String line;
         HashMap logicals = new HashMap();
         String logName = null, logValue = null, newLogName;
-        String line = null;
         while ((line = in.readLine()) != null) {
             // parse the VMS logicals into required format ("VAR=VAL[,VAL2]")
             if (line.startsWith("\t=")) {
@@ -94,5 +115,4 @@ public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
         }
         return environment;
     }
-
 }

@@ -26,34 +26,64 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Iterator;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
+/**
+ * Helper class to determine the environment variable
+ * for the OS. Depending on the JDK the environment
+ * variables can be either retrieved directly from the
+ * JVM or requires starting a process to get them running
+ * an OS command line. 
+ */
 public class DefaultProcessingEnvironment {
 
-	private static Log LOG = LogFactory.getLog(DefaultProcessingEnvironment.class);
-	
-    /**
-     * TODO move this and other final static / constants into a constants class ?
-     */
+    /** the line seperator of the system */
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
-	
-	protected Map procEnvironment;
-	
+
+    /** the environment variables of the process */
+    protected Map procEnvironment;
+
     /**
      * Find the list of environment variables for this process.
      *
-     * @return a vector containing the environment variables the vector elements
-     *         are strings formatted like variable = value
-     * @throws IOException
+     * @return a map containing the environment variables
+     * @throws IOException obtaining the environment variables failed
      */
     public synchronized Map getProcEnvironment() throws IOException {
+
+        HashMap result = new HashMap();
+
+        if(procEnvironment == null) {
+            procEnvironment = this.createProcEnvironment();
+        }
+
+        // create a clone of the map just in case that
+        // anyone is going to modifiy it, e.g. removing
+        // or setting an evironment variable
+
+        Iterator iter = procEnvironment.keySet().iterator();
+        while(iter.hasNext()) {
+            Object key = iter.next();
+            Object value = procEnvironment.get(key);
+            result.put(key, value);
+        }
+
+        return result;
+    }
+
+    /**
+     * Find the list of environment variables for this process.
+     *
+     * @return a amp containing the environment variables
+     * @throws IOException the operation failed 
+     */
+    protected Map createProcEnvironment() throws IOException {
         if (procEnvironment == null) {
             try {
                 Method getenvs = System.class.getMethod( "getenv", null );
@@ -62,9 +92,9 @@ public class DefaultProcessingEnvironment {
             } catch ( NoSuchMethodException e ) {
                 // ok, just not on JDK 1.5
             } catch ( IllegalAccessException e ) {
-                LOG.warn( "Unexpected error obtaining environment - using JDK 1.4 method" );
+                // Unexpected error obtaining environment - using JDK 1.4 method
             } catch ( InvocationTargetException e ) {
-                LOG.warn( "Unexpected error obtaining environment - using JDK 1.4 method" );
+                // Unexpected error obtaining environment - using JDK 1.4 method
             }
         }
 
@@ -100,8 +130,10 @@ public class DefaultProcessingEnvironment {
     }
 
     /**
-     * @return
-     * @throws IOException
+     * Start a process to list the environment variables.
+     *
+     * @return a reader containing the output of the process 
+     * @throws IOException starting the process failed
      */
     protected BufferedReader runProcEnvCommand() throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -115,6 +147,12 @@ public class DefaultProcessingEnvironment {
         return new BufferedReader(new StringReader(toString(out)));
     }
 
+    /**
+     * Determine the OS specific command line to get a list of environment
+     * variables.
+     *
+     * @return the command line
+     */
     protected CommandLine getProcEnvCommand() {
         String executable;
         String[] arguments = null;
