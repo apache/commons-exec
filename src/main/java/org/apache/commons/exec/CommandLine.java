@@ -18,10 +18,13 @@
 
 package org.apache.commons.exec;
 
+import org.apache.commons.exec.util.StringUtils;
+
 import java.io.File;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.Vector;
+import java.util.Map;
 
 /**
  * CommandLine objects help handling command lines specifying processes to
@@ -44,6 +47,11 @@ public class CommandLine {
     private String executable = null;
 
     /**
+     * A map of name value pairs used to expand command line arguments
+     */
+    private Map substitutionMap;
+
+    /**
      * Create a command line from a string.
      * 
      * @param line
@@ -53,6 +61,21 @@ public class CommandLine {
      * @throws IllegalArgumentException If line is null or all whitespace
      */
     public static CommandLine parse(final String line) {
+        return parse(line, null);
+    }
+
+    /**
+     * Create a command line from a string.
+     *
+     * @param line
+     *            the line: the first element becomes the executable, the rest
+     *            the arguments
+     * @param substitutionMap the name/value pairs used for substitution
+     * @return the parsed command line
+     * @throws IllegalArgumentException If line is null or all whitespace
+     */
+    public static CommandLine parse(final String line, Map substitutionMap) {
+                
         if (line == null) {
             throw new IllegalArgumentException("Command line can not be null");
         } else if (line.trim().length() == 0) {
@@ -61,6 +84,7 @@ public class CommandLine {
             String[] tmp = translateCommandline(line);
 
             CommandLine cl = new CommandLine(tmp[0]);
+            cl.setSubstitutionMap(substitutionMap);
             for (int i = 1; i < tmp.length; i++) {
                 cl.addArgument(tmp[i]);
             }
@@ -93,7 +117,7 @@ public class CommandLine {
      * @return The executable
      */
     public String getExecutable() {
-        return executable;
+        return this.expandArgument(executable);
     }
 
     /**
@@ -185,8 +209,25 @@ public class CommandLine {
      * @return The quoted arguments
      */
     public String[] getArguments() {
-        String[] res = new String[arguments.size()];
-        return (String[]) arguments.toArray(res);
+        String[] result = new String[arguments.size()];
+        result = (String[]) arguments.toArray(result);
+        return this.expandArguments(result);
+    }
+
+    /**
+     * @return the substitution map
+     */
+    public Map getSubstitutionMap() {
+        return substitutionMap;
+    }
+
+    /**
+     * Set the substitutionMap to expand variables in the
+     * command line
+     * @param substitutionMap the map
+     */
+    public void setSubstitutionMap(Map substitutionMap) {
+        this.substitutionMap = substitutionMap;
     }
 
     // --- Implementation ---------------------------------------------------
@@ -232,6 +273,31 @@ public class CommandLine {
         }
     }
 
+    /**
+     * Expand variables in a command line argument.
+     *
+     * @param argument the argument
+     * @return the expanded string
+     */
+    private String expandArgument(final String argument) {
+        StringBuffer stringBuffer = StringUtils.stringSubstitution(argument, this.getSubstitutionMap(), true);
+        return stringBuffer.toString();
+    }
+
+    /**
+     * Expand variables in a command line arguments.
+     *
+     * @param arguments the arguments to be expadedn
+     * @return the expanded string
+     */
+    private String[] expandArguments(final String[] arguments) {
+        String[] result = new String[arguments.length];
+        for(int i=0; i<result.length; i++) {
+            result[i] = this.expandArgument(arguments[i]);
+        }
+        return result;
+    }
+
 
     /**
      * Returns the command line as an array of strings, correctly quoted
@@ -249,7 +315,7 @@ public class CommandLine {
             index++;
         }
 
-        return result;
+        return expandArguments(result);
     }
 
     /**

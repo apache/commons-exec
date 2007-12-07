@@ -19,6 +19,7 @@
 package org.apache.commons.exec;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -242,4 +243,46 @@ public class CommandLineTest extends TestCase {
          assertEquals(new String[] {"runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""}, cmdl.toStrings());
      }
 
+    /**
+     * Test expanding the command line based on a user-supplied map.
+     */
+    public void testCommandLineParsingWithExpansion() {
+
+        CommandLine cmdl = null;
+
+        HashMap substitutionMap = new HashMap();
+        substitutionMap.put("JAVA_HOME", "/usr/local/java");
+        substitutionMap.put("appMainClass", "foo.bar.Main");
+
+        HashMap incompleteMap = new HashMap();
+        incompleteMap.put("JAVA_HOME", "/usr/local/java");
+
+        // do not pass substitution map
+        cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass}");
+        assertEquals("${JAVA_HOME}/bin/java", cmdl.getExecutable());
+        assertEquals(new String[] {"${appMainClass}"}, cmdl.getArguments());
+        assertEquals("${JAVA_HOME}/bin/java ${appMainClass}", cmdl.toString());
+        assertEquals(new String[] {"${JAVA_HOME}/bin/java", "${appMainClass}"}, cmdl.toStrings());
+
+        // pass arguments with an empty map
+        cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass}", new HashMap());
+        assertEquals("${JAVA_HOME}/bin/java", cmdl.getExecutable());
+        assertEquals(new String[] {"${appMainClass}"}, cmdl.getArguments());
+        assertEquals("${JAVA_HOME}/bin/java ${appMainClass}", cmdl.toString());
+        assertEquals(new String[] {"${JAVA_HOME}/bin/java", "${appMainClass}"}, cmdl.toStrings());
+
+        // pass an complete substitution map
+        cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass}", substitutionMap);
+        assertEquals("/usr/local/java/bin/java", cmdl.getExecutable());
+        assertEquals(new String[] {"foo.bar.Main"}, cmdl.getArguments());        
+        assertEquals("/usr/local/java/bin/java foo.bar.Main", cmdl.toString());
+        assertEquals(new String[] {"/usr/local/java/bin/java", "foo.bar.Main"}, cmdl.toStrings());
+
+        // pass an incomplete substitution map resulting in unresolved variables
+        cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass}", incompleteMap);
+        assertEquals("/usr/local/java/bin/java", cmdl.getExecutable());
+        assertEquals(new String[] {"${appMainClass}"}, cmdl.getArguments());        
+        assertEquals("/usr/local/java/bin/java ${appMainClass}", cmdl.toString());
+        assertEquals(new String[] {"/usr/local/java/bin/java", "${appMainClass}"}, cmdl.toStrings());
+    }    
 }

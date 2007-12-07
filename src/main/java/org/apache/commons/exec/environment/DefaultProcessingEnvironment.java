@@ -33,6 +33,7 @@ import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
+import org.apache.commons.exec.util.MapUtils;
 
 /**
  * Helper class to determine the environment variable
@@ -57,24 +58,15 @@ public class DefaultProcessingEnvironment {
      */
     public synchronized Map getProcEnvironment() throws IOException {
 
-        HashMap result = new HashMap();
-
         if(procEnvironment == null) {
             procEnvironment = this.createProcEnvironment();
         }
 
-        // create a clone of the map just in case that
+        // create a copy of the map just in case that
         // anyone is going to modifiy it, e.g. removing
         // or setting an evironment variable
 
-        Iterator iter = procEnvironment.keySet().iterator();
-        while(iter.hasNext()) {
-            Object key = iter.next();
-            Object value = procEnvironment.get(key);
-            result.put(key, value);
-        }
-
-        return result;
+        return MapUtils.copy(procEnvironment);
     }
 
     /**

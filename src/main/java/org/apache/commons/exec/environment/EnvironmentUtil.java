@@ -88,7 +88,14 @@ public class EnvironmentUtil {
 		String[] parsedVarible = parseEnvironmentVariable(keyAndValue);		
 		environment.put(parsedVarible[0], parsedVarible[1]);
 	}
-
+    
+    /**
+     * Split a key/value pair into a String[]. It is assumed
+     * that the ky/value pair contains a '=' character.
+     *
+     * @param keyAndValue the key/value pair
+     * @return a String[] containing the key and value
+     */
     private static String[] parseEnvironmentVariable(final String keyAndValue) {
         int index = keyAndValue.indexOf('=');
         if (index == -1) {
