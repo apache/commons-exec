@@ -6,6 +6,10 @@
   </properties>
   <body>
     <release version="1.0-SNAPSHOT" date="as in SVN" description="Sandbox release">
+      <action dev="sgoeschl" type="add">
+        CommandLine can now expand the given command line by a user-suppied
+        map. This allows to execute something like "${JAVA_HOME}/bin/java -jar ${myapp}"
+      </action>
       <action dev="sgoeschl" type="add" issue="SANDBOX-192" due-to="Reinhold Fuereder">
         Added methods to provide pre-quoted arguments.
       </action>
