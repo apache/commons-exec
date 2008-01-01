@@ -40,8 +40,11 @@ public class DefaultExecutor implements Executor {
     /** the exit values considerd to be successful */
     private int[] exitValues;
 
-    // TODO replace with generic launcher
+    /** launches the command in a new process */
     private CommandLauncher launcher;
+
+    /** optional cleanup of started processes */ 
+    private ProcessDestroyer processDestroyer;
 
     /**
      * Default Constrctor
@@ -78,6 +81,20 @@ public class DefaultExecutor implements Executor {
      */
     public void setWatchdog(ExecuteWatchdog watchDog) {
         this.watchdog = watchDog;
+    }
+
+    /**
+     * @see org.apache.commons.exec.Executor#getProcessDestroyer()
+     */
+    public ProcessDestroyer getProcessDestroyer() {
+      return this.processDestroyer;
+    }
+
+    /**
+     * @see org.apache.commons.exec.Executor#setProcessDestroyer(ProcessDestroyer)
+     */
+    public void setProcessDestroyer(ProcessDestroyer processDestroyer) {
+      this.processDestroyer = processDestroyer;
     }
 
     /**
@@ -131,13 +148,14 @@ public class DefaultExecutor implements Executor {
      */
     public void execute(final CommandLine command, final Map environment,
             final ExecuteResultHandler handler) throws ExecuteException, IOException {
+
         if (workingDirectory != null && !workingDirectory.exists()) {
             throw new IOException(workingDirectory + " doesn't exist.");
         }
 
         new Thread() {
 
-            /* (non-Javadoc)
+            /**
              * @see java.lang.Thread#run()
              */
             public void run() {
@@ -152,11 +170,6 @@ public class DefaultExecutor implements Executor {
                     handler.onProcessFailed(e);
                 } catch(Exception e) {
                     handler.onProcessFailed(new ExecuteException("Execution failed", exitValue, e));
-                } finally {
-                    // remove the process to the list of those to destroy if the VM
-                    // exits
-                    //
-                    // processDestroyer.remove(process);
                 }
             }
         }.start();
@@ -271,12 +284,14 @@ public class DefaultExecutor implements Executor {
             process.destroy();
             throw e;
         }
+
         streams.start();
 
         try {
             // add the process to the list of those to destroy if the VM exits
-            //
-            // processDestroyer.add(process);
+            if(this.getProcessDestroyer() != null) {
+              this.getProcessDestroyer().add(process);
+            }
 
             if (watchdog != null) {
                 watchdog.start(process);
@@ -301,7 +316,6 @@ public class DefaultExecutor implements Executor {
                     // TODO: include cause
                     throw new IOException(e.getMessage());
                 }
-
             }
 
             if(!this.isSuccess(exitValue)) {
@@ -310,10 +324,10 @@ public class DefaultExecutor implements Executor {
 
             return exitValue;
         } finally {
-            // remove the process to the list of those to destroy if the VM
-            // exits
-            //
-            // processDestroyer.remove(process);
+            // remove the process to the list of those to destroy if the VM exits
+            if(this.getProcessDestroyer() != null) {
+              this.getProcessDestroyer().remove(process);
+            }
         }
     }
 

@@ -58,6 +58,13 @@ public interface Executor {
     ExecuteWatchdog getWatchdog();
     void setWatchdog(ExecuteWatchdog watchDog);
 
+    /**
+     * Optinal cleanup of started processes if the main process
+     * is going to terminate.
+     */
+    ProcessDestroyer getProcessDestroyer();
+    void setProcessDestroyer(ProcessDestroyer processDestroyer);
+
     /*
      * Set the working directory of the created process.
      */

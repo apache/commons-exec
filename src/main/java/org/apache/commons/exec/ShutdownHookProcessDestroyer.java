@@ -164,7 +164,16 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
 		}
 	}
 
-	/**
+  /**
+   * Returns the number of registered processes.
+   *
+   * @return the number of register process
+   */
+  public int size() {
+    return processes.size();
+  }
+
+  /**
 	 * Invoked by the VM when it is exiting.
 	 */
 	public void run() {
@@ -172,8 +181,14 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
 			running = true;
 			Enumeration e = processes.elements();
 			while (e.hasMoreElements()) {
-				((Process) e.nextElement()).destroy();
-			}
+        Process process = (Process) e.nextElement();
+        try {
+          process.destroy();
+        }
+        catch(Throwable t) {
+          System.err.println("Unable to terminate process during process shutdown");
+        }
+      }
 		}
 	}
 }
