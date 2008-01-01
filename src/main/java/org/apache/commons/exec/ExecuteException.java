@@ -22,10 +22,10 @@ import java.io.IOException;
 
 public class ExecuteException extends IOException {
 
-    /**
-     * Comment for <code>serialVersionUID</code>.
-     */
-    private static final long serialVersionUID = 3256443620654331699L;
+  /**
+   * Comment for <code>serialVersionUID</code>.
+   */
+  private static final long serialVersionUID = 3256443620654331699L;
 
 	/**
 	 * The underlying cause of this exception.
