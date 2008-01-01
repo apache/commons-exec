@@ -139,7 +139,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
      * been terminated either by 'error', timeout or manual intervention.
      * Information will be discarded once a new process is ran.
      * 
-     * @throws IOException
+     * @throws Exception
      *             a wrapped exception over the one that was silently swallowed
      *             and stored during the process run.
      */
