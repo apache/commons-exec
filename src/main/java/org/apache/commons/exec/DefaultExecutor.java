@@ -219,6 +219,32 @@ public class DefaultExecutor implements Executor {
         }
     }
 
+    /**
+     * Creates a process that runs a command.
+     *
+     * @param command
+     *            the command to run
+     * @param env
+     *            the environment for the command
+     * @param dir
+     *            the working directory for the command
+     * @return the process started
+     * @throws IOException
+     *             forwarded from the particular launcher used
+     */
+    protected Process launch(final CommandLine command, final Map env,
+            final File dir) throws IOException {
+        CommandLauncher launcher = this.launcher;
+
+        if (launcher == null) {
+            throw new IllegalStateException("CommandLauncher can not be null");
+        }
+
+        if (dir != null && !dir.exists()) {
+            throw new IOException(dir + " doesn't exist.");
+        }
+        return launcher.exec(command, env, dir);
+    }
 
     /**
      * Close the streams belonging to the given Process.
@@ -244,37 +270,10 @@ public class DefaultExecutor implements Executor {
         }
     }
 
-    /**
-     * Creates a process that runs a command.
-     *
-     * @param command
-     *            the command to run
-     * @param env
-     *            the environment for the command
-     * @param dir
-     *            the working directory for the command
-     * @return the process started
-     * @throws IOException
-     *             forwarded from the particular launcher used
-     */
-    private Process launch(final CommandLine command, final Map env,
-            final File dir) throws IOException {
-        CommandLauncher launcher = this.launcher;
-
-        if (launcher == null) {
-            throw new IllegalStateException("CommandLauncher can not be null");
-        }
-
-        if (dir != null && !dir.exists()) {
-            throw new IOException(dir + " doesn't exist.");
-        }
-        return launcher.exec(command, env, dir);
-    }
-    
     private int executeInternal(final CommandLine command, final Map environment,
             final File dir, final ExecuteStreamHandler streams) throws IOException {
 
-        final Process process = launch(command, environment, dir);
+        final Process process = this.launch(command, environment, dir);
 
         try {
             streams.setProcessInputStream(process.getOutputStream());
