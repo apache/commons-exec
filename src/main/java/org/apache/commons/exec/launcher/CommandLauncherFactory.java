@@ -26,11 +26,12 @@ import org.apache.commons.exec.OS;
 public final class CommandLauncherFactory {
 
     private CommandLauncherFactory() {
-
     }
 
     /**
-     * 
+     * Factory method to create an appropriate launcher.
+     *
+     * @return the command launcher
      */
     public static CommandLauncher createVMLauncher() {
         // Try using a JDK 1.3 launcher
@@ -38,8 +39,6 @@ public final class CommandLauncherFactory {
 
         if (OS.isFamilyOpenVms()) {
             launcher = new VmsCommandLauncher();
-            // TODO why not use Java13CommandLauncher on OS2?
-            //} else if (!OS.isFamilyOS2()) {
         } else {
             launcher = new Java13CommandLauncher();
         }

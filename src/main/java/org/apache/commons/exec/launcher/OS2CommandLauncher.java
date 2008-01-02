@@ -31,6 +31,8 @@ import org.apache.commons.exec.CommandLine;
  * Unlike Windows NT and friends, OS/2's cd doesn't support the /d switch to
  * change drives and directories in one go.
  * </p>
+ * Please not that this class is currently unused because the Java13CommandLauncher
+ * is used for 0S/2
  */
 public class OS2CommandLauncher extends CommandLauncherProxy {
 
