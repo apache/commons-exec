@@ -1,7 +1,11 @@
-<site>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Commons CSV">
   <body>
+
     <menu name="Commons Exec">
-      <item name="Overview" href="/index.html" />
+      <item name="Overview"    href="/index.html"/>
+      <item name="Tutorial"    href="/tutorial.html"/>
     </menu>
+
   </body>
-</site>
+</project>
