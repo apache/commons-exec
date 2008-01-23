@@ -20,22 +20,25 @@ package org.apache.commons.exec;
 
 import java.io.IOException;
 
+/**
+ * An exception indicating that the executing a subprocesses failed.
+ */
 public class ExecuteException extends IOException {
 
-  /**
-   * Comment for <code>serialVersionUID</code>.
-   */
-  private static final long serialVersionUID = 3256443620654331699L;
+    /**
+     * Comment for <code>serialVersionUID</code>.
+     */
+    private static final long serialVersionUID = 3256443620654331699L;
 
 	/**
 	 * The underlying cause of this exception.
 	 */
-	private Throwable cause = null;
+	private Throwable cause;
 
 	/**
 	 * The exit value returned by the failed process
 	 */
-	private int exitValue = 0;
+	private int exitValue;
     
     /**
      * Construct a new exception with the specified detail message.
