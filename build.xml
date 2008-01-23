@@ -1,4 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.
+-->
 <project name="exec" default="jar" basedir=".">
+
   <property file="build.properties" />
   <property name="maven.build.output" value="target/classes"/>
   <property name="maven.build.directory" value="target"/>
@@ -6,15 +26,14 @@
   <property name="maven.test.reports" value="${maven.build.directory}/test-reports"/>
   <property name="maven.test.output" value="target/test-classes"/>
   <property name="maven.repo.local" value="${user.home}/.m2/repository"/>
-  <path id="build.classpath">
-    <fileset dir="${maven.repo.local}">
-      <include name="commons-logging/commons-logging-api/1.0.4/commons-logging-api-1.0.4.jar"/>
-    </fileset>
-  </path>
+
+  <path id="build.classpath"/>
+
   <target name="clean" description="Clean the output directory">
     <delete dir="${maven.build.directory}"/>
   </target>
-  <target name="compile" depends="get-deps" description="Compile the code">
+
+  <target name="compile" description="Compile the code">
     <mkdir dir="${maven.build.output}"/>
     <javac destdir="${maven.build.output}" excludes="**/package.html" debug="true" deprecation="true" optimize="false">
       <src>
@@ -23,9 +42,11 @@
       <classpath refid="build.classpath"/>
     </javac>
   </target>
+
   <target name="jar" depends="compile,test" description="Clean the JAR">
     <jar jarfile="${maven.build.directory}/${maven.build.final.name}.jar" basedir="${maven.build.output}" excludes="**/package.html"/>
   </target>
+
   <target name="compile-tests" depends="junit-present, compile" description="Compile the test code" if="junit.present">
     <mkdir dir="${maven.test.output}"/>
     <javac destdir="${maven.test.output}" excludes="**/package.html" debug="true" deprecation="true" optimize="false">
@@ -38,6 +59,7 @@
       </classpath>
     </javac>
   </target>
+
   <target name="test" depends="junit-present, compile-tests" if="junit.present" description="Run the test cases">
     <mkdir dir="${maven.test.reports}"/>
     <junit printSummary="yes" haltonerror="true" haltonfailure="true" fork="true" dir=".">
@@ -57,21 +79,15 @@
       </batchtest>
     </junit>
   </target>
+
   <target name="test-junit-present">
     <available classname="junit.framework.Test" property="junit.present"/>
   </target>
+
   <target name="junit-present" depends="test-junit-present" unless="junit.present">
     <echo>================================= WARNING ================================</echo>
     <echo> Junit isn't present in your $ANT_HOME/lib directory. Tests not executed. </echo>
     <echo>==========================================================================</echo>
   </target>
-  <target name="test-offline">
-    <condition property="maven.mode.offline">
-      <equals arg1="${build.sysclasspath}" arg2="only"/>
-    </condition>
-  </target>
-  <target name="get-deps" depends="test-offline" description="Download all dependencies" unless="maven.mode.offline">
-    <mkdir dir="${maven.repo.local}/commons-logging/commons-logging-api/1.0.4/"/>
-    <get src="http://repo1.maven.org/maven2/commons-logging/commons-logging-api/1.0.4/commons-logging-api-1.0.4.jar" dest="${maven.repo.local}/commons-logging/commons-logging-api/1.0.4/commons-logging-api-1.0.4.jar" usetimestamp="true" ignoreerrors="true"/>
-  </target>
+
 </project>
