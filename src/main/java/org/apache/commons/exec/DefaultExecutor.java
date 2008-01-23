@@ -24,7 +24,26 @@ import org.apache.commons.exec.launcher.CommandLauncher;
 import org.apache.commons.exec.launcher.CommandLauncherFactory;
 
 /**
- * 
+ * The default class to start a subprocess. The implementation
+ * allows to
+ * <ul>
+ *  <li>set a current working directory for the subprocess</li>
+ *  <li>provide a set of environment variables passed to the subprocess</li>
+ *  <li>capture the subprocess output of stdout and stderr using an ExecuteStreamHandler</li>
+ *  <li>kill long-running processes using an ExecuteWatchdog</li>
+ *  <li>define a set of expected exit values</li>
+ *  <li>terminate any started processes when the main process is terminating using a ProcessDestroyer</li>
+ * </ul>
+ *
+ * The following example shows the basic usage:
+ *
+ * <pre>
+ * Executor exec = new DefaultExecutor();
+ * CommandLine cl = new CommandLine("ls -l");
+ * int exitvalue = exec.execute(cl);
+ * </pre>
+ *
+ *
  */
 public class DefaultExecutor implements Executor {
 
@@ -249,27 +268,49 @@ public class DefaultExecutor implements Executor {
     /**
      * Close the streams belonging to the given Process.
      *
-     * @param process
-     *            the <CODE>Process</CODE>.
+     * @param process the <CODE>Process</CODE>.
+     * @throws IOException closing one of the three streams failed
      */
-    private void closeStreams(final Process process) {
+    private void closeStreams(final Process process) throws IOException {
+
+        IOException caught = null;
+
         try {
             process.getInputStream().close();
-        } catch (IOException eyeOhEx) {
-            // ignore error
         }
+        catch(IOException e) {
+            caught = e;
+        }
+
         try {
             process.getOutputStream().close();
-        } catch (IOException eyeOhEx) {
-            // ignore error
         }
+        catch(IOException e) {
+            caught = e;
+        }
+
         try {
             process.getErrorStream().close();
-        } catch (IOException eyeOhEx) {
-            // ignore error
+        }
+        catch(IOException e) {
+            caught = e;
+        }
+
+        if(caught != null) {
+            throw caught;
         }
     }
 
+    /**
+     * Execute an internal process.
+     *
+     * @param command the command to execute
+     * @param environment the execution enviroment
+     * @param dir the working directory
+     * @param streams process the streams (in, out, err) of the process
+     * @return the exit code of the process
+     * @throws IOException executing the process failed
+     */
     private int executeInternal(final CommandLine command, final Map environment,
             final File dir, final ExecuteStreamHandler streams) throws IOException {
 
@@ -312,7 +353,6 @@ public class DefaultExecutor implements Executor {
                 try {
                     watchdog.checkException();
                 } catch (Exception e) {
-                    // TODO: include cause
                     throw new IOException(e.getMessage());
                 }
             }
