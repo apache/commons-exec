@@ -6,6 +6,9 @@
   </properties>
   <body>
     <release version="1.0-SNAPSHOT" date="as in SVN" description="Sandbox release">
+      <action dev="sgoeschl" type="delete">
+        Removed commons-logging integration
+      </action>
       <action dev="sgoeschl" type="add" issue="SANDBOX-62" due-to="Jeremy Lacoste">
         Made DefaultExecutor.launch() protected to enable mocking.
       </action>

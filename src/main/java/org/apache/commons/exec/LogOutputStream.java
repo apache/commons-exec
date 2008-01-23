@@ -22,19 +22,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
- * Logs each line written to this stream to the log system of ant. Tries to be
- * smart about line separators.<br>
- * TODO: This class can be split to implement other line based processing of
- * data written to the stream.
+ * Base class to connect a logging system to the output and/or
+ * error stream of then external process. The implementation
+ * parses the incoming data to construct a line and passes
+ * the complete line to an user-defiend implementation.
  */
-public class LogOutputStream
-        extends OutputStream {
-
-    private static Log log = LogFactory.getLog( LogOutputStream.class);
+public abstract class LogOutputStream
+  extends OutputStream {
 
     /** Initial buffer size. */
     private static final int INTIAL_SIZE = 132;
@@ -45,8 +40,9 @@ public class LogOutputStream
     /** Linefeed */
     private static final int LF = 0x0a;
 
+    /** the internal buffer */
     private ByteArrayOutputStream buffer = new ByteArrayOutputStream(
-            INTIAL_SIZE);
+      INTIAL_SIZE);
 
     private boolean skip = false;
 
@@ -54,9 +50,8 @@ public class LogOutputStream
 
     /**
      * Creates a new instance of this class.
-     * 
-     * @param level
-     *            loglevel used to log data written to this stream.
+     *
+     * @param level loglevel used to log data written to this stream.
      */
     public LogOutputStream(final int level) {
         this.level = level;
@@ -65,9 +60,9 @@ public class LogOutputStream
     /**
      * Write the data to the buffer and flush the buffer, if a line separator is
      * detected.
-     * 
-     * @param cc
-     *            data to log (byte).
+     *
+     * @param cc data to log (byte).
+     * @see java.io.OutputStream#write(int)
      */
     public void write(final int cc) throws IOException {
         final byte c = (byte) cc;
@@ -82,7 +77,9 @@ public class LogOutputStream
     }
 
     /**
-     * Flush this log stream
+     * Flush this log stream.
+     *
+     * @see java.io.OutputStream#flush()
      */
     public void flush() {
         if (buffer.size() > 0) {
@@ -91,35 +88,9 @@ public class LogOutputStream
     }
 
     /**
-     * Converts the buffer to a string and sends it to <code>processLine</code>
-     */
-    protected void processBuffer() {
-        processLine(buffer.toString());
-        buffer.reset();
-    }
-
-    /**
-     * Logs a line to the log system of ant.
-     * 
-     * @param line
-     *            the line to log.
-     */
-    protected void processLine(final String line) {
-        processLine(line, level);
-    }
-
-    /**
-     * Logs a line to the log system of ant.
-     * 
-     * @param line the line to log.
-     * @param level the log level to use
-     */
-    protected void processLine(final String line, final int level) {
-        log.debug(line);
-    }
-
-    /**
-     * Writes all remaining
+     * Writes all remaining data from the buffer.
+     *
+     * @see java.io.OutputStream#close()
      */
     public void close() throws IOException {
         if (buffer.size() > 0) {
@@ -137,15 +108,12 @@ public class LogOutputStream
 
     /**
      * Write a block of characters to the output stream
-     * 
-     * @param b
-     *            the array containing the data
-     * @param off
-     *            the offset into the array where data starts
-     * @param len
-     *            the length of block
-     * @throws IOException
-     *             if the data cannot be written into the stream.
+     *
+     * @param b the array containing the data
+     * @param off the offset into the array where data starts
+     * @param len the length of block
+     * @throws java.io.IOException if the data cannot be written into the stream.
+     * @see java.io.OutputStream#write(byte[], int, int)
      */
     public void write(final byte[] b, final int off, final int len)
             throws IOException {
@@ -171,4 +139,30 @@ public class LogOutputStream
             blockStartOffset = offset;
         }
     }
+
+    /**
+     * Converts the buffer to a string and sends it to <code>processLine</code>.
+     */
+    protected void processBuffer() {
+        processLine(buffer.toString());
+        buffer.reset();
+    }
+
+    /**
+     * Logs a line to the log system of the user.
+     *
+     * @param line
+     *            the line to log.
+     */
+    protected void processLine(final String line) {
+        processLine(line, level);
+    }
+
+    /**
+     * Logs a line to the log system of the user.
+     *
+     * @param line the line to log.
+     * @param level the log level to use
+     */
+    protected abstract void processLine(final String line, final int level);
 }
