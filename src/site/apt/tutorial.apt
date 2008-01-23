@@ -9,52 +9,49 @@ Jakarta Commons Exec
 
 * The First Encounter
 
-  At this point we can safely assume that you would like to start some stuff from withing your 
+  At this point we can safely assume that you would like to start some subprocesses from within your
   Java application and you spent some time here to do it properly. You look at Commons Exec and think
-  "Wow - calling Runtime.exec() is a piece of cake and the Apache folks are wasting their and my time 
+  "Wow - calling Runtime.exec() is easy and the Apache folks are wasting their and my time
   with tons of code".
   
   Well, we learned it the hard way (in my case more than once) that using plain Runtime.exec() can be 
   a painful experience. Therefore you are invited to delve into commons-exec and having a look at the
   hard lessons the easy way ...
   
-* Taming Your Process
+* Taming Your First Process
 
-  Assume you are forced start Acrobat Reader 8.x from your Java server to print a PDF document. The
-  very first question is - would you like to wait for the print process to finish (synchronous 
-  execution) or do you run it independent from your process (asnynchrounous execution).q  
-  
-  You write
-  a tests, everything works but in production the server box crashes. A closer look reveals that you 
-  succeeded in starting the print process but it somehow never terminated. The first lesson learned is
-  that you need to ensure that your print job terminates after a while - you need a watchdog. Luckily
-  commons-exec provides such a thing
+  Let's look at a real example - we would like to print PDF documents from within your Java
+  application. After googling a while it turns out to be a minor headache and using Adobe Acrobat
+  seems to be a good option.
 
-  Reliably executing external processes can also require knowledge of the environment variables before or after the
-  command is executed. In J2SE 1.1-1.4 there is not support for this, since the method, <<<System.getenv()>>>, for
-  retriving environment variables is deprecated.
+  The command line under Windows should look like "AcroRd32.exe /p /h file" assuming that the
+  Acrobat Reader is fond in the path.
 
-  The are currently several different libraries that for their own purposes has implemented frameworks around
-  <<<Runtime.exec()>>> to handle the various issue outlined above. The proposed project should aim at coordinating and
-  learning from these initatives to create and maintain a simple, reusable and well-tested package. Since some of the
-  more problematic platforms are not readily available, it is my hope that the broad Apache community can be a
-  great help.
+  CommandLine commandLine = CommandLine.parse("AcroRd32.exe /p /h /temp/document.pdf");
+  DefaultExecutor executor = new DefaultExecutor();
+  int exitValue = executor.execute(commandLine);
 
-* Scope of the package
+  You successfuly printed your first PDF document but at the end an exception is thrown - what
+  happpend? Mhhmm, Acrobat Reader returned an exit value of '1' on success which is usually
+  considered as an exection failure. So we have to tweak our code to fix this odd behaviour
 
-  The package shall create and maintain a process execution package written in the Java language to be distributed
-  under the ASF license. The Java code might also be complemented with scripts (e.g. Perl scripts) to fully enable
-  execution on some operating systems. The package should aim for supporting a wide range of operating systems while
-  still having a consistent API for all platforms.
+  CommandLine commandLine = CommandLine.parse("AcroRd32.exe /p /h /temp/document.pdf");
+  DefaultExecutor executor = new DefaultExecutor();
+  executor.setExitValue(1);
+  int exitValue = executor.execute(commandLine);
 
-* Identify the initial source for the package
+* To Exit Or Not To Exit
 
-  Several implementations exists and should be researched before finalizing the design:
+  You happily printed a while but now your application blocks - your printing subprocess
+  hangs for some obvious or not so obvious reasons. Starting is easy but what to do with a run-away
+  Acrobat Reader. Luckily commons-exec provides a watchdog doing the work for you and here is
+  the improved code
 
- * Ant 1.X contains probably the most mature code within the exec task. This code has been stripped of the
-   Ant specifics and cleaned up by Niklas Gustavsson and can be donated under the ASF license.
+  CommandLine commandLine = CommandLine.parse("AcroRd32.exe /p /h /temp/document.pdf");
+  ExecuteWatchdog watchdog = new ExecuteWatchdog(printTimeout);
+  DefaultExecutor executor = new DefaultExecutor();
+  executor.setWatchdog(watchdog);
+  executor.setExitValue(1);
+  int exitValue = executor.execute(commandLine);
 
- * Ideas from {{{http://ant.apache.org/ant2/actionlist.html#exec} Ant2}}
-
- * plexus-utils has a similar but slimmer BSD-licensed implementation than Ant that can be reused
 
