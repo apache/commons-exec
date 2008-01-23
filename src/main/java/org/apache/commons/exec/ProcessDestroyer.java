@@ -51,10 +51,10 @@ public interface ProcessDestroyer {
 	 */
 	boolean remove(Process process);
 
-  /**
-   * Returns the number of registered processes.
-   *
-   * @return the number of register process
-   */
-  int size();
+    /**
+     * Returns the number of registered processes.
+     *
+     * @return the number of register process
+     */
+    int size();
 }
