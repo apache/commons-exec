@@ -76,7 +76,7 @@ public interface Executor {
      * Returns process exit value
      */
     int execute(CommandLine command) throws ExecuteException, IOException; 
-    int execute(CommandLine command, Map environment) throws ExecuteException, IOException; 
+    int execute(CommandLine command, Map environment) throws ExecuteException, IOException;
     
     /*
      * Methods for starting asynchronous execution. Result provided to callback handler
