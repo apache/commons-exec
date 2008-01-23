@@ -77,8 +77,8 @@ public class DefaultProcessingEnvironment {
     protected Map createProcEnvironment() throws IOException {
         if (procEnvironment == null) {
             try {
-                Method getenvs = System.class.getMethod( "getenv", null );
-                Map env = (Map) getenvs.invoke( null, null );
+                Method getenvs = System.class.getMethod( "getenv", (java.lang.Class[]) null );
+                Map env = (Map) getenvs.invoke( null, (java.lang.Object[]) null );
                 procEnvironment = new HashMap( env );
             } catch ( NoSuchMethodException e ) {
                 // ok, just not on JDK 1.5
