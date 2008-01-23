@@ -26,62 +26,63 @@ import java.util.Vector;
  */
 public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable {
 
-	private final Vector processes = new Vector();
+    /** the list of currently running processes */
+    private final Vector processes = new Vector();
 
-	private ProcessDestroyerImpl destroyProcessThread = null;
+    /** The thread registered at the JVM to execute the shutdown handler */
+    private ProcessDestroyerImpl destroyProcessThread = null;
 
-    /**
-     * Whether or not this ProcessDestroyer has been registered as a shutdown hook
-     */
-	private boolean added = false;
+    /** Whether or not this ProcessDestroyer has been registered as a shutdown hook */
+    private boolean added = false;
 
     /**
      * Whether or not this ProcessDestroyer is currently running as shutdown hook
      */
-	private boolean running = false;
+  	private boolean running = false;
 
-	private class ProcessDestroyerImpl extends Thread {
-		private boolean shouldDestroy = true;
+    private class ProcessDestroyerImpl extends Thread {
 
-		public ProcessDestroyerImpl() {
-			super("ProcessDestroyer Shutdown Hook");
-		}
+        private boolean shouldDestroy = true;
 
-		public void run() {
-			if (shouldDestroy) {
-				ShutdownHookProcessDestroyer.this.run();
-			}
-		}
+        public ProcessDestroyerImpl() {
+            super("ProcessDestroyer Shutdown Hook");
+        }
 
-		public void setShouldDestroy(final boolean shouldDestroy) {
-			this.shouldDestroy = shouldDestroy;
-		}
-	}
+        public void run() {
+            if (shouldDestroy) {
+                ShutdownHookProcessDestroyer.this.run();
+            }
+        }
 
-	/**
-	 * Constructs a <code>ProcessDestroyer</code> and obtains
-	 * <code>Runtime.addShutdownHook()</code> and
-	 * <code>Runtime.removeShutdownHook()</code> through reflection. The
-	 * ProcessDestroyer manages a list of processes to be destroyed when the VM
-	 * exits. If a process is added when the list is empty, this
-	 * <code>ProcessDestroyer</code> is registered as a shutdown hook. If
-	 * removing a process results in an empty list, the
-	 * <code>ProcessDestroyer</code> is removed as a shutdown hook.
-	 */
-	public ShutdownHookProcessDestroyer() {
-	}
+        public void setShouldDestroy(final boolean shouldDestroy) {
+            this.shouldDestroy = shouldDestroy;
+        }
+    }
 
-	/**
-	 * Registers this <code>ProcessDestroyer</code> as a shutdown hook, uses
-	 * reflection to ensure pre-JDK 1.3 compatibility.
-	 */
-	private void addShutdownHook() {
-		if (!running) {
-			destroyProcessThread = new ProcessDestroyerImpl();
-			Runtime.getRuntime().addShutdownHook(destroyProcessThread);
-			added = true;
-		}
-	}
+    /**
+     * Constructs a <code>ProcessDestroyer</code> and obtains
+     * <code>Runtime.addShutdownHook()</code> and
+     * <code>Runtime.removeShutdownHook()</code> through reflection. The
+     * ProcessDestroyer manages a list of processes to be destroyed when the VM
+     * exits. If a process is added when the list is empty, this
+     * <code>ProcessDestroyer</code> is registered as a shutdown hook. If
+     * removing a process results in an empty list, the
+     * <code>ProcessDestroyer</code> is removed as a shutdown hook.
+     */
+    public ShutdownHookProcessDestroyer() {
+    }
+
+    /**
+     * Registers this <code>ProcessDestroyer</code> as a shutdown hook, uses
+     * reflection to ensure pre-JDK 1.3 compatibility.
+     */
+    private void addShutdownHook() {
+        if (!running) {
+            destroyProcessThread = new ProcessDestroyerImpl();
+            Runtime.getRuntime().addShutdownHook(destroyProcessThread);
+            added = true;
+        }
+    }
 
 	/**
 	 * Removes this <code>ProcessDestroyer</code> as a shutdown hook, uses
@@ -155,13 +156,13 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
 	 *         successfully removed
 	 */
 	public boolean remove(final Process process) {
-		synchronized (processes) {
-			boolean processRemoved = processes.removeElement(process);
-			if (processRemoved && processes.size() == 0) {
-				removeShutdownHook();
-			}
-			return processRemoved;
-		}
+        synchronized (processes) {
+            boolean processRemoved = processes.removeElement(process);
+            if (processRemoved && processes.size() == 0) {
+                removeShutdownHook();
+            }
+            return processRemoved;
+        }
 	}
 
   /**
@@ -176,19 +177,19 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
   /**
 	 * Invoked by the VM when it is exiting.
 	 */
-	public void run() {
-		synchronized (processes) {
-			running = true;
-			Enumeration e = processes.elements();
-			while (e.hasMoreElements()) {
-        Process process = (Process) e.nextElement();
-        try {
-          process.destroy();
-        }
-        catch(Throwable t) {
-          System.err.println("Unable to terminate process during process shutdown");
-        }
+  public void run() {
+      synchronized (processes) {
+          running = true;
+          Enumeration e = processes.elements();
+          while (e.hasMoreElements()) {
+              Process process = (Process) e.nextElement();
+              try {
+                  process.destroy();
+              }
+              catch (Throwable t) {
+                  System.err.println("Unable to terminate process during process shutdown");
+              }
+          }
       }
-		}
-	}
+  }
 }
