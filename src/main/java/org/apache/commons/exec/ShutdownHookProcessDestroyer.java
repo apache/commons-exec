@@ -93,8 +93,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
 			boolean removed = Runtime.getRuntime().removeShutdownHook(
 					destroyProcessThread);
 			if (!removed) {
-				// System.err.println("Could not remove shutdown hook");
-				// TODO should we just ignore?
+				System.err.println("Could not remove shutdown hook");
 			}
 			/*
 			 * start the hook thread, a unstarted thread may not be eligible for
