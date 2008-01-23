@@ -18,8 +18,24 @@
 
 package org.apache.commons.exec;
 
+/**
+ * The callback handlers for asynchronous execution.
+ *
+ * @see org.apache.commons.exec.Executor#execute(CommandLine, java.util.Map, ExecuteResultHandler) 
+ */
 public interface ExecuteResultHandler {
 
+  /**
+   * The asynchronous exection completed.
+   *
+   * @param exitValue the exit value of the subprocess
+   */
     void onProcessComplete(int exitValue);
+
+  /**
+   * The asynchronous exection failed.
+   *
+   * @param e the <code>ExecuteException</code> containing the root cause
+   */
     void onProcessFailed(ExecuteException e);
 }
