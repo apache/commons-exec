@@ -179,11 +179,8 @@ public class DefaultExecutor implements Executor {
              */
             public void run() {
                 int exitValue = Executor.INVALID_EXITVALUE;
-                try {
-                    
+                try {                    
                     exitValue = executeInternal(command, environment, workingDirectory, streamHandler);
-
-                    // TODO check exitValue and throw if not OK
                     handler.onProcessComplete(exitValue);
                 } catch (ExecuteException e) {
                     handler.onProcessFailed(e);
