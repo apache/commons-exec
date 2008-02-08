@@ -43,7 +43,7 @@
     </javac>
   </target>
 
-  <target name="jar" depends="compile,test" description="Clean the JAR">
+  <target name="jar" depends="compile,test" description="Build the JAR">
     <jar jarfile="${maven.build.directory}/${maven.build.final.name}.jar" basedir="${maven.build.output}" excludes="**/package.html"/>
   </target>
 
