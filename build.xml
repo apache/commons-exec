@@ -64,6 +64,8 @@
     <mkdir dir="${maven.test.reports}"/>
     <junit printSummary="yes" haltonerror="true" haltonfailure="true" fork="true" dir=".">
       <sysproperty key="basedir" value="."/>
+      <sysproperty key="COMMONS_EXEC_DEBUG" value="true"/>
+      <sysproperty key="COMMONS_EXEC_LENIENT" value="false"/>
       <formatter type="xml"/>
       <formatter type="plain" usefile="false"/>
       <classpath>

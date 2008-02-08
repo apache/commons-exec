@@ -18,6 +18,8 @@
 
 package org.apache.commons.exec;
 
+import org.apache.commons.exec.util.DebugUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -124,7 +126,8 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
             try {
                 os.close();
             } catch (IOException e) {
-                // ignore
+                String msg = "Got exception while closing output stream";
+                DebugUtils.handleException(msg ,e);
             }
         }
     }
@@ -166,12 +169,14 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
         try {
             err.flush();
         } catch (IOException e) {
-            // ignore
+            String msg = "Got exception while flushing the error stream";
+            DebugUtils.handleException(msg ,e);
         }
         try {
             out.flush();
         } catch (IOException e) {
-            // ignore
+            String msg = "Got exception while flushing the output stream";
+            DebugUtils.handleException(msg ,e);
         }
     }
 

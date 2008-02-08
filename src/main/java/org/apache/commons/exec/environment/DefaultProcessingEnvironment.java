@@ -130,11 +130,8 @@ public class DefaultProcessingEnvironment {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         Executor exe = new DefaultExecutor();
         exe.setStreamHandler(new PumpStreamHandler(out));
-
-        int retval = exe.execute(getProcEnvCommand(), new HashMap());
-        if (retval != 0) {
-            // Just try to use what we got
-        }
+        // ignore the exit value - Just try to use what we got
+        exe.execute(getProcEnvCommand(), new HashMap());
         return new BufferedReader(new StringReader(toString(out)));
     }
 

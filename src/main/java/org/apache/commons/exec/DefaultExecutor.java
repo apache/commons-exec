@@ -263,8 +263,12 @@ public class DefaultExecutor implements Executor {
     }
 
     /**
-     * Close the streams belonging to the given Process.
-     *
+     * Close the streams belonging to the given Process. In the
+     * original implementation all exceptions were dropped which
+     * is probably not a good thing. On the other hand the signature
+     * allows throwing an IOException so the curent implementation
+     * might be quite okay.
+     * 
      * @param process the <CODE>Process</CODE>.
      * @throws IOException closing one of the three streams failed
      */

@@ -24,6 +24,9 @@
   </properties>
   <body>
     <release version="1.0-SNAPSHOT" date="as in SVN" description="Sandbox release">
+      <action dev="sgoeschl" type="add">
+        Added DebugUtils to improve cross-platform testing.
+      </action>
       <action dev="sgoeschl" type="remove">
         Removed commons-logging integration
       </action>

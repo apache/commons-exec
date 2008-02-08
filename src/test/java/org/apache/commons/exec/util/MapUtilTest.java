@@ -18,7 +18,6 @@
 
 package org.apache.commons.exec.util;
 
-import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.environment.EnvironmentUtil;
 
 import java.util.HashMap;

@@ -21,6 +21,7 @@
   <body>
     <menu name="Commons Exec">
       <item name="Overview" href="/index.html" />
+      <item name="Tutorial" href="/tutorial.html" />
     </menu>
   </body>
 </site>
