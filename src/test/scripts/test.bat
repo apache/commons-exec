@@ -1,4 +1,5 @@
-@echo off
+@ECHO OFF
+
 REM
 REM Licensed to the Apache Software Foundation (ASF) under one or more
 REM contributor license agreements.  See the NOTICE file distributed with
@@ -17,4 +18,4 @@ REM limitations under the License.
 REM
 REM
 
-@echo FOO.%TEST_ENV_VAR%.%1
+@ECHO FOO.%TEST_ENV_VAR%.%1

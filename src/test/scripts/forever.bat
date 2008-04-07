@@ -1,3 +1,5 @@
+@ECHO OFF
+
 REM Little batch file to run nearly foerver
 REM see http://malektips.com/dos0017.html
 REM
