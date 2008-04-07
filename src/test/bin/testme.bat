@@ -16,4 +16,5 @@
 @REM limitations under the License.
 @REM
 
+MKDIR target
 %JAVA_HOME%\bin\java -cp .\lib\junit-3.8.1.jar;.\lib\exec-test-1.0-SNAPSHOT.jar;.\lib\exec-1.0-SNAPSHOT.jar org.apache.commons.exec.TestRunner
