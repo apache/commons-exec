@@ -295,40 +295,8 @@ public class DefaultExecutorTest extends TestCase {
      * Test the proper handling of ProcessDestroyer for an asynchronous process.
      * Since we do not terminate the process it will be terminated in the
      * ShutdownHookProcessDestroyer implementation
-     *
-     * xxx
      */
-    public void testExecuteAsyncWithProcessDestroyer1() throws Exception {
-
-      CommandLine cl = new CommandLine(foreverTestScript);
-      MockExecuteResultHandler handler = new MockExecuteResultHandler();
-      ShutdownHookProcessDestroyer processDestroyer = new ShutdownHookProcessDestroyer();
-      ExecuteWatchdog watchdog = new ExecuteWatchdog(Integer.MAX_VALUE);
-
-      assertTrue(exec.getProcessDestroyer() == null);      
-      assertTrue(processDestroyer.size() == 0);
-      assertTrue(processDestroyer.isAddedAsShutdownHook() == false);
-
-      exec.setWatchdog(watchdog);
-      exec.setProcessDestroyer(processDestroyer);
-      exec.execute(cl, handler);
-
-      // wait for script to run
-      Thread.sleep(2000);
-      assertNotNull(exec.getProcessDestroyer());      
-      assertTrue(processDestroyer.size() == 1);
-      assertTrue(processDestroyer.isAddedAsShutdownHook() == true);
-
-      watchdog.destroyProcess();
-      assertTrue(watchdog.killedProcess());        
-    }
-
-    /**
-     * Test the proper handling of ProcessDestroyer for an asynchronous process.
-     * Since we do not terminate the process it will be terminated in the
-     * ShutdownHookProcessDestroyer implementation
-     */
-    public void _testExecuteAsyncWithProcessDestroyer2() throws Exception {
+    public void testExecuteAsyncWithProcessDestroyer() throws Exception {
 
       CommandLine cl = new CommandLine(foreverTestScript);
       MockExecuteResultHandler handler = new MockExecuteResultHandler();
@@ -349,7 +317,7 @@ public class DefaultExecutorTest extends TestCase {
       assertTrue(processDestroyer.size() == 1);
       assertTrue(processDestroyer.isAddedAsShutdownHook() == true);
 
-      // teminate it
+      // teminate it and the process destroyer is detached
       watchdog.destroyProcess();
       assertTrue(watchdog.killedProcess());
       Thread.sleep(100);
