@@ -106,6 +106,7 @@
     <jar jarfile="${maven.build.directory}/dist/lib/${maven.build.final.name}.jar" basedir="${maven.build.output}" excludes="**/package.html"/>
     <!-- copy the scripts -->
     <copy file="${basedir}/src/test/bin/testme.sh" todir="${maven.build.directory}/dist"/>
+    <copy file="${basedir}/src/test/bin/testme.bat" todir="${maven.build.directory}/dist"/>
     <copy todir="${maven.build.directory}/dist/src/test/scripts">
       <fileset dir="${basedir}/src/test/scripts"/>
     </copy>

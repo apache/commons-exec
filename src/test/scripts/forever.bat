@@ -18,4 +18,7 @@ REM WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 REM See the License for the specific language governing permissions and
 REM limitations under the License.
 
-@ping 127.0.0.1 -n 3600 -w 1000 > .\target\forever.txt
+:LOOP
+  ECHO .
+  PAUSE
+GOTO LOOP
