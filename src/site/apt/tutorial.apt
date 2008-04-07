@@ -43,33 +43,51 @@ Jakarta Commons Exec
   seems to be a good option.
 
   The command line under Windows should look like "AcroRd32.exe /p /h file" assuming that the
-  Acrobat Reader is fond in the path.
+  Acrobat Reader is found in the path.
 
-  CommandLine commandLine = CommandLine.parse("AcroRd32.exe /p /h /temp/document.pdf");
-  DefaultExecutor executor = new DefaultExecutor();
-  int exitValue = executor.execute(commandLine);
++----------------------------------------------------------------------------
+String line = "AcroRd32.exe /p /h " + file.getAbsolutePath()
+CommandLine commandLine = CommandLine.parse(line);
+DefaultExecutor executor = new DefaultExecutor();
+int exitValue = executor.execute(commandLine);
++----------------------------------------------------------------------------
 
   You successfuly printed your first PDF document but at the end an exception is thrown - what
   happpend? Mhhmm, Acrobat Reader returned an exit value of '1' on success which is usually
-  considered as an exection failure. So we have to tweak our code to fix this odd behaviour
+  considered as an execution failure. So we have to tweak our code to fix this odd behaviour
 
-  CommandLine commandLine = CommandLine.parse("AcroRd32.exe /p /h /temp/document.pdf");
-  DefaultExecutor executor = new DefaultExecutor();
-  executor.setExitValue(1);
-  int exitValue = executor.execute(commandLine);
++----------------------------------------------------------------------------
+String line = "AcroRd32.exe /p /h " + file.getAbsolutePath()
+CommandLine commandLine = CommandLine.parse(line);
+DefaultExecutor executor = new DefaultExecutor();
+executor.setExitValue(1);
+int exitValue = executor.execute(commandLine);
++----------------------------------------------------------------------------
 
-* To Exit Or Not To Exit
+* To Watchdog Or Not To Watchdog
 
   You happily printed a while but now your application blocks - your printing subprocess
   hangs for some obvious or not so obvious reasons. Starting is easy but what to do with a run-away
-  Acrobat Reader. Luckily commons-exec provides a watchdog doing the work for you and here is
+  Acrobat Reader?! Luckily commons-exec provides a watchdog doing the work for you and here is
   the improved code
 
-  CommandLine commandLine = CommandLine.parse("AcroRd32.exe /p /h /temp/document.pdf");
-  ExecuteWatchdog watchdog = new ExecuteWatchdog(printTimeout);
-  DefaultExecutor executor = new DefaultExecutor();
-  executor.setWatchdog(watchdog);
-  executor.setExitValue(1);
-  int exitValue = executor.execute(commandLine);
++----------------------------------------------------------------------------
+String line = "AcroRd32.exe /p /h " + file.getAbsolutePath()
+CommandLine commandLine = CommandLine.parse(line);
+ExecuteWatchdog watchdog = new ExecuteWatchdog(printTimeout);
+DefaultExecutor executor = new DefaultExecutor();
+executor.setWatchdog(watchdog);
+executor.setExitValue(1);
+int exitValue = executor.execute(commandLine);
++----------------------------------------------------------------------------
 
+* Quoting Is Your Friend
 
+  Well, the code worked for quite a while until a new customer complained that
+  no documents are printed. It took half a day to find out that the following file
+  "C:\Document And Settings\documents\432432.pdf" was not printable. Due to the
+  spaces and without further quoting the command line fell apart.
+
++----------------------------------------------------------------------------
+> AcroRd32.exe /p /h C:\Document And Settings\documents\432432.pdf
++----------------------------------------------------------------------------

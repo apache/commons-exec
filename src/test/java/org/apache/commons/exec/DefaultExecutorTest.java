@@ -295,6 +295,8 @@ public class DefaultExecutorTest extends TestCase {
      * Test the proper handling of ProcessDestroyer for an asynchronous process.
      * Since we do not terminate the process it will be terminated in the
      * ShutdownHookProcessDestroyer implementation
+     *
+     * xxx
      */
     public void testExecuteAsyncWithProcessDestroyer1() throws Exception {
 
@@ -316,6 +318,9 @@ public class DefaultExecutorTest extends TestCase {
       assertNotNull(exec.getProcessDestroyer());      
       assertTrue(processDestroyer.size() == 1);
       assertTrue(processDestroyer.isAddedAsShutdownHook() == true);
+
+      watchdog.destroyProcess();
+      assertTrue(watchdog.killedProcess());        
     }
 
     /**
@@ -323,7 +328,7 @@ public class DefaultExecutorTest extends TestCase {
      * Since we do not terminate the process it will be terminated in the
      * ShutdownHookProcessDestroyer implementation
      */
-    public void testExecuteAsyncWithProcessDestroyer2() throws Exception {
+    public void _testExecuteAsyncWithProcessDestroyer2() throws Exception {
 
       CommandLine cl = new CommandLine(foreverTestScript);
       MockExecuteResultHandler handler = new MockExecuteResultHandler();
