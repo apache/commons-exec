@@ -25,6 +25,15 @@
   <body>
     <release version="1.0-SNAPSHOT" date="as in SVN" description="Sandbox release">
       <action dev="sgoeschl" type="add">
+        The ant target "test-zip" creates a test distributable which
+        allows running the regression tests without having ANT or
+        M2 installed.
+      </action>
+      <action dev="sgoeschl" type="add">
+        The regression tests now also works on Windows - so it should
+        work now on Linux, Windows and Mac OS X
+      </action>
+      <action dev="sgoeschl" type="add">
         Added DebugUtils to improve cross-platform testing.
       </action>
       <action dev="sgoeschl" type="remove">
