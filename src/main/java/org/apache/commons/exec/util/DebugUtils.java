@@ -31,14 +31,14 @@ public class DebugUtils
      * exceptions found in the original code. The default value
      * is "true"
      */
-    public static final String COMMONS_EXEC_LENIENT = "COMMONS_EXEC_LENIENT";
+    public static final String COMMONS_EXEC_LENIENT = "org.apache.commons.exec.lenient";
 
     /**
      * System property to determine how to dump an exception. When
      * set to "true" we print any exception to stderr. The default
      * value is "false"
      */
-    public static final String COMMONS_EXEC_DEBUG = "COMMONS_EXEC_DEBUG";
+    public static final String COMMONS_EXEC_DEBUG = "org.apache.commons.exec.debug";
 
     /**
      * Handle an exception based on the system properties.
@@ -70,7 +70,7 @@ public class DebugUtils
      * @return true if debug mode is enabled
      */
     public static boolean isDebugEnabled() {
-        return "true".equalsIgnoreCase(System.getProperty("COMMONS_EXEC_DEBUG", "false"));
+        return "true".equalsIgnoreCase(System.getProperty(COMMONS_EXEC_DEBUG, "false"));
     }
 
     /**
@@ -79,7 +79,7 @@ public class DebugUtils
      * @return true if lenient mode is enabled
      */
     public static boolean isLenientEnabled() {
-        return "true".equalsIgnoreCase(System.getProperty("COMMONS_EXEC_LENIENT", "true"));
+        return "true".equalsIgnoreCase(System.getProperty(COMMONS_EXEC_LENIENT, "true"));
     }
 
 }
