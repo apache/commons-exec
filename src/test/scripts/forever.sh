@@ -22,6 +22,5 @@
 while test "notempty"
 do
   sleep 1
-  echo -n . 
-  # echo -n . >> ./target/forever.txt
+  echo '.\c' >> ./target/forever.txt
 done
