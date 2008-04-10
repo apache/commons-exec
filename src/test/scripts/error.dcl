@@ -19,6 +19,7 @@ $!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 $!
 $! do something and return an error result code
 $!
-$ write sys$output "FOO.''TEST_ENV_VAR'.''P1'"
+$ ENV_VAR=f$trnlnm("TEST_ENV_VAR")
+$ write sys$output "FOO.''ENV_VAR'.''P1'"
 $!
 $ exit 2 ! this is an Error
