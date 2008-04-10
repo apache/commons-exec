@@ -97,8 +97,9 @@
     <echo> JUnit isn't present in your classpath. Tests not executed. </echo>
     <echo>==========================================================================</echo>
   </target>
-  
-  <target name="test-zip" depends="clean, compile, junit-present, compile-tests" description="Create a zip containing the test environment">
+
+  <!-- Starts preparing a test distribution -->
+  <target name="test-distribution-prepare" depends="clean, compile, junit-present, compile-tests">
     <mkdir dir="${maven.build.directory}/dist/lib"/>
     <!-- create the libraries -->
     <copy file="${maven.repo.local}/junit/junit/3.8.1/junit-3.8.1.jar" todir="${maven.build.directory}/dist/lib"/>
@@ -110,11 +111,27 @@
     <copy todir="${maven.build.directory}/dist/src/test/scripts">
       <fileset dir="${basedir}/src/test/scripts"/>
     </copy>
-    <!-- build the zip file -->
+    <!-- make the script files executable -->
+    <chmod dir="${maven.build.directory}/dist" perm="u+x" includes="**/*.sh"/>
+  </target>
+  
+  <!-- Create a zip containing the test environment -->
+  <target name="test-distribution-zip" depends="test-distribution-prepare">
     <zip destfile="${maven.build.directory}/exec-test-${maven.build.version}.zip">
       <fileset dir="${maven.build.directory}/dist">
         <filename name="**/*.*"/>
       </fileset>
     </zip>
   </target>
+
+  <!-- Create a tar.gz containing the test environment -->
+  <target name="test-distribution-tar" depends="test-distribution-prepare">
+    <tar tarfile="${maven.build.directory}/dist/exec-test-${maven.build.version}.tar" basedir="${maven.build.directory}/dist"/>
+    <gzip zipfile="${maven.build.directory}/exec-test-${maven.build.version}.tar.gz" src="${maven.build.directory}/dist/exec-test-${maven.build.version}.tar"/>
+    <delete file="${maven.build.directory}/dist/exec-test-${maven.build.version}.tar"/>
+  </target>
+
+  <target name="test-distribution" depends="test-distribution-zip, test-distribution-tar" description="Creates a test distribution">
+  </target>
+  
 </project>
