@@ -98,7 +98,7 @@
     <echo>==========================================================================</echo>
   </target>
   
-  <target name="test-zip" depends="compile, junit-present, compile-tests" description="Create a zip containing the test environment">
+  <target name="test-zip" depends="clean, compile, junit-present, compile-tests" description="Create a zip containing the test environment">
     <mkdir dir="${maven.build.directory}/dist/lib"/>
     <!-- create the libraries -->
     <copy file="${maven.repo.local}/junit/junit/3.8.1/junit-3.8.1.jar" todir="${maven.build.directory}/dist/lib"/>
@@ -111,7 +111,7 @@
       <fileset dir="${basedir}/src/test/scripts"/>
     </copy>
     <!-- build the zip file -->
-    <zip destfile="${maven.build.directory}/exec-${maven.build.version}.zip">
+    <zip destfile="${maven.build.directory}/exec-test-${maven.build.version}.zip">
       <fileset dir="${maven.build.directory}/dist">
         <filename name="**/*.*"/>
       </fileset>
