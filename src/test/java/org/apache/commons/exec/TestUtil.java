@@ -34,6 +34,8 @@ public final class TestUtil {
             return new File(script + ".bat");
         } else if (OS.isFamilyUnix()) {
             return new File(script + ".sh");
+        } else if (OS.isFamilyOpenVms()) {
+            return new File(script + ".dcl");
         } else {
             throw new AssertionFailedError("Test not supported for this OS");
         }
