@@ -18,7 +18,7 @@ REM WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 REM See the License for the specific language governing permissions and
 REM limitations under the License.
 
-@ECHO OFF
+REM run an infinite loop so the script will never ever terminate on its behalf
 
 :LOOP
   ECHO . > .\target\forever.txt

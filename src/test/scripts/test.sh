@@ -17,4 +17,7 @@
 # limitations under the License.
 #
 
+# print the given environment variable and command line parameter
+# since this is verified by the regression test
+
 echo FOO.$TEST_ENV_VAR.$1

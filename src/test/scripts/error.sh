@@ -18,6 +18,7 @@
 # 
 #
 
-echo FOO.$TEST_ENV_VAR.$1
+# do something and return en error result code
 
+echo FOO.$TEST_ENV_VAR.$1
 exit 1

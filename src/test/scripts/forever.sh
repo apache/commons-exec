@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+# run an infinite loop so the script will never ever terminate on its behalf
+
 while test "notempty"
 do
   sleep 1
