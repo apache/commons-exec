@@ -95,6 +95,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
                 out.println(" -");
                 out.print(args[i]);
             }
+            out.println();
         } finally {
             if (out != null) {
                 out.close();
