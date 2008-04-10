@@ -19,9 +19,9 @@
 package org.apache.commons.exec;
 
 /**
- * Destroys all registered @link java.lang.Process after a certain event,
+ * Destroys all registered {@link java.lang.Process} after a certain event,
  * typically when the VM exits 
- * (@see org.apache.commons.exec.ShutdownHookProcessDestroyer).
+ * @see org.apache.commons.exec.ShutdownHookProcessDestroyer
  */
 public interface ProcessDestroyer {
 
