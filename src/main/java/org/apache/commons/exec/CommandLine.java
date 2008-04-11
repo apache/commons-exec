@@ -51,6 +51,8 @@ public class CommandLine {
      */
     private Map substitutionMap;
 
+    private final boolean isFile;
+
     /**
      * Create a command line from a string.
      * 
@@ -99,6 +101,7 @@ public class CommandLine {
      * @param executable the executable
      */
     public CommandLine(String executable) {
+        this.isFile=false;
         setExecutable(executable);
     }
 
@@ -108,6 +111,7 @@ public class CommandLine {
      * @param  executable the executable 
      */
     public CommandLine(File executable) {
+        this.isFile=true;
         setExecutable(executable.getAbsolutePath());
     }
 
@@ -118,6 +122,10 @@ public class CommandLine {
      */
     public String getExecutable() {
         return this.expandArgument(executable);
+    }
+
+    public boolean isFile(){
+        return isFile;
     }
 
     /**

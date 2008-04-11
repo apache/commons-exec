@@ -28,6 +28,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.util.StringUtils;
 
 /**
  * A command launcher for VMS that writes the command to a temporary DCL script
@@ -89,7 +90,25 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
                 }
             }
 
-            out.print("$ " + cmd.getExecutable());
+            final String command = cmd.getExecutable();
+            if (cmd.isFile()){// We assume it is it a script file
+                out.print("$ @");
+                // This is a bit crude, but seems to work
+                String parts[] = StringUtils.split(command,"/");
+                out.print(parts[0]); // device
+                out.print(":[");
+                out.print(parts[1]); // top level directory
+                final int lastPart = parts.length-1;
+                for(int i=2; i< lastPart; i++){
+                    out.print(".");
+                    out.print(parts[i]);
+                }
+                out.print("]");
+                out.print(parts[lastPart]);
+            } else {
+                out.print("$ ");
+                out.print(command);                
+            }
             String[] args = cmd.getArguments();
             for (int i = 0; i < args.length; i++) {
                 out.println(" -");
