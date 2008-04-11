@@ -22,4 +22,4 @@ $!
 $ ENV_VAR=f$trnlnm("TEST_ENV_VAR")
 $ write sys$output "FOO.''ENV_VAR'.''P1'"
 $!
-$ exit 2 ! this is an Error
+$ exit %x10000002 ! this is an Error, but does not print a message
