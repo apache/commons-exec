@@ -19,7 +19,10 @@
 package org.apache.commons.exec.util;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 /**
  * Supplement of commons-lang, the stringSubstitution() was in a simpler
@@ -126,5 +129,20 @@ public class StringUtils
       }
 
       return argBuf;
+  }
+  
+  /**
+   * Split a string into an array of strings
+   * @param input what to split
+   * @param splitChar what to split on
+   * @return the array of strings
+   */
+  public static String[] split(String input, String splitChar){
+      StringTokenizer tokens = new StringTokenizer(input, splitChar);
+      List strList=new ArrayList();
+      while (tokens.hasMoreTokens()) {
+          strList.add(tokens.nextToken());
+      }
+     return (String[])strList.toArray(new String[0]);
   }
 }
