@@ -64,6 +64,13 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
         return super.exec(vmsCmd, env, workingDir);
     }
 
+    /** @see org.apache.commons.exec.launcher.CommandLauncher#isFailure(int) */
+    public boolean isFailure( final int exitValue )
+    {
+        // even exit value signals failure
+        return (exitValue % 2) == 0;        
+    }
+
     /*
      * Writes the command into a temporary DCL script and returns the
      * corresponding File object. The script will be deleted on exit.

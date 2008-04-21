@@ -25,13 +25,13 @@ import java.util.Map;
 public interface Executor {
 
     /** Invalid exit code. * */
-    int INVALID_EXITVALUE = Integer.MAX_VALUE;
+    int INVALID_EXITVALUE = 0xdeadbeef;
 
     /*
      * Define the exit code of the process to considered
      * successful.
      */
-    void setExitValue(int value);
+    void setExitValue(final int value);
 
     /*
      * Define the exit code of the process to considered
@@ -42,7 +42,17 @@ public interface Executor {
      *  <li>null to indicate to skip checking of exit codes</li>
      * </ul>
      */
-    void setExitValues(int[] values);
+    void setExitValues(final int[] values);
+
+    /**
+     * Checks whether <code>exitValue</code> signals a failure. If no
+     * exit values are set than the default conventions of the OS is
+     * used. 
+     *
+     * @param exitValue the exit value (return code) to be checked
+     * @return <code>true</code> if <code>exitValue</code> signals a failure
+     */
+    boolean isFailure(final int exitValue);
 
     /*
      * StreamHandlers are used for providing input, 

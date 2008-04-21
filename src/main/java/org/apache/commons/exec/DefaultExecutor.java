@@ -192,47 +192,34 @@ public class DefaultExecutor implements Executor {
     }
 
 
-    /*
-     * Define the exit code of the process to considered
-     * successful.
-     */
-    public void setExitValue( int value ) {
+    /** @see org.apache.commons.exec.Executor#setExitValue(int) */
+    public void setExitValue(final int value) {
         this.setExitValues(new int[] {value});
     }
 
 
-    /*
-     * Define the exist code of the process to considered
-     * successful.
-     */
-    public void setExitValues( int[] values ) {
+    /** @see org.apache.commons.exec.Executor#setExitValues(int[]) */
+    public void setExitValues(final int[] values) {
         this.exitValues = values;
     }
 
-    /**
-     * Checks whether <code>exitValue</code> signals a failure on the current
-     * system (OS specific).
-     * <p>
-     * <b>Note</b> that this method relies on the conventions of the OS, it
-     * will return false results if the application you are running doesn't
-     * follow these conventions. One notable exception is the Java VM provided
-     * by HP for OpenVMS - it will return 0 if successful (like on any other
-     * platform), but this signals a failure on OpenVMS. So if you execute a new
-     * Java VM on OpenVMS, you cannot trust this method.
-     * </p>
-     * 
-     * @param exitValue
-     *            the exit value (return code) to be checked
-     * @return <code>true</code> if <code>exitValue</code> signals a failure
-     */
-    public static boolean isFailure(final int exitValue) {
-        if (OS.isFamilyOpenVms()) {
-            // even exit value signals failure
-            return (exitValue % 2) == 0;
-        } else {
-            // non zero exit value signals failure
-            return exitValue != 0;
+    /** @see org.apache.commons.exec.Executor#isFailure(int) */
+    public boolean isFailure(final int exitValue) {
+
+        if(this.exitValues == null) {
+            return false;
         }
+        else if(this.exitValues.length == 0) {
+            return this.launcher.isFailure(exitValue);
+        }
+        else {
+            for(int i=0; i<this.exitValues.length; i++) {
+                if(this.exitValues[i] == exitValue) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
@@ -358,7 +345,7 @@ public class DefaultExecutor implements Executor {
                 }
             }
 
-            if(!this.isSuccess(exitValue)) {
+            if(this.isFailure(exitValue)) {
                 throw new ExecuteException("Process exited with an error: " + exitValue, exitValue);
             }
 
@@ -369,23 +356,5 @@ public class DefaultExecutor implements Executor {
               this.getProcessDestroyer().remove(process);
             }
         }
-    }
-
-    private boolean isSuccess(final int exitValue) {
-
-        if(this.exitValues == null) {
-            return true;
-        }
-        else if(this.exitValues.length == 0) {
-            return !isFailure(exitValue);
-        }
-        else {
-            for(int i=0; i<this.exitValues.length; i++) {
-                if(this.exitValues[i] == exitValue) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 }

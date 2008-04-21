@@ -45,4 +45,11 @@ public abstract class CommandLauncherImpl implements CommandLauncher {
 
     public abstract Process exec(final CommandLine cmd, final Map env,
             final File workingDir) throws IOException;
+
+    /** @see org.apache.commons.exec.launcher.CommandLauncher#isFailure(int) */    
+    public boolean isFailure(final int exitValue)
+    {
+        // non zero exit value signals failure
+        return exitValue != 0;
+    }
 }

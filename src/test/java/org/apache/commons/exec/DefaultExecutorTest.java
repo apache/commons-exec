@@ -51,7 +51,7 @@ public class DefaultExecutorTest extends TestCase {
 
         int exitValue = exec.execute(cl);
         assertEquals("FOO..", baos.toString().trim());
-        assertEquals(0, exitValue);
+        assertFalse(exec.isFailure(exitValue));
     }
 
     public void testExecuteWithWorkingDirectory() throws Exception {
@@ -60,7 +60,7 @@ public class DefaultExecutorTest extends TestCase {
         exec.setWorkingDirectory(new File("."));
         int exitValue = exec.execute(cl);
         assertEquals("FOO..", baos.toString().trim());
-        assertEquals(0, exitValue);
+        assertFalse(exec.isFailure(exitValue));
         assertEquals(exec.getWorkingDirectory(), workingDir);
     }
 
@@ -84,7 +84,7 @@ public class DefaultExecutorTest extends TestCase {
             exec.execute(cl);
             fail("Must throw ExecuteException");
         } catch(ExecuteException e) {
-            assertEquals(1, e.getExitValue());
+            assertTrue(exec.isFailure(e.getExitValue()));
         }
     }
 
@@ -94,7 +94,7 @@ public class DefaultExecutorTest extends TestCase {
         int exitValue = exec.execute(cl);
 
         assertEquals("FOO..BAR", baos.toString().trim());
-        assertEquals(0, exitValue);
+        assertFalse(exec.isFailure(exitValue));
     }
 
     public void testExecuteWithEnv() throws Exception {
@@ -106,7 +106,7 @@ public class DefaultExecutorTest extends TestCase {
         int exitValue = exec.execute(cl, env);
 
         assertEquals("FOO.XYZ.", baos.toString().trim());
-        assertEquals(0, exitValue);
+        assertFalse(exec.isFailure(exitValue));
     }
 
     public void testExecuteAsync() throws Exception {
@@ -119,7 +119,7 @@ public class DefaultExecutorTest extends TestCase {
         // wait for script to run
         Thread.sleep(2000);
         
-        assertEquals(0, handler.getExitValue());
+        assertFalse(exec.isFailure(handler.getExitValue()));
         assertEquals("FOO..", baos.toString().trim());
     }
 
@@ -133,7 +133,7 @@ public class DefaultExecutorTest extends TestCase {
         // wait for script to run
         Thread.sleep(2000);
         
-        assertEquals(1, handler.getExitValue());
+        assertTrue(exec.isFailure(handler.getExitValue()));
         assertTrue(handler.getException() instanceof ExecuteException);
         assertEquals("FOO..", baos.toString().trim());
     }
@@ -237,7 +237,7 @@ public class DefaultExecutorTest extends TestCase {
             env.put("TEST_ENV_VAR", new Integer(i));
             CommandLine cl = new CommandLine(testScript);
             int exitValue = exec.execute(cl,env);
-            assertEquals(0, exitValue);
+            assertFalse(exec.isFailure(exitValue));
             assertEquals("FOO." + i + ".", baos.toString().trim());
             baos.reset();
         }
@@ -266,7 +266,7 @@ public class DefaultExecutorTest extends TestCase {
             exec.execute(cl);
             fail("Must throw ExecuteException");
         } catch(ExecuteException e) {
-            assertEquals(1, e.getExitValue());
+            assertTrue(exec.isFailure(e.getExitValue()));
             return;
         }
     }
@@ -286,7 +286,7 @@ public class DefaultExecutorTest extends TestCase {
       int exitValue = exec.execute(cl);
 
       assertEquals("FOO..", baos.toString().trim());
-      assertEquals(0, exitValue);
+      assertFalse(exec.isFailure(exitValue));
       assertTrue(processDestroyer.size() == 0);
       assertTrue(processDestroyer.isAddedAsShutdownHook() == false);
     }
