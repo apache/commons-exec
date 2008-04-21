@@ -24,10 +24,17 @@
   </properties>
   <body>
     <release version="1.0-SNAPSHOT" date="as in SVN" description="Sandbox release">
-      <action dev="sgoeschl" type="add">
-        The ant target "test-zip" creates a test distributable which
-        allows running the regression tests without having ANT or
-        M2 installed.
+      <action dev="sgoeschl" type="fix">
+        Implemented better regression test for OpenVMS affecting also
+        the Executor and CommandLauncher interface.
+      </action>
+      <action dev="sebb" type="add">
+        Added test scripts for OpenVMS - he seems to be the last human
+        having access to an OpenVMS box ... :-)
+      </action>
+      <action dev="sgoeschl" type="add" due-to="Simone Gianni,Bindul Bhowmik,Niall Pemberton,Sebastian Bazley">
+        With the help of the Apache Commons community I added the first results
+        of cross-OS testing.
       </action>
       <action dev="sgoeschl" type="add">
         The regression tests now also works on Windows - so it should
