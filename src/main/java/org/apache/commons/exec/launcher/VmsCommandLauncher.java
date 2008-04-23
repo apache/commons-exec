@@ -77,11 +77,11 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
      */
     private File createCommandFile(final CommandLine cmd, final Map env)
             throws IOException {
-        File script = File.createTempFile("ANT", ".COM");
+        File script = File.createTempFile("EXEC", ".TMP");
         script.deleteOnExit();
         PrintWriter out = null;
         try {
-            out = new PrintWriter(new FileWriter(script));
+            out = new PrintWriter(new FileWriter(script.getAbsolutePath(),true));
 
             // add the environment as logicals to the DCL script
             if (env != null) {
