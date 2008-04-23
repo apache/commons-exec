@@ -38,7 +38,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
     /**
      * Whether or not this ProcessDestroyer is currently running as shutdown hook
      */
-  	private boolean running = false;
+  	private volatile boolean running = false;
 
     private class ProcessDestroyerImpl extends Thread {
 
