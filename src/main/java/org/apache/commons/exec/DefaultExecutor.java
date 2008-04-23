@@ -237,16 +237,15 @@ public class DefaultExecutor implements Executor {
      */
     protected Process launch(final CommandLine command, final Map env,
             final File dir) throws IOException {
-        CommandLauncher launcher = this.launcher;
 
-        if (launcher == null) {
+        if (this.launcher == null) {
             throw new IllegalStateException("CommandLauncher can not be null");
         }
 
         if (dir != null && !dir.exists()) {
             throw new IOException(dir + " doesn't exist.");
         }
-        return launcher.exec(command, env, dir);
+        return this.launcher.exec(command, env, dir);
     }
 
     /**
