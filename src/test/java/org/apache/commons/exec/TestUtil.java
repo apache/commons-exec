@@ -41,6 +41,22 @@ public final class TestUtil {
         }
     }
     
+    /**
+     * Get success and fail return codes used by the test scripts
+     * @return int array[2] = {ok, success}
+     */
+    public static int[] getTestScriptCodesForOS() {
+        if (OS.isFamilyWindows()) {
+            return new int[]{0,1};
+        } else if (OS.isFamilyUnix()) {
+            return new int[]{0,1};
+        } else if (OS.isFamilyOpenVms()) {
+            return new int[]{1,2};
+        } else {
+            throw new AssertionFailedError("Test not supported for this OS");
+        }
+    }
+    
     
     public static void assertEquals(Object[] expected, Object[] actual, boolean orderSignificant) {
     	
