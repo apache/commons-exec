@@ -36,7 +36,15 @@ public class DefaultExecutorTest extends TestCase {
     private File foreverTestScript = TestUtil.resolveScriptForOS(testDir + "/forever");
     private File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir + "/grmpffffff");
 
-
+    // Get suitable exit codes for the OS
+    private static final int SUCCESS_STATUS; // test script successful exit code
+    private static final int ERROR_STATUS;   // test script error exit ccode
+    static{
+       int statuses[] = TestUtil.getTestScriptCodesForOS();
+       SUCCESS_STATUS=statuses[0];
+       ERROR_STATUS=statuses[1];
+    }
+    
     protected void setUp() throws Exception {
         baos = new ByteArrayOutputStream();
         exec.setStreamHandler(new PumpStreamHandler(baos, baos));
@@ -134,7 +142,7 @@ public class DefaultExecutorTest extends TestCase {
         Thread.sleep(2000);
         
         assertTrue(exec.isFailure(handler.getExitValue()));
-        assertTrue(handler.getException() instanceof ExecuteException);
+        assertNotNull(handler.getException());
         assertEquals("FOO..", baos.toString().trim());
     }
 
@@ -194,7 +202,8 @@ public class DefaultExecutorTest extends TestCase {
             fail(t.getMessage());    
         }
 
-        fail("Process was not killed");
+        assertTrue("Killed process should be true", executor.getWatchdog().killedProcess() );
+        fail("Process did not create Execute Exception when killed");
     }
 
     /**
@@ -223,8 +232,8 @@ public class DefaultExecutorTest extends TestCase {
         MockExecuteResultHandler handler = new MockExecuteResultHandler();
         exec.execute(cl, handler);
         Thread.sleep(2000);
-        assertEquals(Executor.INVALID_EXITVALUE, handler.getExitValue());
-        assertTrue(handler.getException() instanceof ExecuteException);
+        assertNotNull(handler.getException());
+        assertTrue(exec.isFailure(handler.getExitValue()));
     }
 
     /**
@@ -244,24 +253,22 @@ public class DefaultExecutorTest extends TestCase {
     }
 
     /**
-     * Invoke the error script but define that "1" is a good
+     * Invoke the error script but define that the ERROR_STATUS is a good
      * exit value and therefore no exception should be thrown.
      */
     public void testExecuteWithCustomExitValue1() throws Exception {
-        // consider "1" s good exit value
-        exec.setExitValue(1);
+        exec.setExitValue(ERROR_STATUS);
         CommandLine cl = new CommandLine(errorTestScript);
         exec.execute(cl);
     }
 
     /**
-     * Invoke the error script but define that "1" is a bad
-     * exit value and therefore no exception should be thrown.
+     * Invoke the error script but define that SUCCESS_STATUS is a bad
+     * exit value and therefore an exception should be thrown.
      */
     public void testExecuteWithCustomExitValue2() throws Exception {
-        // consider "2" s good exit value and fail
         CommandLine cl = new CommandLine(errorTestScript);
-        exec.setExitValue(2);
+        exec.setExitValue(SUCCESS_STATUS);
         try{
             exec.execute(cl);
             fail("Must throw ExecuteException");
@@ -313,9 +320,9 @@ public class DefaultExecutorTest extends TestCase {
 
       // wait for script to run
       Thread.sleep(2000);
-      assertNotNull(exec.getProcessDestroyer());      
-      assertTrue(processDestroyer.size() == 1);
-      assertTrue(processDestroyer.isAddedAsShutdownHook() == true);
+      assertNotNull("Process destroyer should exist",exec.getProcessDestroyer());      
+      assertEquals("process destroyer size should be 1",1,processDestroyer.size());
+      assertTrue(processDestroyer.isAddedAsShutdownHook());
 
       // teminate it and the process destroyer is detached
       watchdog.destroyProcess();
