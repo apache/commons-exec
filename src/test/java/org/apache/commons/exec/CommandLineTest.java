@@ -205,12 +205,18 @@ public class CommandLineTest extends TestCase {
         }
     }
 
-    public void _testParseComplexCommandLine1() throws Exception {
+
+    /**
+     * A command line parsing puzzle from Tino Schoellhorn - ImageMagix expects
+     * a "500x>" parameter (including quotes) and it is simply not possible to
+     * do that withoud adding a space, e.g. "500x> ".
+     */
+    public void testParseComplexCommandLine1() throws Exception {
         HashMap substitutionMap = new HashMap();
         substitutionMap.put("in", "source.jpg");
         substitutionMap.put("out", "target.jpg");
-        CommandLine cmdl = CommandLine.parse("cmd /C convert ${in} -resize \"\'500x>\'\" ${out}", substitutionMap);
-        assertEquals("cmd /C convert source.jpg -resize \"500x>\" target.jpg", cmdl.toString());
+        CommandLine cmdl = CommandLine.parse("cmd /C convert ${in} -resize \"\'500x> \'\" ${out}", substitutionMap);
+        assertEquals("cmd /C convert source.jpg -resize \"500x> \" target.jpg", cmdl.toString());
         return;
     }
 
