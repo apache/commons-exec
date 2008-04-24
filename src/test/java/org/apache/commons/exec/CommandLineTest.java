@@ -166,19 +166,19 @@ public class CommandLineTest extends TestCase {
         assertEquals(new String[] {"test"}, cmdl.toStrings());
     }
 
-    public void testParse() {
+    public void testParseCommandLine() {
         CommandLine cmdl = CommandLine.parse("test foo bar");
         assertEquals("test foo bar", cmdl.toString());
         assertEquals(new String[] {"test", "foo", "bar"}, cmdl.toStrings());
     }
 
-    public void testParseWithQuotes() {
+    public void testParseCommandLineWithQuotes() {
         CommandLine cmdl = CommandLine.parse("test \"foo\" \'ba r\'");
         assertEquals("test foo \"ba r\"", cmdl.toString());
         assertEquals(new String[] {"test", "foo", "\"ba r\""}, cmdl.toStrings());
     }
 
-    public void testParseWithUnevenQuotes() {
+    public void testParseCommandLineWithUnevenQuotes() {
         try {
             CommandLine.parse("test \"foo bar");
             fail("IllegalArgumentException must be thrown due to uneven quotes");
@@ -187,7 +187,7 @@ public class CommandLineTest extends TestCase {
         }
     }
 
-    public void testParseWithNull() {
+    public void testParseCommandLineWithNull() {
         try {
             CommandLine.parse(null);
             fail("IllegalArgumentException must be thrown due to incorrect command line");
@@ -196,13 +196,22 @@ public class CommandLineTest extends TestCase {
         }
     }
 
-    public void testParseWithOnlyWhitespace() {
+    public void testParseCommandLineWithOnlyWhitespace() {
         try {
             CommandLine.parse("  ");
             fail("IllegalArgumentException must be thrown due to incorrect command line");
         } catch (IllegalArgumentException e) {
             // Expected
         }
+    }
+
+    public void _testParseComplexCommandLine1() throws Exception {
+        HashMap substitutionMap = new HashMap();
+        substitutionMap.put("in", "source.jpg");
+        substitutionMap.put("out", "target.jpg");
+        CommandLine cmdl = CommandLine.parse("cmd /C convert ${in} -resize \"\'500x>\'\" ${out}", substitutionMap);
+        assertEquals("cmd /C convert source.jpg -resize \"500x>\" target.jpg", cmdl.toString());
+        return;
     }
 
    /**
