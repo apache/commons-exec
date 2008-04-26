@@ -160,7 +160,7 @@ public class DefaultExecutorTest extends TestCase {
         Thread.sleep(2000);
         // teminate it
         watchdog.destroyProcess();
-        assertTrue(watchdog.killedProcess());
+        assertTrue("Watchdog should have killed the process",watchdog.killedProcess());
     }
 
     /**
@@ -175,9 +175,9 @@ public class DefaultExecutorTest extends TestCase {
         exec.execute(cl, handler);
         // wait for script to be terminated by the watchdog
         Thread.sleep(6000);
-        // try to teminate the already terminated process
+        // try to terminate the already terminated process
         watchdog.destroyProcess();
-        assertTrue(watchdog.killedProcess());
+        assertTrue("Watchdog should have killed the process already",watchdog.killedProcess());
     }
 
     /**
@@ -321,14 +321,14 @@ public class DefaultExecutorTest extends TestCase {
       // wait for script to run
       Thread.sleep(2000);
       assertNotNull("Process destroyer should exist",exec.getProcessDestroyer());      
-      assertEquals("process destroyer size should be 1",1,processDestroyer.size());
-      assertTrue(processDestroyer.isAddedAsShutdownHook());
+      assertEquals("Process destroyer size should be 1",1,processDestroyer.size());
+      assertTrue("Process destroyer should exist as shutdown hook",processDestroyer.isAddedAsShutdownHook());
 
       // teminate it and the process destroyer is detached
       watchdog.destroyProcess();
       assertTrue(watchdog.killedProcess());
       Thread.sleep(100);
-      assertTrue(processDestroyer.size() == 0);
-      assertTrue(processDestroyer.isAddedAsShutdownHook() == false);
+      assertEquals("Processor Destroyer size should be 0",0,processDestroyer.size());
+      assertFalse("Process destroyer should not exist as shutdown hook",processDestroyer.isAddedAsShutdownHook());
     }
 }
