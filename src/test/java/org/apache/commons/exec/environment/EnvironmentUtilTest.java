@@ -44,7 +44,8 @@ public class EnvironmentUtilTest extends TestCase {
 
     /**
      * Test to access the environment variables of the current
-     * process.
+     * process. Please note that this test does not run on
+     * java-gjc 
      */
     public void testGetProcEnvironment() throws IOException {
         Map procEnvironment = EnvironmentUtil.getProcEnvironment();
