@@ -49,14 +49,12 @@ Jakarta Commons Exec
   execution on some operating systems. The package should aim for supporting a wide range of operating systems while
   still having a consistent API for all platforms.
 
-* Identify the initial source for the package
+* Status
 
-  Several implementations exists and should be researched before finalizing the design:
-
- * Ant 1.X contains probably the most mature code within the exec task. This code has been stripped of the
-   Ant specifics and cleaned up by Niklas Gustavsson and can be donated under the ASF license.
-
- * Ideas from {{{http://ant.apache.org/ant2/actionlist.html#exec} Ant2}}
-
- * plexus-utils has a similar but slimmer BSD-licensed implementation than Ant that can be reused
-
+  [[1]] This code is in the commons sandbox.
+  
+  [[2]] The code is unreleased.
+  
+  [[3]] Methods and classes can and will appear and disappear without warning.
+  
+  [[4]] If you like the code and want to push it towards a release, join the mailing list.
