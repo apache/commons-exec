@@ -24,7 +24,8 @@ import java.util.Iterator;
 
 /**
  * Helper classes to manipulate maps to pass substition map to the
- * CommandLine.
+ * CommandLine. This class is not part of the public API and
+ * could change without warning.
  *
  * @author <a href="mailto:siegfried.goeschl@it20one.at">Siegfried Goeschl</a>
  */

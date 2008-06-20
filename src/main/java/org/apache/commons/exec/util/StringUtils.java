@@ -26,7 +26,9 @@ import java.util.StringTokenizer;
 
 /**
  * Supplement of commons-lang, the stringSubstitution() was in a simpler
- * implementation available in an older commons-lang implementation
+ * implementation available in an older commons-lang implementation.
+ * This class is not part of the public API and could change without
+ * warning.
  *
  * @author <a href="mailto:siegfried.goeschl@it20one.at">Siegfried Goeschl</a>
  */
