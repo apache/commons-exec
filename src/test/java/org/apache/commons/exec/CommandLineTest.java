@@ -261,7 +261,7 @@ public class CommandLineTest extends TestCase {
     /**
      * Test expanding the command line based on a user-supplied map.
      */
-    public void testCommandLineParsingWithExpansion() {
+    public void testCommandLineParsingWithExpansion1() {
 
         CommandLine cmdl = null;
 
@@ -293,5 +293,36 @@ public class CommandLineTest extends TestCase {
         assertTrue(cmdl.getExecutable().indexOf("${JAVA_HOME}") < 0 );
         assertTrue(cmdl.getExecutable().indexOf("local") > 0 );
         assertEquals(new String[] {"${appMainClass}"}, cmdl.getArguments());
-    }    
+    }
+
+    /**
+     * Test expanding the command line based on a user-supplied map.
+     */
+    public void testCommandLineParsingWithExpansion2() throws Exception {
+
+        CommandLine cmdl = null;
+        String[] result = null;
+
+        HashMap substitutionMap = new HashMap();
+        substitutionMap.put("JAVA_HOME", "C:\\Programme\\jdk1.5.0_12");
+        substitutionMap.put("appMainClass", "foo.bar.Main");
+
+        // build the command line
+        cmdl = new CommandLine("${JAVA_HOME}\\bin\\java");
+        cmdl.addArguments("-class");
+        cmdl.addArguments("${appMainClass}");
+        cmdl.addArguments("${file}");
+
+        // build the first command line
+        substitutionMap.put("file", "C:\\Document And Settings\\documents\\432431.pdf");
+        cmdl.setSubstitutionMap(substitutionMap);
+        result = cmdl.toStrings();
+        assertEquals(new String[] {"C:\\Programme\\jdk1.5.0_12/bin/java", "-class", "foo.bar.Main", "C:\\Document And Settings\\documents\\432431.pdf"}, result);
+
+        // build the second command line
+        substitutionMap.put("file", "C:\\Document And Settings\\documents\\432432.pdf");        
+        cmdl.setSubstitutionMap(substitutionMap);
+        result = cmdl.toStrings();
+        assertEquals(new String[] {"C:\\Programme\\jdk1.5.0_12/bin/java", "-class", "foo.bar.Main", "C:\\Document And Settings\\documents\\432432.pdf"}, result);
+    }
 }
