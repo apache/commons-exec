@@ -46,7 +46,7 @@ Jakarta Commons Exec
   Acrobat Reader is found in the path.
 
 +----------------------------------------------------------------------------
-String line = "AcroRd32.exe /p /h " + file.getAbsolutePath()
+String line = "AcroRd32.exe /p /h " + file.getAbsolutePath();
 CommandLine commandLine = CommandLine.parse(line);
 DefaultExecutor executor = new DefaultExecutor();
 int exitValue = executor.execute(commandLine);
@@ -57,7 +57,7 @@ int exitValue = executor.execute(commandLine);
   considered as an execution failure. So we have to tweak our code to fix this odd behaviour
 
 +----------------------------------------------------------------------------
-String line = "AcroRd32.exe /p /h " + file.getAbsolutePath()
+String line = "AcroRd32.exe /p /h " + file.getAbsolutePath();
 CommandLine commandLine = CommandLine.parse(line);
 DefaultExecutor executor = new DefaultExecutor();
 executor.setExitValue(1);
@@ -72,9 +72,9 @@ int exitValue = executor.execute(commandLine);
   the improved code
 
 +----------------------------------------------------------------------------
-String line = "AcroRd32.exe /p /h " + file.getAbsolutePath()
+String line = "AcroRd32.exe /p /h " + file.getAbsolutePath();
 CommandLine commandLine = CommandLine.parse(line);
-ExecuteWatchdog watchdog = new ExecuteWatchdog(printTimeout);
+ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
 DefaultExecutor executor = new DefaultExecutor();
 executor.setWatchdog(watchdog);
 executor.setExitValue(1);
@@ -85,9 +85,46 @@ int exitValue = executor.execute(commandLine);
 
   Well, the code worked for quite a while until a new customer complained that
   no documents are printed. It took half a day to find out that the following file
-  "C:\Document And Settings\documents\432432.pdf" was not printable. Due to the
-  spaces and without further quoting the command line fell apart.
+  'C:\Document And Settings\documents\432432.pdf' could not be printed. Due to the
+  spaces and without further quoting the command line fell literally apart.
 
 +----------------------------------------------------------------------------
 > AcroRd32.exe /p /h C:\Document And Settings\documents\432432.pdf
 +----------------------------------------------------------------------------
+
+  As a quick fix we added double quotes which tells commons-exec to handle
+  the file as a single command line argument instead of splitting it into
+  parts.
+  
++----------------------------------------------------------------------------
+String line = "AcroRd32.exe /p /h \"" + file.getAbsolutePath() + "\"";
+CommandLine commandLine = CommandLine.parse(line);
+ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
+DefaultExecutor executor = new DefaultExecutor();
+executor.setWatchdog(watchdog);
+executor.setExitValue(1);
+int exitValue = executor.execute(commandLine);
++----------------------------------------------------------------------------
+  
+* Build the Command Line Incrementally
+
+  The previous problem stems from the fact that commons-exec tried to split
+  a single command line string into a string array considering single and
+  double quotes. At the end of the day this is error-prone so we recommend
+  building the command line incrementally - according to the same reasoning
+  the Ant documentation does not recommend passing a single command line to
+  the <exec> target (see deprecated command attribute for 
+  {{{http://ant.apache.org/manual/CoreTasks/exec.html}exec}} task)
+  
++----------------------------------------------------------------------------
+CommandLine commandLine = CommandLine.parse("AcroRd32.exe");
+commandLine.addArguments("/p");
+commandLine.addArguments("/h");
+commandLine.addArguments(file.getAbsolutePath());
+ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
+DefaultExecutor executor = new DefaultExecutor();
+executor.setWatchdog(watchdog);
+executor.setExitValue(1);
+int exitValue = executor.execute(commandLine);
++----------------------------------------------------------------------------
+  

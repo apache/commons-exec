@@ -55,6 +55,12 @@ limitations under the License.
           <td>Simone Gianni</td>
         </tr>
         <tr>
+          <td>Linux (2.6.22, x86, 32 bit)</td>
+          <td>gij version 4.2.1, java version "1.5.0"</td>
+          <td>Failed</td>
+          <td>Siegfried Goeschl</td>
+        </tr>        
+        <tr>
           <td>Mac OS X (10.4, x86)</td>
           <td>Java HotSpot(TM) Client VM<br/>build 1.4.2-86, mixed mode</td>
           <td>Passed</td>

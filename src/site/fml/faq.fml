@@ -25,10 +25,8 @@ under the License.
     <faq id="maturity">
       <question>How mature is it?</question>
       <answer>
-        <p>The code was ported from Ant and extensively tested on various platforms. So 
-          there is no reason not to use it and it is very likely better than any home-grown 
-          library.
-        </p>
+        <p>The code was ported from Ant and extensively tested on various platforms. So there is no
+          reason not to use it and it is very likely better than any home-grown library. </p>
       </answer>
     </faq>
     <faq id="complex-quoting">
@@ -37,8 +35,29 @@ under the License.
         <p> It is recommended to use CommandLine.addArgument() instead of CommandLine.parse(). Using
           CommandLine.parse() the implementation tries to figure out the correct quoting using your
           arguments and file names containing spaces. With CommandLine.addArgument() you can
-          enable/disable quoting depending on your requirements. Having said that this is the recommended approach using Ant anyway. </p>
+          enable/disable quoting depending on your requirements. Having said that this is the
+          recommended approach using Ant anyway. </p>
       </answer>
-    </faq>    
+    </faq>
+    <faq id="gcj-support">
+      <question>Does commons-exec support java-gcj</question>
+      <answer>
+        <p> Well - one out of 55 regression tests fails. The
+          EnvironmentUtilTest.testGetProcEnvironment() test fails because it detects no environment
+          variables for the current process but there must be one since we require JAVA_HOME to be
+          set. Not sure if this is a plain bug in java-gcj-4.2.1 or requires a work around in
+          commons-exec</p>
+      </answer>
+    </faq>
+    <faq id="environment-testing">
+      <question>How to test commons-exec on my environment</question>
+      <answer>
+        <p> Assuming that you have an evironment not listed on the <a href="./testmatrix.html">test
+            matrix</a> and want to make sure that everything works fine you can run easily run the
+          regression tests. Make a SVN checkout and run 'ant test-distribution' to create the test
+          distribution in './target'. Unpack the 'zip' or 'tar.gz' file and start the tests.
+          Independent from the result we very much appreciate your feedback ... :-)</p>
+      </answer>
+    </faq>
   </part>
 </faqs>
