@@ -61,16 +61,28 @@ limitations under the License.
           <td>Siegfried Goeschl</td>
         </tr>        
         <tr>
-          <td>Mac OS X (10.4, x86)</td>
+          <td>Mac OS X (10.4.11, x86)</td>
           <td>Java HotSpot(TM) Client VM<br/>build 1.4.2-86, mixed mode</td>
           <td>Passed</td>
           <td>Siegfried Goeschl</td>
         </tr>
         <tr>
-          <td>Mac OS X (10.4, x86)</td>
+          <td>Mac OS X (10.4.11, x86)</td>
           <td>Java HotSpot(TM) Client VM<br/>build 1.5.0_13-121, mixed mode, sharing</td>
           <td>Passed</td>
           <td>Siegfried Goeschl</td>
+        </tr>
+        <tr>
+          <td>Mac OS X (10.5.3, x86)</td>
+          <td>Java HotSpot(TM) Client VM<br/>build 1.5.0_13-199-86, mixed mode, sharing</td>
+          <td>Passed</td>
+          <td>Iwao Ave</td>
+        </tr>
+        <tr>
+          <td>Mac OS X (10.5.3, x86)</td>
+          <td>Java HotSpot(TM) 64-Bit Server VM<br/>build 1.6.0_05-b13-52, mixed mode</td>
+          <td>Passed</td>
+          <td>Iwao Ave</td>
         </tr>
         <tr>
           <td>SunOS 5.10 (i386)</td>
