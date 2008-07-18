@@ -21,7 +21,6 @@ package org.apache.commons.exec;
 import org.apache.commons.exec.util.StringUtils;
 
 import java.io.File;
-import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.Map;
@@ -31,10 +30,6 @@ import java.util.Map;
  * execute. The class can be used to a command line by an application.
  */
 public class CommandLine {
-
-    private static final String SINGLE_QUOTE = "\'";
-
-    private static final String DOUBLE_QUOTE = "\"";
 
     /**
      * The arguments of the command.
@@ -51,6 +46,9 @@ public class CommandLine {
      */
     private Map substitutionMap;
 
+    /**
+     * Was a file being used to set the executable?
+     */
     private final boolean isFile;
 
     /**
@@ -116,14 +114,18 @@ public class CommandLine {
     }
 
     /**
-     * Returns the executable
+     * Returns the executable.
      * 
      * @return The executable
      */
     public String getExecutable() {
-        return this.expandArgument(executable);
+        // Expand the executable and replace '/' and '\\' with the platform
+        // specific file seperator char. This is safe here since we know
+        // that this is a platform specific command.
+        return StringUtils.fixFileSeperatorChar(expandArgument(executable));
     }
 
+    /** @return Was a file being used to set the executable? */
     public boolean isFile(){
         return isFile;
     }
@@ -180,6 +182,8 @@ public class CommandLine {
 
     /**
      * Add multiple arguments. Handles parsing of quotes and whitespace.
+     * Please note that the parsing can have undesired side-effects therefore
+     * it is recommended to build the command line incrementally.
      * 
      * @param arguments An string containing multiple arguments. 
      * @return The command line itself
@@ -190,6 +194,8 @@ public class CommandLine {
 
     /**
      * Add multiple arguments. Handles parsing of quotes and whitespace.
+     * Please note that the parsing can have undesired side-effects therefore
+     * it is recommended to build the command line incrementally.
      *
      * @param arguments An string containing multiple arguments.
      * @param handleQuoting Add the argument with/without handling quoting
@@ -206,6 +212,7 @@ public class CommandLine {
 
     /**
      * Add a single argument. Handles quoting.
+     *
      * @param argument The argument to add
      * @return The command line itself
      * @throws IllegalArgumentException If argument contains both single and double quotes
@@ -216,6 +223,7 @@ public class CommandLine {
 
    /**
     * Add a single argument.
+    *
     * @param argument The argument to add
     * @param handleQuoting Add the argument with/without handling quoting
     * @return The command line itself
@@ -226,7 +234,7 @@ public class CommandLine {
         }
 
         if(handleQuoting) {
-            arguments.add(quoteArgument(argument));
+            arguments.add(StringUtils.quoteArgument(argument));
         }
         else {
             arguments.add(argument);
@@ -236,7 +244,8 @@ public class CommandLine {
    }
 
     /**
-     * Returns the quoted arguments 
+     * Returns the quoted arguments.
+     *  
      * @return The quoted arguments
      */
     public String[] getArguments() {
@@ -261,48 +270,29 @@ public class CommandLine {
         this.substitutionMap = substitutionMap;
     }
 
-    // --- Implementation ---------------------------------------------------
+    /**
+     * Returns the command line as an array of strings, correctly quoted
+     * for use in executing the command.
+     *
+     * @return The command line as an string array
+     */
+    public String[] toStrings() {
+        final String[] result = new String[arguments.size() + 1];
+        result[0] = this.getExecutable();
+        System.arraycopy(getArguments(), 0, result, 1, result.length-1);
+        return result;
+    }
 
     /**
-     * Put quotes around the given String if necessary.
-     * <p>
-     * If the argument doesn't include spaces or quotes, return it as is. If it
-     * contains double quotes, use single quotes - else surround the argument by
-     * double quotes.
-     * </p>
+     * Stringify operator returns the command line as a string.
      *
-     * @param argument the argument to be quoted
-     * @return the quoted argument
-     * @throws IllegalArgumentException If argument contains both types of quotes
+     * @return the command line
      */
-    private static String quoteArgument(final String argument) {
-        String cleanedArgument = argument.trim();
-        
-        while(cleanedArgument.startsWith(SINGLE_QUOTE) || cleanedArgument.startsWith(DOUBLE_QUOTE)) {
-            cleanedArgument = cleanedArgument.substring(1);
-        }
-        while(cleanedArgument.endsWith(SINGLE_QUOTE) || cleanedArgument.endsWith(DOUBLE_QUOTE)) {
-            cleanedArgument = cleanedArgument.substring(0, cleanedArgument.length() - 1);
-        }
-
-        
-        final StringBuffer buf = new StringBuffer();
-        if (cleanedArgument.indexOf(DOUBLE_QUOTE) > -1) {
-            if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1) {
-                throw new IllegalArgumentException(
-                        "Can't handle single and double quotes in same argument");
-            } else {
-                return buf.append(SINGLE_QUOTE).append(cleanedArgument).append(
-                        SINGLE_QUOTE).toString();
-            }
-        } else if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1
-                || cleanedArgument.indexOf(" ") > -1) {
-            return buf.append(DOUBLE_QUOTE).append(cleanedArgument).append(
-                    DOUBLE_QUOTE).toString();
-        } else {
-            return cleanedArgument;
-        }
+    public String toString() {
+        return StringUtils.toString(toStrings(), " ");
     }
+
+    // --- Implementation ---------------------------------------------------
 
     /**
      * Expand variables in a command line argument.
@@ -329,48 +319,6 @@ public class CommandLine {
         return result;
     }
 
-
-    /**
-     * Returns the command line as an array of strings, correctly quoted
-     * for use in executing the command.
-     * @return The command line as an string array
-     */
-    public String[] toStrings() {
-
-        final String[] result = new String[arguments.size() + 1];
-
-        // expand the executable and replace '/' and '\\' with the platform
-        // specific file seperator char
-        result[0] = StringUtils.fixFileSeperatorChar(expandArgument(executable));
-
-        int index = 1;
-        for (Iterator iter = arguments.iterator(); iter.hasNext();) {
-            result[index] = expandArgument((String) iter.next());
-            index++;
-        }
-
-        return result;
-    }
-
-    /**
-     * Stringify operator returns the command line as a string.
-     * 
-     * @return the command line
-     */
-    public String toString() {
-        String[] strings = toStrings();
-
-        StringBuffer sb = new StringBuffer();
-
-        for (int i = 0; i < strings.length; i++) {
-            if (i > 0) {
-                sb.append(' ');
-            }
-            sb.append(strings[i]);
-        }
-
-        return sb.toString();
-    }
 
     /**
      * Crack a command line.
@@ -448,6 +396,12 @@ public class CommandLine {
         return args;
     }
 
+    /**
+     * Set the executable - the argument is trimmed and '/' and '\\' are
+     * replaced with the platform specific file seperator char
+     *
+     * @param executable the executable
+     */
     private void setExecutable(final String executable) {
         if (executable == null) {
             throw new IllegalArgumentException("Executable can not be null");
@@ -457,5 +411,4 @@ public class CommandLine {
             this.executable = StringUtils.fixFileSeperatorChar(executable);        
         }
     }
-
 }
