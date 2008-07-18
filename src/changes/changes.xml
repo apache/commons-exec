@@ -24,6 +24,18 @@
   </properties>
   <body>
     <release version="1.0-SNAPSHOT" date="as in SVN" description="Sandbox release">
+      <action dev="sgoeschl" issue="EXEC-25" type="fix">
+        Using variable substitution within CommandLine broke the regression tests
+        under Windows. Found also another bug when calling CommandLine.getExecutable()
+        the result was not substituted at all. As a general rule we do variable
+        substitution and file separator fixing on the command line executable and
+        variable substitution but NO file separator fixing for the command line
+        arguments. 
+      </action>
+      <action dev="sgoeschl" type="add">
+        Added convinience method to add two parameters to the CommandLine
+        using one method invocation.
+      </action>
       <action dev="sgoeschl" type="fix">
         Implemented better regression test for OpenVMS affecting also
         the Executor and CommandLauncher interface.
