@@ -158,29 +158,6 @@ public class CommandLine {
     }
 
     /**
-     * Add exactly two arguments in one invocation. Handles parsing of quotes and whitespace.
-     *
-     * @param argument1 The first argument
-     * @param argument2 The second argument
-     * @return The command line itself
-     */
-    public CommandLine addArguments(final String argument1, final String argument2) {
-        return this.addArguments(argument1, true).addArguments(argument2, true);
-    }
-
-    /**
-     * Add exactly two arguments in one invocation.
-     *
-     * @param argument1 The first argument
-     * @param argument2 The second argument
-     * @param handleQuoting Add the argument with/without handling quoting
-     * @return The command line itself
-     */
-    public CommandLine addArguments(final String argument1, final String argument2, boolean handleQuoting) {
-        return this.addArguments(argument1, handleQuoting).addArguments(argument2, handleQuoting);
-    }
-
-    /**
      * Add multiple arguments. Handles parsing of quotes and whitespace.
      * Please note that the parsing can have undesired side-effects therefore
      * it is recommended to build the command line incrementally.

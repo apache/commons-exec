@@ -167,12 +167,24 @@ public class CommandLineTest extends TestCase {
         assertEquals(new String[] {"test"}, cmdl.toStrings());
     }
 
+    /**
+     * A little example how to add two command line arguments
+     * in one line, e.g. to make commenting out some options
+     * less error prone.
+     */
     public void testAddTwoArguments() {
-        CommandLine cmdl = new CommandLine("test");
-        cmdl.addArguments("foo", "bar");
-        assertEquals("test foo bar", cmdl.toString());
-        assertEquals(new String[] {"test", "foo", "bar"}, cmdl.toStrings());
-    }    
+
+        CommandLine userAddCL1 = new CommandLine("useradd");
+        userAddCL1.addArgument("-g");
+        userAddCL1.addArgument("tomcat");
+        userAddCL1.addArgument("foo");
+
+        CommandLine userAddCL2 = new CommandLine("useradd");
+        userAddCL2.addArgument("-g").addArgument("tomcat");
+        userAddCL2.addArgument("foo");
+
+        assertEquals(userAddCL1.toString(), userAddCL2.toString());
+    }
 
     public void testParseCommandLine() {
         CommandLine cmdl = CommandLine.parse("test foo bar");
