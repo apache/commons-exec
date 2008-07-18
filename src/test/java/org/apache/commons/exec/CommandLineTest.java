@@ -23,6 +23,7 @@ import java.util.HashMap;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import org.apache.commons.exec.util.StringUtils;
 
 public class CommandLineTest extends TestCase {
 
@@ -42,7 +43,7 @@ public class CommandLineTest extends TestCase {
 
     public void testExecutableZeroLengthString() {
         try {
-            CommandLine cmdl = new CommandLine("");
+            new CommandLine("");
             fail("Must throw IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             // Expected
@@ -51,7 +52,7 @@ public class CommandLineTest extends TestCase {
 
     public void testExecutableWhitespaceString() {
         try {
-            CommandLine cmdl = new CommandLine("   ");
+            new CommandLine("   ");
             fail("Must throw IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             // Expected
@@ -60,7 +61,7 @@ public class CommandLineTest extends TestCase {
 
     public void testNullExecutable() {
         try {
-            CommandLine cmdl = new CommandLine((String)null);
+            new CommandLine((String)null);
             fail("Must throw IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             // Expected
@@ -166,6 +167,13 @@ public class CommandLineTest extends TestCase {
         assertEquals(new String[] {"test"}, cmdl.toStrings());
     }
 
+    public void testAddTwoArguments() {
+        CommandLine cmdl = new CommandLine("test");
+        cmdl.addArguments("foo", "bar");
+        assertEquals("test foo bar", cmdl.toString());
+        assertEquals(new String[] {"test", "foo", "bar"}, cmdl.toStrings());
+    }    
+
     public void testParseCommandLine() {
         CommandLine cmdl = CommandLine.parse("test foo bar");
         assertEquals("test foo bar", cmdl.toString());
@@ -211,13 +219,12 @@ public class CommandLineTest extends TestCase {
      * a "500x>" parameter (including quotes) and it is simply not possible to
      * do that withoud adding a space, e.g. "500x> ".
      */
-    public void testParseComplexCommandLine1() throws Exception {
+    public void testParseComplexCommandLine1() {
         HashMap substitutionMap = new HashMap();
         substitutionMap.put("in", "source.jpg");
         substitutionMap.put("out", "target.jpg");
         CommandLine cmdl = CommandLine.parse("cmd /C convert ${in} -resize \"\'500x> \'\" ${out}", substitutionMap);
-        assertEquals("cmd /C convert source.jpg -resize \"500x> \" target.jpg", cmdl.toString());
-        return;
+        assertEquals("cmd /C convert source.jpg -resize \"500x> \" target.jpg", cmdl.toString());        
     }
 
    /**
@@ -296,13 +303,16 @@ public class CommandLineTest extends TestCase {
     }
 
     /**
-     * Test expanding the command line based on a user-supplied map.
+     * Test expanding the command line based on a user-supplied map. The main
+     * goal of the test is to setup a command line using macros and reuse
+     * it for multiple times.
      */
-    public void testCommandLineParsingWithExpansion2() throws Exception {
+    public void testCommandLineParsingWithExpansion2() {
 
-        CommandLine cmdl = null;
-        String[] result = null;
+        CommandLine cmdl;
+        String[] result;
 
+        // build the user supplied parameters
         HashMap substitutionMap = new HashMap();
         substitutionMap.put("JAVA_HOME", "C:\\Programme\\jdk1.5.0_12");
         substitutionMap.put("appMainClass", "foo.bar.Main");
@@ -317,12 +327,18 @@ public class CommandLineTest extends TestCase {
         substitutionMap.put("file", "C:\\Document And Settings\\documents\\432431.pdf");
         cmdl.setSubstitutionMap(substitutionMap);
         result = cmdl.toStrings();
-        assertEquals(new String[] {"C:\\Programme\\jdk1.5.0_12/bin/java", "-class", "foo.bar.Main", "C:\\Document And Settings\\documents\\432431.pdf"}, result);
+        assertEquals(StringUtils.fixFileSeperatorChar("C:\\Programme\\jdk1.5.0_12\\bin\\java"), result[0]);
+        assertEquals("-class", result[1]);
+        assertEquals("foo.bar.Main", result[2]);
+        assertEquals("C:\\Document And Settings\\documents\\432431.pdf", result[3]);
 
-        // build the second command line
+        // build the second command line with updated parameters resulting in  a different command line
         substitutionMap.put("file", "C:\\Document And Settings\\documents\\432432.pdf");        
         cmdl.setSubstitutionMap(substitutionMap);
         result = cmdl.toStrings();
-        assertEquals(new String[] {"C:\\Programme\\jdk1.5.0_12/bin/java", "-class", "foo.bar.Main", "C:\\Document And Settings\\documents\\432432.pdf"}, result);
+        assertEquals(StringUtils.fixFileSeperatorChar("C:\\Programme\\jdk1.5.0_12\\bin\\java"), result[0]);
+        assertEquals("-class", result[1]);
+        assertEquals("foo.bar.Main", result[2]);
+        assertEquals("C:\\Document And Settings\\documents\\432432.pdf", result[3]);
     }
 }

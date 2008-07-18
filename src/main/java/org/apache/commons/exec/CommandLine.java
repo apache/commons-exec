@@ -44,7 +44,7 @@ public class CommandLine {
     /**
      * The program to execute.
      */
-    private String executable = null;
+    private String executable;
 
     /**
      * A map of name value pairs used to expand command line arguments
@@ -108,7 +108,7 @@ public class CommandLine {
     /**
      * Create a command line without any arguments.
      *
-     * @param  executable the executable 
+     * @param  executable the executable file
      */
     public CommandLine(File executable) {
         this.isFile=true;
@@ -153,6 +153,29 @@ public class CommandLine {
         }
 
         return this;
+    }
+
+    /**
+     * Add exactly two arguments in one invocation. Handles parsing of quotes and whitespace.
+     *
+     * @param argument1 The first argument
+     * @param argument2 The second argument
+     * @return The command line itself
+     */
+    public CommandLine addArguments(final String argument1, final String argument2) {
+        return this.addArguments(argument1, true).addArguments(argument2, true);
+    }
+
+    /**
+     * Add exactly two arguments in one invocation.
+     *
+     * @param argument1 The first argument
+     * @param argument2 The second argument
+     * @param handleQuoting Add the argument with/without handling quoting
+     * @return The command line itself
+     */
+    public CommandLine addArguments(final String argument1, final String argument2, boolean handleQuoting) {
+        return this.addArguments(argument1, handleQuoting).addArguments(argument2, handleQuoting);
     }
 
     /**
@@ -313,17 +336,20 @@ public class CommandLine {
      * @return The command line as an string array
      */
     public String[] toStrings() {
+
         final String[] result = new String[arguments.size() + 1];
-        result[0] = executable;
+
+        // expand the executable and replace '/' and '\\' with the platform
+        // specific file seperator char
+        result[0] = StringUtils.fixFileSeperatorChar(expandArgument(executable));
 
         int index = 1;
         for (Iterator iter = arguments.iterator(); iter.hasNext();) {
-            result[index] = (String) iter.next();
-
+            result[index] = expandArgument((String) iter.next());
             index++;
         }
 
-        return expandArguments(result);
+        return result;
     }
 
     /**
@@ -428,8 +454,7 @@ public class CommandLine {
         } else if(executable.trim().length() == 0) {
             throw new IllegalArgumentException("Executable can not be empty");
         } else {
-             this.executable = executable.replace('/', File.separatorChar).replace(
-                '\\', File.separatorChar);
+            this.executable = StringUtils.fixFileSeperatorChar(executable);        
         }
     }
 

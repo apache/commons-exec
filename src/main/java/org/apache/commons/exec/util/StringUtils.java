@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.io.File;
 
 /**
  * Supplement of commons-lang, the stringSubstitution() was in a simpler
@@ -32,119 +33,123 @@ import java.util.StringTokenizer;
  *
  * @author <a href="mailto:siegfried.goeschl@it20one.at">Siegfried Goeschl</a>
  */
-public class StringUtils
-{
-  /**
-   * Perform a series of substitutions. The substitions
-   * are performed by replacing ${variable} in the target
-   * string with the value of provided by the key "variable"
-   * in the provided hashtable.
-   *
-   * @param argStr the argument string to be processed
-   * @param vars name/value pairs used for substitution
-   * @param isLenient ignore a key not found in vars?
-   * @return String target string with replacements.
-   */
-  public static StringBuffer stringSubstitution(String argStr, Map vars, boolean isLenient)
-  {
-      StringBuffer argBuf = new StringBuffer();
+public class StringUtils {
+    /**
+     * Perform a series of substitutions. The substitions
+     * are performed by replacing ${variable} in the target
+     * string with the value of provided by the key "variable"
+     * in the provided hashtable.
+     *
+     * @param argStr    the argument string to be processed
+     * @param vars      name/value pairs used for substitution
+     * @param isLenient ignore a key not found in vars?
+     * @return String target string with replacements.
+     */
+    public static StringBuffer stringSubstitution(String argStr, Map vars, boolean isLenient) {
 
-      if(argStr == null || argStr.length() == 0) {
-          return argBuf;
-      }
+        StringBuffer argBuf = new StringBuffer();
 
-      if(vars == null || vars.size() == 0) {
-          return argBuf.append(argStr);
-      }
+        if (argStr == null || argStr.length() == 0) {
+            return argBuf;
+        }
 
-      int argStrLength = argStr.length();
+        if (vars == null || vars.size() == 0) {
+            return argBuf.append(argStr);
+        }
 
-      for (int cIdx = 0 ; cIdx < argStrLength;)
-      {
-          char ch = argStr.charAt(cIdx);
-          char del = ' ';
+        int argStrLength = argStr.length();
 
-          switch (ch)
-          {
-              case '$':
-                  StringBuffer nameBuf = new StringBuffer();
-                  del = argStr.charAt(cIdx+1);
-                  if( del == '{')
-                  {
-                      cIdx++;
+        for (int cIdx = 0; cIdx < argStrLength;) {
 
-                      for (++cIdx ; cIdx < argStr.length(); ++cIdx)
-                      {
-                          ch = argStr.charAt(cIdx);
-                          if (ch == '_' || ch == '.' || ch == '-' || ch == '+' || Character.isLetterOrDigit(ch))
-                              nameBuf.append(ch);
-                          else
-                              break;
-                      }
+            char ch = argStr.charAt(cIdx);
+            char del = ' ';
 
-                      if (nameBuf.length() > 0)
-                      {
-                          Object temp = vars.get(nameBuf.toString());                          
-                          String value = ( temp != null ? temp.toString() : null);
+            switch (ch) {
 
-                          if (value != null)
-                          {
-                              argBuf.append(value);
-                          }
-                          else
-                          {
-                              if (isLenient)
-                              {
-                                  // just append the unresolved variable declaration
-                                  argBuf.append("${" + nameBuf.toString() + "}");
-                              }
-                              else
-                              {
-                                  // complain that no variable was found
-                                  throw new RuntimeException("No value found for : " + nameBuf );
-                              }
-                          }
+                case '$':
+                    StringBuffer nameBuf = new StringBuffer();
+                    del = argStr.charAt(cIdx + 1);
+                    if (del == '{') {
+                        cIdx++;
 
-                          del = argStr.charAt(cIdx);
+                        for (++cIdx; cIdx < argStr.length(); ++cIdx) {
+                            ch = argStr.charAt(cIdx);
+                            if (ch == '_' || ch == '.' || ch == '-' || ch == '+' || Character.isLetterOrDigit(ch))
+                                nameBuf.append(ch);
+                            else
+                                break;
+                        }
 
-                          if( del != '}')
-                          {
-                              throw new RuntimeException("Delimiter not found for : " + nameBuf );
-                          }
-                      }
+                        if (nameBuf.length() > 0) {
+                            Object temp = vars.get(nameBuf.toString());
+                            String value = (temp != null ? temp.toString() : null);
 
-                      cIdx++;
-                  }
-                  else
-                  {
-                      argBuf.append(ch);
-                      ++cIdx;
-                  }
+                            if (value != null) {
+                                argBuf.append(value);
+                            } else {
+                                if (isLenient) {
+                                    // just append the unresolved variable declaration
+                                    argBuf.append("${" + nameBuf.toString() + "}");
+                                } else {
+                                    // complain that no variable was found
+                                    throw new RuntimeException("No value found for : " + nameBuf);
+                                }
+                            }
 
-                  break;
+                            del = argStr.charAt(cIdx);
 
-              default:
-                  argBuf.append(ch);
-                  ++cIdx;
-                  break;
-          }
-      }
+                            if (del != '}') {
+                                throw new RuntimeException("Delimiter not found for : " + nameBuf);
+                            }
+                        }
 
-      return argBuf;
-  }
-  
-  /**
-   * Split a string into an array of strings
-   * @param input what to split
-   * @param splitChar what to split on
-   * @return the array of strings
-   */
-  public static String[] split(String input, String splitChar){
-      StringTokenizer tokens = new StringTokenizer(input, splitChar);
-      List strList=new ArrayList();
-      while (tokens.hasMoreTokens()) {
-          strList.add(tokens.nextToken());
-      }
-     return (String[])strList.toArray(new String[0]);
-  }
+                        cIdx++;
+                    } else {
+                        argBuf.append(ch);
+                        ++cIdx;
+                    }
+
+                    break;
+
+                default:
+                    argBuf.append(ch);
+                    ++cIdx;
+                    break;
+            }
+        }
+
+        return argBuf;
+    }
+
+    /**
+     * Split a string into an array of strings
+     *
+     * @param input     what to split
+     * @param splitChar what to split on
+     * @return the array of strings
+     */
+    public static String[] split(String input, String splitChar) {
+        StringTokenizer tokens = new StringTokenizer(input, splitChar);
+        List strList = new ArrayList();
+        while (tokens.hasMoreTokens()) {
+            strList.add(tokens.nextToken());
+        }
+        return (String[]) strList.toArray(new String[0]);
+    }
+
+    /**
+     * Fixes the file sperator char for the target platform
+     * using the following replacement.
+     * 
+     * <ul>
+     *  <li> '/' ==>  File.separatorChar
+     *  <li> '\\' ==>  File.separatorChar
+     * </ul> 
+     */
+    public static String fixFileSeperatorChar(String arg) {
+        return arg.replace('/', File.separatorChar).replace(
+                '\\', File.separatorChar);
+    }
+
+
 }
