@@ -305,7 +305,7 @@ public class CommandLineTest extends TestCase {
     /**
      * Test expanding the command line based on a user-supplied map. The main
      * goal of the test is to setup a command line using macros and reuse
-     * it for multiple times.
+     * it multiple times.
      */
     public void testCommandLineParsingWithExpansion2() {
 
