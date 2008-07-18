@@ -327,10 +327,23 @@ public class CommandLineTest extends TestCase {
         substitutionMap.put("file", "C:\\Document And Settings\\documents\\432431.pdf");
         cmdl.setSubstitutionMap(substitutionMap);
         result = cmdl.toStrings();
+
+        // verify the first command line
+        // please note - the executable argument is changed to using platform specific file sperator char
+        // whereas all other variable substitution are not touched
         assertEquals(StringUtils.fixFileSeperatorChar("C:\\Programme\\jdk1.5.0_12\\bin\\java"), result[0]);
         assertEquals("-class", result[1]);
         assertEquals("foo.bar.Main", result[2]);
         assertEquals("C:\\Document And Settings\\documents\\432431.pdf", result[3]);
+
+        // verify the first command line again but by
+        // accessing the executable and arguments directly
+        String executable = cmdl.getExecutable();
+        String[] arguments = cmdl.getArguments();
+        assertEquals(StringUtils.fixFileSeperatorChar("C:\\Programme\\jdk1.5.0_12\\bin\\java"), executable);
+        assertEquals("-class", arguments[0]);
+        assertEquals("foo.bar.Main", arguments[1]);
+        assertEquals("C:\\Document And Settings\\documents\\432431.pdf", arguments[2]);
 
         // build the second command line with updated parameters resulting in  a different command line
         substitutionMap.put("file", "C:\\Document And Settings\\documents\\432432.pdf");        
@@ -339,6 +352,6 @@ public class CommandLineTest extends TestCase {
         assertEquals(StringUtils.fixFileSeperatorChar("C:\\Programme\\jdk1.5.0_12\\bin\\java"), result[0]);
         assertEquals("-class", result[1]);
         assertEquals("foo.bar.Main", result[2]);
-        assertEquals("C:\\Document And Settings\\documents\\432432.pdf", result[3]);
+        assertEquals("C:\\Document And Settings\\documents\\432432.pdf", result[3]);                
     }
 }

@@ -28,12 +28,21 @@ import java.io.File;
 /**
  * Supplement of commons-lang, the stringSubstitution() was in a simpler
  * implementation available in an older commons-lang implementation.
+ *
+ * Furthermore a place to put reusable and/or ugly code.
+ *
  * This class is not part of the public API and could change without
  * warning.
  *
  * @author <a href="mailto:siegfried.goeschl@it20one.at">Siegfried Goeschl</a>
  */
 public class StringUtils {
+
+    private static final String SINGLE_QUOTE = "\'";
+    private static final String DOUBLE_QUOTE = "\"";
+    private static final char SLASH_CHAR = '/';
+    private static final char BACKSLASH_CHAR = '\\';
+
     /**
      * Perform a series of substitutions. The substitions
      * are performed by replacing ${variable} in the target
@@ -89,7 +98,7 @@ public class StringUtils {
                             } else {
                                 if (isLenient) {
                                     // just append the unresolved variable declaration
-                                    argBuf.append("${" + nameBuf.toString() + "}");
+                                    argBuf.append("${").append(nameBuf.toString()).append("}");
                                 } else {
                                     // complain that no variable was found
                                     throw new RuntimeException("No value found for : " + nameBuf);
@@ -122,7 +131,8 @@ public class StringUtils {
     }
 
     /**
-     * Split a string into an array of strings
+     * Split a string into an array of strings based
+     * on a a seperator.
      *
      * @param input     what to split
      * @param splitChar what to split on
@@ -134,7 +144,7 @@ public class StringUtils {
         while (tokens.hasMoreTokens()) {
             strList.add(tokens.nextToken());
         }
-        return (String[]) strList.toArray(new String[0]);
+        return (String[]) strList.toArray(new String[strList.size()]);
     }
 
     /**
@@ -144,12 +154,72 @@ public class StringUtils {
      * <ul>
      *  <li> '/' ==>  File.separatorChar
      *  <li> '\\' ==>  File.separatorChar
-     * </ul> 
+     * </ul>
+     *
+     * @param arg the argument to fix
+     * @return the transformed argument 
      */
     public static String fixFileSeperatorChar(String arg) {
-        return arg.replace('/', File.separatorChar).replace(
-                '\\', File.separatorChar);
+        return arg.replace(SLASH_CHAR, File.separatorChar).replace(
+                BACKSLASH_CHAR, File.separatorChar);
     }
 
+    /**
+     * Concatenates an array of string using a seperator.
+     *
+     * @param strings the strings to concatenate
+     * @param seperator the seperator between two strings
+     * @return the concatened strings
+     */
+    public static String toString(String[] strings, String seperator) {    
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < strings.length; i++) {
+            if (i > 0) {
+                sb.append(seperator);
+            }
+            sb.append(strings[i]);
+        }
+        return sb.toString();
+    }
 
+    /**
+     * Put quotes around the given String if necessary.
+     * <p>
+     * If the argument doesn't include spaces or quotes, return it as is. If it
+     * contains double quotes, use single quotes - else surround the argument by
+     * double quotes.
+     * </p>
+     *
+     * @param argument the argument to be quoted
+     * @return the quoted argument
+     * @throws IllegalArgumentException If argument contains both types of quotes
+     */
+    public static String quoteArgument(final String argument) {
+
+        String cleanedArgument = argument.trim();
+
+        while(cleanedArgument.startsWith(SINGLE_QUOTE) || cleanedArgument.startsWith(DOUBLE_QUOTE)) {
+            cleanedArgument = cleanedArgument.substring(1);
+        }
+        while(cleanedArgument.endsWith(SINGLE_QUOTE) || cleanedArgument.endsWith(DOUBLE_QUOTE)) {
+            cleanedArgument = cleanedArgument.substring(0, cleanedArgument.length() - 1);
+        }
+
+        final StringBuffer buf = new StringBuffer();
+        if (cleanedArgument.indexOf(DOUBLE_QUOTE) > -1) {
+            if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1) {
+                throw new IllegalArgumentException(
+                        "Can't handle single and double quotes in same argument");
+            } else {
+                return buf.append(SINGLE_QUOTE).append(cleanedArgument).append(
+                        SINGLE_QUOTE).toString();
+            }
+        } else if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1
+                || cleanedArgument.indexOf(" ") > -1) {
+            return buf.append(DOUBLE_QUOTE).append(cleanedArgument).append(
+                    DOUBLE_QUOTE).toString();
+        } else {
+            return cleanedArgument;
+        }
+    }
 }
