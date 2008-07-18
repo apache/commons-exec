@@ -331,4 +331,17 @@ public class DefaultExecutorTest extends TestCase {
       assertEquals("Processor Destroyer size should be 0",0,processDestroyer.size());
       assertFalse("Process destroyer should not exist as shutdown hook",processDestroyer.isAddedAsShutdownHook());
     }
+
+    /**
+     * Invoke the test using some fancy arguments.
+     *
+     * @throws Exception the test failed
+     */
+    public void testExecuteWithFancyArg() throws Exception {
+        CommandLine cl = new CommandLine(testScript);
+        cl.addArgument("test $;`(0)[1]{2}");
+        int exitValue = exec.execute(cl);
+        assertTrue(baos.toString().trim().indexOf("test $;`(0)[1]{2}") > 0);
+        assertFalse(exec.isFailure(exitValue));
+    }    
 }
