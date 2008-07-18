@@ -159,7 +159,7 @@ public class StringUtils {
      * @param arg the argument to fix
      * @return the transformed argument 
      */
-    public static String fixFileSeperatorChar(String arg) {
+    public static String fixFileSeparatorChar(String arg) {
         return arg.replace(SLASH_CHAR, File.separatorChar).replace(
                 BACKSLASH_CHAR, File.separatorChar);
     }
@@ -168,14 +168,14 @@ public class StringUtils {
      * Concatenates an array of string using a seperator.
      *
      * @param strings the strings to concatenate
-     * @param seperator the seperator between two strings
+     * @param separator the seperator between two strings
      * @return the concatened strings
      */
-    public static String toString(String[] strings, String seperator) {    
+    public static String toString(String[] strings, String separator) {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < strings.length; i++) {
             if (i > 0) {
-                sb.append(seperator);
+                sb.append(separator);
             }
             sb.append(strings[i]);
         }

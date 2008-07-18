@@ -122,7 +122,7 @@ public class CommandLine {
         // Expand the executable and replace '/' and '\\' with the platform
         // specific file seperator char. This is safe here since we know
         // that this is a platform specific command.
-        return StringUtils.fixFileSeperatorChar(expandArgument(executable));
+        return StringUtils.fixFileSeparatorChar(expandArgument(executable));
     }
 
     /** @return Was a file being used to set the executable? */
@@ -408,7 +408,7 @@ public class CommandLine {
         } else if(executable.trim().length() == 0) {
             throw new IllegalArgumentException("Executable can not be empty");
         } else {
-            this.executable = StringUtils.fixFileSeperatorChar(executable);        
+            this.executable = StringUtils.fixFileSeparatorChar(executable);
         }
     }
 }
