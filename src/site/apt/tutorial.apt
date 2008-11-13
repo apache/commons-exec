@@ -20,7 +20,7 @@
 Jakarta Commons Exec Tutorial
  --------
  --------
-14 December 2007
+12 November 2008
  --------
 
 Jakarta Commons Exec
@@ -126,5 +126,20 @@ DefaultExecutor executor = new DefaultExecutor();
 executor.setWatchdog(watchdog);
 executor.setExitValue(1);
 int exitValue = executor.execute(commandLine);
++----------------------------------------------------------------------------
+
+* Using Command Line Expansion
+
+  In the previous example we basically hardcoded the command line to be
+  executed. Using a different application to print PDF documents or just
+  tinkering with command line options would require a new release - uncool.
+  To write better code you can look at the following code snippet (and
+  don't forget that using a command line string is dangerous)
+
++----------------------------------------------------------------------------
+CommandLine cmdl;
+HashMap params = new HashMap();
+params.put("file", "C:\Document And Settings\documents\432432.pdf");
+cmdl = CommandLine.parse("AcroRd32.exe /p /h \"${file}\"", params);
 +----------------------------------------------------------------------------
   
