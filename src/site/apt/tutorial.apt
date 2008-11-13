@@ -137,9 +137,9 @@ int exitValue = executor.execute(commandLine);
   don't forget that using a command line string is dangerous)
 
 +----------------------------------------------------------------------------
-CommandLine cmdl;
+CommandLine commandLine;
 HashMap params = new HashMap();
 params.put("file", "C:\Document And Settings\documents\432432.pdf");
-cmdl = CommandLine.parse("AcroRd32.exe /p /h \"${file}\"", params);
+commandLine = CommandLine.parse("AcroRd32.exe /p /h \"${file}\"", params);
 +----------------------------------------------------------------------------
   

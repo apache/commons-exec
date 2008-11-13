@@ -20,7 +20,7 @@
 Jakarta Commons Exec
  --------
  --------
-5 August 2005
+12 November 2008
  --------
 
 Jakarta Commons Exec
@@ -48,13 +48,3 @@ Jakarta Commons Exec
   under the ASF license. The Java code might also be complemented with scripts (e.g. Perl scripts) to fully enable
   execution on some operating systems. The package should aim for supporting a wide range of operating systems while
   still having a consistent API for all platforms.
-
-* Status
-
-  [[1]] This code is in the commons sandbox.
-  
-  [[2]] The code is unreleased.
-  
-  [[3]] Methods and classes can and will appear and disappear without warning.
-  
-  [[4]] If you like the code and want to push it towards a release, join the mailing list.
