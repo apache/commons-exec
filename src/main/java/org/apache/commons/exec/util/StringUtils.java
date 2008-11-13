@@ -222,4 +222,21 @@ public class StringUtils {
             return cleanedArgument;
         }
     }
+
+    /**
+     * Determines if this is a quoted argumented - either single or
+     * double quote.
+     *
+     * @param argument the argument to check
+     * @return true when the argument is quoted
+     */
+    public static boolean isQuoted(final String argument) {
+        if((argument.startsWith(SINGLE_QUOTE) || argument.startsWith(DOUBLE_QUOTE)) && 
+           (argument.startsWith(SINGLE_QUOTE) || argument.startsWith(DOUBLE_QUOTE))  ) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
