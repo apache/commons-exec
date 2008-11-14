@@ -248,8 +248,7 @@ public class CommandLine {
     }
 
     /**
-     * Returns the command line as an array of strings, correctly quoted
-     * for use in executing the command.
+     * Returns the command line as an array of strings.
      *
      * @return The command line as an string array
      */
@@ -262,11 +261,32 @@ public class CommandLine {
 
     /**
      * Stringify operator returns the command line as a string.
+     * Parameters are correctly quoted when containing a space or
+     * left untouched if the are already quoted. 
      *
-     * @return the command line
+     * @return the command line as single string
      */
     public String toString() {
-        return StringUtils.toString(toStrings(), " ");
+        StringBuffer result = new StringBuffer();
+        String[] currArguments = this.getArguments();
+
+        result.append(StringUtils.quoteArgument(this.getExecutable()));
+        result.append(' ');
+
+        for(int i=0; i<currArguments.length; i++) {
+            String currArgument = currArguments[i];
+            if( StringUtils.isQuoted(currArgument)) {
+                result.append(currArgument);
+            }
+            else {
+                result.append(StringUtils.quoteArgument(currArgument));
+            }
+            if(i<currArguments.length-1) {
+                result.append(' ');
+            }
+        }
+        
+        return result.toString().trim();
     }
 
     // --- Implementation ---------------------------------------------------

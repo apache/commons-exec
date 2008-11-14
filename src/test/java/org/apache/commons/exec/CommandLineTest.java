@@ -366,4 +366,26 @@ public class CommandLineTest extends TestCase {
         assertEquals("foo.bar.Main", result[2]);
         assertEquals("C:\\Document And Settings\\documents\\432432.pdf", result[3]);                
     }
+
+    /**
+     * Test the toString() method
+     */
+    public void testToString() throws Exception {
+        CommandLine cmdl;
+        HashMap params = new HashMap();
+
+        // use no arguments
+        cmdl = CommandLine.parse("AcroRd32.exe", params);
+        assertEquals(cmdl.toString(), "AcroRd32.exe");
+
+        // use an argument containing spaces
+        params.put("file", "C:\\Document And Settings\\documents\\432432.pdf");
+        cmdl = CommandLine.parse("AcroRd32.exe /p /h '${file}'", params);
+        assertEquals(cmdl.toString(), "AcroRd32.exe /p /h \"C:\\Document And Settings\\documents\\432432.pdf\"");
+
+        // use an argument without spaces
+        params.put("file", "C:\\documents\\432432.pdf");
+        cmdl = CommandLine.parse("AcroRd32.exe /p /h '${file}'", params);
+        assertEquals(cmdl.toString(), "AcroRd32.exe /p /h C:\\documents\\432432.pdf");
+    }
 }
