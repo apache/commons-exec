@@ -29,7 +29,11 @@ import org.apache.commons.exec.TestUtil;
 public class EnvironmentUtilTest extends TestCase {
 
     public void testToStrings() throws IOException {
+        TestUtil.assertEquals(null, EnvironmentUtil.toStrings(null), false);
+
         Map env = new HashMap();
+
+        TestUtil.assertEquals(new String[0], EnvironmentUtil.toStrings(env), false);
         
         env.put("foo2", "bar2");
         env.put("foo", "bar");

@@ -24,6 +24,12 @@
   </properties>
   <body>
     <release version="1.0-SNAPSHOT" date="as in SVN" description="Sandbox release">
+      <action dev="sgoeschl" type="fix" issue="EXEC-31" due-to="Benjamin Bentmann">
+        Invoking DefaultExecutor.execute(CommandLine command, Map environment) using 
+        a 'null' Map results in inheriting all environment variables of the current
+        process while passing an empty map implies starting the new process with no
+        environment variables. In short 'null' is not the same as an empty map. 
+      </action>
       <action dev="sgoeschl" type="add" due-to="Benjamin Bentmann">
         Added one additional test : DefaultExecutorTest.testExecuteWithFancyArg
       </action>

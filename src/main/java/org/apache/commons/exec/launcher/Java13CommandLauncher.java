@@ -53,10 +53,7 @@ public class Java13CommandLauncher extends CommandLauncherImpl {
 	public Process exec(final CommandLine cmd, final Map env,
 			final File workingDir) throws IOException {
 
-		String[] envVars = null;
-		if(env != null) {
-			envVars = EnvironmentUtil.toStrings(env);
-		}
+		String[] envVars = EnvironmentUtil.toStrings(env);
 
 		return Runtime.getRuntime().exec(cmd.toStrings(),
                 envVars, workingDir);

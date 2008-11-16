@@ -49,11 +49,12 @@ public class EnvironmentUtil {
     /**
      * Get the variable list as an array.
      *
-     * @param environment the environment to use
-     * @return array of key=value assignment strings
+     * @param environment the environment to use, may be <code>null</code>
+     * @return array of key=value assignment strings or <code>null</code> if and only if
+     *     the input map was <code>null</code>
      */
     public static String[] toStrings(Map environment) {
-        if (environment.size() == 0) {
+        if (environment == null) {
             return null;
         }
         String[] result = new String[environment.size()];

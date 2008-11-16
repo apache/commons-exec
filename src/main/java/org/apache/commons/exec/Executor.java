@@ -82,15 +82,51 @@ public interface Executor {
     void setWorkingDirectory(File dir);
 
     /*
-     * Methods for starting synchronous execution.
-     * Returns process exit value
+     * Methods for starting synchronous execution. The child process inherits
+     * all environment variables of the parent process.
+     *
+     * @param command the command to execute
+     * @return process exit value
+     * @throws ExecuteException execution of subprocess failed
      */
-    int execute(CommandLine command) throws ExecuteException, IOException; 
+    int execute(CommandLine command) throws ExecuteException, IOException;
+
+    /*
+     * Methods for starting synchronous execution. If
+     *
+     * @param command the command to execute
+     * @param environment The environment for the new process. If null, the environment
+     *          of the current process is used.
+     * @return process exit value
+     * @throws ExecuteException execution of subprocess failed
+     */
     int execute(CommandLine command, Map environment) throws ExecuteException, IOException;
     
     /*
      * Methods for starting asynchronous execution. Result provided to callback handler
      */
+
+    /*
+     * Methods for starting synchronous execution. The child process inherits
+     * all environment variables of the parent process. Result provided to
+     * callback handler.
+     *
+     * @param command the command to execute
+     * @return process exit value
+     * @throws ExecuteException execution of subprocess failed
+     */
     void execute(CommandLine command, ExecuteResultHandler handler) throws ExecuteException, IOException;
+
+    /*
+     * Methods for starting synchronous execution. The child process inherits
+     * all environment variables of the parent process. Result provided to
+     * callback handler.
+     *
+     * @param command the command to execute
+     * @param environment The environment for the new process. If null, the environment
+     *          of the current process is used.
+     * @return process exit value
+     * @throws ExecuteException execution of subprocess failed     
+     */
     void execute(CommandLine command, Map environment, ExecuteResultHandler handler) throws ExecuteException, IOException;
 }

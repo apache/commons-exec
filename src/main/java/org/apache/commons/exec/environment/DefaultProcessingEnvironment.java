@@ -131,7 +131,7 @@ public class DefaultProcessingEnvironment {
         Executor exe = new DefaultExecutor();
         exe.setStreamHandler(new PumpStreamHandler(out));
         // ignore the exit value - Just try to use what we got
-        exe.execute(getProcEnvCommand(), new HashMap());
+        exe.execute(getProcEnvCommand());
         return new BufferedReader(new StringReader(toString(out)));
     }
 

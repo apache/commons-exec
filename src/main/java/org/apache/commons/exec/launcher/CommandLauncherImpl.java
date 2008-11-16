@@ -34,13 +34,8 @@ public abstract class CommandLauncherImpl implements CommandLauncher {
 
     public Process exec(final CommandLine cmd, final Map env)
             throws IOException {
-        String[] envVar = null;
-        if(env != null) {
-            envVar = EnvironmentUtil.toStrings(env);
-        }
-        
-        return Runtime.getRuntime().exec(cmd.toStrings(),
-                envVar);
+        String[] envVar = EnvironmentUtil.toStrings(env);
+        return Runtime.getRuntime().exec(cmd.toStrings(), envVar);
     }
 
     public abstract Process exec(final CommandLine cmd, final Map env,
