@@ -54,6 +54,7 @@ public class MapUtils
      * the behaviour of ANT.
      *
      * @param source the source map
+     * @param prefix the prefix used for all names
      * @return the clone of the source map
      */
     public static Map prefix(Map source, String prefix) {
