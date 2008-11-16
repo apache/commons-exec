@@ -43,6 +43,7 @@ public class DebugUtils
     /**
      * Handle an exception based on the system properties.
      *
+     * @param msg message describing the problem
      * @param e an exception being handled
      */
     public static void handleException(String msg, Exception e) {
