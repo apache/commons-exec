@@ -140,6 +140,6 @@ int exitValue = executor.execute(commandLine);
 CommandLine commandLine;
 HashMap params = new HashMap();
 params.put("file", "C:\Document And Settings\documents\432432.pdf");
-commandLine = CommandLine.parse("AcroRd32.exe /p /h \"${file}\"", params);
+commandLine  = CommandLine.parse("AcroRd32.exe /p /h \"${file}\"", params);
 +----------------------------------------------------------------------------
   
