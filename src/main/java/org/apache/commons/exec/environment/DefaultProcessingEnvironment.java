@@ -24,15 +24,16 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
-import org.apache.commons.exec.util.MapUtils;
 
 /**
  * Helper class to determine the environment variable
@@ -64,8 +65,9 @@ public class DefaultProcessingEnvironment {
         // create a copy of the map just in case that
         // anyone is going to modifiy it, e.g. removing
         // or setting an evironment variable
-
-        return MapUtils.copy(procEnvironment);
+        Map copy = createEnvironmentMap();
+        copy.putAll(procEnvironment);
+        return copy;
     }
 
     /**
@@ -79,7 +81,8 @@ public class DefaultProcessingEnvironment {
             try {
                 Method getenvs = System.class.getMethod( "getenv", (java.lang.Class[]) null );
                 Map env = (Map) getenvs.invoke( null, (java.lang.Object[]) null );
-                procEnvironment = new HashMap( env );
+                procEnvironment = createEnvironmentMap();
+                procEnvironment.putAll(env);
             } catch ( NoSuchMethodException e ) {
                 // ok, just not on JDK 1.5
             } catch ( IllegalAccessException e ) {
@@ -90,7 +93,7 @@ public class DefaultProcessingEnvironment {
         }
 
         if(procEnvironment == null) {
-            procEnvironment = new HashMap();
+            procEnvironment = createEnvironmentMap();
             BufferedReader in = runProcEnvCommand();
 
             String var = null;
@@ -212,4 +215,27 @@ public class DefaultProcessingEnvironment {
         }
         return bos.toString();
     }
+
+    /**
+     * Creates a map that obeys the casing rules of the current platform for key
+     * lookup. E.g. on a Windows platform, the map keys will be
+     * case-insensitive.
+     * 
+     * @return The map for storage of environment variables, never
+     *         <code>null</code>.
+     */
+    private Map createEnvironmentMap() {
+        if (OS.isFamilyWindows()) {
+            return new TreeMap(new Comparator() {
+                public int compare(Object arg0, Object arg1) {
+                    String key0 = (String) arg0;
+                    String key1 = (String) arg1;
+                    return key0.compareToIgnoreCase(key1);
+                }
+            });
+        } else {
+            return new HashMap();
+        }
+    }
+
 }

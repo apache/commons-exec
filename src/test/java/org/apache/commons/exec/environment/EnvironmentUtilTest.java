@@ -20,10 +20,13 @@ package org.apache.commons.exec.environment;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.exec.OS;
 import org.apache.commons.exec.TestUtil;
 
 public class EnvironmentUtilTest extends TestCase {
@@ -34,22 +37,22 @@ public class EnvironmentUtilTest extends TestCase {
         Map env = new HashMap();
 
         TestUtil.assertEquals(new String[0], EnvironmentUtil.toStrings(env), false);
-        
+
         env.put("foo2", "bar2");
         env.put("foo", "bar");
 
         String[] envStrings = EnvironmentUtil.toStrings(env);
 
         String[] expected = new String[]{"foo=bar", "foo2=bar2"};
-        
-        
+
+
         TestUtil.assertEquals(expected, envStrings, false);
     }
 
     /**
      * Test to access the environment variables of the current
      * process. Please note that this test does not run on
-     * java-gjc 
+     * java-gjc.
      */
     public void testGetProcEnvironment() throws IOException {
         Map procEnvironment = EnvironmentUtil.getProcEnvironment();
@@ -63,4 +66,32 @@ public class EnvironmentUtilTest extends TestCase {
             System.out.println(envArgs[i]);
         }
     }
+
+    /**
+     * On Windows platforms test that accessing environment variables
+     * can be done in a case-insensitive way, e.g. "PATH", "Path" and
+     * "path" would reference the same environment variable.
+     */
+    public void testGetProcEnvironmentCaseInsensitiveLookup() throws IOException {
+        // run tests only on windows platforms
+        if (!OS.isFamilyWindows()) {
+            return;
+        }
+
+        // ensure that we have the same value for upper and lowercase keys
+        Map procEnvironment = EnvironmentUtil.getProcEnvironment();
+        for (Iterator it = procEnvironment.keySet().iterator(); it.hasNext();) {
+            String variable = (String) it.next();
+            String value = (String) procEnvironment.get(variable);
+            assertEquals(value, procEnvironment.get(variable.toLowerCase(Locale.ENGLISH)));
+            assertEquals(value, procEnvironment.get(variable.toUpperCase(Locale.ENGLISH)));
+        }
+
+        // add an environment variable and check access
+        EnvironmentUtil.addVariableToEnvironment( procEnvironment, "foo=bar" );
+        assertEquals("bar", procEnvironment.get("FOO"));
+        assertEquals("bar", procEnvironment.get("Foo"));
+        assertEquals("bar", procEnvironment.get("foo"));
+    }
+
 }

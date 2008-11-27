@@ -69,13 +69,15 @@ public class EnvironmentUtil {
     }
 
     /**
-     * Find the list of environment variables for this process.
+     * Find the list of environment variables for this process. The returned map preserves
+     * the casing of a variable's name on all platforms but obeys the casing rules of the
+     * current platform during lookup, e.g. key names will be case-insensitive on Windows
+     * platforms.
      *
-     * @return a vector containing the environment variables the vector elements
-     *         are strings formatted like variable = value
+     * @return a map containing the environment variables, may be empty but never <code>null</code>
      * @throws IOException the operation failed
      */
-    public static synchronized Map getProcEnvironment() throws IOException {
+    public static Map getProcEnvironment() throws IOException {
     	return procEnvironment.getProcEnvironment();
     }
 
