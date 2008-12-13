@@ -24,6 +24,11 @@
   </properties>
   <body>
     <release version="1.0-SNAPSHOT" date="as in SVN" description="Sandbox release">
+      <action dev="sgoeschl" type="fix" issue="EXEC-27" due-to="Benjamin Bentmann">
+        Renamed EnvironmentUtil to EnvironmentUtils to align with other classes
+        in this project and commons in general. Please note that this change
+        could break existing clients (but would be rather unlikely).
+      </action>
       <action dev="sgoeschl" type="fix" issue="EXEC-30" due-to="Benjamin Bentmann">
          Make environment variables respect casing rules of platforms. Under Windows
          "PATH", "Path" and "path" would access the same environment variable whereas
