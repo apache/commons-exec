@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.environment.EnvironmentUtil;
+import org.apache.commons.exec.environment.EnvironmentUtils;
 
 /**
  * A command launcher for JDK/JRE 1.3 (and higher). Uses the built-in
@@ -53,7 +53,7 @@ public class Java13CommandLauncher extends CommandLauncherImpl {
 	public Process exec(final CommandLine cmd, final Map env,
 			final File workingDir) throws IOException {
 
-		String[] envVars = EnvironmentUtil.toStrings(env);
+		String[] envVars = EnvironmentUtils.toStrings(env);
 
 		return Runtime.getRuntime().exec(cmd.toStrings(),
                 envVars, workingDir);

@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.environment.EnvironmentUtil;
+import org.apache.commons.exec.environment.EnvironmentUtils;
 
 /**
  * A command launcher for a particular JVM/OS platform. This class is a general
@@ -34,7 +34,7 @@ public abstract class CommandLauncherImpl implements CommandLauncher {
 
     public Process exec(final CommandLine cmd, final Map env)
             throws IOException {
-        String[] envVar = EnvironmentUtil.toStrings(env);
+        String[] envVar = EnvironmentUtils.toStrings(env);
         return Runtime.getRuntime().exec(cmd.toStrings(), envVar);
     }
 

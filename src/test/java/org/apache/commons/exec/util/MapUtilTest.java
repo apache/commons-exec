@@ -18,7 +18,7 @@
 
 package org.apache.commons.exec.util;
 
-import org.apache.commons.exec.environment.EnvironmentUtil;
+import org.apache.commons.exec.environment.EnvironmentUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +50,7 @@ public class MapUtilTest extends TestCase
      */
     public void testMergeMap() throws Exception {
 
-        Map procEnvironment = EnvironmentUtil.getProcEnvironment();
+        Map procEnvironment = EnvironmentUtils.getProcEnvironment();
         HashMap applicationEnvironment = new HashMap();
 
         applicationEnvironment.put("appMainClass", "foo.bar.Main");

@@ -27,7 +27,8 @@ import org.apache.commons.exec.OS;
 /**
  * Wrapper for environment variables.
  */
-public class EnvironmentUtil {
+public class EnvironmentUtils
+{
 
 	private static DefaultProcessingEnvironment procEnvironment;
 	
@@ -42,7 +43,7 @@ public class EnvironmentUtil {
     /**
      * Disable constructor.
      */
-    private EnvironmentUtil() {
+    private EnvironmentUtils() {
 
     }
 

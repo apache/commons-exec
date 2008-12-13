@@ -32,16 +32,16 @@ import org.apache.commons.exec.TestUtil;
 public class EnvironmentUtilTest extends TestCase {
 
     public void testToStrings() throws IOException {
-        TestUtil.assertEquals(null, EnvironmentUtil.toStrings(null), false);
+        TestUtil.assertEquals(null, EnvironmentUtils.toStrings(null), false);
 
         Map env = new HashMap();
 
-        TestUtil.assertEquals(new String[0], EnvironmentUtil.toStrings(env), false);
+        TestUtil.assertEquals(new String[0], EnvironmentUtils.toStrings(env), false);
 
         env.put("foo2", "bar2");
         env.put("foo", "bar");
 
-        String[] envStrings = EnvironmentUtil.toStrings(env);
+        String[] envStrings = EnvironmentUtils.toStrings(env);
 
         String[] expected = new String[]{"foo=bar", "foo2=bar2"};
 
@@ -55,11 +55,11 @@ public class EnvironmentUtilTest extends TestCase {
      * java-gjc.
      */
     public void testGetProcEnvironment() throws IOException {
-        Map procEnvironment = EnvironmentUtil.getProcEnvironment();
+        Map procEnvironment = EnvironmentUtils.getProcEnvironment();
         // we assume that there is at least one environment variable
         // for this process
         assertTrue(procEnvironment.size() > 0);
-        String[] envArgs = EnvironmentUtil.toStrings(procEnvironment);
+        String[] envArgs = EnvironmentUtils.toStrings(procEnvironment);
         for(int i=0; i<envArgs.length; i++) {
             assertNotNull(envArgs[i]);
             assertTrue(envArgs[i].length() > 0);
@@ -79,7 +79,7 @@ public class EnvironmentUtilTest extends TestCase {
         }
 
         // ensure that we have the same value for upper and lowercase keys
-        Map procEnvironment = EnvironmentUtil.getProcEnvironment();
+        Map procEnvironment = EnvironmentUtils.getProcEnvironment();
         for (Iterator it = procEnvironment.keySet().iterator(); it.hasNext();) {
             String variable = (String) it.next();
             String value = (String) procEnvironment.get(variable);
@@ -88,7 +88,7 @@ public class EnvironmentUtilTest extends TestCase {
         }
 
         // add an environment variable and check access
-        EnvironmentUtil.addVariableToEnvironment( procEnvironment, "foo=bar" );
+        EnvironmentUtils.addVariableToEnvironment( procEnvironment, "foo=bar" );
         assertEquals("bar", procEnvironment.get("FOO"));
         assertEquals("bar", procEnvironment.get("Foo"));
         assertEquals("bar", procEnvironment.get("foo"));

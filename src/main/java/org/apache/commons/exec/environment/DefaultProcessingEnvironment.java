@@ -110,14 +110,14 @@ public class DefaultProcessingEnvironment {
                 } else {
                     // New env var...append the previous one if we have it.
                     if (var != null) {
-                    	EnvironmentUtil.addVariableToEnvironment(procEnvironment, var);
+                    	EnvironmentUtils.addVariableToEnvironment(procEnvironment, var);
                     }
                     var = line;
                 }
             }
             // Since we "look ahead" before adding, there's one last env var.
             if (var != null) {
-            	EnvironmentUtil.addVariableToEnvironment(procEnvironment, var);
+            	EnvironmentUtils.addVariableToEnvironment(procEnvironment, var);
             }
         }
         return procEnvironment;
