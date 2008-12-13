@@ -70,6 +70,10 @@
       <name>Niklas Gustavsson</name>
       <email>niklas AT protocol7 DOT com</email>
     </contributor>
+    <contributor>
+      <name>Benjamin Bentmann</name>
+      <email>benjamin dot bentmann at udo dot edu</email>
+    </contributor>
   </contributors>
   
   <scm>
