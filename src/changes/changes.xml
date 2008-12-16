@@ -23,7 +23,10 @@
     <author email="sgoeschl@apache.org">Siegfried Goeschl</author>
   </properties>
   <body>
-    <release version="1.0-SNAPSHOT" date="as in SVN" description="Sandbox release">
+    <release version="1.0.0" date="2008-12-16" description="Sandbox release">
+      <action dev="sgoeschl" type="fix">
+        Fixed broken "groupId" from "org.apache.commons" to "commons-exec"
+      </action>
       <action dev="sgoeschl" type="fix" issue="EXEC-27" due-to="Benjamin Bentmann">
         Renamed EnvironmentUtil to EnvironmentUtils to align with other classes
         in this project and commons in general. Please note that this change
