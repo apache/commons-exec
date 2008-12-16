@@ -127,16 +127,7 @@
             </reports>
           </reportSet>
         </reportSets>
-      </plugin>      
-      <!-- generate the changelog report to simplify reviewing the changes -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-changelog-plugin</artifactId>
-        <version>2.1</version>
-        <configuration>
-          <basedir>${basedir}</basedir>
-        </configuration>        
-      </plugin>            
+      </plugin>           
     </plugins>
   </reporting>
 
