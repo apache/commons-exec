@@ -10,7 +10,7 @@ ProcessBuilder class.
 
 Reliably executing external processes can also require knowledge of the environment variables before or after the
 command is executed. In J2SE 1.1-1.4 there is not support for this, since the method, System.getenv(), for retriving
-environment variables is deprecated.
+environment variables is deprecated (in later releases the deprecation was removed).
 
 The are currently several different libraries that for their own purposes has implemented frameworks around
 Runtime.exec() to handle the various issue outlined above. The proposed project should aim at coordinating and
