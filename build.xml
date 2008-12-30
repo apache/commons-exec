@@ -19,6 +19,9 @@
 -->
 <project name="exec" default="jar" basedir=".">
 
+  <!-- include optional user-defined properties -->
+  <property file="user.properties" />
+  
   <property file="build.properties" />
   <property name="maven.build.version" value="1.0-SNAPSHOT"/>
   <property name="maven.build.output" value="target/classes"/>
@@ -27,13 +30,7 @@
   <property name="maven.test.reports" value="${maven.build.directory}/test-reports"/>
   <property name="maven.test.output" value="target/test-classes"/>
   <property name="maven.repo.local" value="${user.home}/.m2/repository"/>
-
-  <path id="build.classpath">
-    <!-- assume that we pick up the junit stuff from the repo - won't work on all boxes -->
-    <fileset dir="${maven.repo.local}/junit/junit/3.8.1">
-      <include name="junit-3.8.1.jar"/>
-    </fileset>
-  </path>
+  <property name="maven.junit.jar" value="${maven.repo.local}/junit/junit/3.8.1/junit-3.8.1.jar"/>
 
   <target name="clean" description="Clean the output directory">
     <delete dir="${maven.build.directory}"/>
@@ -45,7 +42,6 @@
       <src>
         <pathelement location="${basedir}/src/main/java"/>
       </src>
-      <classpath refid="build.classpath"/>
     </javac>
   </target>
 
@@ -60,7 +56,6 @@
         <pathelement location="${basedir}/src/test/java"/>
       </src>
       <classpath>
-        <path refid="build.classpath"/>
         <pathelement location="${maven.build.output}"/>
       </classpath>
     </javac>
@@ -72,10 +67,10 @@
       <sysproperty key="basedir" value="."/>
       <sysproperty key="COMMONS_EXEC_DEBUG" value="true"/>
       <sysproperty key="COMMONS_EXEC_LENIENT" value="false"/>
-      <formatter type="xml"/>
+      <!-- 2008-12-30 fix sgoeschl using xml formatter breaks junit on JDK 1.3.1 -->
+      <!-- <formatter type="xml"/> -->
       <formatter type="plain" usefile="false"/>
       <classpath>
-        <path refid="build.classpath"/>
         <pathelement location="${maven.build.output}"/>
         <pathelement location="${maven.test.output}"/>
       </classpath>
@@ -99,10 +94,10 @@
   </target>
 
   <!-- Starts preparing a test distribution -->
-  <target name="test-distribution-prepare" depends="clean, compile, junit-present, compile-tests">
+  <target name="test-distribution-prepare" depends="clean, compile, compile-tests" if="junit.present">
     <mkdir dir="${maven.build.directory}/dist/lib"/>
     <!-- create the libraries -->
-    <copy file="${maven.repo.local}/junit/junit/3.8.1/junit-3.8.1.jar" todir="${maven.build.directory}/dist/lib"/>
+    <copy file="${maven.junit.jar}" todir="${maven.build.directory}/dist/lib"/>
     <jar jarfile="${maven.build.directory}/dist/lib/exec-test-${maven.build.version}.jar" basedir="${maven.test.output}" excludes="**/package.html"/>
     <jar jarfile="${maven.build.directory}/dist/lib/${maven.build.final.name}.jar" basedir="${maven.build.output}" excludes="**/package.html"/>
     <!-- copy the scripts -->
@@ -117,7 +112,7 @@
   </target>
   
   <!-- Create a zip containing the test environment -->
-  <target name="test-distribution-zip" depends="test-distribution-prepare">
+  <target name="test-distribution-zip" depends="test-distribution-prepare" if="junit.present">
     <zip destfile="${maven.build.directory}/exec-test-${maven.build.version}.zip">
       <fileset dir="${maven.build.directory}/dist">
         <filename name="**/*.*"/>
@@ -126,13 +121,13 @@
   </target>
 
   <!-- Create a tar.gz containing the test environment -->
-  <target name="test-distribution-tar" depends="test-distribution-prepare">
+  <target name="test-distribution-tar" depends="test-distribution-prepare" if="junit.present">
     <tar tarfile="${maven.build.directory}/dist/exec-test-${maven.build.version}.tar" basedir="${maven.build.directory}/dist"/>
     <gzip zipfile="${maven.build.directory}/exec-test-${maven.build.version}.tar.gz" src="${maven.build.directory}/dist/exec-test-${maven.build.version}.tar"/>
     <delete file="${maven.build.directory}/dist/exec-test-${maven.build.version}.tar"/>
   </target>
 
-  <target name="test-distribution" depends="test-distribution-zip, test-distribution-tar" description="Creates a test distribution">
+  <target name="test-distribution" depends="junit-present,test-distribution-zip,test-distribution-tar" description="Creates a test distribution" if="junit.present" >
   </target>
   
 </project>
