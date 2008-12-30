@@ -25,6 +25,9 @@
   <body>
     <release version="1.0.0" date="2008-12-16" description="Sandbox release">
       <action dev="sgoeschl" type="fix">
+        The Ant build now works even when junit is not on the classpath
+      </action>
+      <action dev="sgoeschl" type="fix">
         Fixed broken "groupId" from "org.apache.commons" to "commons-exec"
       </action>
       <action dev="sgoeschl" type="fix" issue="EXEC-27" due-to="Benjamin Bentmann">
