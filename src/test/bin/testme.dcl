@@ -21,5 +21,5 @@ $! Run the test suite
 $!
 $ create/directory [.target]
 $ java "-Dorg.apache.commons.exec.lenient=false" "-Dorg.apache.commons.exec.debug=false" -
-  -cp "./lib/junit-3.8.1.jar:./lib/exec-test-1.0-SNAPSHOT.jar:./lib/exec-1.0-SNAPSHOT.jar" -
+  -cp "./lib/junit-3.8.1.jar:./lib/commons-exec-test-@VERSION@.jar:./lib/commons-exec-@VERSION@.jar" -
   "org.apache.commons.exec.TestRunner"

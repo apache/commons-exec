@@ -23,10 +23,10 @@
   <property file="user.properties" />
   
   <property file="build.properties" />
-  <property name="maven.build.version" value="1.0-SNAPSHOT"/>
+  <property name="maven.build.version" value="1.0.0"/>
   <property name="maven.build.output" value="target/classes"/>
   <property name="maven.build.directory" value="target"/>
-  <property name="maven.build.final.name" value="exec-${maven.build.version}"/>
+  <property name="maven.build.final.name" value="commons-exec-${maven.build.version}"/>
   <property name="maven.test.reports" value="${maven.build.directory}/test-reports"/>
   <property name="maven.test.output" value="target/test-classes"/>
   <property name="maven.repo.local" value="${user.home}/.m2/repository"/>
@@ -98,22 +98,25 @@
     <mkdir dir="${maven.build.directory}/dist/lib"/>
     <!-- create the libraries -->
     <copy file="${maven.junit.jar}" todir="${maven.build.directory}/dist/lib"/>
-    <jar jarfile="${maven.build.directory}/dist/lib/exec-test-${maven.build.version}.jar" basedir="${maven.test.output}" excludes="**/package.html"/>
+    <jar jarfile="${maven.build.directory}/dist/lib/commons-exec-test-${maven.build.version}.jar" basedir="${maven.test.output}" excludes="**/package.html"/>
     <jar jarfile="${maven.build.directory}/dist/lib/${maven.build.final.name}.jar" basedir="${maven.build.output}" excludes="**/package.html"/>
     <!-- copy the scripts -->
     <copy todir="${maven.build.directory}/dist">
       <fileset dir="${basedir}/src/test/bin"/>
+      <filterset>
+        <filter token="VERSION" value="${maven.build.version}"/>
+      </filterset>
     </copy>
     <copy todir="${maven.build.directory}/dist/src/test/scripts">
       <fileset dir="${basedir}/src/test/scripts"/>
     </copy>
-    <!-- make the script files executable -->
-    <chmod dir="${maven.build.directory}/dist" perm="u+x" includes="**/*.sh"/>
+    <!-- make the shell script files readable/executable -->
+    <chmod dir="${maven.build.directory}/dist" perm="ugo+rx" includes="**/*.sh"/>
   </target>
   
   <!-- Create a zip containing the test environment -->
   <target name="test-distribution-zip" depends="test-distribution-prepare" if="junit.present">
-    <zip destfile="${maven.build.directory}/exec-test-${maven.build.version}.zip">
+    <zip destfile="${maven.build.directory}/commons-exec-test-${maven.build.version}.zip">
       <fileset dir="${maven.build.directory}/dist">
         <filename name="**/*.*"/>
       </fileset>
@@ -122,9 +125,9 @@
 
   <!-- Create a tar.gz containing the test environment -->
   <target name="test-distribution-tar" depends="test-distribution-prepare" if="junit.present">
-    <tar tarfile="${maven.build.directory}/dist/exec-test-${maven.build.version}.tar" basedir="${maven.build.directory}/dist"/>
-    <gzip zipfile="${maven.build.directory}/exec-test-${maven.build.version}.tar.gz" src="${maven.build.directory}/dist/exec-test-${maven.build.version}.tar"/>
-    <delete file="${maven.build.directory}/dist/exec-test-${maven.build.version}.tar"/>
+    <tar tarfile="${maven.build.directory}/dist/commons-exec-test-${maven.build.version}.tar" basedir="${maven.build.directory}/dist"/>
+    <gzip zipfile="${maven.build.directory}/commons-exec-test-${maven.build.version}.tar.gz" src="${maven.build.directory}/dist/commons-exec-test-${maven.build.version}.tar"/>
+    <delete file="${maven.build.directory}/dist/commons-exec-test-${maven.build.version}.tar"/>
   </target>
 
   <target name="test-distribution" depends="junit-present,test-distribution-zip,test-distribution-tar" description="Creates a test distribution" if="junit.present" >
