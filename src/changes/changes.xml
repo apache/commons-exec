@@ -23,8 +23,12 @@
     <author email="sgoeschl@apache.org">Siegfried Goeschl</author>
   </properties>
   <body>
-    <release version="1.0.0" date="2008-12-16" description="Sandbox release">
+    <release version="1.0.0" date="2009-01-05" description="Sandbox release">
       <action dev="sgoeschl" type="fix">
+        After a long discussion we decided to stick to following groupId
+        "org.apache.commons" instead of "commons-exec".
+      </action>
+      <action dev="sgoeschl" type="fix" due-to="Kevin Jackson">
         The Ant build now works even when junit is not on the classpath
       </action>
       <action dev="sgoeschl" type="fix">
