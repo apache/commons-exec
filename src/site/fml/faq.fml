@@ -53,10 +53,21 @@ under the License.
       <question>How to test commons-exec on my environment</question>
       <answer>
         <p> Assuming that you have an evironment not listed on the <a href="./testmatrix.html">test
-            matrix</a> and want to make sure that everything works fine you can run easily run the
+          matrix</a> and want to make sure that everything works fine you can run easily run the
           regression tests. Make a SVN checkout and run 'ant test-distribution' to create the test
-          distribution in './target'. Unpack the 'zip' or 'tar.gz' file and start the tests.
-          Independent from the result we very much appreciate your feedback ... :-)</p>
+          distribution in './target'. On a production box downloading the ready-to-run test 
+          distribution might be even more handy (<a href="http://people.apache.org/~sgoeschl/download/commons-exec/">
+          http://people.apache.org/~sgoeschl/download/commons-exec/</a>). Unpack the 'zip' or 
+          'tar.gz' file and start the tests. Independent from the result we very much appreciate 
+          your feedback ... :-)</p>
+      </answer>
+      <question>Why is the regression test broken on my Unix box</question>
+      <answer>
+        <p> Please check if the shell scripts under "./src/test/script" are executable - assuming 
+          that they are not executable the "testExecute*" and "testExecuteAsync*" test will 
+          fail. We try very hard to keep the exeutable bit but they have somehow the tendency 
+          to to be lost ... 
+        </p>
       </answer>
     </faq>
   </part>
