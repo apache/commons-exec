@@ -21,6 +21,7 @@ package org.apache.commons.exec;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +36,7 @@ public class DefaultExecutorTest extends TestCase {
     private File errorTestScript = TestUtil.resolveScriptForOS(testDir + "/error");
     private File foreverTestScript = TestUtil.resolveScriptForOS(testDir + "/forever");
     private File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir + "/grmpffffff");
+    private File redirectScript = TestUtil.resolveScriptForOS(testDir + "/redirect");
 
     // Get suitable exit codes for the OS
     private static final int SUCCESS_STATUS; // test script successful exit code
@@ -343,5 +345,39 @@ public class DefaultExecutorTest extends TestCase {
         int exitValue = exec.execute(cl);
         assertTrue(baos.toString().trim().indexOf("test $;`(0)[1]{2}") > 0);
         assertFalse(exec.isFailure(exitValue));
-    }    
+    }
+
+    /**
+     * Start a process with redirected streams - stdin of the newly
+     * created process is connected to a FileInputStream whereas
+     * the "redirect" script reads all lines from stdin and prints
+     * them on stdout. Furthermore the script prints a status
+     * message on stderr.
+     */
+    public void testExecuteWithRedirectedStreams() throws Exception
+    {
+        FileInputStream fis = new FileInputStream("./NOTICE.txt");
+        CommandLine cl = new CommandLine(redirectScript);
+        PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( System.out, System.out, fis );
+        DefaultExecutor executor = new DefaultExecutor();
+        executor.setWorkingDirectory(new File("."));
+        executor.setStreamHandler( pumpStreamHandler );
+        int exitValue = executor.execute(cl);
+        fis.close();
+        assertFalse(exec.isFailure(exitValue));
+    }
+
+    /**
+     * Start a process and connect stdin, stdout and stderr. This
+     * test currenty hang ....
+     */
+    public void doNotTestExecuteWithStdin() throws Exception
+    {
+        CommandLine cl = new CommandLine(testScript);
+        PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( System.out, System.err, System.in );
+        DefaultExecutor executor = new DefaultExecutor();
+        executor.setStreamHandler( pumpStreamHandler );
+        int exitValue = executor.execute(cl);
+        assertFalse(exec.isFailure(exitValue));
+    }
 }
