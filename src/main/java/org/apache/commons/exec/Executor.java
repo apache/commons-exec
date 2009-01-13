@@ -22,18 +22,40 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * The main abstraction to start an external process.
+ *
+ * The implementation allows to
+ * <ul>
+ *  <li>set a current working directory for the subprocess</li>
+ *  <li>provide a set of environment variables passed to the subprocess</li>
+ *  <li>capture the subprocess output of stdout and stderr using an ExecuteStreamHandler</li>
+ *  <li>kill long-running processes using an ExecuteWatchdog</li>
+ *  <li>define a set of expected exit values</li>
+ *  <li>terminate any started processes when the main process is terminating using a ProcessDestroyer</li>
+ * </ul>
+ *
+ * The following example shows the basic usage:
+ *
+ * <pre>
+ * Executor exec = new DefaultExecutor();
+ * CommandLine cl = new CommandLine("ls -l");
+ * int exitvalue = exec.execute(cl);
+ * </pre>
+ */
+
 public interface Executor {
 
     /** Invalid exit code. * */
     int INVALID_EXITVALUE = 0xdeadbeef;
 
-    /*
+    /**
      * Define the exit code of the process to considered
      * successful.
      */
     void setExitValue(final int value);
 
-    /*
+    /**
      * Define the exit code of the process to considered
      * successful using one of the following values
      * <ul>
@@ -54,14 +76,14 @@ public interface Executor {
      */
     boolean isFailure(final int exitValue);
 
-    /*
+    /**
      * StreamHandlers are used for providing input, 
      * retriving the output. Also used for logging.  
      */
     ExecuteStreamHandler getStreamHandler();
     void setStreamHandler(ExecuteStreamHandler streamHandler);
 
-    /*
+    /**
      * Watchdog is used to kill of processes running, 
      * typically, too long time. 
      */
@@ -75,13 +97,13 @@ public interface Executor {
     ProcessDestroyer getProcessDestroyer();
     void setProcessDestroyer(ProcessDestroyer processDestroyer);
 
-    /*
+    /**
      * Set the working directory of the created process.
      */
     File getWorkingDirectory();
     void setWorkingDirectory(File dir);
 
-    /*
+    /**
      * Methods for starting synchronous execution. The child process inherits
      * all environment variables of the parent process.
      *
@@ -91,7 +113,7 @@ public interface Executor {
      */
     int execute(CommandLine command) throws ExecuteException, IOException;
 
-    /*
+    /**
      * Methods for starting synchronous execution. If
      *
      * @param command the command to execute
@@ -106,7 +128,7 @@ public interface Executor {
      * Methods for starting asynchronous execution. Result provided to callback handler
      */
 
-    /*
+    /**
      * Methods for starting synchronous execution. The child process inherits
      * all environment variables of the parent process. Result provided to
      * callback handler.
@@ -117,7 +139,7 @@ public interface Executor {
      */
     void execute(CommandLine command, ExecuteResultHandler handler) throws ExecuteException, IOException;
 
-    /*
+    /**
      * Methods for starting synchronous execution. The child process inherits
      * all environment variables of the parent process. Result provided to
      * callback handler.
