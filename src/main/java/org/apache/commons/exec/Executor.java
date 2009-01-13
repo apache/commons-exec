@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * The main abstraction to start an external process.
  *
- * The implementation allows to
+ * The interface allows to
  * <ul>
  *  <li>set a current working directory for the subprocess</li>
  *  <li>provide a set of environment variables passed to the subprocess</li>
@@ -52,24 +52,28 @@ public interface Executor {
     /**
      * Define the exit code of the process to considered
      * successful.
+     *
+     * @param value the exit code representing successful execution
      */
     void setExitValue(final int value);
 
     /**
      * Define the exit code of the process to considered
-     * successful using one of the following values
+     * successful. The caller can pass one of the following values
      * <ul>
      *  <li>an array of exit values to be considered successful</li>
      *  <li>an empty array for auto-detect of successful exit codes</li>
      *  <li>null to indicate to skip checking of exit codes</li>
      * </ul>
+     * @param values a list of the exit codes
      */
     void setExitValues(final int[] values);
 
     /**
      * Checks whether <code>exitValue</code> signals a failure. If no
      * exit values are set than the default conventions of the OS is
-     * used. 
+     * used. e.g. most OS regard an exit code of '0' as successful
+     * execution and everything else as failure.
      *
      * @param exitValue the exit value (return code) to be checked
      * @return <code>true</code> if <code>exitValue</code> signals a failure
@@ -114,7 +118,7 @@ public interface Executor {
     int execute(CommandLine command) throws ExecuteException, IOException;
 
     /**
-     * Methods for starting synchronous execution. If
+     * Methods for starting synchronous execution.
      *
      * @param command the command to execute
      * @param environment The environment for the new process. If null, the environment
@@ -124,29 +128,26 @@ public interface Executor {
      */
     int execute(CommandLine command, Map environment) throws ExecuteException, IOException;
     
-    /*
-     * Methods for starting asynchronous execution. Result provided to callback handler
-     */
-
     /**
-     * Methods for starting synchronous execution. The child process inherits
+     * Methods for starting asynchronous execution. The child process inherits
      * all environment variables of the parent process. Result provided to
      * callback handler.
      *
      * @param command the command to execute
-     * @return process exit value
+     * @param handler capture process termination and exit code
      * @throws ExecuteException execution of subprocess failed
      */
     void execute(CommandLine command, ExecuteResultHandler handler) throws ExecuteException, IOException;
 
     /**
-     * Methods for starting synchronous execution. The child process inherits
+     * Methods for starting asynchronous execution. The child process inherits
      * all environment variables of the parent process. Result provided to
      * callback handler.
      *
      * @param command the command to execute
      * @param environment The environment for the new process. If null, the environment
      *          of the current process is used.
+     * @param handler capture process termination and exit code 
      * @return process exit value
      * @throws ExecuteException execution of subprocess failed     
      */
