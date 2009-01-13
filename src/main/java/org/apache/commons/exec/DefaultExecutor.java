@@ -42,8 +42,6 @@ import org.apache.commons.exec.launcher.CommandLauncherFactory;
  * CommandLine cl = new CommandLine("ls -l");
  * int exitvalue = exec.execute(cl);
  * </pre>
- *
- *
  */
 public class DefaultExecutor implements Executor {
 
