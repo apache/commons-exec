@@ -17,8 +17,7 @@
 # limitations under the License.
 #
 
-# print the given environment variable and command line parameter
-# since this is verified by the regression test
+# read from stdin and output to stdout
 
 while read myline
 do
