@@ -171,7 +171,7 @@
     <commons.jira.pid>12310814</commons.jira.pid>
     <commons.release.version>1.0.0</commons.release.version>
     <!-- The RC version used in the staging repository URL. -->
-    <commons.rc.version>RC3</commons.rc.version>
+    <commons.rc.version>RC4</commons.rc.version>
   </properties>
 
 </project>
