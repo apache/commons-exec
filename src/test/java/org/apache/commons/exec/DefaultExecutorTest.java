@@ -356,15 +356,18 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testExecuteWithRedirectedStreams() throws Exception
     {
-        FileInputStream fis = new FileInputStream("./NOTICE.txt");
-        CommandLine cl = new CommandLine(redirectScript);
-        PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( System.out, System.out, fis );
-        DefaultExecutor executor = new DefaultExecutor();
-        executor.setWorkingDirectory(new File("."));
-        executor.setStreamHandler( pumpStreamHandler );
-        int exitValue = executor.execute(cl);
-        fis.close();
-        assertFalse(exec.isFailure(exitValue));
+        if(OS.isFamilyUnix())
+        {
+            FileInputStream fis = new FileInputStream("./NOTICE.txt");
+            CommandLine cl = new CommandLine(redirectScript);
+            PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( System.out, System.out, fis );
+            DefaultExecutor executor = new DefaultExecutor();
+            executor.setWorkingDirectory(new File("."));
+            executor.setStreamHandler( pumpStreamHandler );
+            int exitValue = executor.execute(cl);
+            fis.close();
+            assertFalse(exec.isFailure(exitValue));
+        }
     }
 
     /**
