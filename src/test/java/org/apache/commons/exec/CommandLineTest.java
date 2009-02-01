@@ -239,6 +239,28 @@ public class CommandLineTest extends TestCase {
         assertEquals("cmd /C convert source.jpg -resize \"500x> \" target.jpg", cmdl.toString());        
     }
 
+    /**
+     * Another  command line parsing puzzle from Kai Hu - as
+     * far as I understand it there is no way to express that
+     * in a one-line command string.
+     */
+    public void testParseComplexCommandLine2() {
+
+        String commandline = "./script/jrake cruise:publish_installers "
+            + "INSTALLER_VERSION=unstable_2_1 "
+            + "INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\" "
+            + "INSTALLER_DOWNLOAD_SERVER=\'something\' "
+            + "WITHOUT_HELP_DOC=true";
+
+        CommandLine cmdl = CommandLine.parse(commandline);
+        String[] args = cmdl.getArguments();
+        assertEquals(args[0], "cruise:publish_installers");
+        assertEquals(args[1], "INSTALLER_VERSION=unstable_2_1");
+        // assertEquals(args[2], "INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\"");
+        // assertEquals(args[3], "INSTALLER_DOWNLOAD_SERVER='something'");
+        assertEquals(args[4], "WITHOUT_HELP_DOC=true");
+    }
+
    /**
     * Create a command line with pre-quoted strings to test SANDBOX-192,
     * e.g. "runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""

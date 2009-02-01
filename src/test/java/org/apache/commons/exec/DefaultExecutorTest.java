@@ -22,6 +22,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -383,4 +384,46 @@ public class DefaultExecutorTest extends TestCase {
         int exitValue = executor.execute(cl);
         assertFalse(exec.isFailure(exitValue));
     }
+
+     /**
+      * Start a process and connect stdout and stderr.
+      */
+     public void testExecuteWithStdOutErr() throws Exception
+     {
+         CommandLine cl = new CommandLine(testScript);
+         PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( System.out, System.err );
+         DefaultExecutor executor = new DefaultExecutor();
+         executor.setStreamHandler( pumpStreamHandler );
+         int exitValue = executor.execute(cl);
+         assertFalse(exec.isFailure(exitValue));
+     }
+
+     /**
+      * Start a process and connect it to no stream.
+      */
+     public void testExecuteWithNullOutErr() throws Exception
+     {
+         CommandLine cl = new CommandLine(testScript);
+         PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( null, null );
+         DefaultExecutor executor = new DefaultExecutor();
+         executor.setStreamHandler( pumpStreamHandler );
+         int exitValue = executor.execute(cl);
+         assertFalse(exec.isFailure(exitValue));
+     }
+
+     /**
+      * Start a process and connect out and err to a file.
+      */
+     public void testExecuteWithRedirectOutErr() throws Exception
+     {
+         File outfile = File.createTempFile("EXEC", ".test");
+         outfile.deleteOnExit();
+         CommandLine cl = new CommandLine(testScript);
+         PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( new FileOutputStream(outfile) );
+         DefaultExecutor executor = new DefaultExecutor();
+         executor.setStreamHandler( pumpStreamHandler );
+         int exitValue = executor.execute(cl);
+         assertFalse(exec.isFailure(exitValue));
+         assertTrue(outfile.exists());
+     }
 }

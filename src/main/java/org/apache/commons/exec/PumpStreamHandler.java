@@ -26,7 +26,8 @@ import java.io.OutputStream;
 
 /**
  * Copies standard output and error of subprocesses to standard output and error
- * of the parent process.
+ * of the parent process. If output or error stream are set to null, any feedback
+ * from that stream will be lost. 
  */
 public class PumpStreamHandler implements ExecuteStreamHandler {
 
@@ -96,6 +97,9 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      *            the <CODE>InputStream</CODE>.
      */
     public void setProcessOutputStream(final InputStream is) {
+        if (out != null) {
+            createProcessOutputPump(is, out);
+        }
         createProcessOutputPump(is, out);
     }
 
@@ -136,8 +140,12 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * Start the <CODE>Thread</CODE>s.
      */
     public void start() {
-        outputThread.start();
-        errorThread.start();
+        if (outputThread != null) {
+            outputThread.start();
+        }
+        if (errorThread != null) {
+            errorThread.start();
+        }
         if (inputThread != null) {
             inputThread.start();
         }
@@ -147,37 +155,53 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * Stop pumping the streams.
      */
     public void stop() {
-        try {
-            outputThread.join();
-        } catch (InterruptedException e) {
-            // ignore
-        }
-        try {
-            errorThread.join();
-        } catch (InterruptedException e) {
-            // ignore
-        }
 
-        if (inputThread != null) {
+        if (outputThread != null) {
             try {
-                inputThread.join();
+                outputThread.join();
+                outputThread = null;
             } catch (InterruptedException e) {
                 // ignore
             }
         }
 
-        try {
-            err.flush();
-        } catch (IOException e) {
-            String msg = "Got exception while flushing the error stream";
-            DebugUtils.handleException(msg ,e);
+        if (errorThread != null) {
+            try {
+                errorThread.join();
+                errorThread = null;
+            } catch (InterruptedException e) {
+                // ignore
+            }
         }
-        try {
-            out.flush();
-        } catch (IOException e) {
-            String msg = "Got exception while flushing the output stream";
-            DebugUtils.handleException(msg ,e);
+
+        if (inputThread != null) {
+            try {
+                inputThread.join();
+                inputThread = null;
+            } catch (InterruptedException e) {
+                // ignore
+            }
         }
+
+         if (err != null && err != out) {
+             try {
+                 err.flush();
+                 err = null;
+             } catch (IOException e) {
+                 String msg = "Got exception while flushing the error stream";
+                 DebugUtils.handleException(msg ,e);
+             }
+         }
+
+         if (out != null) {
+             try {
+                 out.flush();
+                 out = null;
+             } catch (IOException e) {
+                 String msg = "Got exception while flushing the output stream";
+                 DebugUtils.handleException(msg ,e);
+             }
+         }
     }
 
     /**
