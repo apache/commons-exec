@@ -23,7 +23,10 @@
     <author email="sgoeschl@apache.org">Siegfried Goeschl</author>
   </properties>
   <body>
-    <release version="1.0.0" date="2009-01-05" description="Sandbox release">
+    <release version="1.0.0" date="As in SVN" description="Sandbox release">
+      <action dev="sgoeschl" type="fix" due-to="Marco Ferrante" issue="EXEC-32">
+        Handle null streams consistently.
+      </action>
       <action dev="sgoeschl" type="fix">
         After a long discussion we decided to stick to following groupId
         "org.apache.commons" instead of "commons-exec".
