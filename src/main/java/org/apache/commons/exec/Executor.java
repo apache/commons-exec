@@ -148,7 +148,6 @@ public interface Executor {
      * @param environment The environment for the new process. If null, the environment
      *          of the current process is used.
      * @param handler capture process termination and exit code 
-     * @return process exit value
      * @throws ExecuteException execution of subprocess failed     
      */
     void execute(CommandLine command, Map environment, ExecuteResultHandler handler) throws ExecuteException, IOException;
