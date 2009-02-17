@@ -109,8 +109,8 @@ public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
             logicals.put(logName, logValue);
         }
 
-        for (Iterator i = logicals.keySet().iterator(); i.hasNext();) {
-            String logical = (String) i.next();
+        for (Iterator i = logicals.entrySet().iterator(); i.hasNext();) {
+            String logical = (String) ((Map.Entry) i.next()).getKey();
             environment.put(logical, logicals.get(logical));
         }
         return environment;

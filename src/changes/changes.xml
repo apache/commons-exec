@@ -24,6 +24,9 @@
   </properties>
   <body>
     <release version="1.0.0" date="As in SVN" description="Sandbox release">
+      <action dev="sgoeschl" type="fix" due-to="Luc Maisonobe" issue="EXEC-35">
+        Fixing a few findbugs issues.
+      </action>
       <action dev="sgoeschl" type="fix" due-to="Marco Ferrante" issue="EXEC-32">
         Handle null streams consistently.
       </action>
