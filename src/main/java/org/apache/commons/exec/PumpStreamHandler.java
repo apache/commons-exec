@@ -55,6 +55,13 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      */
     public PumpStreamHandler(final OutputStream out, final OutputStream err,
             final InputStream input) {
+
+        // see EXEC-33
+        if(input == System.in) {
+            String msg = "Using System.in is currently not supported since it would hang your application (see EXEC-33).";
+            throw new IllegalArgumentException(msg);
+        }
+
         this.out = out;
         this.err = err;
         this.input = input;

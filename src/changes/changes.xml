@@ -24,6 +24,11 @@
   </properties>
   <body>
     <release version="1.0.0" date="As in SVN" description="Sandbox release">
+      <action dev="sgoeschl" type="fix" issue="EXEC-33">
+        Using System.in for child process will actually hang your application -
+        see JIRA for more details. Since there is no easy fix an
+        IllegalRuntimeException is thrown when System.in is passed.
+      </action>
       <action dev="sgoeschl" type="fix" due-to="Luc Maisonobe" issue="EXEC-35">
         Fixing a few findbugs issues.
       </action>
