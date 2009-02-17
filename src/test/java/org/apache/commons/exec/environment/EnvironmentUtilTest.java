@@ -80,11 +80,12 @@ public class EnvironmentUtilTest extends TestCase {
 
         // ensure that we have the same value for upper and lowercase keys
         Map procEnvironment = EnvironmentUtils.getProcEnvironment();
-        for (Iterator it = procEnvironment.keySet().iterator(); it.hasNext();) {
-            String variable = (String) it.next();
-            String value = (String) procEnvironment.get(variable);
-            assertEquals(value, procEnvironment.get(variable.toLowerCase(Locale.ENGLISH)));
-            assertEquals(value, procEnvironment.get(variable.toUpperCase(Locale.ENGLISH)));
+        for (Iterator it = procEnvironment.entrySet().iterator(); it.hasNext();) {
+            Map.Entry entry = (Map.Entry) it.next();
+            String key = (String) entry.getKey();
+            String value = (String) entry.getValue();
+            assertEquals(value, procEnvironment.get(key.toLowerCase(Locale.ENGLISH)));
+            assertEquals(value, procEnvironment.get(key.toUpperCase(Locale.ENGLISH)));
         }
 
         // add an environment variable and check access
