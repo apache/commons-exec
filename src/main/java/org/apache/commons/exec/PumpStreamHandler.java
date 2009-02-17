@@ -100,7 +100,6 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
         if (out != null) {
             createProcessOutputPump(is, out);
         }
-        createProcessOutputPump(is, out);
     }
 
     /**
@@ -186,7 +185,6 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
          if (err != null && err != out) {
              try {
                  err.flush();
-                 err = null;
              } catch (IOException e) {
                  String msg = "Got exception while flushing the error stream";
                  DebugUtils.handleException(msg ,e);
@@ -196,7 +194,6 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
          if (out != null) {
              try {
                  out.flush();
-                 out = null;
              } catch (IOException e) {
                  String msg = "Got exception while flushing the output stream";
                  DebugUtils.handleException(msg ,e);
