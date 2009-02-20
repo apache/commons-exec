@@ -374,7 +374,7 @@ public class DefaultExecutorTest extends TestCase {
     /**
      * Start a process and connect stdin, stdout and stderr. This
      * test currenty hang. Therefore we throw an IllegalArgument
-     * Exception to notify the user.
+     * Exception to notify the user (see EXEC-33).
      */
     public void testExecuteWithStdin() throws Exception
     {
