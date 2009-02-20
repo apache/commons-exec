@@ -54,9 +54,7 @@ public class CommandLine {
     /**
      * Create a command line from a string.
      * 
-     * @param line
-     *            the line: the first element becomes the executable, the rest
-     *            the arguments
+     * @param line the first element becomes the executable, the rest the arguments
      * @return the parsed command line
      * @throws IllegalArgumentException If line is null or all whitespace
      */
@@ -67,9 +65,7 @@ public class CommandLine {
     /**
      * Create a command line from a string.
      *
-     * @param line
-     *            the line: the first element becomes the executable, the rest
-     *            the arguments
+     * @param line the first element becomes the executable, the rest the arguments
      * @param substitutionMap the name/value pairs used for substitution
      * @return the parsed command line
      * @throws IllegalArgumentException If line is null or all whitespace
@@ -240,7 +236,8 @@ public class CommandLine {
 
     /**
      * Set the substitutionMap to expand variables in the
-     * command line
+     * command line.
+     * 
      * @param substitutionMap the map
      */
     public void setSubstitutionMap(Map substitutionMap) {
