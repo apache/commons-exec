@@ -46,7 +46,7 @@ import java.util.Map;
 
 public interface Executor {
 
-    /** Invalid exit code. * */
+    /** Invalid exit code. */
     int INVALID_EXITVALUE = 0xdeadbeef;
 
     /**
@@ -65,6 +65,7 @@ public interface Executor {
      *  <li>an empty array for auto-detect of successful exit codes</li>
      *  <li>null to indicate to skip checking of exit codes</li>
      * </ul>
+     *
      * @param values a list of the exit codes
      */
     void setExitValues(final int[] values);
@@ -81,30 +82,67 @@ public interface Executor {
     boolean isFailure(final int exitValue);
 
     /**
-     * StreamHandlers are used for providing input, 
-     * retriving the output. Also used for logging.  
+     * Get the StreamHandler used for providing input and
+     * retriving the output.
+     * 
+     * @return the StreamHandler 
      */
     ExecuteStreamHandler getStreamHandler();
+
+    /**
+     * Set the StreamHandler used for providing input and
+     * retriving the output.
+     *
+     * @param streamHandler the StreamHandler
+     */
+
     void setStreamHandler(ExecuteStreamHandler streamHandler);
 
     /**
-     * Watchdog is used to kill of processes running, 
-     * typically, too long time. 
+     * Get the watchdog used to kill of processes running,
+     * typically, too long time.
+     *
+     * @return the watchdog
      */
     ExecuteWatchdog getWatchdog();
+
+    /**
+     * Set the watchdog used to kill of processes running, 
+     * typically, too long time.
+     *
+     * @param watchDog the watchdog
+     */
     void setWatchdog(ExecuteWatchdog watchDog);
 
     /**
-     * Optinal cleanup of started processes if the main process
+     * Set the handler for cleanup of started processes if the main process
      * is going to terminate.
+     *
+     * @return the ProcessDestroyer
      */
     ProcessDestroyer getProcessDestroyer();
+
+    /**
+     * Get the handler for cleanup of started processes if the main process
+     * is going to terminate.
+     *
+     * @param processDestroyer the ProcessDestroyer
+     */
     void setProcessDestroyer(ProcessDestroyer processDestroyer);
 
     /**
-     * Set the working directory of the created process.
+     * Get the working directory of the created process.
+     *
+     * @return the working directory
      */
     File getWorkingDirectory();
+
+    /**
+     * Set the working directory of the created process. The
+     * working directory must exist when you start the process.
+     *
+     * @param dir the working directory
+     */
     void setWorkingDirectory(File dir);
 
     /**
@@ -115,18 +153,20 @@ public interface Executor {
      * @return process exit value
      * @throws ExecuteException execution of subprocess failed
      */
-    int execute(CommandLine command) throws ExecuteException, IOException;
+    int execute(CommandLine command)
+        throws ExecuteException, IOException;
 
     /**
      * Methods for starting synchronous execution.
      *
      * @param command the command to execute
-     * @param environment The environment for the new process. If null, the environment
-     *          of the current process is used.
+     * @param environment The environment for the new process. If null, the
+     *          environment of the current process is used.
      * @return process exit value
      * @throws ExecuteException execution of subprocess failed
      */
-    int execute(CommandLine command, Map environment) throws ExecuteException, IOException;
+    int execute(CommandLine command, Map environment)
+        throws ExecuteException, IOException;
     
     /**
      * Methods for starting asynchronous execution. The child process inherits
@@ -137,7 +177,8 @@ public interface Executor {
      * @param handler capture process termination and exit code
      * @throws ExecuteException execution of subprocess failed
      */
-    void execute(CommandLine command, ExecuteResultHandler handler) throws ExecuteException, IOException;
+    void execute(CommandLine command, ExecuteResultHandler handler)
+        throws ExecuteException, IOException;
 
     /**
      * Methods for starting asynchronous execution. The child process inherits
@@ -145,10 +186,11 @@ public interface Executor {
      * callback handler.
      *
      * @param command the command to execute
-     * @param environment The environment for the new process. If null, the environment
-     *          of the current process is used.
+     * @param environment The environment for the new process. If null, the
+     *          environment of the current process is used.
      * @param handler capture process termination and exit code 
      * @throws ExecuteException execution of subprocess failed     
      */
-    void execute(CommandLine command, Map environment, ExecuteResultHandler handler) throws ExecuteException, IOException;
+    void execute(CommandLine command, Map environment, ExecuteResultHandler handler)
+        throws ExecuteException, IOException;
 }
