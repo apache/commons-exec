@@ -31,6 +31,11 @@
   <description>A library to reliably execute external processes from within the JVM</description>
   <url>http://commons.apache.org/exec/</url>  
   
+  <issueManagement>
+      <system>jira</system>
+      <url>http://issues.apache.org/jira/browse/EXEC</url>
+  </issueManagement>
+    
   <dependencies>
    <dependency>
       <groupId>junit</groupId>
