@@ -84,13 +84,14 @@ public class EnvironmentUtils
 
     /**
      * Add a key/value pair to the given environment.
+     * If the key matches an existing key, the previous setting is replaced.
      *
      * @param environment the current environment
      * @param keyAndValue the key/value pair 
      */
     public static void addVariableToEnvironment(Map environment, String keyAndValue) {
-		String[] parsedVarible = parseEnvironmentVariable(keyAndValue);		
-		environment.put(parsedVarible[0], parsedVarible[1]);
+		String[] parsedVariable = parseEnvironmentVariable(keyAndValue);		
+		environment.put(parsedVariable[0], parsedVariable[1]);
 	}
     
     /**
