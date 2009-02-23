@@ -99,8 +99,6 @@ public class EnvironmentUtilTest extends TestCase {
         Map procEnvironment = EnvironmentUtils.getProcEnvironment();
         // Check that case is preserved for values
         EnvironmentUtils.addVariableToEnvironment( procEnvironment, "foo=bAr" );
-        assertEquals("bAr", procEnvironment.get("FOO"));
-        assertEquals("bAr", procEnvironment.get("Foo"));
         assertEquals("bAr", procEnvironment.get("foo"));
     }
 
