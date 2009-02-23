@@ -59,11 +59,11 @@ public class MapUtils
      */
     public static Map prefix(Map source, String prefix) {
 
-        Map result = new HashMap();
-
         if(source == null) {
             return null;
         }
+
+        Map result = new HashMap();
 
         Iterator iter = source.entrySet().iterator();
 
