@@ -93,8 +93,11 @@ public class EnvironmentUtilTest extends TestCase {
         assertEquals("bar", procEnvironment.get("FOO"));
         assertEquals("bar", procEnvironment.get("Foo"));
         assertEquals("bar", procEnvironment.get("foo"));
-
-        // Check that case is preserved for values, and that values are replaced
+    }
+    
+    public void testCaseInsensitiveVariableLookup() throws Exception {
+        Map procEnvironment = EnvironmentUtils.getProcEnvironment();
+        // Check that case is preserved for values
         EnvironmentUtils.addVariableToEnvironment( procEnvironment, "foo=bAr" );
         assertEquals("bAr", procEnvironment.get("FOO"));
         assertEquals("bAr", procEnvironment.get("Foo"));
