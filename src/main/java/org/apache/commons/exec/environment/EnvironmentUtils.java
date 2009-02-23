@@ -30,7 +30,7 @@ import org.apache.commons.exec.OS;
 public class EnvironmentUtils
 {
 
-	private static DefaultProcessingEnvironment procEnvironment;
+	private static final DefaultProcessingEnvironment procEnvironment;
 	
 	static {
         if (OS.isFamilyOpenVms()) {
