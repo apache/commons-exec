@@ -37,11 +37,11 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
 
     private Thread inputThread;
 
-    private OutputStream out;
+    private final OutputStream out;
 
-    private OutputStream err;
+    private final OutputStream err;
 
-    private InputStream input;
+    private final InputStream input;
 
     /**
      * Construct a new <CODE>PumpStreamHandler</CODE>.

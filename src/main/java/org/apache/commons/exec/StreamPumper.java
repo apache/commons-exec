@@ -33,19 +33,19 @@ public class StreamPumper implements Runnable {
     private static final int DEFAULT_SIZE = 1024;
 
     /** the input stream to pump from */
-    private InputStream is;
+    private final InputStream is;
 
     /** the output stream to pmp into */
-    private OutputStream os;
+    private final OutputStream os;
 
     /** the size of the internal buffer for copying the streams */ 
-    private int size;
+    private final int size;
 
     /** was the end of the stream reached */
     private boolean finished;
 
     /** close the output stream when exhausted */
-    private boolean closeWhenExhausted;
+    private final boolean closeWhenExhausted;
     
     /**
      * Create a new stream pumper.

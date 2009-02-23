@@ -30,13 +30,13 @@ public class Watchdog implements Runnable {
 
     private Vector observers = new Vector(1);
 
-    private long timeout = -1;
+    private final long timeout;
 
     private boolean stopped = false;
 
     public Watchdog(final long timeout) {
         if (timeout < 1) {
-            throw new IllegalArgumentException("timeout lesser than 1.");
+            throw new IllegalArgumentException("timeout must not be less than 1.");
         }
         this.timeout = timeout;
     }

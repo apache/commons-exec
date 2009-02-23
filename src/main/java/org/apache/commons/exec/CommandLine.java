@@ -34,12 +34,12 @@ public class CommandLine {
     /**
      * The arguments of the command.
      */
-    private Vector arguments = new Vector();
+    private final Vector arguments = new Vector();
 
     /**
      * The program to execute.
      */
-    private String executable;
+    private final String executable;
 
     /**
      * A map of name value pairs used to expand command line arguments
@@ -96,7 +96,7 @@ public class CommandLine {
      */
     public CommandLine(String executable) {
         this.isFile=false;
-        setExecutable(executable);
+        this.executable=getExecutable(executable);
     }
 
     /**
@@ -106,7 +106,7 @@ public class CommandLine {
      */
     public CommandLine(File executable) {
         this.isFile=true;
-        setExecutable(executable.getAbsolutePath());
+        this.executable=getExecutable(executable.getAbsolutePath());
     }
 
     /**
@@ -391,18 +391,18 @@ public class CommandLine {
     }
 
     /**
-     * Set the executable - the argument is trimmed and '/' and '\\' are
+     * Get the executable - the argument is trimmed and '/' and '\\' are
      * replaced with the platform specific file seperator char
      *
      * @param executable the executable
      */
-    private void setExecutable(final String executable) {
+    private String getExecutable(final String executable) {
         if (executable == null) {
             throw new IllegalArgumentException("Executable can not be null");
         } else if(executable.trim().length() == 0) {
             throw new IllegalArgumentException("Executable can not be empty");
         } else {
-            this.executable = StringUtils.fixFileSeparatorChar(executable);
+            return StringUtils.fixFileSeparatorChar(executable);
         }
     }
 }

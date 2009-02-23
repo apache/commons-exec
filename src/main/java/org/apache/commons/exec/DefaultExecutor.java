@@ -58,7 +58,7 @@ public class DefaultExecutor implements Executor {
     private int[] exitValues;
 
     /** launches the command in a new process */
-    private CommandLauncher launcher;
+    private final CommandLauncher launcher;
 
     /** optional cleanup of started processes */ 
     private ProcessDestroyer processDestroyer;
