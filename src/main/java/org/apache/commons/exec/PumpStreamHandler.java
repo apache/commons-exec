@@ -255,6 +255,10 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Creates a stream pumper to copy the given input stream to the given
      * output stream.
+     *
+     * @param is the input stream to copy from
+     * @param os the output stream to copy into
+     * @return the stream pumper thread
      */
     protected Thread createPump(final InputStream is, final OutputStream os) {
         return createPump(is, os, false);
@@ -263,6 +267,11 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Creates a stream pumper to copy the given input stream to the given
      * output stream.
+     *
+     * @param is the input stream to copy from
+     * @param os the output stream to copy into
+     * @param closeWhenExhausted close the output stream when the input stream is exhausted
+     * @return the stream pumper thread
      */
     protected Thread createPump(final InputStream is, final OutputStream os,
             final boolean closeWhenExhausted) {

@@ -395,6 +395,7 @@ public class CommandLine {
      * replaced with the platform specific file seperator char
      *
      * @param executable the executable
+     * @return the platform-specific executable string
      */
     private String getExecutable(final String executable) {
         if (executable == null) {
