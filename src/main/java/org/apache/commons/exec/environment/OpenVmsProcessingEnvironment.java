@@ -37,7 +37,7 @@ public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
      * @return a amp containing the environment variables
      * @throws IOException the operation failed
      */    
-    protected synchronized Map createProcEnvironment() throws IOException {
+    protected Map createProcEnvironment() throws IOException {
         if (procEnvironment == null) {
             procEnvironment = new HashMap();
 

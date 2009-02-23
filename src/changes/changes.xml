@@ -24,6 +24,10 @@
   </properties>
   <body>
     <release version="1.0.0" date="As in SVN" description="Sandbox release">
+      <action dev="sgoeschl" type="fix" due-to="Sebastien Bazley"issue="EXEC-37">
+        Removed useless synchronized statement in
+        OpenVmsProcessingEnvironment.createProcEnvironment
+      </action>
       <action dev="sgoeschl" type="fix" issue="EXEC-33">
         Using System.in for child process will actually hang your application -
         see JIRA for more details. Since there is no easy fix an
