@@ -33,7 +33,7 @@ public abstract class CommandLauncherProxy extends CommandLauncherImpl {
         myLauncher = launcher;
     }
 
-    private CommandLauncher myLauncher;
+    private final CommandLauncher myLauncher;
 
     /**
      * Launches the given command in a new process. Delegates this method to the
