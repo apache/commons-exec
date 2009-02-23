@@ -23,7 +23,7 @@
     <author email="sgoeschl@apache.org">Siegfried Goeschl</author>
   </properties>
   <body>
-    <release version="1.0.0" date="As in SVN" description="Sandbox release">
+    <release version="1.0.0" date="As in SVN" description="First Public Release">
       <action dev="sgoeschl" type="fix" due-to="Sebastien Bazley" issue="EXEC-37">
         Removed useless synchronized statement in
         OpenVmsProcessingEnvironment.createProcEnvironment

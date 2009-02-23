@@ -112,6 +112,9 @@
     </copy>
     <!-- make the shell script files readable/executable -->
     <chmod dir="${maven.build.directory}/dist" perm="ugo+rx" includes="**/*.sh"/>
+    <!-- copy the various legal files -->
+    <copy file="${basedir}/NOTICE.txt" tofile="${maven.build.directory}/dist/NOTICE.txt"/>    
+    <copy file="${basedir}/LICENSE.txt" tofile="${maven.build.directory}/dist/LICENSE.txt"/>        
   </target>
   
   <!-- Create a zip containing the test environment -->
