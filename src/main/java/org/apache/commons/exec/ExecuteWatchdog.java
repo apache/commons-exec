@@ -49,7 +49,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
     private boolean killedProcess;
 
     /** Will tell us whether timeout has occurred. */
-    private Watchdog watchdog;
+    private final Watchdog watchdog;
 
     /**
      * Creates a new watchdog with a given timeout.
@@ -172,7 +172,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
     /**
      * reset the monitor flag and the process.
      */
-    protected void cleanUp() {
+    protected synchronized void cleanUp() {
         watch = false;
         process = null;
     }    
