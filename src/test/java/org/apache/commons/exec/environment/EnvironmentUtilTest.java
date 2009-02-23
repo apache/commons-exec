@@ -31,7 +31,7 @@ import org.apache.commons.exec.TestUtil;
 
 public class EnvironmentUtilTest extends TestCase {
 
-    public void testToStrings() throws IOException {
+    public void testToStrings() {
         TestUtil.assertEquals(null, EnvironmentUtils.toStrings(null), false);
 
         Map env = new HashMap();
