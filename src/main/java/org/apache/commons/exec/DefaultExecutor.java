@@ -42,8 +42,6 @@ import org.apache.commons.exec.launcher.CommandLauncherFactory;
  * CommandLine cl = new CommandLine("ls -l");
  * int exitvalue = exec.execute(cl);
  * </pre>
- *
- *
  */
 public class DefaultExecutor implements Executor {
 
@@ -60,7 +58,7 @@ public class DefaultExecutor implements Executor {
     private int[] exitValues;
 
     /** launches the command in a new process */
-    private CommandLauncher launcher;
+    private final CommandLauncher launcher;
 
     /** optional cleanup of started processes */ 
     private ProcessDestroyer processDestroyer;
@@ -200,7 +198,7 @@ public class DefaultExecutor implements Executor {
 
     /** @see org.apache.commons.exec.Executor#setExitValues(int[]) */
     public void setExitValues(final int[] values) {
-        this.exitValues = values;
+        this.exitValues = (int[]) values.clone();
     }
 
     /** @see org.apache.commons.exec.Executor#isFailure(int) */

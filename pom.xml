@@ -31,6 +31,11 @@
   <description>A library to reliably execute external processes from within the JVM</description>
   <url>http://commons.apache.org/exec/</url>  
   
+  <issueManagement>
+      <system>jira</system>
+      <url>http://issues.apache.org/jira/browse/EXEC</url>
+  </issueManagement>
+    
   <dependencies>
    <dependency>
       <groupId>junit</groupId>
@@ -128,6 +133,16 @@
           </reportSet>
         </reportSets>
       </plugin>           
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>1.2</version>
+        <configuration>
+          <threshold>Normal</threshold>
+          <effort>Default</effort>
+          <excludeFilterFile>${basedir}/findbugs-exclude-filter.xml</excludeFilterFile>
+       </configuration>
+      </plugin>
     </plugins>
   </reporting>
 
@@ -171,7 +186,7 @@
     <commons.jira.pid>12310814</commons.jira.pid>
     <commons.release.version>1.0.0</commons.release.version>
     <!-- The RC version used in the staging repository URL. -->
-    <commons.rc.version>RC3</commons.rc.version>
+    <commons.rc.version>RC4</commons.rc.version>
   </properties>
 
 </project>

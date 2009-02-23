@@ -41,12 +41,20 @@ public abstract class LogOutputStream
     private static final int LF = 0x0a;
 
     /** the internal buffer */
-    private ByteArrayOutputStream buffer = new ByteArrayOutputStream(
+    private final ByteArrayOutputStream buffer = new ByteArrayOutputStream(
       INTIAL_SIZE);
 
     private boolean skip = false;
 
-    private int level = 999;
+    private final int level;
+
+    /**
+     * Creates a new instance of this class.
+     * Uses the default level of 999.
+     */
+    public LogOutputStream() {
+        this(999);
+    }
 
     /**
      * Creates a new instance of this class.

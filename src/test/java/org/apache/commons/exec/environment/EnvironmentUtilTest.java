@@ -31,21 +31,20 @@ import org.apache.commons.exec.TestUtil;
 
 public class EnvironmentUtilTest extends TestCase {
 
-    public void testToStrings() throws IOException {
+    /**
+     * Tests the behaviour of the EnvironmentUtils.toStrings()
+     * when using a <code>null</code> environment.
+     */
+    public void testToStrings() {
+        // check for a non-existing environment when passing null
         TestUtil.assertEquals(null, EnvironmentUtils.toStrings(null), false);
-
+        // check for an environment when filling in two variables
         Map env = new HashMap();
-
         TestUtil.assertEquals(new String[0], EnvironmentUtils.toStrings(env), false);
-
         env.put("foo2", "bar2");
         env.put("foo", "bar");
-
         String[] envStrings = EnvironmentUtils.toStrings(env);
-
         String[] expected = new String[]{"foo=bar", "foo2=bar2"};
-
-
         TestUtil.assertEquals(expected, envStrings, false);
     }
 
@@ -57,7 +56,7 @@ public class EnvironmentUtilTest extends TestCase {
     public void testGetProcEnvironment() throws IOException {
         Map procEnvironment = EnvironmentUtils.getProcEnvironment();
         // we assume that there is at least one environment variable
-        // for this process
+        // for this process, i.e. $JAVA_HOME
         assertTrue(procEnvironment.size() > 0);
         String[] envArgs = EnvironmentUtils.toStrings(procEnvironment);
         for(int i=0; i<envArgs.length; i++) {
@@ -80,11 +79,12 @@ public class EnvironmentUtilTest extends TestCase {
 
         // ensure that we have the same value for upper and lowercase keys
         Map procEnvironment = EnvironmentUtils.getProcEnvironment();
-        for (Iterator it = procEnvironment.keySet().iterator(); it.hasNext();) {
-            String variable = (String) it.next();
-            String value = (String) procEnvironment.get(variable);
-            assertEquals(value, procEnvironment.get(variable.toLowerCase(Locale.ENGLISH)));
-            assertEquals(value, procEnvironment.get(variable.toUpperCase(Locale.ENGLISH)));
+        for (Iterator it = procEnvironment.entrySet().iterator(); it.hasNext();) {
+            Map.Entry entry = (Map.Entry) it.next();
+            String key = (String) entry.getKey();
+            String value = (String) entry.getValue();
+            assertEquals(value, procEnvironment.get(key.toLowerCase(Locale.ENGLISH)));
+            assertEquals(value, procEnvironment.get(key.toUpperCase(Locale.ENGLISH)));
         }
 
         // add an environment variable and check access
@@ -92,6 +92,19 @@ public class EnvironmentUtilTest extends TestCase {
         assertEquals("bar", procEnvironment.get("FOO"));
         assertEquals("bar", procEnvironment.get("Foo"));
         assertEquals("bar", procEnvironment.get("foo"));
+    }
+
+    /**
+     * Accessing environment variables is case-sensitive or not depending
+     * on the operating system but the values of the environment variable
+     * are always case-sensitive. So make sure that this assumption holds
+     * on all operating systems.
+     */
+    public void testCaseInsensitiveVariableLookup() throws Exception {
+        Map procEnvironment = EnvironmentUtils.getProcEnvironment();
+        // Check that case is preserved for values
+        EnvironmentUtils.addVariableToEnvironment( procEnvironment, "foo=bAr" );
+        assertEquals("bAr", procEnvironment.get("foo"));
     }
 
 }

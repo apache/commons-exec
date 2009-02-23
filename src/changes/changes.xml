@@ -23,7 +23,22 @@
     <author email="sgoeschl@apache.org">Siegfried Goeschl</author>
   </properties>
   <body>
-    <release version="1.0.0" date="2009-01-05" description="Sandbox release">
+    <release version="1.0.0" date="2009-02-24" description="First Public Release">
+      <action dev="sgoeschl" type="fix" due-to="Sebastien Bazley" issue="EXEC-37">
+        Removed useless synchronized statement in
+        OpenVmsProcessingEnvironment.createProcEnvironment
+      </action>
+      <action dev="sgoeschl" type="fix" issue="EXEC-33">
+        Using System.in for child process will actually hang your application -
+        see JIRA for more details. Since there is no easy fix an
+        IllegalRuntimeException is thrown when System.in is passed.
+      </action>
+      <action dev="sgoeschl" type="fix" due-to="Luc Maisonobe" issue="EXEC-35">
+        Fixing a few findbugs issues.
+      </action>
+      <action dev="sgoeschl" type="fix" due-to="Marco Ferrante" issue="EXEC-32">
+        Handle null streams consistently.
+      </action>
       <action dev="sgoeschl" type="fix">
         After a long discussion we decided to stick to following groupId
         "org.apache.commons" instead of "commons-exec".

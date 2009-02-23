@@ -59,17 +59,18 @@ public class MapUtils
      */
     public static Map prefix(Map source, String prefix) {
 
-        Map result = new HashMap();
-
         if(source == null) {
             return null;
         }
 
-        Iterator iter = source.keySet().iterator();
+        Map result = new HashMap();
+
+        Iterator iter = source.entrySet().iterator();
 
         while(iter.hasNext()) {
-            Object key = iter.next();
-            Object value = source.get(key);
+            Map.Entry entry = (Map.Entry) iter.next();
+            Object key = entry.getKey();
+            Object value = entry.getValue();
             result.put(prefix + '.' + key.toString(), value);
         }
 

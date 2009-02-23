@@ -33,12 +33,12 @@ public class ExecuteException extends IOException {
 	/**
 	 * The underlying cause of this exception.
 	 */
-	private Throwable cause;
+	private final Throwable cause;
 
 	/**
 	 * The exit value returned by the failed process
 	 */
-	private int exitValue;
+	private final int exitValue;
     
     /**
      * Construct a new exception with the specified detail message.
@@ -49,6 +49,7 @@ public class ExecuteException extends IOException {
      */
     public ExecuteException(final String message, int exitValue) {
         super(message + "(Exit value: " + exitValue + ")");
+        this.cause = null;
         this.exitValue = exitValue;
     }
 

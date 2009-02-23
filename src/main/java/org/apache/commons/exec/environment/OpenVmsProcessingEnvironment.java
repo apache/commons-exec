@@ -37,7 +37,7 @@ public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
      * @return a amp containing the environment variables
      * @throws IOException the operation failed
      */    
-    protected synchronized Map createProcEnvironment() throws IOException {
+    protected Map createProcEnvironment() throws IOException {
         if (procEnvironment == null) {
             procEnvironment = new HashMap();
 
@@ -109,8 +109,8 @@ public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
             logicals.put(logName, logValue);
         }
 
-        for (Iterator i = logicals.keySet().iterator(); i.hasNext();) {
-            String logical = (String) i.next();
+        for (Iterator i = logicals.entrySet().iterator(); i.hasNext();) {
+            String logical = (String) ((Map.Entry) i.next()).getKey();
             environment.put(logical, logicals.get(logical));
         }
         return environment;
