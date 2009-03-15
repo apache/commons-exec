@@ -27,7 +27,7 @@
   <name>Commons Exec</name>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-exec</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <description>A library to reliably execute external processes from within the JVM</description>
   <url>http://commons.apache.org/exec/</url>  
   
@@ -81,9 +81,9 @@
   </contributors>
   
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/exec/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/exec/trunk</developerConnection>
-    <url>http://svn.apache.org/viewvc/commons/proper/exec/trunk</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/exec/tags/EXEC_1_0</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/exec/tags/EXEC_1_0</developerConnection>
+    <url>http://svn.apache.org/viewvc/commons/proper/exec/tags/EXEC_1_0</url>
   </scm>
   
   <build>
@@ -105,6 +105,18 @@
             <descriptor>src/assembly/src.xml</descriptor>
           </descriptors>
           <tarLongFileMode>gnu</tarLongFileMode>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+            </manifest>
+          </archive>
         </configuration>
       </plugin>
     </plugins>
