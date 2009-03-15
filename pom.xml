@@ -125,6 +125,9 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>
         <version>2.0</version>
+        <configuration>
+          <issueLinkTemplate>%URL%/%ISSUE%</issueLinkTemplate>
+        </configuration>
         <reportSets>
           <reportSet>
             <reports>
@@ -132,7 +135,7 @@
             </reports>
           </reportSet>
         </reportSets>
-      </plugin>           
+      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
@@ -184,7 +187,7 @@
     <commons.componentid>exec</commons.componentid>
     <commons.jira.id>EXEC</commons.jira.id>
     <commons.jira.pid>12310814</commons.jira.pid>
-    <commons.release.version>1.0.0</commons.release.version>
+    <commons.release.version>1.0</commons.release.version>
     <!-- The RC version used in the staging repository URL. -->
     <commons.rc.version>RC5</commons.rc.version>
   </properties>
