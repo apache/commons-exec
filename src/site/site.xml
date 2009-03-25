@@ -25,6 +25,7 @@
       <item name="Tutorial" href="/tutorial.html" />
       <item name="FAQ" href="faq.html"/>
       <item name="Test Matrix" href="/testmatrix.html" />
+      <item name="Download" href="/download_exec.cgi"/>    
     </menu>
     
     <menu name="Development">

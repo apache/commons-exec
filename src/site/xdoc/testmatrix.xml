@@ -59,8 +59,38 @@ limitations under the License.
           <td>gij version 4.2.1, java version "1.5.0"</td>
           <td>Failed</td>
           <td>Siegfried Goeschl</td>
+        </tr>
+        <tr>
+          <td>Linux (2.6.22, x86, 32 bit)</td>
+          <td>Blackdown JDK 1.4.2.03</td>
+          <td>Passed</td>
+          <td>Joerg Schaible</td>
         </tr>        
         <tr>
+          <td>Linux (2.6.22, x86, 32 bit)</td>
+          <td>IBM JDK 1.6.0.3</td>
+          <td>Passed</td>
+          <td>Joerg Schaible</td>
+        </tr>        
+        <tr>
+          <td>Linux (2.6.22, x86, 32 bit)</td>
+          <td>IcedTea6-bin 1.4</td>
+          <td>Passed</td>
+          <td>Joerg Schaible</td>
+        </tr>        
+        <tr>
+          <td>Linux (2.6.22, x86, 32 bit)</td>
+          <td>WebLogic JRockit 1.4.2.16</td>
+          <td>Passed</td>
+          <td>Joerg Schaible</td>
+        </tr>        
+        <tr>
+          <td>Linux (2.6.22, x86, 32 bit)</td>
+          <td>WebLogic JRockit 1.5.0.14 </td>
+          <td>Passed</td>
+          <td>Joerg Schaible</td>
+        </tr>        
+        <tr>                    
           <td>Mac OS X (10.4.11, x86)</td>
           <td>Java HotSpot(TM) Client VM<br/>build 1.4.2-86, mixed mode</td>
           <td>Passed</td>
