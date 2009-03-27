@@ -67,25 +67,25 @@ limitations under the License.
           <td>Joerg Schaible</td>
         </tr>        
         <tr>
-          <td>Linux (2.6.22, x86, 32 bit)</td>
+          <td>Linux (2.6.27, x86, 32 bit)</td>
           <td>IBM JDK 1.6.0.3</td>
           <td>Passed</td>
           <td>Joerg Schaible</td>
         </tr>        
         <tr>
-          <td>Linux (2.6.22, x86, 32 bit)</td>
+          <td>Linux (2.6.27, x86, 32 bit)</td>
           <td>IcedTea6-bin 1.4</td>
           <td>Passed</td>
           <td>Joerg Schaible</td>
         </tr>        
         <tr>
-          <td>Linux (2.6.22, x86, 32 bit)</td>
+          <td>Linux (2.6.27, x86, 32 bit)</td>
           <td>WebLogic JRockit 1.4.2.16</td>
           <td>Passed</td>
           <td>Joerg Schaible</td>
         </tr>        
         <tr>
-          <td>Linux (2.6.22, x86, 32 bit)</td>
+          <td>Linux (2.6.27, x86, 32 bit)</td>
           <td>WebLogic JRockit 1.5.0.14 </td>
           <td>Passed</td>
           <td>Joerg Schaible</td>
