@@ -116,7 +116,7 @@ public class CommandLine {
      */
     public String getExecutable() {
         // Expand the executable and replace '/' and '\\' with the platform
-        // specific file seperator char. This is safe here since we know
+        // specific file separator char. This is safe here since we know
         // that this is a platform specific command.
         return StringUtils.fixFileSeparatorChar(expandArgument(executable));
     }
@@ -392,7 +392,7 @@ public class CommandLine {
 
     /**
      * Get the executable - the argument is trimmed and '/' and '\\' are
-     * replaced with the platform specific file seperator char
+     * replaced with the platform specific file separator char
      *
      * @param executable the executable
      * @return the platform-specific executable string

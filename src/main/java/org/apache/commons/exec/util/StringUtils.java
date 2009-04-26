@@ -132,7 +132,7 @@ public class StringUtils {
 
     /**
      * Split a string into an array of strings based
-     * on a a seperator.
+     * on a separator.
      *
      * @param input     what to split
      * @param splitChar what to split on
@@ -165,10 +165,10 @@ public class StringUtils {
     }
 
     /**
-     * Concatenates an array of string using a seperator.
+     * Concatenates an array of string using a separator.
      *
      * @param strings the strings to concatenate
-     * @param separator the seperator between two strings
+     * @param separator the separator between two strings
      * @return the concatened strings
      */
     public static String toString(String[] strings, String separator) {
