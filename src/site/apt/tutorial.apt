@@ -17,13 +17,13 @@
 ~~
 
  --------
-Jakarta Commons Exec Tutorial
+Apache Commons Exec Tutorial
  --------
  --------
 12 November 2008
  --------
 
-Jakarta Commons Exec
+Apache Commons Exec
 
 * The First Encounter
 
@@ -33,7 +33,7 @@ Jakarta Commons Exec
   with tons of code".
   
   Well, we learned it the hard way (in my case more than once) that using plain Runtime.exec() can be 
-  a painful experience. Therefore you are invited to delve into commons-exec and having a look at the
+  a painful experience. Therefore you are invited to delve into commons-exec and have a look at the
   hard lessons the easy way ...
   
 * Taming Your First Process
@@ -66,18 +66,18 @@ int exitValue = executor.execute(commandLine);
 
 * To Watchdog Or Not To Watchdog
 
-  You happily printed a while but now your application blocks - your printing subprocess
-  hangs for some obvious or not so obvious reasons. Starting is easy but what to do with a run-away
-  Acrobat Reader?! Luckily commons-exec provides a watchdog doing the work for you and here is
-  the improved code
+  You happily printed for a while but now your application blocks - your printing subprocess
+  hangs for some obvious or not so obvious reason. Starting is easy but what to do with a run-away
+  Acrobat Reader?! Luckily commons-exec provides a watchdog which does the work for you.
+  Here is the improved code
 
 +----------------------------------------------------------------------------
 String line = "AcroRd32.exe /p /h " + file.getAbsolutePath();
 CommandLine commandLine = CommandLine.parse(line);
-ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
 DefaultExecutor executor = new DefaultExecutor();
-executor.setWatchdog(watchdog);
 executor.setExitValue(1);
+ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
+executor.setWatchdog(watchdog);
 int exitValue = executor.execute(commandLine);
 +----------------------------------------------------------------------------
 
@@ -99,10 +99,10 @@ int exitValue = executor.execute(commandLine);
 +----------------------------------------------------------------------------
 String line = "AcroRd32.exe /p /h \"" + file.getAbsolutePath() + "\"";
 CommandLine commandLine = CommandLine.parse(line);
-ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
 DefaultExecutor executor = new DefaultExecutor();
-executor.setWatchdog(watchdog);
 executor.setExitValue(1);
+ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
+executor.setWatchdog(watchdog);
 int exitValue = executor.execute(commandLine);
 +----------------------------------------------------------------------------
   
@@ -118,13 +118,13 @@ int exitValue = executor.execute(commandLine);
   
 +----------------------------------------------------------------------------
 CommandLine commandLine = CommandLine.parse("AcroRd32.exe");
-commandLine.addArguments("/p");
-commandLine.addArguments("/h");
-commandLine.addArguments(file.getAbsolutePath());
-ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
+commandLine.addArgument("/p");
+commandLine.addArgument("/h");
+commandLine.addArgument(file.getAbsolutePath());
 DefaultExecutor executor = new DefaultExecutor();
-executor.setWatchdog(watchdog);
 executor.setExitValue(1);
+ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
+executor.setWatchdog(watchdog);
 int exitValue = executor.execute(commandLine);
 +----------------------------------------------------------------------------
 
@@ -141,5 +141,15 @@ CommandLine commandLine;
 HashMap params = new HashMap();
 params.put("file", "C:\Document And Settings\documents\432432.pdf");
 commandLine  = CommandLine.parse("AcroRd32.exe /p /h \"${file}\"", params);
+
+// Or you can use expansion with individual parameters:
+
+CommandLine commandLine = CommandLine.parse("AcroRd32.exe");
+commandLine.addArgument("/p");
+commandLine.addArgument("/h");
+commandLine.addArgument("${file}");
+HashMap params = new HashMap();
+params.put("file", "C:\Document And Settings\documents\432432.pdf");
+commandLine.setSubstitutionMap(params);
 +----------------------------------------------------------------------------
   
