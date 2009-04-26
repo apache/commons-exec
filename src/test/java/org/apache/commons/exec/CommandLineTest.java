@@ -353,9 +353,9 @@ public class CommandLineTest extends TestCase {
 
         // build the command line
         cmdl = new CommandLine("${JAVA_HOME}\\bin\\java");
-        cmdl.addArguments("-class");
-        cmdl.addArguments("${appMainClass}");
-        cmdl.addArguments("${file}");
+        cmdl.addArgument("-class");
+        cmdl.addArgument("${appMainClass}");
+        cmdl.addArgument("${file}");
 
         // build the first command line
         substitutionMap.put("file", "C:\\Document And Settings\\documents\\432431.pdf");
@@ -363,7 +363,7 @@ public class CommandLineTest extends TestCase {
         result = cmdl.toStrings();
 
         // verify the first command line
-        // please note - the executable argument is changed to using platform specific file sperator char
+        // please note - the executable argument is changed to using platform specific file separator char
         // whereas all other variable substitution are not touched
         assertEquals(StringUtils.fixFileSeparatorChar("C:\\Programme\\jdk1.5.0_12\\bin\\java"), result[0]);
         assertEquals("-class", result[1]);
@@ -381,7 +381,6 @@ public class CommandLineTest extends TestCase {
 
         // build the second command line with updated parameters resulting in  a different command line
         substitutionMap.put("file", "C:\\Document And Settings\\documents\\432432.pdf");        
-        cmdl.setSubstitutionMap(substitutionMap);
         result = cmdl.toStrings();
         assertEquals(StringUtils.fixFileSeparatorChar("C:\\Programme\\jdk1.5.0_12\\bin\\java"), result[0]);
         assertEquals("-class", result[1]);
@@ -389,6 +388,21 @@ public class CommandLineTest extends TestCase {
         assertEquals("C:\\Document And Settings\\documents\\432432.pdf", result[3]);                
     }
 
+    public void testCommandLineParsingWithExpansion3(){
+        CommandLine cmdl = CommandLine.parse("AcroRd32.exe");
+        cmdl.addArgument("/p");
+        cmdl.addArgument("/h");
+        cmdl.addArgument("${file}");
+        HashMap params = new HashMap();
+        params.put("file", "C:\\Document And Settings\\documents\\432432.pdf");
+        cmdl.setSubstitutionMap(params);
+        String[] result = cmdl.toStrings();
+        assertEquals("AcroRd32.exe", result[0]);
+        assertEquals("/p", result[1]);
+        assertEquals("/h", result[2]);
+        assertEquals("C:\\Document And Settings\\documents\\432432.pdf", result[3]);                
+        
+    }
     /**
      * Test the toString() method
      */
