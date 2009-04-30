@@ -43,6 +43,8 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
 
     private final InputStream input;
 
+    private InputStreamPumper inputStreamPumper;
+
     /**
      * Construct a new <CODE>PumpStreamHandler</CODE>.
      * 
@@ -55,12 +57,6 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      */
     public PumpStreamHandler(final OutputStream out, final OutputStream err,
             final InputStream input) {
-
-        // see EXEC-33
-        if(input == System.in) {
-            String msg = "Using System.in is currently not supported since it would hang your application (see EXEC-33).";
-            throw new IllegalArgumentException(msg);
-        }
 
         this.out = out;
         this.err = err;
@@ -131,8 +127,11 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      */
     public void setProcessInputStream(final OutputStream os) {
         if (input != null) {
-            inputThread = createPump(input, os, true);
+            if (input == System.in) {
+                inputThread = createSystemInPump(input, os);
         } else {
+                inputThread = createPump(input, os, true);
+            }        } else {
             try {
                 os.close();
             } catch (IOException e) {
@@ -178,6 +177,10 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
             } catch (InterruptedException e) {
                 // ignore
             }
+        }
+
+        if (inputStreamPumper != null) {
+            inputStreamPumper.stopProcessing();
         }
 
         if (inputThread != null) {
@@ -277,6 +280,22 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
             final boolean closeWhenExhausted) {
         final Thread result = new Thread(new StreamPumper(is, os,
                 closeWhenExhausted));
+        result.setDaemon(true);
+        return result;
+    }
+
+
+    /**
+     * Creates a stream pumper to copy the given input stream to the given
+     * output stream.
+     *
+     * @param is the System.in input stream to copy from
+     * @param os the output stream to copy into
+     * @return the stream pumper thread
+     */
+    private Thread createSystemInPump(InputStream is, OutputStream os) {
+        inputStreamPumper = new InputStreamPumper(is, os);
+        final Thread result = new Thread(inputStreamPumper);
         result.setDaemon(true);
         return result;
     }

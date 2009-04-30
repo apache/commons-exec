@@ -372,23 +372,16 @@ public class DefaultExecutorTest extends TestCase {
     }
 
     /**
-     * Start a process and connect stdin, stdout and stderr. This
-     * test currenty hang. Therefore we throw an IllegalArgument
-     * Exception to notify the user (see EXEC-33).
+     * Start a process and connect stdin, stdout and stderr (see EXEC-33).
      */
     public void testExecuteWithStdin() throws Exception
     {
-        try {
-            CommandLine cl = new CommandLine(testScript);
-            PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( System.out, System.err, System.in );
-            DefaultExecutor executor = new DefaultExecutor();
-            executor.setStreamHandler( pumpStreamHandler );
-            int exitValue = executor.execute(cl);
-            assertFalse(exec.isFailure(exitValue));
-        }
-        catch(IllegalArgumentException e) {
-            assertTrue( e.getMessage().indexOf("EXEC-33") >= 0);
-        }
+        CommandLine cl = new CommandLine(testScript);
+        PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( System.out, System.err, System.in );
+        DefaultExecutor executor = new DefaultExecutor();
+        executor.setStreamHandler( pumpStreamHandler );
+        int exitValue = executor.execute(cl);
+        assertFalse(exec.isFailure(exitValue));
     }
 
      /**
