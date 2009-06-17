@@ -23,7 +23,7 @@
     <author email="sgoeschl@apache.org">Siegfried Goeschl</author>
   </properties>
   <body>
-    <release version="1.1-SNAPSHOT" date="as in SVN" description="Maintenance Release">
+    <release version="1.0.1" date="2009-06-18" description="Maintenance Release">
       <action dev="sgoeschl" type="fix" due-to="Milos Kleint" issue="EXEC-33">
         Copies all data from an System.input stream to an output stream of 
         the executed process. 
