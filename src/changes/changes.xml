@@ -23,7 +23,10 @@
     <author email="sgoeschl@apache.org">Siegfried Goeschl</author>
   </properties>
   <body>
-    <release version="1.0.1" date="2009-06-18" description="Maintenance Release">
+    <release version="1.0.1" date="2009-07-15" description="Maintenance Release">
+      <action dev="sgoeschl" type="fix" due-to="Peter Henderson" issue="EXEC-40">
+        Fixes NPE in DefaultExecutor.setExitValues().
+      </action>
       <action dev="sgoeschl" type="fix" due-to="Milos Kleint" issue="EXEC-33">
         Copies all data from an System.input stream to an output stream of 
         the executed process. 
