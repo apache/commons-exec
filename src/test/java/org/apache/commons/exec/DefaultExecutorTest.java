@@ -38,6 +38,7 @@ public class DefaultExecutorTest extends TestCase {
     private File foreverTestScript = TestUtil.resolveScriptForOS(testDir + "/forever");
     private File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir + "/grmpffffff");
     private File redirectScript = TestUtil.resolveScriptForOS(testDir + "/redirect");
+    private File exec41Script = TestUtil.resolveScriptForOS(testDir + "/exec41");
 
     // Get suitable exit codes for the OS
     private static final int SUCCESS_STATUS; // test script successful exit code
@@ -425,4 +426,51 @@ public class DefaultExecutorTest extends TestCase {
          assertFalse(exec.isFailure(exitValue));
          assertTrue(outfile.exists());
      }
+
+    /**
+     * Test the patch for EXEC-41 (https://issues.apache.org/jira/browse/EXEC-41).
+     *
+     * When a process runs longer than allowed by a configured watchdog's
+     * timeout, the watchdog tries to destroy it and then DefaultExecutor
+     * tries to clean up by joining with all installed pump stream threads.
+     * Problem is, that sometimes the native process doesn't die and thus
+     * streams aren't closed and the stream threads do not complete.
+     *
+     * The patch provides setAlwaysWaitForStreamThreads(boolean) method
+     * in PumpStreamHandler. By default, alwaysWaitForStreamThreads is set
+     * to true to preserve the current behavior. If set to false, and
+     * process is killed by watchdog, DefaultExecutor's call into
+     * ErrorStreamHandler.stop will NOT join the stream threads and
+     * DefaultExecutor will NOT attempt to close the streams, so the
+     * executor's thread won't get stuck.
+     */
+    public void testExec41() throws Exception {
+
+		CommandLine cmdLine = new CommandLine(exec41Script);
+		cmdLine.addArgument("10"); // sleep 10 secs
+		DefaultExecutor executor = new DefaultExecutor();
+		ExecuteWatchdog watchdog = new ExecuteWatchdog(2*1000); // allow process no more than 2 secs
+		executor.setWatchdog(watchdog);
+		//ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		//executor.setStreamHandler(new PumpStreamHandler(baos));
+
+		long startTime = System.currentTimeMillis();
+
+		try {
+			executor.execute(cmdLine);
+		} catch (ExecuteException e) {
+			System.out.println(e);
+		}
+
+        long duration = System.currentTimeMillis() - startTime;
+        
+		System.out.println("Process completed in " + duration +" millis; below is its output");
+		// System.out.println(baos);
+		if (watchdog.killedProcess()) {
+			System.out.println("Process timed out and was killed.");
+		}
+
+        assertTrue("The process was not killed by the watchdog", watchdog.killedProcess());        
+        // assertTrue("The process was not properly killed because it took " + duration + " ms to execute", duration < 5*1000);
+    }
 }
