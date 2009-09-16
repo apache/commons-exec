@@ -30,6 +30,13 @@
     <description xml:lang="en">
       A library to reliably execute external processes from within the JVM    
     </description>
+    <release>
+      <Version>
+        <name>commons-exec</name>
+        <created>2009-03-25</created>
+        <revision>1.0</revision>
+      </Version>
+    </release>
     <repository>
       <SVNRepository>
         <browse rdf:resource="http://svn.apache.org/viewvc/commons/proper/exec/trunk/"/>
