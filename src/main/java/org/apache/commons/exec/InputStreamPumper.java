@@ -51,6 +51,7 @@ public class InputStreamPumper implements Runnable {
     public InputStreamPumper(final InputStream is, final OutputStream os) {
         this.is = is;
         this.os = os;
+        this.stop = false;
     }
 
 
@@ -59,8 +60,6 @@ public class InputStreamPumper implements Runnable {
      * soon as the input stream is closed or an error occurs.
      */
     public void run() {
-        stop = false;
-
         try {
             while (!stop) {
                 while (is.available() > 0 && !stop) {
