@@ -23,7 +23,13 @@
     <author email="sgoeschl@apache.org">Siegfried Goeschl</author>
   </properties>
   <body>
-    <release version="1.0.1" date="2009-09-23" description="Maintenance Release">
+    <release version="1.0.1" date="2009-09-28" description="Maintenance Release">
+      <action dev="henrib" type="fix" date="2009-09-25" issue="EXEC-33">
+        On a Mac, the unit tests never finish. Culprit is InputStreamPumper which 
+        sets its stop member in the run method; however, run might really be executed 
+        after the stopProcessing method is called if the process 
+        thread completes before the InputStreamPumper starts.
+      </action>
       <action dev="sgoeschl" type="fix" due-to="Peter Henderson" issue="EXEC-40">
         Fixes NPE in DefaultExecutor.setExitValues().
       </action>
