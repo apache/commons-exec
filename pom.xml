@@ -25,7 +25,7 @@
   <name>Commons Exec</name>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-exec</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2-SNAPSHOT</version>
   <description>A library to reliably execute external processes from within the JVM</description>
   <url>http://commons.apache.org/exec/</url>  
   
@@ -79,9 +79,9 @@
   </contributors>
   
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/exec/tags/EXEC_1_0_1_RC4</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/exec/tags/EXEC_1_0_1_RC4</developerConnection>
-    <url>http://svn.apache.org/viewvc/commons/proper/exec/tags/EXEC_1_0_1_RC4</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/exec/tags/EXEC_1_0_1_RC3</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/exec/tags/EXEC_1_0_1_RC3</developerConnection>
+    <url>http://svn.apache.org/viewvc/commons/proper/exec/tags/EXEC_1_0_1_RC3</url>
   </scm>
   
   <build>
