@@ -36,8 +36,8 @@ Jakarta Commons Exec
   command is executed. In J2SE 1.1-1.4 there is not support for this, since the method, <<<System.getenv()>>>, for
   retriving environment variables is deprecated.
 
-  The are currently several different libraries that for their own purposes has implemented frameworks around
-  <<<Runtime.exec()>>> to handle the various issue outlined above. The proposed project should aim at coordinating and
+  There are currently several different libraries that for their own purposes have implemented frameworks around
+  <<<Runtime.exec()>>> to handle the various issues outlined above. The proposed project should aim at coordinating and
   learning from these initatives to create and maintain a simple, reusable and well-tested package. Since some of the
   more problematic platforms are not readily available, it is my hope that the broad Apache community can be a
   great help.
