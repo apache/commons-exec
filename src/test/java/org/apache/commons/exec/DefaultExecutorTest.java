@@ -39,10 +39,11 @@ public class DefaultExecutorTest extends TestCase {
     private File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir + "/grmpffffff");
     private File redirectScript = TestUtil.resolveScriptForOS(testDir + "/redirect");
     private File exec41Script = TestUtil.resolveScriptForOS(testDir + "/exec41");
+    private File printArgsScript = TestUtil.resolveScriptForOS(testDir + "/printargs");
 
     // Get suitable exit codes for the OS
     private static final int SUCCESS_STATUS; // test script successful exit code
-    private static final int ERROR_STATUS;   // test script error exit ccode
+    private static final int ERROR_STATUS;   // test script error exit code
     static{
        int statuses[] = TestUtil.getTestScriptCodesForOS();
        SUCCESS_STATUS=statuses[0];
@@ -473,4 +474,18 @@ public class DefaultExecutorTest extends TestCase {
         assertTrue("The process was not killed by the watchdog", watchdog.killedProcess());        
         // assertTrue("The process was not properly killed because it took " + duration + " ms to execute", duration < 5*1000);
     }
+
+    /**
+     * A generic test case to print the command line arguments to 'printargs' script to solve
+     * even more command line puzzles.
+     */
+    public void testExecuteWithComplexArguments() throws Exception {
+        CommandLine cl = new CommandLine(printArgsScript);
+        cl.addArgument("gdal_translate");
+        cl.addArgument("HDF5:\"/home/kk/grass/data/4404.he5\"://HDFEOS/GRIDS/OMI_Column_Amount_O3/Data_Fields/ColumnAmountO3/home/kk/4.tif", false);
+        DefaultExecutor executor = new DefaultExecutor();
+        int exitValue = executor.execute(cl);
+        assertFalse(exec.isFailure(exitValue));
+     }
+
 }
