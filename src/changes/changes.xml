@@ -23,6 +23,13 @@
     <author email="sgoeschl@apache.org">Siegfried Goeschl</author>
   </properties>
   <body>
+    <release version="1.0.2-SNAPSHOT" date="as in SVN" description="Maintenance Release">
+      <action dev="sgoeschl" type="fix" date="2010-05-31" issue="EXEC-44">
+        Because the ExecuteWatchdog is the only way to destroy asynchronous processes,
+        it should be possible to set it to an infinite timeout, for processes which
+        should not timeout, but manually destroyed under some circumstances.
+      </action>    
+    </release>
     <release version="1.0.1" date="2009-09-28" description="Maintenance Release">
       <action dev="henrib" type="fix" date="2009-09-25" issue="EXEC-33">
         On a Mac, the unit tests never finish. Culprit is InputStreamPumper which 

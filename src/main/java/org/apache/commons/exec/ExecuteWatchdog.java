@@ -20,24 +20,35 @@ package org.apache.commons.exec;
 
 /**
  * Destroys a process running for too long. For example:
- * 
+ *
  * <pre>
  * ExecuteWatchdog watchdog = new ExecuteWatchdog(30000);
- * Execute exec = new Execute(myloghandler, watchdog);
+ * Executer exec = new Executer(myloghandler, watchdog);
  * exec.setCommandLine(mycmdline);
  * int exitvalue = exec.execute();
  * if (Execute.isFailure(exitvalue) &amp;&amp; watchdog.killedProcess()) {
  *     // it was killed on purpose by the watchdog
  * }
  * </pre>
- * 
+ *
+ * When starting an asynchronous process than 'ExecuteWatchdog' is the
+ * keeper of the process handle. In some cases it is useful not to define
+ * a timeout (and pass 'INFINITE_TIMEOUT') and to kill the process explicitely
+ * using 'destroyProcess()'.
+ *
  * @see org.apache.commons.exec.Executor
  * @see org.apache.commons.exec.Watchdog
  */
 public class ExecuteWatchdog implements TimeoutObserver {
 
+    /** The marker for an infinite timeout */
+    public static final long INFINITE_TIMEOUT = -1;
+    
     /** The process to execute and watch for duration. */
     private Process process;
+
+    /** Is a user-supplied timeout in use */
+    private boolean hasWatchdog;
 
     /** Say whether or not the watchdog is currently monitoring a process. */
     private boolean watch;
@@ -56,13 +67,19 @@ public class ExecuteWatchdog implements TimeoutObserver {
      * 
      * @param timeout
      *            the timeout for the process in milliseconds. It must be
-     *            greater than 0.
+     *            greater than 0 or 'INFINITE_TIMEOUT'
      */
     public ExecuteWatchdog(final long timeout) {
         this.killedProcess = false;
         this.watch = false;
-        this.watchdog = new Watchdog(timeout);
-        this.watchdog.addTimeoutObserver(this);
+        this.hasWatchdog = (timeout != INFINITE_TIMEOUT);
+        if(this.hasWatchdog) {
+            this.watchdog = new Watchdog(timeout);
+            this.watchdog.addTimeoutObserver(this);
+        }
+        else {
+            this.watchdog = null;
+        }
     }
 
     /**
@@ -85,7 +102,9 @@ public class ExecuteWatchdog implements TimeoutObserver {
         this.killedProcess = false;
         this.watch = true;
         this.process = process;
-        watchdog.start();
+        if(this.hasWatchdog) {
+            watchdog.start();
+        }
     }
 
     /**
@@ -93,7 +112,9 @@ public class ExecuteWatchdog implements TimeoutObserver {
      * object.
      */
     public synchronized void stop() {
-        watchdog.stop();
+        if(hasWatchdog) {
+            watchdog.stop();
+        }
         watch = false;
         process = null;
     }
@@ -102,7 +123,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
      * Destroys the running process manually.
      */
     public synchronized void destroyProcess() {
-        this.timeoutOccured(new Watchdog(1));
+        this.timeoutOccured(null);
         this.stop();
     }
 

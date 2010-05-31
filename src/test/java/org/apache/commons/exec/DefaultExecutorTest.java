@@ -153,7 +153,9 @@ public class DefaultExecutorTest extends TestCase {
 
     /**
      * Start a async process and terminate it manually before the
-     * wacthdog timeout occurs. 
+     * watchdog timeout occurs.
+     *
+     * @throws Exception the test failed 
      */
     public void testExecuteAsyncWithTimelyUserTermination() throws Exception {
         CommandLine cl = new CommandLine(foreverTestScript);
@@ -163,14 +165,18 @@ public class DefaultExecutorTest extends TestCase {
         exec.execute(cl, handler);
         // wait for script to run
         Thread.sleep(2000);
-        // teminate it
+        assertTrue("Watchdog should watch the process", watchdog.isWatching());
+        // terminate it
         watchdog.destroyProcess();
         assertTrue("Watchdog should have killed the process",watchdog.killedProcess());
+        assertFalse(watchdog.isWatching());
     }
 
     /**
      * Start a async process and try to terminate it manually but
      * the process was already terminated by the watchdog.
+     *
+     * @throws Exception the test failed
      */
     public void testExecuteAsyncWithTooLateUserTermination() throws Exception {
         CommandLine cl = new CommandLine(foreverTestScript);
@@ -183,11 +189,14 @@ public class DefaultExecutorTest extends TestCase {
         // try to terminate the already terminated process
         watchdog.destroyProcess();
         assertTrue("Watchdog should have killed the process already",watchdog.killedProcess());
+        assertFalse(watchdog.isWatching());
     }
 
     /**
-     * Start a scipt looping forever and check if the ExecuteWatchdog
+     * Start a script looping forever and check if the ExecuteWatchdog
      * kicks in killing the run away process.
+     *
+     * @throws Exception the test failed
      */
     public void testExecuteWatchdog() throws Exception {
         long timeout = 10000;
@@ -214,6 +223,8 @@ public class DefaultExecutorTest extends TestCase {
     /**
      * Try to start an non-existing application which should result
      * in an exception.
+     *
+     * @throws Exception the test failed
      */
     public void testExecuteNonExistingApplication() throws Exception {
         CommandLine cl = new CommandLine(nonExistingTestScript);
@@ -231,6 +242,8 @@ public class DefaultExecutorTest extends TestCase {
     /**
      * Try to start an non-existing application asynchronously which should result
      * in an exception.
+     *
+     * @throws Exception the test failed
      */
     public void testExecuteAsyncWithNonExistingApplication() throws Exception {
         CommandLine cl = new CommandLine(nonExistingTestScript);
@@ -244,6 +257,8 @@ public class DefaultExecutorTest extends TestCase {
     /**
      * Start any processes in a loop to make sure that we do
      * not leave any handles/resources open.
+     *
+     * @throws Exception the test failed
      */
     public void testExecuteStability() throws Exception {
         for(int i=0; i<1000; i++) {
@@ -260,6 +275,8 @@ public class DefaultExecutorTest extends TestCase {
     /**
      * Invoke the error script but define that the ERROR_STATUS is a good
      * exit value and therefore no exception should be thrown.
+     *
+     * @throws Exception the test failed
      */
     public void testExecuteWithCustomExitValue1() throws Exception {
         exec.setExitValue(ERROR_STATUS);
@@ -270,6 +287,8 @@ public class DefaultExecutorTest extends TestCase {
     /**
      * Invoke the error script but define that SUCCESS_STATUS is a bad
      * exit value and therefore an exception should be thrown.
+     *
+     * @throws Exception the test failed
      */
     public void testExecuteWithCustomExitValue2() throws Exception {
         CommandLine cl = new CommandLine(errorTestScript);
@@ -285,6 +304,8 @@ public class DefaultExecutorTest extends TestCase {
 
     /**
      * Test the proper handling of ProcessDestroyer for an synchronous process.
+     *
+     * @throws Exception the test failed
      */
     public void testExecuteWithProcessDestroyer() throws Exception {
 
@@ -306,7 +327,9 @@ public class DefaultExecutorTest extends TestCase {
     /**
      * Test the proper handling of ProcessDestroyer for an asynchronous process.
      * Since we do not terminate the process it will be terminated in the
-     * ShutdownHookProcessDestroyer implementation
+     * ShutdownHookProcessDestroyer implementation.
+     *
+     * @throws Exception the test failed
      */
     public void testExecuteAsyncWithProcessDestroyer() throws Exception {
 
@@ -329,7 +352,7 @@ public class DefaultExecutorTest extends TestCase {
       assertEquals("Process destroyer size should be 1",1,processDestroyer.size());
       assertTrue("Process destroyer should exist as shutdown hook",processDestroyer.isAddedAsShutdownHook());
 
-      // teminate it and the process destroyer is detached
+      // terminate it and the process destroyer is detached
       watchdog.destroyProcess();
       assertTrue(watchdog.killedProcess());
       Thread.sleep(100);
@@ -356,6 +379,8 @@ public class DefaultExecutorTest extends TestCase {
      * the "redirect" script reads all lines from stdin and prints
      * them on stdout. Furthermore the script prints a status
      * message on stderr.
+     *
+     * @throws Exception the test failed
      */
     public void testExecuteWithRedirectedStreams() throws Exception
     {
@@ -375,6 +400,8 @@ public class DefaultExecutorTest extends TestCase {
 
     /**
      * Start a process and connect stdin, stdout and stderr (see EXEC-33).
+     *
+     * @throws Exception the test failed
      */
     public void testExecuteWithStdin() throws Exception
     {
@@ -388,6 +415,8 @@ public class DefaultExecutorTest extends TestCase {
 
      /**
       * Start a process and connect stdout and stderr.
+      *
+      * @throws Exception the test failed
       */
      public void testExecuteWithStdOutErr() throws Exception
      {
@@ -401,6 +430,8 @@ public class DefaultExecutorTest extends TestCase {
 
      /**
       * Start a process and connect it to no stream.
+      *
+      * @throws Exception the test failed
       */
      public void testExecuteWithNullOutErr() throws Exception
      {
@@ -414,6 +445,8 @@ public class DefaultExecutorTest extends TestCase {
 
      /**
       * Start a process and connect out and err to a file.
+      *
+      * @throws Exception the test failed
       */
      public void testExecuteWithRedirectOutErr() throws Exception
      {
@@ -444,6 +477,8 @@ public class DefaultExecutorTest extends TestCase {
      * ErrorStreamHandler.stop will NOT join the stream threads and
      * DefaultExecutor will NOT attempt to close the streams, so the
      * executor's thread won't get stuck.
+     *
+     * @throws Exception the test failed
      */
     public void testExec41() throws Exception {
 
@@ -452,8 +487,6 @@ public class DefaultExecutorTest extends TestCase {
 		DefaultExecutor executor = new DefaultExecutor();
 		ExecuteWatchdog watchdog = new ExecuteWatchdog(2*1000); // allow process no more than 2 secs
 		executor.setWatchdog(watchdog);
-		//ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		//executor.setStreamHandler(new PumpStreamHandler(baos));
 
 		long startTime = System.currentTimeMillis();
 
@@ -466,18 +499,19 @@ public class DefaultExecutorTest extends TestCase {
         long duration = System.currentTimeMillis() - startTime;
         
 		System.out.println("Process completed in " + duration +" millis; below is its output");
-		// System.out.println(baos);
+
 		if (watchdog.killedProcess()) {
 			System.out.println("Process timed out and was killed.");
 		}
 
-        assertTrue("The process was not killed by the watchdog", watchdog.killedProcess());        
-        // assertTrue("The process was not properly killed because it took " + duration + " ms to execute", duration < 5*1000);
+        assertTrue("The process was not killed by the watchdog", watchdog.killedProcess());
     }
 
     /**
      * A generic test case to print the command line arguments to 'printargs' script to solve
      * even more command line puzzles.
+     *
+     * @throws Exception the test failed
      */
     public void testExecuteWithComplexArguments() throws Exception {
         CommandLine cl = new CommandLine(printArgsScript);
@@ -488,4 +522,32 @@ public class DefaultExecutorTest extends TestCase {
         assertFalse(exec.isFailure(exitValue));
      }
 
+    /**
+     * Test EXEC-44 (https://issues.apache.org/jira/browse/EXEC-44).
+     *
+     * Because the ExecuteWatchdog is the only way to destroy asynchronous
+     * processes, it should be possible to set it to an infinite timeout,
+     * for processes which should not timeout, but manually destroyed
+     * under some circumstances.
+     *
+     * @throws Exception the test failed
+     */
+    public void testExec44() throws Exception {
+
+        CommandLine cl = new CommandLine(foreverTestScript);
+        MockExecuteResultHandler handler = new MockExecuteResultHandler();
+        ExecuteWatchdog watchdog = new ExecuteWatchdog(ExecuteWatchdog.INFINITE_TIMEOUT);
+
+        exec.setWatchdog(watchdog);
+        exec.execute(cl, handler);
+
+        // wait for script to run
+        Thread.sleep(5000);
+        assertTrue(watchdog.isWatching());
+
+        // terminate it
+        watchdog.destroyProcess();
+        assertTrue(watchdog.killedProcess());
+        assertFalse(watchdog.isWatching());
+    }
 }
