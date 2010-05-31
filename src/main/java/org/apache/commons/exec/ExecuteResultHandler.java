@@ -26,14 +26,14 @@ package org.apache.commons.exec;
 public interface ExecuteResultHandler {
 
   /**
-   * The asynchronous exection completed.
+   * The asynchronous execution completed.
    *
-   * @param exitValue the exit value of the subprocess
+   * @param exitValue the exit value of the sub-process
    */
     void onProcessComplete(int exitValue);
 
   /**
-   * The asynchronous exection failed.
+   * The asynchronous execution failed.
    *
    * @param e the <code>ExecuteException</code> containing the root cause
    */

@@ -125,7 +125,7 @@ public class DefaultExecutorTest extends TestCase {
     public void testExecuteAsync() throws Exception {
         CommandLine cl = new CommandLine(testScript);
         
-        MockExecuteResultHandler handler = new MockExecuteResultHandler();
+        DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
         
         exec.execute(cl, handler);
         
@@ -139,7 +139,7 @@ public class DefaultExecutorTest extends TestCase {
     public void testExecuteAsyncWithError() throws Exception {
         CommandLine cl = new CommandLine(errorTestScript);
         
-        MockExecuteResultHandler handler = new MockExecuteResultHandler();
+        DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
         
         exec.execute(cl, handler);
         
@@ -161,7 +161,7 @@ public class DefaultExecutorTest extends TestCase {
         CommandLine cl = new CommandLine(foreverTestScript);
         ExecuteWatchdog watchdog = new ExecuteWatchdog(Integer.MAX_VALUE);
         exec.setWatchdog(watchdog);
-        MockExecuteResultHandler handler = new MockExecuteResultHandler();
+        DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
         exec.execute(cl, handler);
         // wait for script to run
         Thread.sleep(2000);
@@ -182,7 +182,7 @@ public class DefaultExecutorTest extends TestCase {
         CommandLine cl = new CommandLine(foreverTestScript);
         ExecuteWatchdog watchdog = new ExecuteWatchdog(3000);
         exec.setWatchdog(watchdog);
-        MockExecuteResultHandler handler = new MockExecuteResultHandler();
+        DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
         exec.execute(cl, handler);
         // wait for script to be terminated by the watchdog
         Thread.sleep(6000);
@@ -247,7 +247,7 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testExecuteAsyncWithNonExistingApplication() throws Exception {
         CommandLine cl = new CommandLine(nonExistingTestScript);
-        MockExecuteResultHandler handler = new MockExecuteResultHandler();
+        DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
         exec.execute(cl, handler);
         Thread.sleep(2000);
         assertNotNull(handler.getException());
@@ -334,7 +334,7 @@ public class DefaultExecutorTest extends TestCase {
     public void testExecuteAsyncWithProcessDestroyer() throws Exception {
 
       CommandLine cl = new CommandLine(foreverTestScript);
-      MockExecuteResultHandler handler = new MockExecuteResultHandler();
+      DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
       ShutdownHookProcessDestroyer processDestroyer = new ShutdownHookProcessDestroyer();
       ExecuteWatchdog watchdog = new ExecuteWatchdog(Integer.MAX_VALUE);
 
@@ -535,19 +535,19 @@ public class DefaultExecutorTest extends TestCase {
     public void testExec44() throws Exception {
 
         CommandLine cl = new CommandLine(foreverTestScript);
-        MockExecuteResultHandler handler = new MockExecuteResultHandler();
+        DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
         ExecuteWatchdog watchdog = new ExecuteWatchdog(ExecuteWatchdog.INFINITE_TIMEOUT);
 
         exec.setWatchdog(watchdog);
-        exec.execute(cl, handler);
+        exec.execute(cl, resultHandler);
 
         // wait for script to run
         Thread.sleep(5000);
-        assertTrue(watchdog.isWatching());
+        assertTrue("The watchdog is watching the process", watchdog.isWatching());       
 
         // terminate it
         watchdog.destroyProcess();
-        assertTrue(watchdog.killedProcess());
-        assertFalse(watchdog.isWatching());
+        assertTrue("The watchdog has killed the process", watchdog.killedProcess());
+        assertFalse("The watchdog is no longer watching any process", watchdog.isWatching());
     }
 }

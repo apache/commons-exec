@@ -18,19 +18,26 @@
 
 package org.apache.commons.exec;
 
-public class MockExecuteResultHandler implements ExecuteResultHandler {
+/**
+ * A default implementation of 'ExecuteResultHandler' used for asynchronous
+ * process handling.
+ */
+public class DefaultExecuteResultHandler implements ExecuteResultHandler {
 
+    /** The exit value of the finished process */
     private int exitValue;
+
+    /** Any offending exception */
     private ExecuteException exception;
-    
-    /* (non-Javadoc)
+
+    /**
      * @see org.apache.commons.exec.ExecuteResultHandler#onProcessComplete(int)
      */
     public void onProcessComplete(int exitValue) {
         this.exitValue = exitValue;
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.apache.commons.exec.ExecuteResultHandler#onProcessFailed(org.apache.commons.exec.ExecuteException)
      */
     public void onProcessFailed(ExecuteException e) {
@@ -51,5 +58,4 @@ public class MockExecuteResultHandler implements ExecuteResultHandler {
     public int getExitValue() {
         return exitValue;
     }
-
 }
