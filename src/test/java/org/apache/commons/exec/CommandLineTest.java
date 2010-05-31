@@ -304,7 +304,7 @@ public class CommandLineTest extends TestCase {
      */
     public void testCommandLineParsingWithExpansion1() {
 
-        CommandLine cmdl = null;
+        CommandLine cmdl;
 
         HashMap substitutionMap = new HashMap();
         substitutionMap.put("JAVA_HOME", "/usr/local/java");
@@ -404,7 +404,9 @@ public class CommandLineTest extends TestCase {
         
     }
     /**
-     * Test the toString() method
+     * Test the toString() method.
+     *
+     * @throws Exception the test failed
      */
     public void testToString() throws Exception {
         CommandLine cmdl;

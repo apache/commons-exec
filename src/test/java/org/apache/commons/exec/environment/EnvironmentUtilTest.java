@@ -52,6 +52,8 @@ public class EnvironmentUtilTest extends TestCase {
      * Test to access the environment variables of the current
      * process. Please note that this test does not run on
      * java-gjc.
+     *
+     * @throws IOException the test failed
      */
     public void testGetProcEnvironment() throws IOException {
         Map procEnvironment = EnvironmentUtils.getProcEnvironment();
@@ -70,6 +72,8 @@ public class EnvironmentUtilTest extends TestCase {
      * On Windows platforms test that accessing environment variables
      * can be done in a case-insensitive way, e.g. "PATH", "Path" and
      * "path" would reference the same environment variable.
+     *
+     * @throws IOException the test failed
      */
     public void testGetProcEnvironmentCaseInsensitiveLookup() throws IOException {
         // run tests only on windows platforms
@@ -99,6 +103,8 @@ public class EnvironmentUtilTest extends TestCase {
      * on the operating system but the values of the environment variable
      * are always case-sensitive. So make sure that this assumption holds
      * on all operating systems.
+     *
+     * @throws Exception the test failed
      */
     public void testCaseInsensitiveVariableLookup() throws Exception {
         Map procEnvironment = EnvironmentUtils.getProcEnvironment();
