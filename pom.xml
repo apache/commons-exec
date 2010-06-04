@@ -89,10 +89,9 @@
     </contributors>
 
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/exec/tags/EXEC_1_0_1_RC3</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/exec/tags/EXEC_1_0_1_RC3
-        </developerConnection>
-        <url>http://svn.apache.org/viewvc/commons/proper/exec/tags/EXEC_1_0_1_RC3</url>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/exec/trunk</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/exec/trunk</developerConnection>
+        <url>http://svn.apache.org/viewvc/commons/proper/exec/trunk</url>
     </scm>
 
     <build>
