@@ -18,140 +18,144 @@
  under the License.
 -->
 <document>
-  <properties>
-    <title>commons-exec</title>
-    <author email="sgoeschl@apache.org">Siegfried Goeschl</author>
-  </properties>
-  <body>
-    <release version="1.0.2-SNAPSHOT" date="as in SVN" description="Maintenance Release">
-      <action dev="sgoeschl" type="fix" date="2010-05-31" issue="EXEC-44">
-        Because the ExecuteWatchdog is the only way to destroy asynchronous processes,
-        it should be possible to set it to an infinite timeout, for processes which
-        should not timeout, but manually destroyed under some circumstances.
-      </action>    
-    </release>
-    <release version="1.0.1" date="2009-09-28" description="Maintenance Release">
-      <action dev="henrib" type="fix" date="2009-09-25" issue="EXEC-33">
-        On a Mac, the unit tests never finish. Culprit is InputStreamPumper which 
-        sets its stop member in the run method; however, run might really be executed 
-        after the stopProcessing method is called if the process 
-        thread completes before the InputStreamPumper starts.
-      </action>
-      <action dev="sgoeschl" type="fix" due-to="Peter Henderson" issue="EXEC-40">
-        Fixes NPE in DefaultExecutor.setExitValues().
-      </action>
-      <action dev="sgoeschl" type="fix" due-to="Milos Kleint" issue="EXEC-33">
-        Copies all data from an System.input stream to an output stream of 
-        the executed process. 
-      </action>
-    </release>  
-    <release version="1.0" date="2009-03-15" description="First Public Release">
-      <action dev="sgoeschl" type="fix" due-to="Sebastien Bazley" issue="EXEC-37">
-        Removed useless synchronized statement in
-        OpenVmsProcessingEnvironment.createProcEnvironment
-      </action>
-      <action dev="sgoeschl" type="fix" issue="EXEC-33">
-        Using System.in for child process will actually hang your application -
-        see JIRA for more details. Since there is no easy fix an
-        IllegalRuntimeException is thrown when System.in is passed.
-      </action>
-      <action dev="sgoeschl" type="fix" due-to="Luc Maisonobe" issue="EXEC-35">
-        Fixing a few findbugs issues.
-      </action>
-      <action dev="sgoeschl" type="fix" due-to="Marco Ferrante" issue="EXEC-32">
-        Handle null streams consistently.
-      </action>
-      <action dev="sgoeschl" type="fix">
-        After a long discussion we decided to stick to following groupId
-        "org.apache.commons" instead of "commons-exec".
-      </action>
-      <action dev="sgoeschl" type="fix" due-to="Kevin Jackson">
-        The Ant build now works even when junit is not on the classpath
-      </action>
-      <action dev="sgoeschl" type="fix">
-        Fixed broken "groupId" from "org.apache.commons" to "commons-exec"
-      </action>
-      <action dev="sgoeschl" type="fix" issue="EXEC-27" due-to="Benjamin Bentmann">
-        Renamed EnvironmentUtil to EnvironmentUtils to align with other classes
-        in this project and commons in general. Please note that this change
-        could break existing clients (but would be rather unlikely).
-      </action>
-      <action dev="sgoeschl" type="fix" issue="EXEC-30" due-to="Benjamin Bentmann">
-         Make environment variables respect casing rules of platforms. Under Windows
-         "PATH", "Path" and "path" would access the same environment variable whereas
-         the real name is "Path".
-      </action>
-      <action dev="sgoeschl" type="fix" issue="EXEC-31" due-to="Benjamin Bentmann">
-        Invoking DefaultExecutor.execute(CommandLine command, Map environment) using 
-        a 'null' Map results in inheriting all environment variables of the current
-        process while passing an empty map implies starting the new process with no
-        environment variables. In short 'null' is not the same as an empty map. 
-      </action>
-      <action dev="sgoeschl" type="add" issue="EXEC-26" due-to="Benjamin Bentmann">
-        Added one additional test : DefaultExecutorTest.testExecuteWithFancyArg
-      </action>
-      <action dev="sgoeschl" issue="EXEC-25" type="fix">
-        Using variable substitution within CommandLine broke the regression tests
-        under Windows. Found also another bug when calling CommandLine.getExecutable()
-        the result was not substituted at all. As a general rule we do variable
-        substitution and file separator fixing on the command line executable and
-        variable substitution but NO file separator fixing for the command line
-        arguments.
-      </action>
-      <action dev="sgoeschl" type="add">
-        Added convinience method to add two parameters to the CommandLine
-        using one method invocation.
-      </action>
-      <action dev="sgoeschl" type="fix">
-        Implemented better regression test for OpenVMS affecting also
-        the Executor and CommandLauncher interface.
-      </action>
-      <action dev="sebb" type="add">
-        Added test scripts for OpenVMS - he seems to be the last human
-        having access to an OpenVMS box ... :-)
-      </action>
-      <action dev="sgoeschl" type="add" due-to="Simone Gianni,Bindul Bhowmik,Niall Pemberton,Sebastian Bazley">
-        With the help of the Apache Commons community I added the first results
-        of cross-OS testing.
-      </action>
-      <action dev="sgoeschl" type="add">
-        The regression tests now also works on Windows - so it should
-        work now on Linux, Windows and Mac OS X
-      </action>
-      <action dev="sgoeschl" type="add">
-        Added DebugUtils to improve cross-platform testing.
-      </action>
-      <action dev="sgoeschl" type="remove">
-        Removed commons-logging integration
-      </action>
-      <action dev="sgoeschl" type="add" issue="SANDBOX-62" due-to="Jeremy Lacoste">
-        Made DefaultExecutor.launch() protected to enable mocking.
-      </action>
-      <action dev="sgoeschl" type="add" issue="SANDBOX-107" due-to="Niklas Gustavsson">
-        Made ProcessDestroyer optional and pluggable when using Executor.
-      </action>
-      <action dev="sgoeschl" type="add">
-        CommandLine can now expand the given command line by a user-suppied
-        map. This allows to execute something like "${JAVA_HOME}/bin/java -jar ${myapp}"
-      </action>
-      <action dev="sgoeschl" type="add" issue="SANDBOX-192" due-to="Reinhold Fuereder">
-        Added methods to provide pre-quoted arguments.
-      </action>
-      <action dev="sgoeschl" type="add" issue="SANDBOX-193" due-to="Reinhold Fuereder">
-        Exposing a ExecuteWatchdog.destroy() to kill an asynchrounous process
-        manually. This formalizes a workaround described in the JIRA
-      </action>
-      <action dev="sgoeschl" type="add" issue="SANDBOX-203">
-      	Extending exit value handling to support applications returning an error
-      	code.
-      </action>    
-      <action dev="sgoeschl" type="fix" issue="SANDBOX-204">
-        Cleaned up the source code to get rid of javadoc errors and
-        unused imports.
-      </action>    
-      <action dev="sgoeschl" type="add" issue="SANDBOX-204">
-        Added a few regression tests for the watchdog since they were missing.
-      </action>    
-    </release>
-  </body>
+    <properties>
+        <title>commons-exec</title>
+        <author email="sgoeschl@apache.org">Siegfried Goeschl</author>
+    </properties>
+    <body>
+        <release version="1.1-SNAPSHOT" date="as in SVN" description="Maintenance Release">
+            <action dev="sgoeschl" type="update" date="2010-06-01" issue="EXEC-42" due-to="Pablo Hoertner">
+                Added a new section to the tutorial to show working with asynchronous
+                processes. Thanks to Pablo for providing this documentation update.
+            </action>
+            <action dev="sgoeschl" type="fix" date="2010-05-31" issue="EXEC-44">
+                Because the ExecuteWatchdog is the only way to destroy asynchronous processes,
+                it should be possible to set it to an infinite timeout, for processes which
+                should not timeout, but manually destroyed under some circumstances.
+            </action>
+        </release>
+        <release version="1.0.1" date="2009-09-28" description="Maintenance Release">
+            <action dev="henrib" type="fix" date="2009-09-25" issue="EXEC-33">
+                On a Mac, the unit tests never finish. Culprit is InputStreamPumper which
+                sets its stop member in the run method; however, run might really be executed
+                after the stopProcessing method is called if the process
+                thread completes before the InputStreamPumper starts.
+            </action>
+            <action dev="sgoeschl" type="fix" due-to="Peter Henderson" issue="EXEC-40">
+                Fixes NPE in DefaultExecutor.setExitValues().
+            </action>
+            <action dev="sgoeschl" type="fix" due-to="Milos Kleint" issue="EXEC-33">
+                Copies all data from an System.input stream to an output stream of
+                the executed process.
+            </action>
+        </release>
+        <release version="1.0" date="2009-03-15" description="First Public Release">
+            <action dev="sgoeschl" type="fix" due-to="Sebastien Bazley" issue="EXEC-37">
+                Removed useless synchronized statement in
+                OpenVmsProcessingEnvironment.createProcEnvironment
+            </action>
+            <action dev="sgoeschl" type="fix" issue="EXEC-33">
+                Using System.in for child process will actually hang your application -
+                see JIRA for more details. Since there is no easy fix an
+                IllegalRuntimeException is thrown when System.in is passed.
+            </action>
+            <action dev="sgoeschl" type="fix" due-to="Luc Maisonobe" issue="EXEC-35">
+                Fixing a few findbugs issues.
+            </action>
+            <action dev="sgoeschl" type="fix" due-to="Marco Ferrante" issue="EXEC-32">
+                Handle null streams consistently.
+            </action>
+            <action dev="sgoeschl" type="fix">
+                After a long discussion we decided to stick to following groupId
+                "org.apache.commons" instead of "commons-exec".
+            </action>
+            <action dev="sgoeschl" type="fix" due-to="Kevin Jackson">
+                The Ant build now works even when junit is not on the classpath
+            </action>
+            <action dev="sgoeschl" type="fix">
+                Fixed broken "groupId" from "org.apache.commons" to "commons-exec"
+            </action>
+            <action dev="sgoeschl" type="fix" issue="EXEC-27" due-to="Benjamin Bentmann">
+                Renamed EnvironmentUtil to EnvironmentUtils to align with other classes
+                in this project and commons in general. Please note that this change
+                could break existing clients (but would be rather unlikely).
+            </action>
+            <action dev="sgoeschl" type="fix" issue="EXEC-30" due-to="Benjamin Bentmann">
+                Make environment variables respect casing rules of platforms. Under Windows
+                "PATH", "Path" and "path" would access the same environment variable whereas
+                the real name is "Path".
+            </action>
+            <action dev="sgoeschl" type="fix" issue="EXEC-31" due-to="Benjamin Bentmann">
+                Invoking DefaultExecutor.execute(CommandLine command, Map environment) using
+                a 'null' Map results in inheriting all environment variables of the current
+                process while passing an empty map implies starting the new process with no
+                environment variables. In short 'null' is not the same as an empty map.
+            </action>
+            <action dev="sgoeschl" type="add" issue="EXEC-26" due-to="Benjamin Bentmann">
+                Added one additional test : DefaultExecutorTest.testExecuteWithFancyArg
+            </action>
+            <action dev="sgoeschl" issue="EXEC-25" type="fix">
+                Using variable substitution within CommandLine broke the regression tests
+                under Windows. Found also another bug when calling CommandLine.getExecutable()
+                the result was not substituted at all. As a general rule we do variable
+                substitution and file separator fixing on the command line executable and
+                variable substitution but NO file separator fixing for the command line
+                arguments.
+            </action>
+            <action dev="sgoeschl" type="add">
+                Added convinience method to add two parameters to the CommandLine
+                using one method invocation.
+            </action>
+            <action dev="sgoeschl" type="fix">
+                Implemented better regression test for OpenVMS affecting also
+                the Executor and CommandLauncher interface.
+            </action>
+            <action dev="sebb" type="add">
+                Added test scripts for OpenVMS - he seems to be the last human
+                having access to an OpenVMS box ... :-)
+            </action>
+            <action dev="sgoeschl" type="add" due-to="Simone Gianni,Bindul Bhowmik,Niall Pemberton,Sebastian Bazley">
+                With the help of the Apache Commons community I added the first results
+                of cross-OS testing.
+            </action>
+            <action dev="sgoeschl" type="add">
+                The regression tests now also works on Windows - so it should
+                work now on Linux, Windows and Mac OS X
+            </action>
+            <action dev="sgoeschl" type="add">
+                Added DebugUtils to improve cross-platform testing.
+            </action>
+            <action dev="sgoeschl" type="remove">
+                Removed commons-logging integration
+            </action>
+            <action dev="sgoeschl" type="add" issue="SANDBOX-62" due-to="Jeremy Lacoste">
+                Made DefaultExecutor.launch() protected to enable mocking.
+            </action>
+            <action dev="sgoeschl" type="add" issue="SANDBOX-107" due-to="Niklas Gustavsson">
+                Made ProcessDestroyer optional and pluggable when using Executor.
+            </action>
+            <action dev="sgoeschl" type="add">
+                CommandLine can now expand the given command line by a user-suppied
+                map. This allows to execute something like "${JAVA_HOME}/bin/java -jar ${myapp}"
+            </action>
+            <action dev="sgoeschl" type="add" issue="SANDBOX-192" due-to="Reinhold Fuereder">
+                Added methods to provide pre-quoted arguments.
+            </action>
+            <action dev="sgoeschl" type="add" issue="SANDBOX-193" due-to="Reinhold Fuereder">
+                Exposing a ExecuteWatchdog.destroy() to kill an asynchrounous process
+                manually. This formalizes a workaround described in the JIRA
+            </action>
+            <action dev="sgoeschl" type="add" issue="SANDBOX-203">
+                Extending exit value handling to support applications returning an error
+                code.
+            </action>
+            <action dev="sgoeschl" type="fix" issue="SANDBOX-204">
+                Cleaned up the source code to get rid of javadoc errors and
+                unused imports.
+            </action>
+            <action dev="sgoeschl" type="add" issue="SANDBOX-204">
+                Added a few regression tests for the watchdog since they were missing.
+            </action>
+        </release>
+    </body>
 </document>

@@ -48,7 +48,7 @@ public class ExecuteException extends IOException {
      * @param exitValue The exit value
      */
     public ExecuteException(final String message, int exitValue) {
-        super(message + "(Exit value: " + exitValue + ")");
+        super(message + " (Exit value: " + exitValue + ")");
         this.cause = null;
         this.exitValue = exitValue;
     }

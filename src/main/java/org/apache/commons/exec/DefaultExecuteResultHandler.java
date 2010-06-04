@@ -24,6 +24,9 @@ package org.apache.commons.exec;
  */
 public class DefaultExecuteResultHandler implements ExecuteResultHandler {
 
+    /** Keep track if the process is still running */
+    private boolean hasResult;
+
     /** The exit value of the finished process */
     private int exitValue;
 
@@ -33,29 +36,42 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
     /**
      * @see org.apache.commons.exec.ExecuteResultHandler#onProcessComplete(int)
      */
-    public void onProcessComplete(int exitValue) {
+    synchronized public void onProcessComplete(int exitValue) {
         this.exitValue = exitValue;
+        this.hasResult = true;
     }
 
     /**
      * @see org.apache.commons.exec.ExecuteResultHandler#onProcessFailed(org.apache.commons.exec.ExecuteException)
      */
-    public void onProcessFailed(ExecuteException e) {
+    synchronized public void onProcessFailed(ExecuteException e) {
         this.exception = e;
         exitValue = e.getExitValue();
+        this.hasResult = true;
     }
 
     /**
      * @return Returns the exception.
      */
-    public ExecuteException getException() {
+    synchronized public ExecuteException getException() {
+        if(!hasResult) throw new IllegalStateException("The process has not exited yet ...");
         return exception;
     }
 
     /**
      * @return Returns the exitValue.
      */
-    public int getExitValue() {
+    synchronized public int getExitValue() {
+        if(!hasResult) throw new IllegalStateException("The process has not exited yet ...");
         return exitValue;
+    }
+
+    /**
+     * Has the process exited and a result is available?
+     *
+     * @return true if the process might be still running
+     */
+    synchronized public boolean hasResult() {
+        return hasResult;
     }
 }

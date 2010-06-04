@@ -69,7 +69,7 @@ int exitValue = executor.execute(commandLine);
   You happily printed for a while but now your application blocks - your printing subprocess
   hangs for some obvious or not so obvious reason. Starting is easy but what to do with a run-away
   Acrobat Reader?! Luckily commons-exec provides a watchdog which does the work for you.
-  Here is the improved code
+  Here is the improved code which kills a run-away process after sixty seconds.
 
 +----------------------------------------------------------------------------
 String line = "AcroRd32.exe /p /h " + file.getAbsolutePath();
@@ -85,8 +85,9 @@ int exitValue = executor.execute(commandLine);
 
   Well, the code worked for quite a while until a new customer complained that
   no documents are printed. It took half a day to find out that the following file
-  'C:\Document And Settings\documents\432432.pdf' could not be printed. Due to the
-  spaces and without further quoting the command line fell literally apart.
+  'C:\\Document And Settings\\documents\\432432.pdf' could not be printed. Due to the
+  spaces and without further quoting the command line fell literally apart into
+  the following snippet
 
 +----------------------------------------------------------------------------
 > AcroRd32.exe /p /h C:\Document And Settings\documents\432432.pdf
@@ -105,7 +106,7 @@ ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
 executor.setWatchdog(watchdog);
 int exitValue = executor.execute(commandLine);
 +----------------------------------------------------------------------------
-  
+
 * Build the Command Line Incrementally
 
   The previous problem stems from the fact that commons-exec tried to split
@@ -138,9 +139,9 @@ int exitValue = executor.execute(commandLine);
 
 +----------------------------------------------------------------------------
 CommandLine commandLine;
-HashMap params = new HashMap();
-params.put("file", "C:\Document And Settings\documents\432432.pdf");
-commandLine  = CommandLine.parse("AcroRd32.exe /p /h \"${file}\"", params);
+HashMap map = new HashMap();
+map.put("file", "C:\Document And Settings\documents\432432.pdf");
+commandLine  = CommandLine.parse("AcroRd32.exe /p /h \"${file}\"", map);
 
 // Or you can use expansion with individual parameters:
 
@@ -148,8 +149,44 @@ CommandLine commandLine = CommandLine.parse("AcroRd32.exe");
 commandLine.addArgument("/p");
 commandLine.addArgument("/h");
 commandLine.addArgument("${file}");
-HashMap params = new HashMap();
-params.put("file", "C:\Document And Settings\documents\432432.pdf");
-commandLine.setSubstitutionMap(params);
+HashMap map = new HashMap();
+map.put("file", "C:\Document And Settings\documents\432432.pdf");
+commandLine.setSubstitutionMap(map);
++----------------------------------------------------------------------------
+
+* Unblock Your Execution
+
+  Up to now we have a working example but it would not be good enough for
+  production - because it is blocking.
+
+  At the one hand your print process might block when it tries to write to
+  'stdout' or 'stderr'. Avoiding this problem is done by setting a pump stream
+  handler which pumps the output from the print process to your own process.
+
+  On the other hand your own worker thread will block until the print process
+  has exited. Therefore executing the print job asynchronously will do the trick.
+  In this example we create an instance of 'ExecuteResultHandler' and pass it
+  to the 'Executor' instance in order to execute the process asynchronously.
+  The 'resultHandler' picks up any offending exception or the process exit
+  code.
+
++----------------------------------------------------------------------------
+CommandLine commandLine = CommandLine.parse(this.acroRd32Script.getAbsolutePath());
+commandLine.addArgument("/p");
+commandLine.addArgument("/h");
+commandLine.addArgument("${file}");
+HashMap map = new HashMap();
+map.put("file", "./pom.xml");
+commandLine.setSubstitutionMap(map);
+
+DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
+
+ExecuteWatchdog watchdog = new ExecuteWatchdog(timeout1);
+
+Executor executor = new DefaultExecutor();
+executor.setExitValue(1);
+executor.setStreamHandler(new PumpStreamHandler());
+executor.setWatchdog(watchdog);
+executor.execute(commandLine, resultHandler);
 +----------------------------------------------------------------------------
   

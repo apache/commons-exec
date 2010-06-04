@@ -40,6 +40,8 @@ public class DefaultExecutorTest extends TestCase {
     private File redirectScript = TestUtil.resolveScriptForOS(testDir + "/redirect");
     private File exec41Script = TestUtil.resolveScriptForOS(testDir + "/exec41");
     private File printArgsScript = TestUtil.resolveScriptForOS(testDir + "/printargs");
+    private File acroRd32Script = TestUtil.resolveScriptForOS(testDir + "/acrord32");
+
 
     // Get suitable exit codes for the OS
     private static final int SUCCESS_STATUS; // test script successful exit code
@@ -549,5 +551,77 @@ public class DefaultExecutorTest extends TestCase {
         watchdog.destroyProcess();
         assertTrue("The watchdog has killed the process", watchdog.killedProcess());
         assertFalse("The watchdog is no longer watching any process", watchdog.isWatching());
+    }
+
+
+    /**
+     * Runs the final tutorial example. The sample demonstrates the following
+     * features of commons-exec
+     * <ul>
+     *  <li>creating a command line with parameter substitution
+     *  <li>use a watchdog to kill a run-away process after a certain timeout
+     *  <li>use a 'resultHandler' to execute the process asynchronously
+     *  <li>check if the process cleanly exited or was killed by the watchdog
+     * </ul>
+     *
+     * @throws Exception the test failed
+     */
+
+    public void testTutorialExample() throws Exception {
+
+        final long timeout1 = 5*1000;
+        final long timeout2 = 8*1000;
+
+        // build up the command line
+        CommandLine commandLine = CommandLine.parse(this.acroRd32Script.getAbsolutePath());
+        commandLine.addArgument("/p");
+        commandLine.addArgument("/h");
+        commandLine.addArgument("${file}");
+        HashMap map = new HashMap();
+        map.put("file", "./pom.xml");
+        commandLine.setSubstitutionMap(map);
+
+        // asynchronous execution is defined by using a 'resultHander'
+        DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler() {
+            public void onProcessComplete(int exitValue) {
+                super.onProcessComplete(exitValue);
+                System.out.println("[resultHandler] The print process has exited with the following value: " + exitValue);
+            }
+            public void onProcessFailed(ExecuteException e) {
+                super.onProcessFailed(e);
+                System.err.println("[resultHandler] The print process was not successfully executed due to : " + e.getMessage());
+            }
+        };
+
+        ExecuteWatchdog watchdog = new ExecuteWatchdog(timeout1);
+
+        // execute the asynchronous process and consider '1' as success
+        Executor executor = new DefaultExecutor();
+        executor.setExitValue(1);
+        executor.setStreamHandler(new PumpStreamHandler());
+        executor.setWatchdog(watchdog);
+        executor.execute(commandLine, resultHandler);
+
+        // wait for some time (longer than the timeout for the watchdog to avoid race conditions)
+        Thread.sleep(timeout2);
+ 
+        if(resultHandler.hasResult()) {
+            if(resultHandler.getException() != null) {
+                System.err.println("[application] The document was NOT successfully printed");
+            }
+            else {
+                System.out.println("[application] The document was successfully printed");
+            }
+        }
+        else {
+            if(watchdog.killedProcess()) {
+                System.err.println("[application] The print process was killed by the watchdog");
+            }
+            else {
+                System.err.println("[application] The print process is still running");
+            }
+        }
+
+
     }
 }
