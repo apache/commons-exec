@@ -572,56 +572,57 @@ public class DefaultExecutorTest extends TestCase {
         final long timeout1 = 5*1000;
         final long timeout2 = 8*1000;
 
-        // build up the command line
-        CommandLine commandLine = CommandLine.parse(this.acroRd32Script.getAbsolutePath());
-        commandLine.addArgument("/p");
-        commandLine.addArgument("/h");
-        commandLine.addArgument("${file}");
-        HashMap map = new HashMap();
-        map.put("file", "./pom.xml");
-        commandLine.setSubstitutionMap(map);
+        if(OS.isFamilyUnix() || OS.isFamilyWindows())
+        {
+            // build up the command line
+            CommandLine commandLine = CommandLine.parse(this.acroRd32Script.getAbsolutePath());
+            commandLine.addArgument("/p");
+            commandLine.addArgument("/h");
+            commandLine.addArgument("${file}");
+            HashMap map = new HashMap();
+            map.put("file", "./pom.xml");
+            commandLine.setSubstitutionMap(map);
 
-        // asynchronous execution is defined by using a 'resultHander'
-        DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler() {
-            public void onProcessComplete(int exitValue) {
-                super.onProcessComplete(exitValue);
-                System.out.println("[resultHandler] The print process has exited with the following value: " + exitValue);
-            }
-            public void onProcessFailed(ExecuteException e) {
-                super.onProcessFailed(e);
-                System.err.println("[resultHandler] The print process was not successfully executed due to : " + e.getMessage());
-            }
-        };
+            // asynchronous execution is defined by using a 'resultHander'
+            DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler() {
+                public void onProcessComplete(int exitValue) {
+                    super.onProcessComplete(exitValue);
+                    System.out.println("[resultHandler] The print process has exited with the following value: " + exitValue);
+                }
+                public void onProcessFailed(ExecuteException e) {
+                    super.onProcessFailed(e);
+                    System.err.println("[resultHandler] The print process was not successfully executed due to : " + e.getMessage());
+                }
+            };
 
-        ExecuteWatchdog watchdog = new ExecuteWatchdog(timeout1);
+            ExecuteWatchdog watchdog = new ExecuteWatchdog(timeout1);
 
-        // execute the asynchronous process and consider '1' as success
-        Executor executor = new DefaultExecutor();
-        executor.setExitValue(1);
-        executor.setStreamHandler(new PumpStreamHandler());
-        executor.setWatchdog(watchdog);
-        executor.execute(commandLine, resultHandler);
+            // execute the asynchronous process and consider '1' as success
+            Executor executor = new DefaultExecutor();
+            executor.setExitValue(1);
+            executor.setStreamHandler(new PumpStreamHandler());
+            executor.setWatchdog(watchdog);
+            executor.execute(commandLine, resultHandler);
 
-        // wait for some time (longer than the timeout for the watchdog to avoid race conditions)
-        Thread.sleep(timeout2);
- 
-        if(resultHandler.hasResult()) {
-            if(resultHandler.getException() != null) {
-                System.err.println("[application] The document was NOT successfully printed");
-            }
-            else {
-                System.out.println("[application] The document was successfully printed");
-            }
-        }
-        else {
-            if(watchdog.killedProcess()) {
-                System.err.println("[application] The print process was killed by the watchdog");
+            // wait for some time (longer than the timeout for the watchdog to avoid race conditions)
+            Thread.sleep(timeout2);
+
+            if(resultHandler.hasResult()) {
+                if(resultHandler.getException() != null) {
+                    System.err.println("[application] The document was NOT successfully printed");
+                }
+                else {
+                    System.out.println("[application] The document was successfully printed");
+                }
             }
             else {
-                System.err.println("[application] The print process is still running");
+                if(watchdog.killedProcess()) {
+                    System.err.println("[application] The print process was killed by the watchdog");
+                }
+                else {
+                    System.err.println("[application] The print process is still running");
+                }
             }
         }
-
-
     }
 }
