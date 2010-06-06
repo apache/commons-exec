@@ -54,7 +54,7 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
      * @return Returns the exception.
      */
     synchronized public ExecuteException getException() {
-        if(!hasResult) throw new IllegalStateException("The process has not exited yet ...");
+        if(!hasResult) throw new IllegalStateException("The process has not exited yet therefore no result is available ...");
         return exception;
     }
 
@@ -62,14 +62,14 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
      * @return Returns the exitValue.
      */
     synchronized public int getExitValue() {
-        if(!hasResult) throw new IllegalStateException("The process has not exited yet ...");
+        if(!hasResult) throw new IllegalStateException("The process has not exited yet therefore no result is available ...");
         return exitValue;
     }
 
     /**
      * Has the process exited and a result is available?
      *
-     * @return true if the process might be still running
+     * @return true if a result of the execution is available
      */
     synchronized public boolean hasResult() {
         return hasResult;
