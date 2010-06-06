@@ -50,7 +50,7 @@ public interface Executor {
     int INVALID_EXITVALUE = 0xdeadbeef;
 
     /**
-     * Define the exit code of the process to considered
+     * Define the exit code of the process to be considered
      * successful.
      *
      * @param value the exit code representing successful execution
@@ -58,7 +58,7 @@ public interface Executor {
     void setExitValue(final int value);
 
     /**
-     * Define the exit code of the process to considered
+     * Define the exit code of the process to be considered
      * successful. The caller can pass one of the following values
      * <ul>
      *  <li>an array of exit values to be considered successful</li>
@@ -83,7 +83,7 @@ public interface Executor {
 
     /**
      * Get the StreamHandler used for providing input and
-     * retriving the output.
+     * retrieving the output.
      * 
      * @return the StreamHandler 
      */
@@ -91,9 +91,12 @@ public interface Executor {
 
     /**
      * Set the StreamHandler used for providing input and
-     * retriving the output.
+     * retrieving the output. If you don't provide a stream
+     * handler the executed process might block when writing
+     * to stdout and/or stderr (see {@link java.lang.Process
+     * Process}).
      *
-     * @param streamHandler the StreamHandler
+     * @param streamHandler the stream handler
      */
 
     void setStreamHandler(ExecuteStreamHandler streamHandler);
@@ -151,7 +154,9 @@ public interface Executor {
      *
      * @param command the command to execute
      * @return process exit value
-     * @throws ExecuteException execution of subprocess failed
+     * @throws ExecuteException execution of subprocess failed or the
+     *          subprocess returned a exit value indicating a failure
+     *          {@link Executor#setExitValue(int)}.
      */
     int execute(CommandLine command)
         throws ExecuteException, IOException;
@@ -163,7 +168,9 @@ public interface Executor {
      * @param environment The environment for the new process. If null, the
      *          environment of the current process is used.
      * @return process exit value
-     * @throws ExecuteException execution of subprocess failed
+     * @throws ExecuteException execution of subprocess failed or the
+     *          subprocess returned a exit value indicating a failure
+     *          {@link Executor#setExitValue(int)}.
      */
     int execute(CommandLine command, Map environment)
         throws ExecuteException, IOException;
