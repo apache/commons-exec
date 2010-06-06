@@ -26,10 +26,9 @@ package org.apache.commons.exec;
 public interface TimeoutObserver {
 
     /**
-     * Called when the watchdow times out.
+     * Called when the watchdog times out.
      * 
-     * @param w
-     *            the watchdog that timed out.
+     * @param w the watchdog that timed out.
      */
     void timeoutOccured(Watchdog w);
 }
