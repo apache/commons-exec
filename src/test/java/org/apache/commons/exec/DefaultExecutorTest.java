@@ -627,13 +627,17 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
-    public void testExec41() throws Exception {
+    public void testExec41WithStreams() throws Exception {
 
 		CommandLine cmdLine = new CommandLine(exec41Script);
 		cmdLine.addArgument("10"); // sleep 10 secs
 		DefaultExecutor executor = new DefaultExecutor();
 		ExecuteWatchdog watchdog = new ExecuteWatchdog(2*1000); // allow process no more than 2 secs
+        PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( System.out, System.err);
+        pumpStreamHandler.setAlwaysWaitForStreamThreads(false);
+
 		executor.setWatchdog(watchdog);
+        executor.setStreamHandler(pumpStreamHandler);
 
 		long startTime = System.currentTimeMillis();
 
@@ -652,6 +656,46 @@ public class DefaultExecutorTest extends TestCase {
 		}
 
         assertTrue("The process was killed by the watchdog", watchdog.killedProcess());
+        assertTrue("SKipping the Thread.join() did not work", duration < 9000);
     }
 
+    /**
+     * Test EXEC-41 with a disabled PumpStreamHandler to check if we could return
+     * immediately after killing the process (no streams implies no blocking
+     * stream pumper threads).
+     *
+     * @throws Exception the test failed
+     */
+    public void testExec41WithoutStreams() throws Exception {
+
+		CommandLine cmdLine = new CommandLine(exec41Script);
+		cmdLine.addArgument("10"); // sleep 10 secs
+		DefaultExecutor executor = new DefaultExecutor();
+		ExecuteWatchdog watchdog = new ExecuteWatchdog(2*1000); // allow process no more than 2 secs
+
+        // create a custom "PumpStreamHandler" doing no pumping at all
+        PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(null, null, null);
+        
+		executor.setWatchdog(watchdog);
+        executor.setStreamHandler(pumpStreamHandler);
+
+		long startTime = System.currentTimeMillis();
+
+		try {
+			executor.execute(cmdLine);
+		} catch (ExecuteException e) {
+			System.out.println(e);
+		}
+
+        long duration = System.currentTimeMillis() - startTime;
+
+		System.out.println("Process completed in " + duration +" millis; below is its output");
+
+		if (watchdog.killedProcess()) {
+			System.out.println("Process timed out and was killed.");
+		}
+
+        assertTrue("The process was killed by the watchdog", watchdog.killedProcess());
+        assertTrue("SKipping the Thread.join() did not work", duration < 9000);
+    }
 }
