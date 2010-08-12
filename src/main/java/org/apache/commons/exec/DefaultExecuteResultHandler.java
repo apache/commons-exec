@@ -24,6 +24,8 @@ package org.apache.commons.exec;
  */
 public class DefaultExecuteResultHandler implements ExecuteResultHandler {
 
+    private static final int SLEEP_TIME_MS = 100;
+
     /** Keep track if the process is still running */
     private boolean hasResult;
 
@@ -51,7 +53,10 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
     }
 
     /**
+     * Get the <code>exception<code> causing the process execution to fail.
+     *
      * @return Returns the exception.
+     * @throws IllegalStateException if the process has not exited yet
      */
     synchronized public ExecuteException getException() {
         if(!hasResult) throw new IllegalStateException("The process has not exited yet therefore no result is available ...");
@@ -59,7 +64,10 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
     }
 
     /**
+     * Get the <code>exitValue<code> of the process.
+     *
      * @return Returns the exitValue.
+     * @throws IllegalStateException if the process has not exited yet
      */
     synchronized public int getExitValue() {
         if(!hasResult) throw new IllegalStateException("The process has not exited yet therefore no result is available ...");
@@ -73,5 +81,33 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
      */
     synchronized public boolean hasResult() {
         return hasResult;
+    }
+
+    /**
+     * Causes the current thread to wait, if necessary, until the
+     * process has terminated. This method returns immediately if
+     * the process has already terminated. If the process has
+     * not yet terminated, the calling thread will be blocked until the
+     * process exits.
+     *
+     * @return     the exit value of the process.
+     * @exception  InterruptedException if the current thread is
+     *             {@linkplain Thread#interrupt() interrupted} by another
+     *             thread while it is waiting, then the wait is ended and
+     *             an {@link InterruptedException} is thrown.
+     * @exception  ExecuteException re-thrown exception if the process 
+     *             execution has failed due to ExecuteException
+     */
+    public int waitFor() throws InterruptedException, ExecuteException {
+        while (!this.hasResult()) {
+            Thread.sleep(SLEEP_TIME_MS);
+        }
+
+        if(getException() == null) {
+            return getExitValue();
+        }
+        else {
+            throw getException();
+        }
     }
 }

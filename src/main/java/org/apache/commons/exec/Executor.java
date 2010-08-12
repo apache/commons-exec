@@ -50,21 +50,27 @@ public interface Executor {
     int INVALID_EXITVALUE = 0xdeadbeef;
 
     /**
-     * Define the exit code of the process to be considered
-     * successful.
+     * Define the <code>exitValue</code> of the process to be considered
+     * successful. If a different exit value is returned by
+     * the process then {@link org.apache.commons.exec.Executor#execute(CommandLine)}
+     * will throw an {@link org.apache.commons.exec.ExecuteException} 
      *
      * @param value the exit code representing successful execution
      */
     void setExitValue(final int value);
 
     /**
-     * Define the exit code of the process to be considered
+     * Define a list of <code>exitValue</code> of the process to be considered
      * successful. The caller can pass one of the following values
      * <ul>
      *  <li>an array of exit values to be considered successful</li>
-     *  <li>an empty array for auto-detect of successful exit codes</li>
+     *  <li>an empty array for auto-detect of successful exit codes relying on {@link org.apache.commons.exec.Executor#isFailure(int)}</li>
      *  <li>null to indicate to skip checking of exit codes</li>
      * </ul>
+     *
+     * If a different exit value is returned by the process then
+     * {@link org.apache.commons.exec.Executor#execute(CommandLine)}  will
+     * throw an {@link org.apache.commons.exec.ExecuteException}.
      *
      * @param values a list of the exit codes
      */

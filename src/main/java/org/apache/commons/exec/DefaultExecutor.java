@@ -54,7 +54,7 @@ public class DefaultExecutor implements Executor {
     /** monitoring of long running processes */
     private ExecuteWatchdog watchdog;
 
-    /** the exit values considerd to be successful */
+    /** the exit values considered to be successful */
     private int[] exitValues;
 
     /** launches the command in a new process */
@@ -250,7 +250,7 @@ public class DefaultExecutor implements Executor {
      * Close the streams belonging to the given Process. In the
      * original implementation all exceptions were dropped which
      * is probably not a good thing. On the other hand the signature
-     * allows throwing an IOException so the curent implementation
+     * allows throwing an IOException so the current implementation
      * might be quite okay.
      * 
      * @param process the <CODE>Process</CODE>.
@@ -321,6 +321,7 @@ public class DefaultExecutor implements Executor {
             if (watchdog != null) {
                 watchdog.start(process);
             }
+
             int exitValue = Executor.INVALID_EXITVALUE;
             try {
                 exitValue = process.waitFor();
@@ -337,8 +338,10 @@ public class DefaultExecutor implements Executor {
             if (watchdog != null) {
                 try {
                     watchdog.checkException();
+                } catch (IOException e) {
+                    throw e;
                 } catch (Exception e) {
-                    throw new IOException(e.getMessage());
+                    throw new IOException(e.getMessage(), e);
                 }
             }
 

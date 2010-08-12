@@ -19,7 +19,9 @@
 package org.apache.commons.exec;
 
 /**
- * The callback handlers for asynchronous execution.
+ * The callback handlers for the result of asynchronous process execution. When a
+ * process is started asynchronously the callback provides you with the result of
+ * the executed process, i.e. the exit value or an exception. 
  *
  * @see org.apache.commons.exec.Executor#execute(CommandLine, java.util.Map, ExecuteResultHandler) 
  */

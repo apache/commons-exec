@@ -18,6 +18,7 @@
 
 package org.apache.commons.exec;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -41,6 +42,7 @@ public class DefaultExecutorTest extends TestCase {
     private File exec41Script = TestUtil.resolveScriptForOS(testDir + "/exec41");
     private File printArgsScript = TestUtil.resolveScriptForOS(testDir + "/printargs");
     private File acroRd32Script = TestUtil.resolveScriptForOS(testDir + "/acrord32");
+    private File stdinSript = TestUtil.resolveScriptForOS(testDir + "/stdin");
 
 
     // Get suitable exit codes for the OS
@@ -53,6 +55,7 @@ public class DefaultExecutorTest extends TestCase {
     }
     
     protected void setUp() throws Exception {
+        System.out.println(">>> Executing " + getName() + " ...");
         baos = new ByteArrayOutputStream();
         exec.setStreamHandler(new PumpStreamHandler(baos, baos));
     }
@@ -126,31 +129,27 @@ public class DefaultExecutorTest extends TestCase {
 
     public void testExecuteAsync() throws Exception {
         CommandLine cl = new CommandLine(testScript);
-        
-        DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
-        
-        exec.execute(cl, handler);
-        
-        // wait for script to run
-        Thread.sleep(2000);
-        
-        assertFalse(exec.isFailure(handler.getExitValue()));
+        DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();        
+        exec.execute(cl, resultHandler);
+        resultHandler.waitFor();
+        assertFalse(exec.isFailure(resultHandler.getExitValue()));
         assertEquals("FOO..", baos.toString().trim());
     }
 
     public void testExecuteAsyncWithError() throws Exception {
         CommandLine cl = new CommandLine(errorTestScript);
-        
-        DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
-        
-        exec.execute(cl, handler);
-        
-        // wait for script to run
-        Thread.sleep(2000);
-        
-        assertTrue(exec.isFailure(handler.getExitValue()));
-        assertNotNull(handler.getException());
-        assertEquals("FOO..", baos.toString().trim());
+        DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
+        exec.execute(cl, resultHandler);
+        try {
+            resultHandler.waitFor();
+        }
+        catch(ExecuteException e) {
+            assertTrue(exec.isFailure(e.getExitValue()));
+            assertNotNull(resultHandler.getException());
+            assertEquals("FOO..", baos.toString().trim());
+            return;
+        }
+        fail("Expecting an ExecuteException");
     }
 
     /**
@@ -390,29 +389,15 @@ public class DefaultExecutorTest extends TestCase {
         {
             FileInputStream fis = new FileInputStream("./NOTICE.txt");
             CommandLine cl = new CommandLine(redirectScript);
-            PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( System.out, System.out, fis );
+            PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( baos, baos, fis );
             DefaultExecutor executor = new DefaultExecutor();
             executor.setWorkingDirectory(new File("."));
             executor.setStreamHandler( pumpStreamHandler );
             int exitValue = executor.execute(cl);
             fis.close();
+            assertTrue(baos.toString().trim().endsWith("Finished reading from stdin"));            
             assertFalse(exec.isFailure(exitValue));
         }
-    }
-
-    /**
-     * Start a process and connect stdin, stdout and stderr (see EXEC-33).
-     *
-     * @throws Exception the test failed
-     */
-    public void testExecuteWithStdin() throws Exception
-    {
-        CommandLine cl = new CommandLine(testScript);
-        PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( System.out, System.err, System.in );
-        DefaultExecutor executor = new DefaultExecutor();
-        executor.setStreamHandler( pumpStreamHandler );
-        int exitValue = executor.execute(cl);
-        assertFalse(exec.isFailure(exitValue));
     }
 
      /**
@@ -462,52 +447,6 @@ public class DefaultExecutorTest extends TestCase {
          assertFalse(exec.isFailure(exitValue));
          assertTrue(outfile.exists());
      }
-
-    /**
-     * Test the patch for EXEC-41 (https://issues.apache.org/jira/browse/EXEC-41).
-     *
-     * When a process runs longer than allowed by a configured watchdog's
-     * timeout, the watchdog tries to destroy it and then DefaultExecutor
-     * tries to clean up by joining with all installed pump stream threads.
-     * Problem is, that sometimes the native process doesn't die and thus
-     * streams aren't closed and the stream threads do not complete.
-     *
-     * The patch provides setAlwaysWaitForStreamThreads(boolean) method
-     * in PumpStreamHandler. By default, alwaysWaitForStreamThreads is set
-     * to true to preserve the current behavior. If set to false, and
-     * process is killed by watchdog, DefaultExecutor's call into
-     * ErrorStreamHandler.stop will NOT join the stream threads and
-     * DefaultExecutor will NOT attempt to close the streams, so the
-     * executor's thread won't get stuck.
-     *
-     * @throws Exception the test failed
-     */
-    public void testExec41() throws Exception {
-
-		CommandLine cmdLine = new CommandLine(exec41Script);
-		cmdLine.addArgument("10"); // sleep 10 secs
-		DefaultExecutor executor = new DefaultExecutor();
-		ExecuteWatchdog watchdog = new ExecuteWatchdog(2*1000); // allow process no more than 2 secs
-		executor.setWatchdog(watchdog);
-
-		long startTime = System.currentTimeMillis();
-
-		try {
-			executor.execute(cmdLine);
-		} catch (ExecuteException e) {
-			System.out.println(e);
-		}
-
-        long duration = System.currentTimeMillis() - startTime;
-        
-		System.out.println("Process completed in " + duration +" millis; below is its output");
-
-		if (watchdog.killedProcess()) {
-			System.out.println("Process timed out and was killed.");
-		}
-
-        assertTrue("The process was not killed by the watchdog", watchdog.killedProcess());
-    }
 
     /**
      * A generic test case to print the command line arguments to 'printargs' script to solve
@@ -625,4 +564,94 @@ public class DefaultExecutorTest extends TestCase {
             }
         }
     }
+
+    /**
+     * The test script reads two arguments from stdin and prints
+     * the result to stdout. To make things slightly more intersting
+     * we are using an asynchronous process.
+     *
+     * @throws Exception the test failed
+     */
+    public void testStdInHandling() throws Exception {
+
+        ByteArrayInputStream bais = new ByteArrayInputStream("Foo\nBar\n".getBytes());
+        CommandLine cl = new CommandLine(this.stdinSript);
+        PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( this.baos, System.err, bais);
+        DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
+        Executor executor = new DefaultExecutor();
+        executor.setStreamHandler(pumpStreamHandler);
+        executor.execute(cl, resultHandler);
+
+        resultHandler.waitFor();
+        
+        assertTrue(resultHandler.getExitValue() == 0);
+        assertTrue(this.baos.toString().indexOf("Hello Foo Bar!") > 0);
+    }
+
+    // === Testing bug fixes ====
+
+    /**
+     * Test the patch for EXEC-33 (https://issues.apache.org/jira/browse/EXEC-33)
+     *
+     * PumpStreamHandler hangs if System.in is redirect to process input stream .
+     *
+     * @throws Exception the test failed
+     */
+    public void testExec33() throws Exception
+    {
+        CommandLine cl = new CommandLine(testScript);
+        PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( System.out, System.err, System.in );
+        DefaultExecutor executor = new DefaultExecutor();
+        executor.setStreamHandler( pumpStreamHandler );
+        int exitValue = executor.execute(cl);
+        assertFalse(exec.isFailure(exitValue));
+    }
+
+    
+    /**
+     * Test the patch for EXEC-41 (https://issues.apache.org/jira/browse/EXEC-41).
+     *
+     * When a process runs longer than allowed by a configured watchdog's
+     * timeout, the watchdog tries to destroy it and then DefaultExecutor
+     * tries to clean up by joining with all installed pump stream threads.
+     * Problem is, that sometimes the native process doesn't die and thus
+     * streams aren't closed and the stream threads do not complete.
+     *
+     * The patch provides setAlwaysWaitForStreamThreads(boolean) method
+     * in PumpStreamHandler. By default, alwaysWaitForStreamThreads is set
+     * to true to preserve the current behavior. If set to false, and
+     * process is killed by watchdog, DefaultExecutor's call into
+     * ErrorStreamHandler.stop will NOT join the stream threads and
+     * DefaultExecutor will NOT attempt to close the streams, so the
+     * executor's thread won't get stuck.
+     *
+     * @throws Exception the test failed
+     */
+    public void testExec41() throws Exception {
+
+		CommandLine cmdLine = new CommandLine(exec41Script);
+		cmdLine.addArgument("10"); // sleep 10 secs
+		DefaultExecutor executor = new DefaultExecutor();
+		ExecuteWatchdog watchdog = new ExecuteWatchdog(2*1000); // allow process no more than 2 secs
+		executor.setWatchdog(watchdog);
+
+		long startTime = System.currentTimeMillis();
+
+		try {
+			executor.execute(cmdLine);
+		} catch (ExecuteException e) {
+			System.out.println(e);
+		}
+
+        long duration = System.currentTimeMillis() - startTime;
+
+		System.out.println("Process completed in " + duration +" millis; below is its output");
+
+		if (watchdog.killedProcess()) {
+			System.out.println("Process timed out and was killed.");
+		}
+
+        assertTrue("The process was killed by the watchdog", watchdog.killedProcess());
+    }
+
 }
