@@ -229,7 +229,7 @@ public class CommandLineTest extends TestCase {
     /**
      * A command line parsing puzzle from Tino Schoellhorn - ImageMagix expects
      * a "500x>" parameter (including quotes) and it is simply not possible to
-     * do that withoud adding a space, e.g. "500x> ".
+     * do that without adding a space, e.g. "500x> ".
      */
     public void testParseComplexCommandLine1() {
         HashMap substitutionMap = new HashMap();
@@ -426,4 +426,22 @@ public class CommandLineTest extends TestCase {
         cmdl = CommandLine.parse("AcroRd32.exe /p /h '${file}'", params);
         assertEquals(cmdl.toString(), "AcroRd32.exe /p /h C:\\documents\\432432.pdf");
     }
+
+    /**
+    public void testComplexAddArguments3() {
+
+        CommandLine cmdl;
+        String result = "dotnetfx.exe /q:a /c:\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"";
+
+        // using command line parser
+        cmdl = CommandLine.parse("dotnetfx.exe /q:a /c:'\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"\"'");
+        // assertEquals(cmdl.toString(), result);
+
+        // building the command line incrementally
+        cmdl = new CommandLine("dotnetfx.exe");
+        cmdl.addArgument("/q:a", false);
+        cmdl.addArgument("/c:\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"", false);
+        assertEquals(cmdl.toStrings(), );
+    }
+    */
 }
