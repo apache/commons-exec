@@ -44,6 +44,37 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     private final InputStream input;
 
     private InputStreamPumper inputStreamPumper;
+    
+    private boolean alwaysWaitForStreamThreads = true;
+
+    /**
+     * Construct a new <CODE>PumpStreamHandler</CODE>.
+     */
+    public PumpStreamHandler() {
+        this(System.out, System.err);
+    }
+
+    /**
+     * Construct a new <CODE>PumpStreamHandler</CODE>.
+     *
+     * @param outAndErr
+     *            the output/error <CODE>OutputStream</CODE>.
+     */
+    public PumpStreamHandler(final OutputStream outAndErr) {
+        this(outAndErr, outAndErr);
+    }
+    
+    /**
+     * Construct a new <CODE>PumpStreamHandler</CODE>.
+     *
+     * @param out
+     *            the output <CODE>OutputStream</CODE>.
+     * @param err
+     *            the error <CODE>OutputStream</CODE>.
+     */
+    public PumpStreamHandler(final OutputStream out, final OutputStream err) {
+        this(out, err, null);
+    }
 
     /**
      * Construct a new <CODE>PumpStreamHandler</CODE>.
@@ -61,35 +92,6 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
         this.out = out;
         this.err = err;
         this.input = input;
-    }
-
-    /**
-     * Construct a new <CODE>PumpStreamHandler</CODE>.
-     * 
-     * @param out
-     *            the output <CODE>OutputStream</CODE>.
-     * @param err
-     *            the error <CODE>OutputStream</CODE>.
-     */
-    public PumpStreamHandler(final OutputStream out, final OutputStream err) {
-        this(out, err, null);
-    }
-
-    /**
-     * Construct a new <CODE>PumpStreamHandler</CODE>.
-     * 
-     * @param outAndErr
-     *            the output/error <CODE>OutputStream</CODE>.
-     */
-    public PumpStreamHandler(final OutputStream outAndErr) {
-        this(outAndErr, outAndErr);
-    }
-
-    /**
-     * Construct a new <CODE>PumpStreamHandler</CODE>.
-     */
-    public PumpStreamHandler() {
-        this(System.out, System.err);
     }
 
     /**
@@ -131,7 +133,8 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
                 inputThread = createSystemInPump(input, os);
         } else {
                 inputThread = createPump(input, os, true);
-            }        } else {
+            }        } 
+        else {
             try {
                 os.close();
             } catch (IOException e) {
@@ -140,7 +143,30 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
             }
         }
     }
+    
+    
+    /**
+     * Whether to always wait for (join) stream threads, even if the process
+     * is was "killed" by a Watchdog.
+     * @return true, to wait always (original behavior); false, to NOT wait if killed 
+     */
+    public boolean isAlwaysWaitForStreamThreads() {
+        return alwaysWaitForStreamThreads;
+    }
 
+    /**
+     * Whether to always wait for (join) stream threads, even if the process
+     * is was "killed" by a Watchdog. Please note that skipping the wait might
+     * leave up to three threads behind so and cause severe problems in a
+     * production environment.
+     * 
+     * @param alwaysWaitForStreamThreads if true, wait always (original behavior); if false, do NOT wait when killed 
+     */
+    public void setAlwaysWaitForStreamThreads(boolean alwaysWaitForStreamThreads) {
+        this.alwaysWaitForStreamThreads = alwaysWaitForStreamThreads;
+    }
+
+    
     /**
      * Start the <CODE>Thread</CODE>s.
      */
@@ -160,35 +186,60 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * Stop pumping the streams.
      */
     public void stop() {
+      stop(this.alwaysWaitForStreamThreads);
+    }
 
-        if (outputThread != null) {
-            try {
-                outputThread.join();
-                outputThread = null;
-            } catch (InterruptedException e) {
-                // ignore
-            }
-        }
-
-        if (errorThread != null) {
-            try {
-                errorThread.join();
-                errorThread = null;
-            } catch (InterruptedException e) {
-                // ignore
-            }
-        }
+    /**
+     * Stop pumping the streams.
+     * @param join if true, wait for the pump threads to complete, if false don't wait
+     */
+    public void stop(boolean join) {
 
         if (inputStreamPumper != null) {
             inputStreamPumper.stopProcessing();
         }
 
-        if (inputThread != null) {
-            try {
-                inputThread.join();
-                inputThread = null;
-            } catch (InterruptedException e) {
-                // ignore
+        if (join) {
+            if (outputThread != null) {
+                try {
+                    outputThread.join();
+                    outputThread = null;
+                } catch (InterruptedException e) {
+                    // ignore
+                }
+            }
+
+            if (errorThread != null) {
+                try {
+                    errorThread.join();
+                    errorThread = null;
+                } catch (InterruptedException e) {
+                    // ignore
+                }
+            }
+
+            if (inputThread != null) {
+                try {
+                    inputThread.join();
+                    inputThread = null;
+                } catch (InterruptedException e) {
+                    // ignore
+                }
+            }
+        }
+        else {
+            // well, give each thread a chance to terminate itself befoew
+            // we leave them alone
+            if (outputThread != null) {
+                outputThread.interrupt();
+            }
+
+            if (errorThread != null) {
+                errorThread.interrupt();
+            }
+
+            if (inputThread != null) {
+                inputThread.interrupt();
             }
         }
 
@@ -299,4 +350,5 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
         result.setDaemon(true);
         return result;
     }
+
 }
