@@ -96,11 +96,11 @@ public interface Executor {
     ExecuteStreamHandler getStreamHandler();
 
     /**
-     * Set the StreamHandler used for providing input and
-     * retrieving the output. If you don't provide a stream
-     * handler the executed process might block when writing
-     * to stdout and/or stderr (see {@link java.lang.Process
-     * Process}).
+     * Set a custom the StreamHandler used for providing
+     * input and retrieving the output. If you don't provide
+     * a proper stream handler the executed process might block
+     * when writing to stdout and/or stderr (see
+     * {@link java.lang.Process Process}).
      *
      * @param streamHandler the stream handler
      */

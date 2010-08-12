@@ -64,7 +64,12 @@ public class DefaultExecutor implements Executor {
     private ProcessDestroyer processDestroyer;
 
     /**
-     * Default Constrctor
+     * Default constructor creating a default <code>PumpStreamHandler</code>.
+     * The <code>PumpStreamHandler</code> pumps the output of the subprocess
+     * into our <code>System.out</code> and <code>System.err</code> to avoid
+     * into our <code>System.out</code> and <code>System.err</code> to avoid
+     * a blocked or deadlocked subprocess (see
+     * {@link java.lang.Process Process}).
      */
     public DefaultExecutor() {
         this.streamHandler = new PumpStreamHandler();

@@ -52,8 +52,8 @@ DefaultExecutor executor = new DefaultExecutor();
 int exitValue = executor.execute(commandLine);
 +----------------------------------------------------------------------------
 
-  You successfuly printed your first PDF document but at the end an exception is thrown - what
-  happpend? Oops, Acrobat Reader returned an exit value of '1' on success which is usually
+  You successfully printed your first PDF document but at the end an exception is thrown - what
+  happend? Oops, Acrobat Reader returned an exit value of '1' on success which is usually
   considered as an execution failure. So we have to tweak our code to fix this odd behaviour -
   we define the exit value of "1" to be considered as successful execution.
 
@@ -160,14 +160,8 @@ int exitValue = executor.execute(commandLine);
   Up to now we have a working example but it would not be good enough for
   production - because it is blocking.
 
-  At the one hand your print process might block when it tries to write to
-  'stdout' or 'stderr'. Avoiding this problem is done by setting a pump stream
-  handler which pumps the output from the print process to your own process. A
-  more detailed discussion can be found at
-  {{{http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Process.html}java.lang.Process}}
-
-  On the other hand your own worker thread will block until the print process
-  has exited. Therefore executing the print job asynchronously will do the trick.
+  Your own worker thread will block until the print process has finshed.
+  Therefore   executing the print job asynchronously will do the trick.
   In this example we create an instance of 'ExecuteResultHandler' and pass it
   to the 'Executor' instance in order to execute the process asynchronously.
   The 'resultHandler' picks up any offending exception or the process exit
