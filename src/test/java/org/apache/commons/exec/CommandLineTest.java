@@ -428,20 +428,49 @@ public class CommandLineTest extends TestCase {
     }
 
     /**
-    public void testComplexAddArguments3() {
+     * Some complex real-life command line from
+     * http://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
+     */
+    public void _testExec36_1() throws Exception {
 
         CommandLine cmdl;
-        String result = "dotnetfx.exe /q:a /c:\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"";
 
-        // using command line parser
-        cmdl = CommandLine.parse("dotnetfx.exe /q:a /c:'\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"\"'");
-        // assertEquals(cmdl.toString(), result);
+        String line = "./script/jrake "
+          + "cruise:publish_installers "
+          + "INSTALLER_VERSION=unstable_2_1 "
+          + "INSTALLER_PATH=\"/var/lib/cruise-agent/installers\" "
+          + "INSTALLER_DOWNLOAD_SERVER='something'"
+          + "WITHOUT_HELP_DOC=true";
 
-        // building the command line incrementally
-        cmdl = new CommandLine("dotnetfx.exe");
-        cmdl.addArgument("/q:a", false);
-        cmdl.addArgument("/c:\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"", false);
-        assertEquals(cmdl.toStrings(), );
+        cmdl = CommandLine.parse(line);
+        String[] args = cmdl.toStrings();
+        assertEquals("./script/jrake", args[0]);
+        assertEquals("cruise:publish_installers", args[1]);
+        assertEquals("INSTALLER_VERSION=unstable_2_1", args[2]);
+        assertEquals("INSTALLER_PATH=\"/var/lib/cruise-agent/installers\"", args[3]);
+        assertEquals("INSTALLER_DOWNLOAD_SERVER='something'", args[4]);
+        assertEquals("WITHOUT_HELP_DOC=true", args[5]);
     }
-    */
+
+    /**
+     * Some complex real-life command line from
+     * http://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
+     */
+    public void _testExec36_2() {
+
+        CommandLine cmdl;
+
+        String line = "dotnetfx.exe"
+                + " /q:a "
+                + "/c:\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"";
+
+        cmdl = CommandLine.parse(line);
+        String[] args = cmdl.toStrings();
+        assertEquals("dotnetfx.exe", args[0]);
+        assertEquals("/q:a", args[1]);
+        assertEquals("/c:\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"", args[2] );
+    }
+
+    
+
 }

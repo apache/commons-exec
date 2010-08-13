@@ -293,44 +293,6 @@ public class DefaultExecutorTest extends TestCase {
     }
 
     /**
-     * Start any processes in a loop to make sure that we do
-     * not leave any handles/resources open.
-     *
-     * @throws Exception the test failed
-     */
-    public void testExecuteStability() throws Exception {
-
-        // make a plain-vanilla test
-        for(int i=0; i<1000; i++) {
-            Map env = new HashMap();
-            env.put("TEST_ENV_VAR", new Integer(i));
-            CommandLine cl = new CommandLine(testScript);
-            int exitValue = exec.execute(cl,env);
-            assertFalse(exec.isFailure(exitValue));
-            assertEquals("FOO." + i + ".", baos.toString().trim());
-            baos.reset();
-        }
-
-        // now be nasty and use the watchdog to kill out sub-processes
-        for(int i=0; i<100; i++) {
-            Map env = new HashMap();
-            env.put("TEST_ENV_VAR", new Integer(i));
-            DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
-            CommandLine cl = new CommandLine(foreverTestScript);
-            ExecuteWatchdog watchdog = new ExecuteWatchdog(500);
-            exec.setWatchdog(watchdog);
-            exec.execute(cl, env, resultHandler);
-            try {
-                resultHandler.waitFor();
-            }
-            catch(ExecuteException e) {
-                // nothing to do
-            }
-            baos.reset();
-        }
-    }
-
-    /**
      * Invoke the error script but define that the ERROR_STATUS is a good
      * exit value and therefore no exception should be thrown.
      *
@@ -462,7 +424,9 @@ public class DefaultExecutorTest extends TestCase {
             executor.setStreamHandler( pumpStreamHandler );
             int exitValue = executor.execute(cl);
             fis.close();
-            assertTrue(baos.toString().trim().endsWith("Finished reading from stdin"));            
+            String result = baos.toString().trim();
+            System.out.println(result);
+            assertTrue(result.endsWith("Finished reading from stdin"));
             assertFalse(exec.isFailure(exitValue));
         }
     }
@@ -682,7 +646,113 @@ public class DefaultExecutorTest extends TestCase {
         assertTrue("Watchdog should have killed the process",watchdog.killedProcess());
     }
 
-    
+    /**
+     * Test EXEC-36 see https://issues.apache.org/jira/browse/EXEC-36
+     *
+     * Original example from Kai Hu
+     */
+    public void testExec36_1() throws Exception {
+
+        CommandLine cmdl;
+
+        /**
+         * ./script/jrake cruise:publish_installers INSTALLER_VERSION=unstable_2_1 \
+         *     INSTALLER_PATH="/var/lib/ cruise-agent/installers" INSTALLER_DOWNLOAD_SERVER='something' WITHOUT_HELP_DOC=true
+         */
+
+        String expected = "./script/jrake\n" +
+                "cruise:publish_installers\n" +
+                "INSTALLER_VERSION=unstable_2_1\n" +
+                "INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\"\n" +
+                "INSTALLER_DOWNLOAD_SERVER='something'\n" +
+                "WITHOUT_HELP_DOC=true";
+        
+        cmdl = new CommandLine(printArgsScript);
+        cmdl.addArgument("./script/jrake", false);
+        cmdl.addArgument("cruise:publish_installers", false);
+        cmdl.addArgument("INSTALLER_VERSION=unstable_2_1", false);
+        cmdl.addArgument("INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\"", false);
+        cmdl.addArgument("INSTALLER_DOWNLOAD_SERVER='something'", false);
+        cmdl.addArgument("WITHOUT_HELP_DOC=true", false);
+
+        int exitValue = exec.execute(cmdl);
+        String result = baos.toString().trim();
+        System.out.println("=== Expected ===");
+        System.out.println(expected);
+        System.out.println("=== Result ===");
+        System.out.println(result);
+        assertFalse(exec.isFailure(exitValue));
+        assertEquals(expected, result);
+    }
+
+    /**
+     * Test EXEC-36 see https://issues.apache.org/jira/browse/EXEC-36
+     *
+     * Test a complex real example found at
+     * http://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
+     */
+    public void _testExec36_2() throws Exception {
+
+        CommandLine cmdl;
+
+        // the original command line
+        // dotnetfx.exe /q:a /c:"install.exe /l ""c:\Documents and Settings\myusername\Local Settings\Temp\netfx.log"" /q"
+
+        String expected = "dotnetfx.exe\n" +
+                "/q:a\n" +
+                "/c:\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"";
+
+        cmdl = new CommandLine(printArgsScript);
+        cmdl.addArgument("dotnetfx.exe", false);
+        cmdl.addArgument("/q:a", false);
+        cmdl.addArgument("/c:\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"", false);
+
+        int exitValue = exec.execute(cmdl);
+        String result = baos.toString().trim();
+        System.out.println("=== Expected ===");
+        System.out.println(expected);
+        System.out.println("=== Result ===");
+        System.out.println(result);
+        assertFalse(exec.isFailure(exitValue));
+        assertEquals(expected, result);        
+    }
+
+    /**
+     * Test EXEC-36 see https://issues.apache.org/jira/browse/EXEC-36
+     *
+     * Test a complex real example found at
+     * http://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
+     */
+    public void _testExec36_3() throws Exception {
+
+        CommandLine cmdl;
+        File file = new File("c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log");        
+        Map map = new HashMap();
+        map.put("FILE", file);
+
+        // the original command line
+        // dotnetfx.exe /q:a /c:"install.exe /l ""c:\Documents and Settings\myusername\Local Settings\Temp\netfx.log"" /q"
+
+        String expected = "dotnetfx.exe\n" +
+                "/q:a\n" +
+                "/c:\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"";
+
+        cmdl = new CommandLine(printArgsScript);
+        cmdl.setSubstitutionMap(map);
+        cmdl.addArgument("dotnetfx.exe", false);
+        cmdl.addArgument("/q:a", false);
+        cmdl.addArgument("/c:\"install.exe /l \"\"${FILE}\"\" /q\"", false);
+
+        int exitValue = exec.execute(cmdl);
+        String result = baos.toString().trim();
+        System.out.println("=== Expected ===");
+        System.out.println(expected);
+        System.out.println("=== Result ===");
+        System.out.println(result);
+        assertFalse(exec.isFailure(exitValue));
+        assertEquals(expected, result);
+    }
+
     /**
      * Test the patch for EXEC-41 (https://issues.apache.org/jira/browse/EXEC-41).
      *
@@ -801,6 +871,48 @@ public class DefaultExecutorTest extends TestCase {
         watchdog.destroyProcess();
         assertTrue("The watchdog has killed the process", watchdog.killedProcess());
         assertFalse("The watchdog is no longer watching any process", watchdog.isWatching());
+    }
+
+    // ======================================================================
+    // === Long running tests
+    // ======================================================================
+
+    /**
+     * Start any processes in a loop to make sure that we do
+     * not leave any handles/resources open.
+     *
+     * @throws Exception the test failed
+     */
+    public void testExecuteStability() throws Exception {
+
+        // make a plain-vanilla test
+        for(int i=0; i<1000; i++) {
+            Map env = new HashMap();
+            env.put("TEST_ENV_VAR", new Integer(i));
+            CommandLine cl = new CommandLine(testScript);
+            int exitValue = exec.execute(cl,env);
+            assertFalse(exec.isFailure(exitValue));
+            assertEquals("FOO." + i + ".", baos.toString().trim());
+            baos.reset();
+        }
+
+        // now be nasty and use the watchdog to kill out sub-processes
+        for(int i=0; i<100; i++) {
+            Map env = new HashMap();
+            env.put("TEST_ENV_VAR", new Integer(i));
+            DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
+            CommandLine cl = new CommandLine(foreverTestScript);
+            ExecuteWatchdog watchdog = new ExecuteWatchdog(500);
+            exec.setWatchdog(watchdog);
+            exec.execute(cl, env, resultHandler);
+            try {
+                resultHandler.waitFor();
+            }
+            catch(ExecuteException e) {
+                // nothing to do
+            }
+            baos.reset();
+        }
     }
 
 
