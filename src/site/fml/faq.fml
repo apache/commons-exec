@@ -39,20 +39,29 @@ under the License.
           recommended approach using Ant anyway. </p>
       </answer>
     </faq>
-    <faq id="gcj-support">
-      <question>Does commons-exec support java-gcj</question>
+    <faq id="killing-child-processes">
+      <question>Are child processes automatically killed</question>
       <answer>
-        <p> Well - one out of 55 regression tests fails. The
-          EnvironmentUtilTest.testGetProcEnvironment() test fails because it detects no environment
-          variables for the current process but there must be one since we require JAVA_HOME to be
-          set. Not sure if this is a plain bug in java-gcj-4.2.1 or requires a work around in
-          commons-exec</p>
+        <p> This functionality is largely depend on the operating system - on Unix it works
+        mostly and under Windows not at all (see <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4770092">
+        Bug 4770092</a>). </p>
       </answer>
     </faq>
+      <faq id="gcj-support">
+        <question>Does commons-exec support java-gcj</question>
+        <answer>
+          <p> Well - one out of 55 regression tests fails. The
+            EnvironmentUtilTest.testGetProcEnvironment() test fails because it detects no environment
+            variables for the current process but there must be one since we require JAVA_HOME to be
+            set. Not sure if this is a plain bug in java-gcj-4.2.1 or requires a work around in
+            commons-exec</p>
+        </answer>
+      </faq>
+
     <faq id="environment-testing">
       <question>How to test commons-exec on my environment</question>
       <answer>
-        <p> Assuming that you have an evironment not listed on the <a href="./testmatrix.html">test
+        <p> Assuming that you have an environment not listed on the <a href="./testmatrix.html">test
           matrix</a> and want to make sure that everything works fine you can run easily run the
           regression tests. Make a SVN checkout and run 'ant test-distribution' to create the test
           distribution in './target'. On a production box downloading the ready-to-run test 
@@ -65,7 +74,7 @@ under the License.
       <answer>
         <p> Please check if the shell scripts under "./src/test/script" are executable - assuming 
           that they are not executable the "testExecute*" and "testExecuteAsync*" test will 
-          fail. We try very hard to keep the exeutable bit but they have somehow the tendency 
+          fail. We try very hard to keep the executable bit but they have somehow the tendency 
           to to be lost ... 
         </p>
       </answer>
