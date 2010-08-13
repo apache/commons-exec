@@ -18,6 +18,7 @@
 
 package org.apache.commons.exec;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -309,6 +310,8 @@ public class CommandLineTest extends TestCase {
         HashMap substitutionMap = new HashMap();
         substitutionMap.put("JAVA_HOME", "/usr/local/java");
         substitutionMap.put("appMainClass", "foo.bar.Main");
+        substitutionMap.put("file1", new File("./pom.xml"));
+        substitutionMap.put("file2", new File(".\\temp\\READ ME.txt"));
 
         HashMap incompleteMap = new HashMap();
         incompleteMap.put("JAVA_HOME", "/usr/local/java");
@@ -334,6 +337,10 @@ public class CommandLineTest extends TestCase {
         assertTrue(cmdl.getExecutable().indexOf("${JAVA_HOME}") < 0 );
         assertTrue(cmdl.getExecutable().indexOf("local") > 0 );
         assertEquals(new String[] {"${appMainClass}"}, cmdl.getArguments());
+
+        // pass a file
+        cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass} ${file1} ${file2}", substitutionMap);
+        assertTrue(cmdl.getExecutable().indexOf("${file}") < 0 );
     }
 
     /**

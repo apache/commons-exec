@@ -90,8 +90,18 @@ public class StringUtils {
                         }
 
                         if (nameBuf.length() > 0) {
+
+                            String value;
                             Object temp = vars.get(nameBuf.toString());
-                            String value = (temp != null ? temp.toString() : null);
+
+                            if(temp instanceof File) {
+                                // for a file we have to fix the separator chars to allow
+                                // cross-platform compatibility
+                                value = fixFileSeparatorChar(((File) temp).getAbsolutePath());
+                            }
+                            else {
+                                value = (temp != null ? temp.toString() : null);    
+                            }
 
                             if (value != null) {
                                 argBuf.append(value);
@@ -148,7 +158,7 @@ public class StringUtils {
     }
 
     /**
-     * Fixes the file sperator char for the target platform
+     * Fixes the file separator char for the target platform
      * using the following replacement.
      * 
      * <ul>

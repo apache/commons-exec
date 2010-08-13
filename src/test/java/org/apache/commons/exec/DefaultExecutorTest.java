@@ -519,7 +519,7 @@ public class DefaultExecutorTest extends TestCase {
             commandLine.addArgument("/h");
             commandLine.addArgument("${file}");
             HashMap map = new HashMap();
-            map.put("file", "./pom.xml");
+            map.put("file", new File("./pom.xml"));
             commandLine.setSubstitutionMap(map);
 
             // asynchronous execution is defined by using a 'resultHandler'
@@ -650,6 +650,7 @@ public class DefaultExecutorTest extends TestCase {
      * Test EXEC-36 see https://issues.apache.org/jira/browse/EXEC-36
      *
      * Original example from Kai Hu
+     * @throws Exception the test failed
      */
     public void testExec36_1() throws Exception {
 
@@ -723,19 +724,31 @@ public class DefaultExecutorTest extends TestCase {
      * Test a complex real example found at
      * http://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
      */
-    public void _testExec36_3() throws Exception {
+    public void testExec36_3() throws Exception {
 
-        CommandLine cmdl;
-        File file = new File("c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log");        
-        Map map = new HashMap();
-        map.put("FILE", file);
+        String expected;
 
         // the original command line
-        // dotnetfx.exe /q:a /c:"install.exe /l ""c:\Documents and Settings\myusername\Local Settings\Temp\netfx.log"" /q"
+        // dotnetfx.exe /q:a /c:"install.exe /l ""\Documents and Settings\myusername\Local Settings\Temp\netfx.log"" /q"
 
-        String expected = "dotnetfx.exe\n" +
+        if(OS.isFamilyWindows()) {
+            expected = "dotnetfx.exe\n" +
                 "/q:a\n" +
-                "/c:\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"";
+                "/c:\"install.exe /l \"\"\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"";
+        }
+        else if(OS.isFamilyUnix()) {
+            expected = "dotnetfx.exe\n" +
+                "/q:a\n" +
+                "/c:\"install.exe /l \"\"/Documents and Settings/myusername/Local Settings/Temp/netfx.log\"\" /q\"";
+        }
+        else {
+            return;
+        }
+
+        CommandLine cmdl;
+        File file = new File("/Documents and Settings/myusername/Local Settings/Temp/netfx.log");
+        Map map = new HashMap();
+        map.put("FILE", file);
 
         cmdl = new CommandLine(printArgsScript);
         cmdl.setSubstitutionMap(map);
