@@ -24,6 +24,10 @@
     </properties>
     <body>
         <release version="1.1-SNAPSHOT" date="as in SVN" description="Maintenance Release">
+            <action dev="sgoeschl" type="add" date="2010-08-17" >
+                Added TutorialTest as a playground for new user and removed
+                similar code from DefaultExecutorTest.
+            </action>
             <action dev="sgoeschl" type="fix" date="2010-08-16" >
                 String substitution handles now java.io.File instances in order
                 to create a cross-platform file name.            
