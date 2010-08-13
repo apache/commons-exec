@@ -18,6 +18,8 @@
 
 package org.apache.commons.exec;
 
+import org.apache.commons.exec.util.DebugUtils;
+
 /**
  * Destroys a process running for too long. For example:
  *
@@ -148,6 +150,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
             }
         } catch (Exception e) {
             caught = e;
+            DebugUtils.handleException("Getting the exit value of the process failed", e);
         } finally {
             cleanUp();
         }

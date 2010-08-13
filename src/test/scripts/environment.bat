@@ -18,10 +18,5 @@ REM WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 REM See the License for the specific language governing permissions and
 REM limitations under the License.
 
-REM run an infinite loop so the script will never ever terminate on its behalf
-REM and append a '.' after each second
-
-:LOOP
-  ECHO . > .\target\forever.txt
-  @ping 127.0.0.1 -n 2 -w 1000 > nul
-GOTO LOOP
+REM print the environment variables
+set

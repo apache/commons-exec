@@ -18,6 +18,7 @@
 #
 
 # run an infinite loop so the script will never ever terminate on its behalf
+# and append a '.' after each second
 
 while test "notempty"
 do

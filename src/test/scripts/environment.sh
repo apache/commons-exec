@@ -17,7 +17,5 @@
 # limitations under the License.
 #
 
-echo "What's your name? : "
-read answer
-echo "Hello $answer!"
-
+# print the environment variables
+env

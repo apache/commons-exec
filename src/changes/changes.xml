@@ -24,6 +24,30 @@
     </properties>
     <body>
         <release version="1.1-SNAPSHOT" date="as in SVN" description="Maintenance Release">
+            <action dev="sgoeschl" type="fix" date="2010-08-16" >
+                The 'forever.bat' accidentally overwrite the 'forever.txt' instead of
+                appending.
+            </action>
+            <action dev="sgoeschl" type="update" date="2010-08-16" >
+                DefaultExecutor() now sets the working directory with the current working
+                directory.
+            </action>
+            <action dev="sgoeschl" type="update" date="2010-08-15">
+                Added 'DefaultExecutorTest#testStdInHandling' to show how
+                commons-exec can feed the 'stdin' of a child process.
+            </action>
+            <action dev="sgoeschl" type="update" date="2010-08-15" issue="EXEC-42" due-to="Konrad Windzus">
+                Improved the documentation.
+            </action>
+            <action dev="sgoeschl" type="update" date="2010-08-15" issue="EXEC-41" due-to="Ernest Mishkin">
+                Added a PumpStreamHandler.setAlwaysWaitForStreamThreads() which allows to skip
+                joining with the pumper threads. Having said that - using that flag is for the
+                desperate because it could leave up to three worker threads behind but there
+                might be situations where this is the only escape.
+            </action>
+            <action dev="sgoeschl" type="fix" date="2010-08-15" issue="EXEC-46" due-to="Zimmermann Nir">
+                Process.waitFor should clear interrupt status when throwing InterruptedException
+            </action>
             <action dev="sgoeschl" type="update" date="2010-06-01" issue="EXEC-42" due-to="Pablo Hoertner">
                 Added a new section to the tutorial to show working with asynchronous
                 processes. Thanks to Pablo for providing this documentation update.

@@ -18,9 +18,11 @@
 
 package org.apache.commons.exec;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -33,49 +35,73 @@ public class DefaultExecutorTest extends TestCase {
 
     private Executor exec = new DefaultExecutor();
     private File testDir = new File("src/test/scripts");
+    private File foreverOutputFile = new File("./target/forever.txt");
     private ByteArrayOutputStream baos;
+
     private File testScript = TestUtil.resolveScriptForOS(testDir + "/test");
     private File errorTestScript = TestUtil.resolveScriptForOS(testDir + "/error");
     private File foreverTestScript = TestUtil.resolveScriptForOS(testDir + "/forever");
     private File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir + "/grmpffffff");
     private File redirectScript = TestUtil.resolveScriptForOS(testDir + "/redirect");
-    private File exec41Script = TestUtil.resolveScriptForOS(testDir + "/exec41");
+    private File pingScript = TestUtil.resolveScriptForOS(testDir + "/ping");
     private File printArgsScript = TestUtil.resolveScriptForOS(testDir + "/printargs");
     private File acroRd32Script = TestUtil.resolveScriptForOS(testDir + "/acrord32");
     private File stdinSript = TestUtil.resolveScriptForOS(testDir + "/stdin");
-
+    private File environmentSript = TestUtil.resolveScriptForOS(testDir + "/environment");
 
     // Get suitable exit codes for the OS
     private static final int SUCCESS_STATUS; // test script successful exit code
     private static final int ERROR_STATUS;   // test script error exit code
+
     static{
-       int statuses[] = TestUtil.getTestScriptCodesForOS();
-       SUCCESS_STATUS=statuses[0];
-       ERROR_STATUS=statuses[1];
+
+        int statuses[] = TestUtil.getTestScriptCodesForOS();
+        SUCCESS_STATUS=statuses[0];
+        ERROR_STATUS=statuses[1];
+
+        // turn on debug mode and throw an exception for each encountered problem
+        System.setProperty("org.apache.commons.exec.lenient", "false");
+        System.setProperty("org.apache.commons.exec.debug", "true");                
     }
     
     protected void setUp() throws Exception {
+
         System.out.println(">>> Executing " + getName() + " ...");
-        baos = new ByteArrayOutputStream();
-        exec.setStreamHandler(new PumpStreamHandler(baos, baos));
+
+        // delete the marker file
+        this.foreverOutputFile.getParentFile().mkdirs();
+        if(this.foreverOutputFile.exists()) {
+            this.foreverOutputFile.delete();
+        }
+
+        // prepare a ready to Executor
+        this.baos = new ByteArrayOutputStream();
+        this.exec.setStreamHandler(new PumpStreamHandler(baos, baos));
     }
 
     protected void tearDown() throws Exception {
-        baos.close();
+        this.baos.close();
     }
 
+    /**
+     * The simplest possible test - start a script and
+     * check that the output was pumped into our
+     * <code>ByteArrayOutputStream</code>.
+     *
+     * @throws Exception the test failed
+     */
     public void testExecute() throws Exception {
         CommandLine cl = new CommandLine(testScript);
-
         int exitValue = exec.execute(cl);
         assertEquals("FOO..", baos.toString().trim());
         assertFalse(exec.isFailure(exitValue));
+        assertEquals(new File("."), exec.getWorkingDirectory());        
     }
 
     public void testExecuteWithWorkingDirectory() throws Exception {
-        File workingDir = new File(".");
+        File workingDir = new File("./target");
         CommandLine cl = new CommandLine(testScript);
-        exec.setWorkingDirectory(new File("."));
+        exec.setWorkingDirectory(workingDir);
         int exitValue = exec.execute(cl);
         assertEquals("FOO..", baos.toString().trim());
         assertFalse(exec.isFailure(exitValue));
@@ -153,7 +179,7 @@ public class DefaultExecutorTest extends TestCase {
     }
 
     /**
-     * Start a async process and terminate it manually before the
+     * Start a asynchronous process and terminate it manually before the
      * watchdog timeout occurs.
      *
      * @throws Exception the test failed 
@@ -167,15 +193,17 @@ public class DefaultExecutorTest extends TestCase {
         // wait for script to run
         Thread.sleep(2000);
         assertTrue("Watchdog should watch the process", watchdog.isWatching());
-        // terminate it
+        // terminate it using the watchdog
         watchdog.destroyProcess();
-        assertTrue("Watchdog should have killed the process",watchdog.killedProcess());
+        assertTrue("Watchdog should have killed the process", watchdog.killedProcess());
         assertFalse(watchdog.isWatching());
     }
 
     /**
      * Start a async process and try to terminate it manually but
-     * the process was already terminated by the watchdog.
+     * the process was already terminated by the watchdog. This is
+     * basically a race condition between infrastructure and user
+     * code.
      *
      * @throws Exception the test failed
      */
@@ -195,21 +223,30 @@ public class DefaultExecutorTest extends TestCase {
 
     /**
      * Start a script looping forever and check if the ExecuteWatchdog
-     * kicks in killing the run away process.
+     * kicks in killing the run away process. To make killing a process
+     * more testable the "forever" scripts write each second a '.'
+     * into "./target/forever.txt" (a marker file). After a test run
+     * we should have a few dots in there.
      *
      * @throws Exception the test failed
      */
     public void testExecuteWatchdog() throws Exception {
+
         long timeout = 10000;
+
         CommandLine cl = new CommandLine(foreverTestScript);
         DefaultExecutor executor = new DefaultExecutor();
         executor.setWorkingDirectory(new File("."));
         ExecuteWatchdog watchdog = new ExecuteWatchdog(timeout);
         executor.setWatchdog(watchdog);
+
         try {
             executor.execute(cl);
         }
         catch(ExecuteException e) {
+            Thread.sleep(timeout);
+            int nrOfInvocations = getOccurrences(readFile(this.foreverOutputFile), '.');
+            assertTrue("killing the subprocess did not work : " + nrOfInvocations, nrOfInvocations > 5 && nrOfInvocations <= 11);
             assertTrue( executor.getWatchdog().killedProcess() );
             return;
         }
@@ -218,7 +255,7 @@ public class DefaultExecutorTest extends TestCase {
         }
 
         assertTrue("Killed process should be true", executor.getWatchdog().killedProcess() );
-        fail("Process did not create Execute Exception when killed");
+        fail("Process did not create ExecuteException when killed");
     }
 
     /**
@@ -262,6 +299,8 @@ public class DefaultExecutorTest extends TestCase {
      * @throws Exception the test failed
      */
     public void testExecuteStability() throws Exception {
+
+        // make a plain-vanilla test
         for(int i=0; i<1000; i++) {
             Map env = new HashMap();
             env.put("TEST_ENV_VAR", new Integer(i));
@@ -269,6 +308,24 @@ public class DefaultExecutorTest extends TestCase {
             int exitValue = exec.execute(cl,env);
             assertFalse(exec.isFailure(exitValue));
             assertEquals("FOO." + i + ".", baos.toString().trim());
+            baos.reset();
+        }
+
+        // now be nasty and use the watchdog to kill out sub-processes
+        for(int i=0; i<100; i++) {
+            Map env = new HashMap();
+            env.put("TEST_ENV_VAR", new Integer(i));
+            DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
+            CommandLine cl = new CommandLine(foreverTestScript);
+            ExecuteWatchdog watchdog = new ExecuteWatchdog(500);
+            exec.setWatchdog(watchdog);
+            exec.execute(cl, env, resultHandler);
+            try {
+                resultHandler.waitFor();
+            }
+            catch(ExecuteException e) {
+                // nothing to do
+            }
             baos.reset();
         }
     }
@@ -347,18 +404,28 @@ public class DefaultExecutorTest extends TestCase {
       exec.setProcessDestroyer(processDestroyer);
       exec.execute(cl, handler);
 
-      // wait for script to run
+      // wait for script to start
       Thread.sleep(2000);
-      assertNotNull("Process destroyer should exist",exec.getProcessDestroyer());      
-      assertEquals("Process destroyer size should be 1",1,processDestroyer.size());
-      assertTrue("Process destroyer should exist as shutdown hook",processDestroyer.isAddedAsShutdownHook());
+
+      // our process destroyer should be initialized now
+      assertNotNull("Process destroyer should exist", exec.getProcessDestroyer());
+      assertEquals("Process destroyer size should be 1", 1, processDestroyer.size());
+      assertTrue("Process destroyer should exist as shutdown hook", processDestroyer.isAddedAsShutdownHook());
 
       // terminate it and the process destroyer is detached
       watchdog.destroyProcess();
       assertTrue(watchdog.killedProcess());
-      Thread.sleep(100);
-      assertEquals("Processor Destroyer size should be 0",0,processDestroyer.size());
-      assertFalse("Process destroyer should not exist as shutdown hook",processDestroyer.isAddedAsShutdownHook());
+
+      try {
+          handler.waitFor();
+          fail("Expecting an ExecutionException");
+      }
+      catch(ExecuteException e) {
+          // nothing to do
+      }
+
+      assertEquals("Processor Destroyer size should be 0", 0, processDestroyer.size());
+      assertFalse("Process destroyer should not exist as shutdown hook", processDestroyer.isAddedAsShutdownHook());
     }
 
     /**
@@ -464,36 +531,6 @@ public class DefaultExecutorTest extends TestCase {
      }
 
     /**
-     * Test EXEC-44 (https://issues.apache.org/jira/browse/EXEC-44).
-     *
-     * Because the ExecuteWatchdog is the only way to destroy asynchronous
-     * processes, it should be possible to set it to an infinite timeout,
-     * for processes which should not timeout, but manually destroyed
-     * under some circumstances.
-     *
-     * @throws Exception the test failed
-     */
-    public void testExec44() throws Exception {
-
-        CommandLine cl = new CommandLine(foreverTestScript);
-        DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
-        ExecuteWatchdog watchdog = new ExecuteWatchdog(ExecuteWatchdog.INFINITE_TIMEOUT);
-
-        exec.setWatchdog(watchdog);
-        exec.execute(cl, resultHandler);
-
-        // wait for script to run
-        Thread.sleep(5000);
-        assertTrue("The watchdog is watching the process", watchdog.isWatching());       
-
-        // terminate it
-        watchdog.destroyProcess();
-        assertTrue("The watchdog has killed the process", watchdog.killedProcess());
-        assertFalse("The watchdog is no longer watching any process", watchdog.isWatching());
-    }
-
-
-    /**
      * Runs the final tutorial example. The sample demonstrates the following
      * features of commons-exec
      * <ul>
@@ -505,7 +542,6 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
-
     public void testTutorialExample() throws Exception {
 
         final long timeout1 = 5*1000;
@@ -522,7 +558,7 @@ public class DefaultExecutorTest extends TestCase {
             map.put("file", "./pom.xml");
             commandLine.setSubstitutionMap(map);
 
-            // asynchronous execution is defined by using a 'resultHander'
+            // asynchronous execution is defined by using a 'resultHandler'
             DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler() {
                 public void onProcessComplete(int exitValue) {
                     super.onProcessComplete(exitValue);
@@ -566,15 +602,15 @@ public class DefaultExecutorTest extends TestCase {
     }
 
     /**
-     * The test script reads two arguments from stdin and prints
-     * the result to stdout. To make things slightly more intersting
+     * The test script reads an argument from <code>stdin<code> and prints
+     * the result to stdout. To make things slightly more interesting
      * we are using an asynchronous process.
      *
      * @throws Exception the test failed
      */
     public void testStdInHandling() throws Exception {
 
-        ByteArrayInputStream bais = new ByteArrayInputStream("Foo\nBar\n".getBytes());
+        ByteArrayInputStream bais = new ByteArrayInputStream("Foo\n".getBytes());
         CommandLine cl = new CommandLine(this.stdinSript);
         PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( this.baos, System.err, bais);
         DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
@@ -583,12 +619,26 @@ public class DefaultExecutorTest extends TestCase {
         executor.execute(cl, resultHandler);
 
         resultHandler.waitFor();
-        
+
         assertTrue(resultHandler.getExitValue() == 0);
-        assertTrue(this.baos.toString().indexOf("Hello Foo Bar!") > 0);
+        assertTrue(this.baos.toString().indexOf("Hello Foo!") > 0);
     }
 
-    // === Testing bug fixes ====
+    /**
+     * Call a script to dump the environment variables of the subprocess. 
+     *
+     * @throws Exception the test failed
+     */
+    public void testEnvironmentVariables() throws Exception {
+        exec.execute(new CommandLine(environmentSript));
+        String environment = baos.toString().trim();
+        assertTrue("Found no environment variables", environment.length() > 0);
+        System.out.println(environment);
+    }
+
+    // ======================================================================
+    // === Testing bug fixes
+    // ======================================================================
 
     /**
      * Test the patch for EXEC-33 (https://issues.apache.org/jira/browse/EXEC-33)
@@ -605,6 +655,31 @@ public class DefaultExecutorTest extends TestCase {
         executor.setStreamHandler( pumpStreamHandler );
         int exitValue = executor.execute(cl);
         assertFalse(exec.isFailure(exitValue));
+    }
+
+    /**
+     * EXEC-34 https://issues.apache.org/jira/browse/EXEC-34
+     *
+     * Race condition prevent watchdog working using ExecuteStreamHandler.
+     * The test fails because when watchdog.destroyProcess() is invoked the
+     * external process is not bound to the watchdog yet
+     *
+     * @throws Exception the test failed
+     */
+    public void testExec34() throws Exception {
+
+        CommandLine cmdLine = new CommandLine(pingScript);
+        cmdLine.addArgument("10"); // sleep 10 secs
+
+        ExecuteWatchdog watchdog = new ExecuteWatchdog(Integer.MAX_VALUE);
+        DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
+        exec.setWatchdog(watchdog);
+        exec.execute(cmdLine, handler);
+        // if you comment out the next line the test will fail
+        Thread.sleep(2000);
+        // terminate it
+        watchdog.destroyProcess();
+        assertTrue("Watchdog should have killed the process",watchdog.killedProcess());
     }
 
     
@@ -629,7 +704,7 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testExec41WithStreams() throws Exception {
 
-		CommandLine cmdLine = new CommandLine(exec41Script);
+		CommandLine cmdLine = new CommandLine(pingScript);
 		cmdLine.addArgument("10"); // sleep 10 secs
 		DefaultExecutor executor = new DefaultExecutor();
 		ExecuteWatchdog watchdog = new ExecuteWatchdog(2*1000); // allow process no more than 2 secs
@@ -668,7 +743,7 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testExec41WithoutStreams() throws Exception {
 
-		CommandLine cmdLine = new CommandLine(exec41Script);
+		CommandLine cmdLine = new CommandLine(pingScript);
 		cmdLine.addArgument("10"); // sleep 10 secs
 		DefaultExecutor executor = new DefaultExecutor();
 		ExecuteWatchdog watchdog = new ExecuteWatchdog(2*1000); // allow process no more than 2 secs
@@ -697,5 +772,68 @@ public class DefaultExecutorTest extends TestCase {
 
         assertTrue("The process was killed by the watchdog", watchdog.killedProcess());
         assertTrue("SKipping the Thread.join() did not work", duration < 9000);
+    }
+
+    /**
+     * Test EXEC-44 (https://issues.apache.org/jira/browse/EXEC-44).
+     *
+     * Because the ExecuteWatchdog is the only way to destroy asynchronous
+     * processes, it should be possible to set it to an infinite timeout,
+     * for processes which should not timeout, but manually destroyed
+     * under some circumstances.
+     *
+     * @throws Exception the test failed
+     */
+    public void testExec44() throws Exception {
+
+        CommandLine cl = new CommandLine(foreverTestScript);
+        DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
+        ExecuteWatchdog watchdog = new ExecuteWatchdog(ExecuteWatchdog.INFINITE_TIMEOUT);
+
+        exec.setWatchdog(watchdog);
+        exec.execute(cl, resultHandler);
+
+        // wait for script to run
+        Thread.sleep(5000);
+        assertTrue("The watchdog is watching the process", watchdog.isWatching());
+
+        // terminate it
+        watchdog.destroyProcess();
+        assertTrue("The watchdog has killed the process", watchdog.killedProcess());
+        assertFalse("The watchdog is no longer watching any process", watchdog.isWatching());
+    }
+
+
+    // ======================================================================
+    // === Helper methods
+    // ======================================================================
+
+    private String readFile(File file) throws Exception {
+
+        String text;
+        StringBuffer contents = new StringBuffer();
+        BufferedReader reader = new BufferedReader(new FileReader(file));        
+
+        while ((text = reader.readLine()) != null)
+        {
+            contents.append(text)
+                .append(System.getProperty(
+                    "line.separator"));
+        }
+        reader.close();
+        return contents.toString();
+    }
+
+    private int getOccurrences(String data, char c) {
+
+        int result = 0;
+
+        for(int i=0; i<data.length(); i++) {
+            if(data.charAt(i) == c) {
+                result++;
+            }
+        }
+
+        return result;
     }
 }

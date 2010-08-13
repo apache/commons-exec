@@ -64,17 +64,20 @@ public class DefaultExecutor implements Executor {
     private ProcessDestroyer processDestroyer;
 
     /**
-     * Default constructor creating a default <code>PumpStreamHandler</code>.
+     * Default constructor creating a default <code>PumpStreamHandler</code>
+     * and sets the working directory of the subprocess to the current
+     * working directory.
+     *
      * The <code>PumpStreamHandler</code> pumps the output of the subprocess
      * into our <code>System.out</code> and <code>System.err</code> to avoid
      * into our <code>System.out</code> and <code>System.err</code> to avoid
-     * a blocked or deadlocked subprocess (see
-     * {@link java.lang.Process Process}).
+     * a blocked or deadlocked subprocess (see{@link java.lang.Process Process}).
      */
     public DefaultExecutor() {
         this.streamHandler = new PumpStreamHandler();
         this.launcher = CommandLauncherFactory.createVMLauncher();
         this.exitValues = new int[0];
+        this.workingDirectory = new File(".");
     }
 
     /**
@@ -318,16 +321,19 @@ public class DefaultExecutor implements Executor {
         streams.start();
 
         try {
+
             // add the process to the list of those to destroy if the VM exits
             if(this.getProcessDestroyer() != null) {
               this.getProcessDestroyer().add(process);
             }
 
+            // associate the watchdog with the newly created process
             if (watchdog != null) {
                 watchdog.start(process);
             }
 
             int exitValue = Executor.INVALID_EXITVALUE;
+
             try {
                 exitValue = process.waitFor();
             } catch (InterruptedException e) {
