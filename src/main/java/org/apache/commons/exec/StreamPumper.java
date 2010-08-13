@@ -106,8 +106,7 @@ public class StreamPumper implements Runnable {
                 os.write(buf, 0, length);
             }
         } catch (Exception e) {
-            String msg = "Got exception while reading/writing the stream";
-            DebugUtils.handleException(msg ,e);
+            // nothing to do - happens quite often with watchdog
         } finally {
             if (closeWhenExhausted) {
                 try {
