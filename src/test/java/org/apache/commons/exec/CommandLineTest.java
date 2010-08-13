@@ -477,7 +477,4 @@ public class CommandLineTest extends TestCase {
         assertEquals("/q:a", args[1]);
         assertEquals("/c:\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"", args[2] );
     }
-
-    
-
 }

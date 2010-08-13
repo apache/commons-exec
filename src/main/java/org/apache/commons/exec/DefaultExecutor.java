@@ -350,6 +350,7 @@ public class DefaultExecutor implements Executor {
             if (watchdog != null) {
                 watchdog.stop();
             }
+
             streams.stop();
             closeStreams(process);
 

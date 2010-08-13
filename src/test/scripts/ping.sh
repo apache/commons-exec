@@ -17,4 +17,7 @@
 # limitations under the License.
 #
 
+# ping is started as subprocess which runs '$1' seconds
+
+echo "[ping.sh] Blocking for %1 seconds ..."
 ping -c $1 127.0.0.1

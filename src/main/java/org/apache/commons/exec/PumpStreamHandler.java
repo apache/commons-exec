@@ -228,7 +228,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
             }
         }
         else {
-            // well, give each thread a chance to terminate itself befoew
+            // well, give each thread a chance to terminate itself before
             // we leave them alone
             if (outputThread != null) {
                 outputThread.interrupt();
@@ -247,7 +247,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
              try {
                  err.flush();
              } catch (IOException e) {
-                 String msg = "Got exception while flushing the error stream";
+                 String msg = "Got exception while flushing the error stream : " + e.getMessage();
                  DebugUtils.handleException(msg ,e);
              }
          }

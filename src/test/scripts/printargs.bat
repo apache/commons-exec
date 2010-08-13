@@ -15,10 +15,11 @@ REM WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 REM See the License for the specific language governing permissions and
 REM limitations under the License.
 
+REM checking for emptiness was tricky - see http://www.robvanderwoude.com/parameters.php
+
 :Loop
-IF "%1"=="" GOTO Continue
-    ECHO "%1"
+IF [%1]==[] GOTO Continue
+    @ECHO "%1"
 SHIFT
 GOTO Loop
 :Continue
-

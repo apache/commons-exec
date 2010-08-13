@@ -18,4 +18,7 @@ REM WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 REM See the License for the specific language governing permissions and
 REM limitations under the License.
 
-ping -n %1 -w 1000 127.0.0.1
+REM ping is started as subprocess which runs '%1' seconds
+
+echo "[ping.bat] Blocking for %1 seconds ..."
+ping -n %1 -w 1000 127.0.0.1 > nul
