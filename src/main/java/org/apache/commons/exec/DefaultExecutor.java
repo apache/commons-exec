@@ -63,6 +63,9 @@ public class DefaultExecutor implements Executor {
     /** optional cleanup of started processes */ 
     private ProcessDestroyer processDestroyer;
 
+    /** worker thread for asynchronous execution */
+    private Thread executorThread;
+
     /**
      * Default constructor creating a default <code>PumpStreamHandler</code>
      * and sets the working directory of the subprocess to the current
@@ -178,11 +181,7 @@ public class DefaultExecutor implements Executor {
             throw new IOException(workingDirectory + " doesn't exist.");
         }
 
-        new Thread() {
-
-            /**
-             * @see java.lang.Thread#run()
-             */
+        executorThread = new Thread() {
             public void run() {
                 int exitValue = Executor.INVALID_EXITVALUE;
                 try {                    
@@ -194,9 +193,10 @@ public class DefaultExecutor implements Executor {
                     handler.onProcessFailed(new ExecuteException("Execution failed", exitValue, e));
                 }
             }
-        }.start();
-    }
+        };
 
+        getExecutorThread().start();
+    }
 
     /** @see org.apache.commons.exec.Executor#setExitValue(int) */
     public void setExitValue(final int value) {
@@ -254,6 +254,15 @@ public class DefaultExecutor implements Executor {
         return this.launcher.exec(command, env, dir);
     }
 
+    /**
+     * Get the worker thread being used for asynchronous execution.
+     *
+     * @return the worker thread
+     */
+    protected Thread getExecutorThread() {
+        return executorThread;
+    }
+    
     /**
      * Close the streams belonging to the given Process. In the
      * original implementation all exceptions were dropped which
