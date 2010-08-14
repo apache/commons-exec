@@ -104,7 +104,6 @@ public interface Executor {
      *
      * @param streamHandler the stream handler
      */
-
     void setStreamHandler(ExecuteStreamHandler streamHandler);
 
     /**
