@@ -45,8 +45,6 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
 
     private InputStreamPumper inputStreamPumper;
     
-    private boolean alwaysWaitForStreamThreads = true;
-
     /**
      * Construct a new <CODE>PumpStreamHandler</CODE>.
      */
@@ -143,30 +141,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
             }
         }
     }
-    
-    
-    /**
-     * Whether to always wait for (join) stream threads, even if the process
-     * is was "killed" by a Watchdog.
-     * @return true, to wait always (original behavior); false, to NOT wait if killed 
-     */
-    public boolean isAlwaysWaitForStreamThreads() {
-        return alwaysWaitForStreamThreads;
-    }
-
-    /**
-     * Whether to always wait for (join) stream threads, even if the process
-     * is was "killed" by a Watchdog. Please note that skipping the wait might
-     * leave up to three threads behind so and cause severe problems in a
-     * production environment.
-     * 
-     * @param alwaysWaitForStreamThreads if true, wait always (original behavior); if false, do NOT wait when killed 
-     */
-    public void setAlwaysWaitForStreamThreads(boolean alwaysWaitForStreamThreads) {
-        this.alwaysWaitForStreamThreads = alwaysWaitForStreamThreads;
-    }
-
-    
+        
     /**
      * Start the <CODE>Thread</CODE>s.
      */
@@ -186,60 +161,35 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * Stop pumping the streams.
      */
     public void stop() {
-      stop(this.alwaysWaitForStreamThreads);
-    }
-
-    /**
-     * Stop pumping the streams.
-     * @param join if true, wait for the pump threads to complete, if false don't wait
-     */
-    public void stop(boolean join) {
 
         if (inputStreamPumper != null) {
             inputStreamPumper.stopProcessing();
         }
 
-        if (join) {
-            if (outputThread != null) {
-                try {
-                    outputThread.join();
-                    outputThread = null;
-                } catch (InterruptedException e) {
-                    // ignore
-                }
-            }
-
-            if (errorThread != null) {
-                try {
-                    errorThread.join();
-                    errorThread = null;
-                } catch (InterruptedException e) {
-                    // ignore
-                }
-            }
-
-            if (inputThread != null) {
-                try {
-                    inputThread.join();
-                    inputThread = null;
-                } catch (InterruptedException e) {
-                    // ignore
-                }
+        if (outputThread != null) {
+            try {
+                outputThread.join();
+                outputThread = null;
+            } catch (InterruptedException e) {
+                // ignore
             }
         }
-        else {
-            // well, give each thread a chance to terminate itself before
-            // we leave them alone
-            if (outputThread != null) {
-                outputThread.interrupt();
-            }
 
-            if (errorThread != null) {
-                errorThread.interrupt();
+        if (errorThread != null) {
+            try {
+                errorThread.join();
+                errorThread = null;
+            } catch (InterruptedException e) {
+                // ignore
             }
+        }
 
-            if (inputThread != null) {
-                inputThread.interrupt();
+        if (inputThread != null) {
+            try {
+                inputThread.join();
+                inputThread = null;
+            } catch (InterruptedException e) {
+                // ignore
             }
         }
 

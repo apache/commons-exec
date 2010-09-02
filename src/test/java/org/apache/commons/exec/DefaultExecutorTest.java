@@ -426,7 +426,7 @@ public class DefaultExecutorTest extends TestCase {
             fis.close();
             String result = baos.toString().trim();
             System.out.println(result);
-            assertTrue(result.endsWith("Finished reading from stdin"));
+            assertTrue(result.indexOf("Finished reading from stdin") > 0);
             assertFalse(exec.isFailure(exitValue));
         }
         else if(OS.isFamilyWindows()) {
@@ -701,14 +701,6 @@ public class DefaultExecutorTest extends TestCase {
      * Problem is, that sometimes the native process doesn't die and thus
      * streams aren't closed and the stream threads do not complete.
      *
-     * The patch provides setAlwaysWaitForStreamThreads(boolean) method
-     * in PumpStreamHandler. By default, alwaysWaitForStreamThreads is set
-     * to true to preserve the current behavior. If set to false, and
-     * process is killed by watchdog, DefaultExecutor's call into
-     * ErrorStreamHandler.stop will NOT join the stream threads and
-     * DefaultExecutor will NOT attempt to close the streams, so the
-     * executor's thread won't get stuck.
-     *
      * @throws Exception the test failed
      */
     public void testExec41WithStreams() throws Exception {
@@ -729,7 +721,8 @@ public class DefaultExecutorTest extends TestCase {
 		DefaultExecutor executor = new DefaultExecutor();
 		ExecuteWatchdog watchdog = new ExecuteWatchdog(2*1000); // allow process no more than 2 secs
         PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( System.out, System.err);
-        pumpStreamHandler.setAlwaysWaitForStreamThreads(false);
+        // this method was part of the patch I reverted
+        // pumpStreamHandler.setAlwaysWaitForStreamThreads(false);
 
 		executor.setWatchdog(watchdog);
         executor.setStreamHandler(pumpStreamHandler);
@@ -842,7 +835,7 @@ public class DefaultExecutorTest extends TestCase {
     public void testExecuteStability() throws Exception {
 
         // make a plain-vanilla test
-        for(int i=0; i<1000; i++) {
+        for(int i=0; i<100; i++) {
             Map env = new HashMap();
             env.put("TEST_ENV_VAR", new Integer(i));
             CommandLine cl = new CommandLine(testScript);

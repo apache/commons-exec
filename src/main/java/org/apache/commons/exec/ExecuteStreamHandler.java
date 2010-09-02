@@ -63,10 +63,4 @@ public interface ExecuteStreamHandler {
      * Will wait for pump threads to complete.
      */
     void stop();
-
-    /**
-     * Stop handling of the streams - will not be restarted.
-     * @param join if true, wait for the pump threads to complete
-     */
-    void stop(boolean join);
 }
