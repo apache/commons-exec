@@ -262,6 +262,21 @@ public class CommandLineTest extends TestCase {
         assertEquals(args[4], "WITHOUT_HELP_DOC=true");
     }
 
+    /**
+     * Test the following command line
+     *
+     * cmd.exe /C c:\was51\Web Sphere\AppServer\bin\versionInfo.bat
+     */
+    public void testParseRealLifeCommandLine_1() {
+
+        String commandline = "cmd.exe /C \"c:\\was51\\Web Sphere\\AppServer\\bin\\versionInfo.bat\"";
+
+        CommandLine cmdl = CommandLine.parse(commandline);
+        String[] args = cmdl.getArguments();
+        assertEquals("/C", args[0]);
+        assertEquals("\"c:\\was51\\Web Sphere\\AppServer\\bin\\versionInfo.bat\"", args[1]);
+    }
+        
    /**
     * Create a command line with pre-quoted strings to test SANDBOX-192,
     * e.g. "runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""
@@ -477,4 +492,21 @@ public class CommandLineTest extends TestCase {
         assertEquals("/q:a", args[1]);
         assertEquals("/c:\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"", args[2] );
     }
+
+    /**
+     * Test the following command line
+     *
+     * C:\CVS_DB\WeightsEngine /f WeightsEngine.mak CFG="WeightsEngine - Win32Release"
+     */
+    public void _testExec36_3() {
+
+        String commandline = "C:\\CVS_DB\\WeightsEngine /f WeightsEngine.mak CFG=\"WeightsEngine - Win32Release\"";
+
+        CommandLine cmdl = CommandLine.parse(commandline);
+        String[] args = cmdl.getArguments();
+        assertEquals("/f", args[0]);
+        assertEquals("WeightsEngine.mak", args[1]);
+        assertEquals("CFG=\"WeightsEngine - Win32Release\"", args[2]);
+    }
+
 }

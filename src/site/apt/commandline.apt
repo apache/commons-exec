@@ -1,0 +1,80 @@
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one or more
+~~  contributor license agreements.  See the NOTICE file distributed with
+~~  this work for additional information regarding copyright ownership.
+~~  The ASF licenses this file to You under the Apache License, Version 2.0
+~~  (the "License"); you may not use this file except in compliance with
+~~  the License.  You may obtain a copy of the License at
+~~
+~~      http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~  Unless required by applicable law or agreed to in writing, software
+~~  distributed under the License is distributed on an "AS IS" BASIS,
+~~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~  See the License for the specific language governing permissions and
+~~  limitations under the License.
+~~
+~~
+
+ --------
+Apache Commons Exec - Building the command line
+ --------
+ --------
+20 August 2010
+ --------
+
+Building the command line
+
+* Introduction
+
+  You have two ways to create the command line to be executed
+
+    * parsing the entire command line string
+
+    * building the command line incrementally
+
+* General Considerations
+
+  No matter which approach you are using commons-exec does change your command
+  line arguments in the following two cases
+
+    * when the executable contains forward or backward slashes
+
+    * when a command line argument contains an unquoted string 
+
+  The following executable arguments
+
+----------------------------------------
+./bin/vim
+----------------------------------------
+
+  will be translated under Windows to
+
+----------------------------------------
+.\\bin\\vim
+----------------------------------------
+
+* Parsing the command line string
+
+  Parsing the command line string is easy to use but you might run into
+  problems when tackling complex scenarios. Therefore this functionality
+  was deprecated in the {{{http://ant.apache.org/manual/Tasks/exec.html}Ant Exec task}}.
+
+  Let's have a look at few examples you would like to stick to parsing entire command
+  line strings
+
+** Spaces in command line arguments
+
+  Here we would like to invoke a batch file which contains spaces in the path
+
+----------------------------------------
+cmd.exe /C c:\was51\Web Sphere\AppServer\bin\versionInfo.bat
+----------------------------------------
+
+  Due to the space in the file name we have to quote the file name either with
+  single or double quotes otherwise it falls apart into two command line
+  arguments <c:\was51\Web> and <Sphere\AppServer\bin\versionInfo.bat>.
+
+----------------------------------------
+String line = "cmd.exe /C 'c:\\was51\\Web Sphere\\AppServer\\bin\\versionInfo.bat'";
+----------------------------------------
