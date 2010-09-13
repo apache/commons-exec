@@ -369,7 +369,7 @@ public class DefaultExecutor implements Executor {
                 } catch (IOException e) {
                     throw e;
                 } catch (Exception e) {
-                    throw new IOException(e.getMessage(), e);
+                    throw new IOException(e.getMessage());
                 }
             }
 
