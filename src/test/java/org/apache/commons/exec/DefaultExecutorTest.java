@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
+import org.apache.commons.exec.environment.EnvironmentUtils;
 
 public class DefaultExecutorTest extends TestCase {
 
@@ -141,7 +142,11 @@ public class DefaultExecutorTest extends TestCase {
         assertFalse(exec.isFailure(exitValue));
     }
 
-    public void testExecuteWithEnv() throws Exception {
+    /**
+     * Execute the test script and pass a environment containing
+     * 'TEST_ENV_VAR'.
+     */
+    public void testExecuteWithSingleEnvironmentVariable() throws Exception {
     	Map env = new HashMap();
         env.put("TEST_ENV_VAR", "XYZ");
 
@@ -536,7 +541,23 @@ public class DefaultExecutorTest extends TestCase {
         exec.execute(new CommandLine(environmentSript));
         String environment = baos.toString().trim();
         assertTrue("Found no environment variables", environment.length() > 0);
+        assertFalse(environment.contains("NEW_VAR"));
         System.out.println(environment);
+    }
+
+    /**
+     * Call a script to dump the environment variables of the subprocess
+     * after adding a custom environment variable.
+     *
+     * @throws Exception the test failed
+     */
+    public void testAddEnvironmentVariables() throws Exception {
+        Map myEnvVars = new HashMap();
+        myEnvVars.putAll(EnvironmentUtils.getProcEnvironment());
+        myEnvVars.put("NEW_VAR","NEW_VAL");
+        exec.execute(new CommandLine(environmentSript), myEnvVars);
+        String environment = baos.toString().trim();
+        assertTrue(environment.contains("NEW_VAR"));
     }
 
     // ======================================================================
