@@ -37,6 +37,10 @@ import org.apache.commons.exec.util.DebugUtils;
  * keeper of the process handle. In some cases it is useful not to define
  * a timeout (and pass 'INFINITE_TIMEOUT') and to kill the process explicitly
  * using 'destroyProcess()'.
+ * <p>
+ * Please note that ExecuteWatchdog is processed asynchronously, e.g. it might
+ * be still attached to a process even after the DefaultExecutor.execute 
+ * has returned.
  *
  * @see org.apache.commons.exec.Executor
  * @see org.apache.commons.exec.Watchdog

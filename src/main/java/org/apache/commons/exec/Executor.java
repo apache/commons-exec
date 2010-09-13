@@ -68,7 +68,7 @@ public interface Executor {
      *  <li>null to indicate to skip checking of exit codes</li>
      * </ul>
      *
-     * If a different exit value is returned by the process then
+     * If an undefined exit value is returned by the process then
      * {@link org.apache.commons.exec.Executor#execute(CommandLine)}  will
      * throw an {@link org.apache.commons.exec.ExecuteException}.
      *
