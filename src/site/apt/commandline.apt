@@ -54,7 +54,7 @@ Building the command line
 .\\bin\\vim
 ----------------------------------------
 
-* Parsing the command line string
+* Parsing the entire command line string
 
   Parsing the command line string is easy to use but you might run into
   problems when tackling complex scenarios. Therefore this functionality
@@ -78,3 +78,75 @@ cmd.exe /C c:\was51\Web Sphere\AppServer\bin\versionInfo.bat
 ----------------------------------------
 String line = "cmd.exe /C 'c:\\was51\\Web Sphere\\AppServer\\bin\\versionInfo.bat'";
 ----------------------------------------
+
+* Building the Command Line Incrementally
+
+  This is the recommended approach and caters also for pre-quoted command
+  line argument.
+
+** A simple example
+
+  Now we would like to build the following command line
+
+----------------------------------------
+runMemorySud.cmd 10 30 -XX:+UseParallelGC -XX:ParallelGCThreads=2
+----------------------------------------
+
+  using the following code snippet
+  
+----------------------------------------
+CommandLine cmdl = new CommandLine("runMemorySud.cmd");
+cmdl.addArgument("10");
+cmdl.addArgument("30");
+cmdl.addArgument("-XX:+UseParallelGC");
+cmdl.addArgument("-XX:ParallelGCThreads=2");
+----------------------------------------
+
+** A complex example
+
+  Now let's have a look at the following command line found somewhere in the
+  internet
+
+----------------------------------------
+dotnetfx.exe /q:a /c:"install.exe /l ""\Documents and Settings\myusername\Local Settings\Temp\netfx.log"" /q"
+----------------------------------------
+
+  The following code snippet builds the command line using pre-quoted
+  arguments and variable expansion
+
+----------------------------------------
+File file = new File("/Documents and Settings/myusername/Local Settings/Temp/netfx.log");
+Map map = new HashMap();
+map.put("FILE", file);
+
+cmdl = new CommandLine("dotnetfx.exe");
+cmdl.setSubstitutionMap(map);
+cmdl.addArgument("/q:a", false);
+cmdl.addArgument("/c:\"install.exe /l \"\"${FILE}\"\" /q\"", false);
+----------------------------------------
+
+* For the Desperate
+
+  When crafting a command line it would be really helpful to see what
+  happens to your command line arguments. The following scripts can be
+  invoked to print your command line arguments for Unix
+
+----------------------------------------
+while [ $# -gt 0 ]
+do
+    echo "$1"
+    shift
+done
+----------------------------------------
+
+  and for Windows
+
+----------------------------------------
+:Loop
+IF [%1]==[] GOTO Continue
+    @ECHO "%1"
+SHIFT
+GOTO Loop
+:Continue
+----------------------------------------
+
