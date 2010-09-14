@@ -287,7 +287,6 @@ public class CommandLineTest extends TestCase {
         cmdl.addArgument("30", false);
         cmdl.addArgument("-XX:+UseParallelGC", false);
         cmdl.addArgument("\"-XX:ParallelGCThreads=2\"", false);
-        assertEquals("runMemorySud.cmd 10 30 -XX:+UseParallelGC \"-XX:ParallelGCThreads=2\"", cmdl.toString());
         assertEquals(new String[] {"runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""}, cmdl.toStrings());
     }
 
@@ -298,7 +297,6 @@ public class CommandLineTest extends TestCase {
      public void testComplexAddArguments1() {
          CommandLine cmdl = new CommandLine("runMemorySud.cmd");
          cmdl.addArguments(new String[] {"10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""}, false);
-         assertEquals("runMemorySud.cmd 10 30 -XX:+UseParallelGC \"-XX:ParallelGCThreads=2\"", cmdl.toString());
          assertEquals(new String[] {"runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""}, cmdl.toStrings());
      }
 
@@ -311,7 +309,6 @@ public class CommandLineTest extends TestCase {
      public void testComplexAddArguments2() {
          CommandLine cmdl = new CommandLine("runMemorySud.cmd");
          cmdl.addArguments("10 30 -XX:+UseParallelGC '\"-XX:ParallelGCThreads=2\"'", false);
-         assertEquals("runMemorySud.cmd 10 30 -XX:+UseParallelGC \"-XX:ParallelGCThreads=2\"", cmdl.toString());
          assertEquals(new String[] {"runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""}, cmdl.toStrings());
      }
 
