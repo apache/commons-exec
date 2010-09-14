@@ -44,14 +44,24 @@ public class StringUtils {
     private static final char BACKSLASH_CHAR = '\\';
 
     /**
-     * Perform a series of substitutions. The substitions
+     * Perform a series of substitutions. The substitutions
      * are performed by replacing ${variable} in the target
      * string with the value of provided by the key "variable"
-     * in the provided hashtable.
+     * in the provided hash table.
+     * <p/><p/>
+     * A key consists of the following characters:
+     * <ul>
+     *   <li>letter
+     *   <li>digit
+     *   <li>dot character
+     *   <li>hyphen character
+     *   <li>plus character
+     *   <li>underscore character
+     * </ul>
      *
      * @param argStr    the argument string to be processed
      * @param vars      name/value pairs used for substitution
-     * @param isLenient ignore a key not found in vars?
+     * @param isLenient ignore a key not found in vars or throw a RuntimeException?
      * @return String target string with replacements.
      */
     public static StringBuffer stringSubstitution(String argStr, Map vars, boolean isLenient) {
@@ -89,7 +99,7 @@ public class StringUtils {
                                 break;
                         }
 
-                        if (nameBuf.length() > 0) {
+                        if (nameBuf.length() >= 0) {
 
                             String value;
                             Object temp = vars.get(nameBuf.toString());
@@ -123,7 +133,8 @@ public class StringUtils {
                         }
 
                         cIdx++;
-                    } else {
+                    }
+                    else {
                         argBuf.append(ch);
                         ++cIdx;
                     }
@@ -179,7 +190,7 @@ public class StringUtils {
      *
      * @param strings the strings to concatenate
      * @param separator the separator between two strings
-     * @return the concatened strings
+     * @return the concatenated strings
      */
     public static String toString(String[] strings, String separator) {
         StringBuffer sb = new StringBuffer();
@@ -208,9 +219,11 @@ public class StringUtils {
 
         String cleanedArgument = argument.trim();
 
+        // strip the quotes from both ends
         while(cleanedArgument.startsWith(SINGLE_QUOTE) || cleanedArgument.startsWith(DOUBLE_QUOTE)) {
             cleanedArgument = cleanedArgument.substring(1);
         }
+        
         while(cleanedArgument.endsWith(SINGLE_QUOTE) || cleanedArgument.endsWith(DOUBLE_QUOTE)) {
             cleanedArgument = cleanedArgument.substring(0, cleanedArgument.length() - 1);
         }
@@ -234,14 +247,14 @@ public class StringUtils {
     }
 
     /**
-     * Determines if this is a quoted argumented - either single or
+     * Determines if this is a quoted argument - either single or
      * double quoted.
      *
      * @param argument the argument to check
      * @return true when the argument is quoted
      */
     public static boolean isQuoted(final String argument) {
-        return ( argument.startsWith( SINGLE_QUOTE ) || argument.startsWith( DOUBLE_QUOTE ) ) &&
-            ( argument.endsWith( SINGLE_QUOTE ) || argument.endsWith( DOUBLE_QUOTE ) );
+        return ( argument.startsWith( SINGLE_QUOTE ) && argument.endsWith( SINGLE_QUOTE ) ) ||
+            ( argument.startsWith( DOUBLE_QUOTE ) && argument.endsWith( DOUBLE_QUOTE ) );
     }
 }
