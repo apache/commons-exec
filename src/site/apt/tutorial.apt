@@ -20,7 +20,7 @@
 Apache Commons Exec Tutorial
  --------
  --------
-12 November 2008
+15 September 2010
  --------
 
 Apache Commons Exec
@@ -120,52 +120,35 @@ int exitValue = executor.execute(commandLine);
   {{{http://ant.apache.org/manual/CoreTasks/exec.html}exec}} task)
   
 +----------------------------------------------------------------------------
-CommandLine commandLine = CommandLine.parse("AcroRd32.exe");
-commandLine.addArgument("/p");
-commandLine.addArgument("/h");
-commandLine.addArgument(file.getAbsolutePath());
-DefaultExecutor executor = new DefaultExecutor();
-executor.setExitValue(1);
-ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
-executor.setWatchdog(watchdog);
-int exitValue = executor.execute(commandLine);
-+----------------------------------------------------------------------------
-
-* Using Command Line Expansion
-
-  In the previous example we basically hardcoded the command line to be
-  executed. Using a different application to print PDF documents or just
-  tinkering with command line options would require a new release - uncool.
-  To write better code you can look at the following code snippet.
-
-+----------------------------------------------------------------------------
 Map map = new HashMap();
-map.put("file", "C:\Document And Settings\documents\432432.pdf");
-
+map.put("file", new File("the_document_you_would_like_to_print"));
 CommandLine commandLine = CommandLine.parse("AcroRd32.exe");
 commandLine.addArgument("/p");
 commandLine.addArgument("/h");
 commandLine.addArgument("${file}");
 commandLine.setSubstitutionMap(map);
-
 DefaultExecutor executor = new DefaultExecutor();
 executor.setExitValue(1);
 ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
 executor.setWatchdog(watchdog);
 int exitValue = executor.execute(commandLine);
 +----------------------------------------------------------------------------
+
+  Please note that we are passing an 'java.io.File' instance for expanding
+  the command line arguments - this allows to convert the resulting file name
+  on the fly to match your OS.
 
 * Unblock Your Execution
 
   Up to now we have a working example but it would not be good enough for
   production - because it is blocking.
 
-  Your own worker thread will block until the print process has finshed.
-  Therefore   executing the print job asynchronously will do the trick.
-  In this example we create an instance of 'ExecuteResultHandler' and pass it
-  to the 'Executor' instance in order to execute the process asynchronously.
-  The 'resultHandler' picks up any offending exception or the process exit
-  code.
+  Your worker thread will block until the print process has finished or
+  was killed by the watchdog. Therefore  executing the print job
+  asynchronously will do the trick. In this example we create an instance
+  of 'ExecuteResultHandler' and pass it to the 'Executor' instance in order
+  to execute the process asynchronously. The 'resultHandler' picks up any
+  offending exception or the process exit code.
 
 +----------------------------------------------------------------------------
 CommandLine commandLine = CommandLine.parse(this.acroRd32Script.getAbsolutePath());
@@ -188,6 +171,5 @@ executor.execute(commandLine, resultHandler);
 // some time later the result handler callback was invoked so we
 // can safely request the exit value
 int exitValue = resultHandler.waitFor();
-
 +----------------------------------------------------------------------------
   

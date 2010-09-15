@@ -29,8 +29,6 @@ import java.io.File;
  * Supplement of commons-lang, the stringSubstitution() was in a simpler
  * implementation available in an older commons-lang implementation.
  *
- * Furthermore a place to put reusable and/or ugly code.
- *
  * This class is not part of the public API and could change without
  * warning.
  *
