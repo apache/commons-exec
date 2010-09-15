@@ -60,6 +60,9 @@
             <action dev="sgoeschl" type="fix" date="2010-08-15" issue="EXEC-46" due-to="Zimmermann Nir">
                 Process.waitFor should clear interrupt status when throwing InterruptedException
             </action>
+            <action dev="sgoeschl" type="update" date="2010-06-01">
+                Added 'DefaultExecuteResultHandler'
+            </action>
             <action dev="sgoeschl" type="update" date="2010-06-01" issue="EXEC-42" due-to="Pablo Hoertner">
                 Added a new section to the tutorial to show working with asynchronous
                 processes. Thanks to Pablo for providing this documentation update.

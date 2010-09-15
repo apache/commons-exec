@@ -25,13 +25,11 @@ Apache Commons Exec - Building the command line
 
 Building the command line
 
-* Introduction
+You have two ways to create the command line to be executed
 
-  You have two ways to create the command line to be executed
-
-    * parsing the entire command line string
-
-    * building the command line incrementally
+  * parsing the entire command line string
+  
+  * building the command line incrementally
 
 * General Considerations
 
