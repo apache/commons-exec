@@ -30,7 +30,7 @@ under the License.
       </answer>
     </faq>
     <faq id="complex-quoting">
-      <question>How do I create a complex command line using single and double quotes</question>
+      <question>How do I create a complex command line using single and double quotes?</question>
       <answer>
         <p> It is recommended to use CommandLine.addArgument() instead of CommandLine.parse(). Using
           CommandLine.parse() the implementation tries to figure out the correct quoting using your
@@ -40,15 +40,16 @@ under the License.
       </answer>
     </faq>
     <faq id="killing-child-processes">
-      <question>Are child processes automatically killed</question>
+      <question>Are child processes automatically killed?</question>
       <answer>
         <p> This functionality is largely depend on the operating system - on Unix it works
         mostly and under Windows not at all (see <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4770092">
-        Bug 4770092</a>). </p>
+        Bug 4770092</a>). In terms of stability and cross-platform support try to start your applications directly and
+        avoid various wrapper scripts.</p>
       </answer>
     </faq>
       <faq id="gcj-support">
-        <question>Does commons-exec support java-gcj</question>
+        <question>Does commons-exec support java-gcj?</question>
         <answer>
           <p> Well - one out of 55 regression tests fails. The
             EnvironmentUtilTest.testGetProcEnvironment() test fails because it detects no environment
@@ -59,7 +60,7 @@ under the License.
       </faq>
 
     <faq id="environment-testing">
-      <question>How to test commons-exec on my environment</question>
+      <question>How to test commons-exec on my environment?</question>
       <answer>
         <p> Assuming that you have an environment not listed on the <a href="./testmatrix.html">test
           matrix</a> and want to make sure that everything works fine you can run easily run the
