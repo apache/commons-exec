@@ -21,6 +21,8 @@ package org.apache.commons.exec;
 import org.apache.commons.exec.util.StringUtils;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.Map;
@@ -107,6 +109,29 @@ public class CommandLine {
     public CommandLine(File executable) {
         this.isFile=true;
         this.executable=getExecutable(executable.getAbsolutePath());
+    }
+
+    /**
+     * Copy constructor.
+     *
+     * @param other the instance to copy
+     */
+    public CommandLine(CommandLine other)
+    {
+        this.executable = other.getExecutable();
+        this.isFile = other.isFile();
+        this.arguments.addAll(other.arguments);
+
+        if(other.getSubstitutionMap() != null)
+        {
+            this.substitutionMap = new HashMap();
+            Iterator iterator = other.substitutionMap.keySet().iterator();
+            while(iterator.hasNext())
+            {
+                Object key = iterator.next();
+                this.substitutionMap.put(key, other.getSubstitutionMap().get(key));
+            }
+        }
     }
 
     /**

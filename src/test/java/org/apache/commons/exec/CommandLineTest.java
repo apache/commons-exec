@@ -21,6 +21,7 @@ package org.apache.commons.exec;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -504,6 +505,22 @@ public class CommandLineTest extends TestCase {
         assertEquals("/f", args[0]);
         assertEquals("WeightsEngine.mak", args[1]);
         assertEquals("CFG=\"WeightsEngine - Win32Release\"", args[2]);
+    }
+
+    public void testCopyConstructor()
+    {
+        Map map = new HashMap();
+        map.put("bar", "bar");
+        CommandLine other = new CommandLine("test");
+        other.addArgument("foo");
+        other.setSubstitutionMap(map);
+
+        CommandLine cmdl = new CommandLine(other);
+        assertEquals(other.getExecutable(), cmdl.getExecutable());
+        assertEquals(other.getArguments(), cmdl.getArguments());
+        assertEquals(other.isFile(), cmdl.isFile());
+        assertEquals(other.getSubstitutionMap(), cmdl.getSubstitutionMap());
+
     }
 
 }
