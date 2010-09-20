@@ -84,6 +84,10 @@ public class DefaultExecutorTest extends TestCase {
         this.baos.close();
     }
 
+    // ======================================================================
+    // Start of regression tests
+    // ======================================================================
+
     /**
      * The simplest possible test - start a script and
      * check that the output was pumped into our
@@ -158,29 +162,38 @@ public class DefaultExecutorTest extends TestCase {
         assertFalse(exec.isFailure(exitValue));
     }
 
+    /**
+     * Start a asynchronous process which returns an success
+     * exit value.
+     *
+     * @throws Exception the test failed
+     */
     public void testExecuteAsync() throws Exception {
         CommandLine cl = new CommandLine(testScript);
         DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();        
         exec.execute(cl, resultHandler);
-        resultHandler.waitFor();
+        resultHandler.waitFor(2000);
+        assertTrue(resultHandler.hasResult());
+        assertNull(resultHandler.getException());
         assertFalse(exec.isFailure(resultHandler.getExitValue()));
         assertEquals("FOO..", baos.toString().trim());
     }
 
+    /**
+     * Start a asynchronous process which returns an error
+     * exit value.
+     *
+     * @throws Exception the test failed
+     */
     public void testExecuteAsyncWithError() throws Exception {
         CommandLine cl = new CommandLine(errorTestScript);
         DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
         exec.execute(cl, resultHandler);
-        try {
-            resultHandler.waitFor();
-        }
-        catch(ExecuteException e) {
-            assertTrue(exec.isFailure(e.getExitValue()));
-            assertNotNull(resultHandler.getException());
-            assertEquals("FOO..", baos.toString().trim());
-            return;
-        }
-        fail("Expecting an ExecuteException");
+        resultHandler.waitFor(2000);
+        assertTrue(resultHandler.hasResult());
+        assertTrue(exec.isFailure(resultHandler.getExitValue()));
+        assertNotNull(resultHandler.getException());
+        assertEquals("FOO..", baos.toString().trim());
     }
 
     /**
@@ -198,14 +211,18 @@ public class DefaultExecutorTest extends TestCase {
         // wait for script to run
         Thread.sleep(2000);
         assertTrue("Watchdog should watch the process", watchdog.isWatching());
-        // terminate it using the watchdog
+        // terminate it manually using the watchdog
         watchdog.destroyProcess();
+        // wait until the result of the process execution is propagated
+        handler.waitFor();
         assertTrue("Watchdog should have killed the process", watchdog.killedProcess());
-        assertFalse(watchdog.isWatching());
+        assertFalse("Watchdog is no longer watching the process", watchdog.isWatching());
+        assertTrue("ResultHandler received a result", handler.hasResult());
+        assertNotNull("ResultHandler received an exception as result", handler.getException());
     }
 
     /**
-     * Start a async process and try to terminate it manually but
+     * Start a asynchronous process and try to terminate it manually but
      * the process was already terminated by the watchdog. This is
      * basically a race condition between infrastructure and user
      * code.
@@ -214,20 +231,24 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testExecuteAsyncWithTooLateUserTermination() throws Exception {
         CommandLine cl = new CommandLine(foreverTestScript);
+        DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
         ExecuteWatchdog watchdog = new ExecuteWatchdog(3000);
         exec.setWatchdog(watchdog);
-        DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
         exec.execute(cl, handler);
         // wait for script to be terminated by the watchdog
         Thread.sleep(6000);
         // try to terminate the already terminated process
         watchdog.destroyProcess();
-        assertTrue("Watchdog should have killed the process already",watchdog.killedProcess());
-        assertFalse(watchdog.isWatching());
+        // wait until the result of the process execution is propagated
+        handler.waitFor();
+        assertTrue("Watchdog should have killed the process already", watchdog.killedProcess());
+        assertFalse("Watchdog is no longer watching the process", watchdog.isWatching());
+        assertTrue("ResultHandler received a result", handler.hasResult());
+        assertNotNull("ResultHandler received an exception as result", handler.getException());
     }
 
     /**
-     * Start a script looping forever and check if the ExecuteWatchdog
+     * Start a script looping forever (synchronously) and check if the ExecuteWatchdog
      * kicks in killing the run away process. To make killing a process
      * more testable the "forever" scripts write each second a '.'
      * into "./target/forever.txt" (a marker file). After a test run
@@ -235,7 +256,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
-    public void testExecuteWatchdog() throws Exception {
+    public void testExecuteWatchdogSync() throws Exception {
 
         long timeout = 10000;
 
@@ -251,8 +272,8 @@ public class DefaultExecutorTest extends TestCase {
         catch(ExecuteException e) {
             Thread.sleep(timeout);
             int nrOfInvocations = getOccurrences(readFile(this.foreverOutputFile), '.');
-            assertTrue("killing the subprocess did not work : " + nrOfInvocations, nrOfInvocations > 5 && nrOfInvocations <= 11);
             assertTrue( executor.getWatchdog().killedProcess() );
+            assertTrue("killing the subprocess did not work : " + nrOfInvocations, nrOfInvocations > 5 && nrOfInvocations <= 11);
             return;
         }
         catch(Throwable t) {
@@ -261,6 +282,35 @@ public class DefaultExecutorTest extends TestCase {
 
         assertTrue("Killed process should be true", executor.getWatchdog().killedProcess() );
         fail("Process did not create ExecuteException when killed");
+    }
+
+    /**
+     * Start a script looping forever (asynchronously) and check if the
+     * ExecuteWatchdog kicks in killing the run away process. To make killing
+     * a process more testable the "forever" scripts write each second a '.'
+     * into "./target/forever.txt" (a marker file). After a test run
+     * we should have a few dots in there.
+     *
+     * @throws Exception the test failed
+     */
+    public void testExecuteWatchdogAsync() throws Exception {
+
+        long timeout = 10000;
+
+        CommandLine cl = new CommandLine(foreverTestScript);
+        DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
+        DefaultExecutor executor = new DefaultExecutor();
+        executor.setWorkingDirectory(new File("."));
+        executor.setWatchdog(new ExecuteWatchdog(timeout));
+
+        executor.execute(cl, handler);
+        handler.waitFor();
+
+        assertTrue("Killed process should be true", executor.getWatchdog().killedProcess() );
+        int nrOfInvocations = getOccurrences(readFile(this.foreverOutputFile), '.');
+        assertTrue("Killing the process did not work : " + nrOfInvocations, nrOfInvocations > 5 && nrOfInvocations <= 11);
+        assertTrue("ResultHandler received a result", handler.hasResult());
+        assertNotNull("ResultHandler received an exception as result", handler.getException());
     }
 
     /**
@@ -279,7 +329,7 @@ public class DefaultExecutorTest extends TestCase {
             // expected
             return;
         }
-        fail("Got no exception when executing an non-existing application");                
+        fail("Got no exception when executing an non-existing application");
     }
 
     /**
@@ -382,15 +432,8 @@ public class DefaultExecutorTest extends TestCase {
       // terminate it and the process destroyer is detached
       watchdog.destroyProcess();
       assertTrue(watchdog.killedProcess());
-
-      try {
-          handler.waitFor();
-          fail("Expecting an ExecutionException");
-      }
-      catch(ExecuteException e) {
-          // nothing to do
-      }
-
+      handler.waitFor();
+      assertNotNull(handler.getException());
       assertEquals("Processor Destroyer size should be 0", 0, processDestroyer.size());
       assertFalse("Process destroyer should not exist as shutdown hook", processDestroyer.isAddedAsShutdownHook());
     }
@@ -853,7 +896,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
-    public void testExecuteStability() throws Exception {
+    public void _testExecuteStability() throws Exception {
 
         // make a plain-vanilla test
         for(int i=0; i<100; i++) {
@@ -875,12 +918,8 @@ public class DefaultExecutorTest extends TestCase {
             ExecuteWatchdog watchdog = new ExecuteWatchdog(500);
             exec.setWatchdog(watchdog);
             exec.execute(cl, env, resultHandler);
-            try {
-                resultHandler.waitFor();
-            }
-            catch(ExecuteException e) {
-                // nothing to do
-            }
+            resultHandler.waitFor();
+            assertNotNull(resultHandler.getException());
             baos.reset();
         }
     }
