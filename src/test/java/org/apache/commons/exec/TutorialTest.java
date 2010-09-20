@@ -42,13 +42,16 @@ public class TutorialTest extends TestCase {
 
     public void testTutorialExample() throws Exception {
 
+        long printJobTimeout = 15000;
+        boolean printInBackground = false;
         File pdfFile = new File("./pom.xml");
-        PrintResultFuture printResult;
+
+        PrintResultHandler printResult;
 
         try {
+            // printing takes around 10 seconds            
             System.out.println("[main] Preparing print job ...");
-            // printing takes around 3 seconds
-            printResult = print(pdfFile, 10000, true);
+            printResult = print(pdfFile, printJobTimeout, printInBackground);
             System.out.println("[main] Successfully sent the print job ...");
         }
         catch(Exception e) {
@@ -60,6 +63,7 @@ public class TutorialTest extends TestCase {
         // come back to check the print result
         System.out.println("[main] Test is exiting but waiting for the print job to finish...");
         printResult.waitFor();
+        System.out.println("[main] The print job has finished ...");
     }
 
     /**
@@ -71,12 +75,12 @@ public class TutorialTest extends TestCase {
      * @return a print result handler (implementing a future)
      * @throws IOException the test failed
      */
-    public PrintResultFuture print(File file, long printJobTimeout, boolean printInBackground)
+    public PrintResultHandler print(File file, long printJobTimeout, boolean printInBackground)
             throws IOException {
 
         int exitValue;
         ExecuteWatchdog watchdog = null;
-        PrintResultFuture resultFuture;
+        PrintResultHandler resultHandler;
 
         // build up the command line to using a 'java.io.File'
         HashMap map = new HashMap();
@@ -93,35 +97,35 @@ public class TutorialTest extends TestCase {
         
         // create a watchdog if requested
         if(printJobTimeout > 0) {
-
             watchdog = new ExecuteWatchdog(printJobTimeout);
             executor.setWatchdog(watchdog);
         }
 
+        // pass a "ExecuteResultHandler" when doing background printing
         if(printInBackground) {
             System.out.println("[print] Executing non-blocking print job  ...");
-            resultFuture = new PrintResultFuture(watchdog);
-            executor.execute(commandLine, resultFuture);
+            resultHandler = new PrintResultHandler(watchdog);
+            executor.execute(commandLine, resultHandler);
         }
         else {
             System.out.println("[print] Executing blocking print job  ...");
             exitValue = executor.execute(commandLine);
-            resultFuture = new PrintResultFuture(exitValue);
+            resultHandler = new PrintResultHandler(exitValue);
         }
 
-        return resultFuture;
+        return resultHandler;
     }
 
-    private class PrintResultFuture extends DefaultExecuteResultHandler {
+    private class PrintResultHandler extends DefaultExecuteResultHandler {
 
         private ExecuteWatchdog watchdog;
 
-        public PrintResultFuture(ExecuteWatchdog watchdog)
+        public PrintResultHandler(ExecuteWatchdog watchdog)
         {
             this.watchdog = watchdog;
         }
 
-        public PrintResultFuture(int exitValue) {
+        public PrintResultHandler(int exitValue) {
             super.onProcessComplete(exitValue);
         }
         

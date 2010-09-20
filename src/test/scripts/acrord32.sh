@@ -20,7 +20,10 @@
 # Simulate printing a PDF document
 
 echo "[acrord32] Printing the following document : '$3'"
-sleep 3
+for i in {1..10}
+do
+   sleep 1
+done
 echo "[acrord32] Finished printing"
 exit 1
 

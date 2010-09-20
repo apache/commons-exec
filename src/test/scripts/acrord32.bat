@@ -16,6 +16,6 @@ REM See the License for the specific language governing permissions and
 REM limitations under the License.
 
 echo "[acrord32] Printing the following document : '%3'"
-ping -n 3 -w 1000 127.0.0.1 > nul
+ping -n 10 -w 1000 127.0.0.1 > nul
 echo "[acrord32] Finished printing"
 exit 1
