@@ -26,7 +26,7 @@ import java.io.OutputStream;
  * Base class to connect a logging system to the output and/or
  * error stream of then external process. The implementation
  * parses the incoming data to construct a line and passes
- * the complete line to an user-defiend implementation.
+ * the complete line to an user-defined implementation.
  */
 public abstract class LogOutputStream
   extends OutputStream {
