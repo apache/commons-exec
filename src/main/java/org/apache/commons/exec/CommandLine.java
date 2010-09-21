@@ -146,7 +146,11 @@ public class CommandLine {
         return StringUtils.fixFileSeparatorChar(expandArgument(executable));
     }
 
-    /** @return Was a file being used to set the executable? */
+    /**
+     * Was a file being used to set the executable?
+     *
+     * @return true if a file was used for setting the executable 
+     */
     public boolean isFile(){
         return isFile;
     }
@@ -201,8 +205,8 @@ public class CommandLine {
      */
     public CommandLine addArguments(final String arguments, boolean handleQuoting) {
         if (arguments != null) {
-            String[] argmentsArray = translateCommandline(arguments);
-            addArguments(argmentsArray, handleQuoting);
+            String[] argumentsArray = translateCommandline(arguments);
+            addArguments(argumentsArray, handleQuoting);
         }
 
         return this;
@@ -227,29 +231,41 @@ public class CommandLine {
     * @return The command line itself
     */
    public CommandLine addArgument(final String argument, boolean handleQuoting) {
-        if (argument == null) {
+
+       if (argument == null)
+       {
            return this;
-        }
+       }
 
-        if(handleQuoting) {
-            arguments.add(StringUtils.quoteArgument(argument));
-        }
-        else {
-            arguments.add(argument);
-        }
+       // check if we can really quote the argument - if not throw an
+       // IllegalArgumentException
+       if (handleQuoting)
+       {
+           StringUtils.quoteArgument(argument);
+       }
 
-        return this;
+       arguments.add(new Argument(argument, handleQuoting));
+       return this;
    }
 
     /**
-     * Returns the quoted arguments.
+     * Returns the expanded and quoted command line arguments.
      *  
      * @return The quoted arguments
      */
     public String[] getArguments() {
+
+        Argument currArgument;
+        String expandedArgument;
         String[] result = new String[arguments.size()];
-        result = (String[]) arguments.toArray(result);
-        return this.expandArguments(result);
+
+        for(int i=0; i<result.length; i++) {
+            currArgument = (Argument) arguments.get(i);
+            expandedArgument = expandArgument(currArgument.getValue());
+            result[i] = (currArgument.isHandleQuoting() ? StringUtils.quoteArgument(expandedArgument) : expandedArgument);
+        }
+
+        return result;
     }
 
     /**
@@ -289,26 +305,7 @@ public class CommandLine {
      * @return the command line as single string
      */
     public String toString() {
-        StringBuffer result = new StringBuffer();
-        String[] currArguments = this.getArguments();
-
-        result.append(StringUtils.quoteArgument(this.getExecutable()));
-        result.append(' ');
-
-        for(int i=0; i<currArguments.length; i++) {
-            String currArgument = currArguments[i];
-            if( StringUtils.isQuoted(currArgument)) {
-                result.append(currArgument);
-            }
-            else {
-                result.append(StringUtils.quoteArgument(currArgument));
-            }
-            if(i<currArguments.length-1) {
-                result.append(' ');
-            }
-        }
-        
-        return result.toString().trim();
+        return StringUtils.toString(toStrings(), " ");
     }
 
     // --- Implementation ---------------------------------------------------
@@ -323,21 +320,6 @@ public class CommandLine {
         StringBuffer stringBuffer = StringUtils.stringSubstitution(argument, this.getSubstitutionMap(), true);
         return stringBuffer.toString();
     }
-
-    /**
-     * Expand variables in a command line arguments.
-     *
-     * @param arguments the arguments to be expadedn
-     * @return the expanded string
-     */
-    private String[] expandArguments(final String[] arguments) {
-        String[] result = new String[arguments.length];
-        for(int i=0; i<result.length; i++) {
-            result[i] = this.expandArgument(arguments[i]);
-        }
-        return result;
-    }
-
 
     /**
      * Crack a command line.
@@ -429,6 +411,31 @@ public class CommandLine {
             throw new IllegalArgumentException("Executable can not be empty");
         } else {
             return StringUtils.fixFileSeparatorChar(executable);
+        }
+    }
+
+    /**
+     * Encapsulates a command line argument.
+     */
+    class Argument {
+
+        private String value;
+        private boolean handleQuoting;
+
+        private Argument(String value, boolean handleQuoting)
+        {
+            this.value = value.trim();
+            this.handleQuoting = handleQuoting;
+        }
+
+        private String getValue()
+        {
+            return value;
+        }
+
+        private boolean isHandleQuoting()
+        {
+            return handleQuoting;
         }
     }
 }

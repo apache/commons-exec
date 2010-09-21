@@ -44,7 +44,7 @@ public class TutorialTest extends TestCase {
 
         long printJobTimeout = 15000;
         boolean printInBackground = false;
-        File pdfFile = new File("./pom.xml");
+        File pdfFile = new File("/Documents and Settings/foo.pdf");
 
         PrintResultHandler printResult;
 

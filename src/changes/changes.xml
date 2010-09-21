@@ -24,6 +24,9 @@
     </properties>
     <body>
         <release version="1.1-SNAPSHOT" date="as in SVN" description="Maintenance Release">
+            <action dev="sgoeschl" type="add" date="2010-09-21" >
+                Adding 'Argument' class and quote the arguments after expansion.                
+            </action>
             <action dev="sgoeschl" type="add" date="2010-09-02" >
                 Reverting changes of [EXEC-41] because the patch does not fix the problem.
                 Also added test case for the broken patch.
