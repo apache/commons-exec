@@ -584,7 +584,7 @@ public class DefaultExecutorTest extends TestCase {
         exec.execute(new CommandLine(environmentSript));
         String environment = baos.toString().trim();
         assertTrue("Found no environment variables", environment.length() > 0);
-        assertFalse(environment.contains("NEW_VAR"));
+        assertFalse(environment.indexOf("NEW_VAR") >= 0);
         System.out.println(environment);
     }
 
@@ -600,7 +600,7 @@ public class DefaultExecutorTest extends TestCase {
         myEnvVars.put("NEW_VAR","NEW_VAL");
         exec.execute(new CommandLine(environmentSript), myEnvVars);
         String environment = baos.toString().trim();
-        assertTrue(environment.contains("NEW_VAR"));
+        assertTrue(environment.indexOf("NEW_VAR") >= 0);
     }
 
     // ======================================================================
