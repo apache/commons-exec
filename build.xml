@@ -32,6 +32,9 @@
   <property name="maven.repo.local" value="${user.home}/.m2/repository"/>
   <!-- JUnit version should agree with the version in pom.xml -->
   <property name="maven.junit.jar" value="${maven.repo.local}/junit/junit/3.8.2/junit-3.8.2.jar"/>
+  <!-- These must agree with the versions in pom.xml -->
+  <property name="maven.compile.source" value="1.3"/>
+  <property name="maven.compile.target" value="1.3"/>
 
   <path id="junit">
       <pathelement location="${maven.junit.jar}"/>
@@ -43,7 +46,8 @@
 
   <target name="compile" description="Compile the code">
     <mkdir dir="${maven.build.output}"/>
-    <javac destdir="${maven.build.output}" excludes="**/package.html" debug="true" deprecation="true" optimize="false" source="1.3" target="1.3">
+    <javac destdir="${maven.build.output}" excludes="**/package.html" debug="true" deprecation="true" optimize="false" 
+        source="${maven.compile.source}" target="${maven.compile.target}">
       <src>
         <pathelement location="${basedir}/src/main/java"/>
       </src>
@@ -56,7 +60,8 @@
 
   <target name="compile-tests" depends="junit-present, compile" description="Compile the test code" if="junit.present">
     <mkdir dir="${maven.test.output}"/>
-    <javac destdir="${maven.test.output}" excludes="**/package.html" debug="true" deprecation="true" optimize="false" source="1.3" target="1.3">
+    <javac destdir="${maven.test.output}" excludes="**/package.html" debug="true" deprecation="true" optimize="false" 
+        source="${maven.compile.source}" target="${maven.compile.target}">
       <src>
         <pathelement location="${basedir}/src/test/java"/>
       </src>
