@@ -61,6 +61,7 @@
       </src>
       <classpath>
         <pathelement location="${maven.build.output}"/>
+        <path refid="junit"/>
       </classpath>
     </javac>
   </target>
