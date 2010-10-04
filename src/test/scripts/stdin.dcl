@@ -20,4 +20,4 @@ $!
 $! Read input and display is
 $!
 $ read /prompt="What's your name? : " sys$command answer
-$ write sys$output "Hello ''answer'"
+$ write sys$output "Hello ''answer'!"
