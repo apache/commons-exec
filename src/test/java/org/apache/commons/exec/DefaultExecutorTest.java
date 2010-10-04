@@ -34,6 +34,9 @@ import org.apache.commons.exec.environment.EnvironmentUtils;
 
 public class DefaultExecutorTest extends TestCase {
 
+    /** Maximum time to wait (15s) */
+    private static final int WAITFOR_TIMEOUT = 15000;
+
     private Executor exec = new DefaultExecutor();
     private File testDir = new File("src/test/scripts");
     private File foreverOutputFile = new File("./target/forever.txt");
@@ -214,7 +217,7 @@ public class DefaultExecutorTest extends TestCase {
         // terminate it manually using the watchdog
         watchdog.destroyProcess();
         // wait until the result of the process execution is propagated
-        handler.waitFor();
+        handler.waitFor(WAITFOR_TIMEOUT);
         assertTrue("Watchdog should have killed the process", watchdog.killedProcess());
         assertFalse("Watchdog is no longer watching the process", watchdog.isWatching());
         assertTrue("ResultHandler received a result", handler.hasResult());
@@ -240,7 +243,7 @@ public class DefaultExecutorTest extends TestCase {
         // try to terminate the already terminated process
         watchdog.destroyProcess();
         // wait until the result of the process execution is propagated
-        handler.waitFor();
+        handler.waitFor(WAITFOR_TIMEOUT);
         assertTrue("Watchdog should have killed the process already", watchdog.killedProcess());
         assertFalse("Watchdog is no longer watching the process", watchdog.isWatching());
         assertTrue("ResultHandler received a result", handler.hasResult());
@@ -257,6 +260,12 @@ public class DefaultExecutorTest extends TestCase {
      * @throws Exception the test failed
      */
     public void testExecuteWatchdogSync() throws Exception {
+
+        if (OS.isFamilyOpenVms()){
+            System.out.println("The test 'testExecuteWatchdogSync' currently hangs on the following OS : "
+                    + System.getProperty("os.name"));
+            return;
+        }
 
         long timeout = 10000;
 
@@ -304,7 +313,7 @@ public class DefaultExecutorTest extends TestCase {
         executor.setWatchdog(new ExecuteWatchdog(timeout));
 
         executor.execute(cl, handler);
-        handler.waitFor();
+        handler.waitFor(WAITFOR_TIMEOUT);
 
         assertTrue("Killed process should be true", executor.getWatchdog().killedProcess() );
         int nrOfInvocations = getOccurrences(readFile(this.foreverOutputFile), '.');
@@ -432,7 +441,8 @@ public class DefaultExecutorTest extends TestCase {
       // terminate it and the process destroyer is detached
       watchdog.destroyProcess();
       assertTrue(watchdog.killedProcess());
-      handler.waitFor();
+      handler.waitFor(WAITFOR_TIMEOUT);
+      assertTrue("ResultHandler received a result", handler.hasResult());
       assertNotNull(handler.getException());
       assertEquals("Processor Destroyer size should be 0", 0, processDestroyer.size());
       assertFalse("Process destroyer should not exist as shutdown hook", processDestroyer.isAddedAsShutdownHook());
@@ -569,10 +579,11 @@ public class DefaultExecutorTest extends TestCase {
         executor.setStreamHandler(pumpStreamHandler);
         executor.execute(cl, resultHandler);
 
-        resultHandler.waitFor();
+        resultHandler.waitFor(WAITFOR_TIMEOUT);
+        assertTrue("ResultHandler received a result", resultHandler.hasResult());
 
-        assertTrue(resultHandler.getExitValue() == 0);
-        assertTrue(this.baos.toString().indexOf("Hello Foo!") > 0);
+        assertFalse(exec.isFailure(resultHandler.getExitValue()));
+        assertTrue("Result should contain 'Hello Foo!'", this.baos.toString().indexOf("Hello Foo!") > 0);
     }
 
     /**
@@ -918,7 +929,8 @@ public class DefaultExecutorTest extends TestCase {
             ExecuteWatchdog watchdog = new ExecuteWatchdog(500);
             exec.setWatchdog(watchdog);
             exec.execute(cl, env, resultHandler);
-            resultHandler.waitFor();
+            resultHandler.waitFor(WAITFOR_TIMEOUT);
+            assertTrue("ResultHandler received a result", resultHandler.hasResult());
             assertNotNull(resultHandler.getException());
             baos.reset();
         }
