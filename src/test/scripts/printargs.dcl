@@ -17,22 +17,14 @@ $! limitations under the License.
 $! 
 $!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 $!
-$! run an infinite loop so the script will never ever terminate
+$! Print arguments
 $!
-$! Suppress timeout warning
-$ l_msg=f$environment("MESSAGE")
-$ SET MESSAGE  /NOFACILITY  /NOIDENTIFICATION       /NOSEVERITY  /NOTEXT
-$!
-$ SET NOON
-$ ON CONTROL_Y THEN GOTO DONE
-$ close/nolog OUT
-$ open/write OUT [.target]forever.txt ! create the output file
-$LOOP:
-$   write OUT "."
-$   read /prompt="."/time_out=1 sys$command dummy
-$ GOTO LOOP
-$!
-$DONE:
-$ close/nolog OUT
-$! Restore message settings
-$ SET MESSAGE  'l_msg'
+$! Crude, but effective. Works even if argument contains un-doubled double-quotes
+$ if f$length(P1) .gt. 0 then write sys$output P1
+$ if f$length(P2) .gt. 0 then write sys$output P2
+$ if f$length(P3) .gt. 0 then write sys$output P3
+$ if f$length(P4) .gt. 0 then write sys$output P4
+$ if f$length(P5) .gt. 0 then write sys$output P5
+$ if f$length(P6) .gt. 0 then write sys$output P6
+$ if f$length(P7) .gt. 0 then write sys$output P7
+$ if f$length(P8) .gt. 0 then write sys$output P8

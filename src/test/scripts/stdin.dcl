@@ -17,22 +17,7 @@ $! limitations under the License.
 $! 
 $!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 $!
-$! run an infinite loop so the script will never ever terminate
+$! Read input and display is
 $!
-$! Suppress timeout warning
-$ l_msg=f$environment("MESSAGE")
-$ SET MESSAGE  /NOFACILITY  /NOIDENTIFICATION       /NOSEVERITY  /NOTEXT
-$!
-$ SET NOON
-$ ON CONTROL_Y THEN GOTO DONE
-$ close/nolog OUT
-$ open/write OUT [.target]forever.txt ! create the output file
-$LOOP:
-$   write OUT "."
-$   read /prompt="."/time_out=1 sys$command dummy
-$ GOTO LOOP
-$!
-$DONE:
-$ close/nolog OUT
-$! Restore message settings
-$ SET MESSAGE  'l_msg'
+$ read /prompt="What's your name? : " sys$command answer
+$ write sys$output "Hello ''answer'"
