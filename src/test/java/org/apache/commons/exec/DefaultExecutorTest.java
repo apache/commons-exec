@@ -583,7 +583,8 @@ public class DefaultExecutorTest extends TestCase {
         assertTrue("ResultHandler received a result", resultHandler.hasResult());
 
         assertFalse(exec.isFailure(resultHandler.getExitValue()));
-        assertTrue("Result should contain 'Hello Foo!'", this.baos.toString().indexOf("Hello Foo!") > 0);
+        String result = baos.toString();
+        assertTrue("Result +'"+result+"' should contain 'Hello Foo!'", result.indexOf("Hello Foo!") > 0);
     }
 
     /**
