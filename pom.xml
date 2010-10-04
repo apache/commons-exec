@@ -204,7 +204,7 @@
             </distributionManagement>
         </profile>
         <profile>
-            <id>tests</id>
+            <id>test-distribution</id>
             <build>
                 <plugins>
                     <plugin>

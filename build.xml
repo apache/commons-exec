@@ -31,7 +31,7 @@
   <property name="maven.test.output" value="target/test-classes"/>
   <property name="maven.repo.local" value="${user.home}/.m2/repository"/>
   <!-- JUnit version should agree with the version in pom.xml -->
-  <property name="maven.junit.jar" value="${maven.repo.local}/junit/junit/3.8.2/junit-3.8.2.jar"/>
+  <property name="maven.junit.jar" value="${maven.repo.local}/junit/junit/3.8.1/junit-3.8.1.jar"/>
   <!-- These must agree with the versions in pom.xml -->
   <property name="maven.compile.source" value="1.3"/>
   <property name="maven.compile.target" value="1.3"/>
