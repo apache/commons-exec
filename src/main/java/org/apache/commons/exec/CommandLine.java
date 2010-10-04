@@ -419,8 +419,8 @@ public class CommandLine {
      */
     class Argument {
 
-        private String value;
-        private boolean handleQuoting;
+        private final String value;
+        private final boolean handleQuoting;
 
         private Argument(String value, boolean handleQuoting)
         {
