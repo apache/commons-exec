@@ -85,6 +85,7 @@ public class DefaultExecutorTest extends TestCase {
 
     protected void tearDown() throws Exception {
         this.baos.close();
+        foreverOutputFile.delete();
     }
 
     // ======================================================================
@@ -316,10 +317,11 @@ public class DefaultExecutorTest extends TestCase {
         handler.waitFor(WAITFOR_TIMEOUT);
 
         assertTrue("Killed process should be true", executor.getWatchdog().killedProcess() );
-        int nrOfInvocations = getOccurrences(readFile(this.foreverOutputFile), '.');
-        assertTrue("Killing the process did not work : " + nrOfInvocations, nrOfInvocations > 5 && nrOfInvocations <= 11);
         assertTrue("ResultHandler received a result", handler.hasResult());
         assertNotNull("ResultHandler received an exception as result", handler.getException());
+
+        int nrOfInvocations = getOccurrences(readFile(this.foreverOutputFile), '.');
+        assertTrue("Killing the process did not work : " + nrOfInvocations, nrOfInvocations > 5 && nrOfInvocations <= 11);
     }
 
     /**
@@ -612,7 +614,7 @@ public class DefaultExecutorTest extends TestCase {
         myEnvVars.put("NEW_VAR","NEW_VAL");
         exec.execute(new CommandLine(environmentSript), myEnvVars);
         String environment = baos.toString().trim();
-        assertTrue(environment.indexOf("NEW_VAR") >= 0);
+        assertTrue("Expecting NEW_VAR in "+environment,environment.indexOf("NEW_VAR") >= 0);
     }
 
     // ======================================================================
