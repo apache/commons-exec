@@ -881,7 +881,7 @@ public class DefaultExecutorTest extends TestCase {
 		}
 
         assertTrue("The process was killed by the watchdog", watchdog.killedProcess());
-        assertTrue("SKipping the Thread.join() did not work", duration < 9000);
+        assertTrue("Skipping the Thread.join() did not work, duration="+duration, duration < 9000);
     }
 
     /**
