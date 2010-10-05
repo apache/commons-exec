@@ -30,13 +30,13 @@ import org.apache.commons.exec.OS;
 public class EnvironmentUtils
 {
 
-	private static final DefaultProcessingEnvironment procEnvironment;
+	private static final DefaultProcessingEnvironment PROCESSING_ENVIRONMENT_IMPLEMENTATION;
 	
 	static {
         if (OS.isFamilyOpenVms()) {
-        	procEnvironment = new OpenVmsProcessingEnvironment();
+        	PROCESSING_ENVIRONMENT_IMPLEMENTATION = new OpenVmsProcessingEnvironment();
         } else {
-        	procEnvironment = new DefaultProcessingEnvironment();
+        	PROCESSING_ENVIRONMENT_IMPLEMENTATION = new DefaultProcessingEnvironment();
         }
 	}
 	
@@ -79,7 +79,7 @@ public class EnvironmentUtils
      * @throws IOException the operation failed
      */
     public static Map getProcEnvironment() throws IOException {
-    	return procEnvironment.getProcEnvironment();
+    	return PROCESSING_ENVIRONMENT_IMPLEMENTATION.getProcEnvironment();
     }
 
     /**
