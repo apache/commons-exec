@@ -204,6 +204,8 @@
             </distributionManagement>
         </profile>
         <profile>
+            <!-- Create archives containing stand-alone test cases -->
+            <!-- e.g. mvn assembly:assembly -Ptest-distribution [-DskipTests] -->
             <id>test-distribution</id>
             <build>
                 <plugins>
