@@ -19,4 +19,4 @@ $!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 $!
 $! print the "environment" variables
 $!
-$ show logical
+$ show symbol *

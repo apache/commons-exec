@@ -83,16 +83,30 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
         try {
             out = new PrintWriter(new FileWriter(script.getAbsolutePath(),true));
 
-            // add the environment as logicals to the DCL script
+            // add the environment as global symbols for the DCL script
             if (env != null) {
                 Set entries = env.entrySet();
 
                 for (Iterator iter = entries.iterator(); iter.hasNext();) {
                     Entry entry = (Entry) iter.next();
-                    out.print("$ DEFINE/NOLOG ");
+                    out.print("$ ");
                     out.print(entry.getKey());
-                    out.print(" \"");
-                    out.print(entry.getValue());
+                    out.print(" == "); // define as global symbol
+                    out.println('\"');
+                    String value = (String) entry.getValue();
+                    // Any embedded " values need to be doubled
+                    if (value.indexOf('\"') > 0){
+                        StringBuffer sb = new StringBuffer();
+                        for (int i = 0; i < value.length(); i++) {
+                            char c = value.charAt(i);
+                            if (c == '\"') {
+                                sb.append('\"');
+                            }
+                            sb.append(c);
+                        }
+                        value=sb.toString();
+                    }
+                    out.print(value);
                     out.println('\"');
                 }
             }

@@ -20,7 +20,6 @@ $!
 $! print the given environment variable and command line parameter
 $! since this is verified by the regression test
 $!
-$ ENV_VAR=f$trnlnm("TEST_ENV_VAR")
-$ write sys$output "FOO.''ENV_VAR'.''P1'"
+$ write sys$output "FOO.''TEST_ENV_VAR'.''P1'"
 $!
 $ exit 1 ! normal exit
