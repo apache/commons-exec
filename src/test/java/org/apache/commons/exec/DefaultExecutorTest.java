@@ -573,7 +573,7 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testStdInHandling() throws Exception {
 
-        ByteArrayInputStream bais = new ByteArrayInputStream("Foo\n".getBytes());
+        ByteArrayInputStream bais = new ByteArrayInputStream("Foo".getBytes()); // newline not needed; causes problems for VMS
         CommandLine cl = new CommandLine(this.stdinSript);
         PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( this.baos, System.err, bais);
         DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
@@ -586,7 +586,7 @@ public class DefaultExecutorTest extends TestCase {
 
         assertFalse(exec.isFailure(resultHandler.getExitValue()));
         String result = baos.toString();
-        assertTrue("Result +'"+result+"' should contain 'Hello Foo!'", result.indexOf("Hello Foo!") > 0);
+        assertTrue("Result '"+result+"' should contain 'Hello Foo!'", result.indexOf("Hello Foo!") >= 0);
     }
 
     /**
