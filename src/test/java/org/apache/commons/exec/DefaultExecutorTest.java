@@ -615,6 +615,19 @@ public class DefaultExecutorTest extends TestCase {
         exec.execute(new CommandLine(environmentSript), myEnvVars);
         String environment = baos.toString().trim();
         assertTrue("Expecting NEW_VAR in "+environment,environment.indexOf("NEW_VAR") >= 0);
+        assertTrue("Expecting NEW_VAL in "+environment,environment.indexOf("NEW_VAL") >= 0);
+    }
+
+    public void testAddEnvironmentVariableEmbeddedQuote() throws Exception {
+        Map myEnvVars = new HashMap();
+        myEnvVars.putAll(EnvironmentUtils.getProcEnvironment());
+        String name = "NEW_VAR";
+        String value = "NEW_\"_VAL";
+        myEnvVars.put(name,value);
+        exec.execute(new CommandLine(environmentSript), myEnvVars);
+        String environment = baos.toString().trim();
+        assertTrue("Expecting "+name+" in "+environment,environment.indexOf(name) >= 0);
+        assertTrue("Expecting "+value+" in "+environment,environment.indexOf(value) >= 0);
     }
 
     // ======================================================================
