@@ -17,7 +17,7 @@ $! limitations under the License.
 $! 
 $!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 $!
-$! Read input and display is
+$! Read input and display it
 $!
 $ read /prompt="What's your name? : " sys$command answer
 $ write sys$output "Hello ''answer'!"
