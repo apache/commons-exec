@@ -59,11 +59,11 @@ public class EnvironmentUtilTest extends TestCase {
         Map procEnvironment = EnvironmentUtils.getProcEnvironment();
         // we assume that there is at least one environment variable
         // for this process, i.e. $JAVA_HOME
-        assertTrue(procEnvironment.size() > 0);
+        assertTrue("Expecting non-zero environment size", procEnvironment.size() > 0);
         String[] envArgs = EnvironmentUtils.toStrings(procEnvironment);
         for(int i=0; i<envArgs.length; i++) {
-            assertNotNull(envArgs[i]);
-            assertTrue(envArgs[i].length() > 0);
+            assertNotNull("Entry "+i+" should not be null",envArgs[i]);
+            assertTrue("Entry "+i+" should not be empty",envArgs[i].length() > 0);
             System.out.println(envArgs[i]);
         }
     }
