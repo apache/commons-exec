@@ -164,6 +164,46 @@ limitations under the License.
           </tr>          
         </table>
       </subsection>
+      <subsection name="OpenVMS">
+        <table>
+          <tr>
+            <th>Operating System</th>
+            <th>JVM</th>
+            <th>Status</th>
+            <th>Reporter</th>
+          </tr>
+          <tr>
+            <td>OpenVMS V8.3 (AlphaServer ES40 - 4 CPUs)</td>
+            <td>Fast VM (build 1.5.0-4, build J2SDK.v.1.5.0:03/31/2008-15:26, native threads, jit_150)</td>
+            <td>Fails tests which try to terminate a subprocess
+            <ul>
+            <li>DefaultExecutorTest#testExecuteAsyncWithTimelyUserTermination</li>
+            <li>DefaultExecutorTest#testExecuteAsyncWithTooLateUserTermination</li>
+            <li>DefaultExecutorTest#testExecuteWatchdogSync - test hangs</li>
+            <li>DefaultExecutorTest#testExecuteWatchdogAsync</li>
+            <li>DefaultExecutorTest#testExecuteAsyncWithProcessDestroyer</li>
+            <li>DefaultExecutorTest#testExec41WithoutStreams</li>
+            </ul>
+            </td>
+            <td>Sebastian Bazley</td>
+          </tr>
+          <tr>
+            <td>OpenVMS V8.3-1H1 (Integrity HP rx2600  (1.30GHz/3.0MB) - 2 CPUs)</td>
+            <td>Java HotSpot(TM) Server VM (build 1.5.0-2 12/02/2006-21:30 IA64, mixed mode)</td>
+            <td>Fails tests which try to terminate a subprocess
+            <ul>
+            <li>DefaultExecutorTest#testExecuteAsyncWithTimelyUserTermination</li>
+            <li>DefaultExecutorTest#testExecuteAsyncWithTooLateUserTermination</li>
+            <li>DefaultExecutorTest#testExecuteWatchdogSync - test hangs</li>
+            <li>DefaultExecutorTest#testExecuteWatchdogAsync</li>
+            <li>DefaultExecutorTest#testExecuteAsyncWithProcessDestroyer</li>
+            <li>DefaultExecutorTest#testExec41WithoutStreams</li>
+            </ul>
+            </td>
+            <td>Sebastian Bazley</td>
+          </tr>
+        </table>
+      </subsection>
       
     </section>
   </body>
