@@ -17,7 +17,7 @@ $! limitations under the License.
 $! 
 $!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 $!
-$! ping is started as subprocess which runs for '%1' seconds
+$! ping is started as subprocess which runs for 'P1' seconds
 $!
-$ write sys$output "[ping.dcl] Blocking for %1 seconds ..."
+$ write sys$output "[ping.dcl] Blocking for ''P1' seconds ..."
 $ tcpip ping 127.0.0.1 /number_packets='P1 /wait=1 
