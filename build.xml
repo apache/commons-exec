@@ -23,7 +23,7 @@
   <property file="user.properties" />
   
   <property file="build.properties" />
-  <property name="maven.build.version" value="1.1.0"/>
+  <property name="maven.build.version" value="1.1"/>
   <property name="maven.build.output" value="target/classes"/>
   <property name="maven.build.directory" value="target"/>
   <property name="maven.build.final.name" value="commons-exec-${maven.build.version}"/>

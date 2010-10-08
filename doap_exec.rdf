@@ -33,6 +33,11 @@
     <release>
       <Version>
         <name>commons-exec</name>
+        <created>2010-10-08</created>
+        <revision>1.1</revision>
+      </Version>      
+      <Version>
+        <name>commons-exec</name>
         <created>2009-09-23</created>
         <revision>1.0.1</revision>
       </Version>
