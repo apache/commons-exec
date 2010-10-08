@@ -23,7 +23,7 @@
         <author email="sgoeschl@apache.org">Siegfried Goeschl</author>
     </properties>
     <body>
-        <release version="1.1-SNAPSHOT" date="as in SVN" description="Maintenance Release">
+        <release version="1.1" date="2010-10-08" description="Maintenance Release">
             <action dev="sebb" type="fix" date="2010-10-05" >
                 OpenVMS now uses symbols instead of logicals for environment variables.
             </action>
