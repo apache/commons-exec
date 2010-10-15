@@ -25,8 +25,9 @@ under the License.
     <faq id="maturity">
       <question>How mature is it?</question>
       <answer>
-        <p>The code was ported from Ant and extensively tested on various platforms. So there is no
-          reason not to use it and it is very likely better than any home-grown library. </p>
+        <p>The code was ported from <a href="http://ant.apache.org/">Apache Ant</a> and extensively
+           tested on various platforms. So there is no reason not to use it and it is very likely
+           better than any home-grown library.</p>
       </answer>
     </faq>
     <faq id="complex-quoting">
