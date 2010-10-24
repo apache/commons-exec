@@ -65,9 +65,9 @@ public class DefaultExecutorTest extends TestCase {
 
         // turn on debug mode and throw an exception for each encountered problem
         System.setProperty("org.apache.commons.exec.lenient", "false");
-        System.setProperty("org.apache.commons.exec.debug", "true");                
+        System.setProperty("org.apache.commons.exec.debug", "true");
     }
-    
+
     protected void setUp() throws Exception {
 
         System.out.println(">>> Executing " + getName() + " ...");
@@ -104,7 +104,7 @@ public class DefaultExecutorTest extends TestCase {
         int exitValue = exec.execute(cl);
         assertEquals("FOO..", baos.toString().trim());
         assertFalse(exec.isFailure(exitValue));
-        assertEquals(new File("."), exec.getWorkingDirectory());        
+        assertEquals(new File("."), exec.getWorkingDirectory());
     }
 
     public void testExecuteWithWorkingDirectory() throws Exception {
@@ -132,7 +132,7 @@ public class DefaultExecutorTest extends TestCase {
 
     public void testExecuteWithError() throws Exception {
         CommandLine cl = new CommandLine(errorTestScript);
-        
+
         try{
             exec.execute(cl);
             fail("Must throw ExecuteException");
@@ -174,7 +174,7 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testExecuteAsync() throws Exception {
         CommandLine cl = new CommandLine(testScript);
-        DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();        
+        DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
         exec.execute(cl, resultHandler);
         resultHandler.waitFor(2000);
         assertTrue(resultHandler.hasResult());
@@ -204,7 +204,7 @@ public class DefaultExecutorTest extends TestCase {
      * Start a asynchronous process and terminate it manually before the
      * watchdog timeout occurs.
      *
-     * @throws Exception the test failed 
+     * @throws Exception the test failed
      */
     public void testExecuteAsyncWithTimelyUserTermination() throws Exception {
         CommandLine cl = new CommandLine(foreverTestScript);
@@ -287,7 +287,7 @@ public class DefaultExecutorTest extends TestCase {
             return;
         }
         catch(Throwable t) {
-            fail(t.getMessage());    
+            fail(t.getMessage());
         }
 
         assertTrue("Killed process should be true", executor.getWatchdog().killedProcess() );
@@ -398,10 +398,10 @@ public class DefaultExecutorTest extends TestCase {
       CommandLine cl = new CommandLine(testScript);
       ShutdownHookProcessDestroyer processDestroyer = new ShutdownHookProcessDestroyer();
       exec.setProcessDestroyer(processDestroyer);
-      
+
       assertTrue(processDestroyer.size() == 0);
       assertTrue(processDestroyer.isAddedAsShutdownHook() == false);
-      
+
       int exitValue = exec.execute(cl);
 
       assertEquals("FOO..", baos.toString().trim());
@@ -409,7 +409,7 @@ public class DefaultExecutorTest extends TestCase {
       assertTrue(processDestroyer.size() == 0);
       assertTrue(processDestroyer.isAddedAsShutdownHook() == false);
     }
-  
+
     /**
      * Test the proper handling of ProcessDestroyer for an asynchronous process.
      * Since we do not terminate the process it will be terminated in the
@@ -590,7 +590,7 @@ public class DefaultExecutorTest extends TestCase {
     }
 
     /**
-     * Call a script to dump the environment variables of the subprocess. 
+     * Call a script to dump the environment variables of the subprocess.
      *
      * @throws Exception the test failed
      */
@@ -656,11 +656,11 @@ public class DefaultExecutorTest extends TestCase {
      *
      * Race condition prevent watchdog working using ExecuteStreamHandler.
      * The test fails because when watchdog.destroyProcess() is invoked the
-     * external process is not bound to the watchdog yet
+     * external process is not bound to the watchdog yet.
      *
      * @throws Exception the test failed
      */
-    public void testExec34() throws Exception {
+    public void testExec34_1() throws Exception {
 
         CommandLine cmdLine = new CommandLine(pingScript);
         cmdLine.addArgument("10"); // sleep 10 secs
@@ -676,6 +676,30 @@ public class DefaultExecutorTest extends TestCase {
         watchdog.destroyProcess();
         assertTrue("Watchdog should have killed the process",watchdog.killedProcess());
         assertFalse("Watchdog is no longer watching the process",watchdog.isWatching());
+    }
+
+    /**
+     * EXEC-34 https://issues.apache.org/jira/browse/EXEC-34
+     *
+     * Some user waited for an asynchronous process using watchdog.isWatching() which
+     * is now properly implemented  using <code>DefaultExecuteResultHandler</code>.
+     *
+     * @throws Exception the test failed
+     */
+    public void testExec34_2() throws Exception {
+
+        CommandLine cmdLine = new CommandLine(pingScript);
+        cmdLine.addArgument("10"); // sleep 10 secs
+
+        ExecuteWatchdog watchdog = new ExecuteWatchdog(5000);
+        DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
+        exec.setWatchdog(watchdog);
+        exec.execute(cmdLine, handler);
+        handler.waitFor();
+        assertTrue("Process has exited", handler.hasResult());
+        assertNotNull("Process was aborted", handler.getException());
+        assertTrue("Watchdog should have killed the process", watchdog.killedProcess());
+        assertFalse("Watchdog is no longer watching the process", watchdog.isWatching());
     }
 
     /**
@@ -757,7 +781,7 @@ public class DefaultExecutorTest extends TestCase {
             System.err.println("The test 'testExec36_3' does not support the following OS : " + System.getProperty("os.name"));
             return;
         }
-        
+
         CommandLine cmdl;
         File file = new File("/Documents and Settings/myusername/Local Settings/Temp/netfx.log");
         Map map = new HashMap();
@@ -847,7 +871,7 @@ public class DefaultExecutorTest extends TestCase {
      * For this test we are using the batch file - under Windows the 'ping'
      * process can't be killed (not supported by Win32) and will happily
      * run the given time (e.g. 10 seconds) even hwen the batch file is already
-     * killed. 
+     * killed.
      *
      * @throws Exception the test failed
      */
@@ -860,7 +884,7 @@ public class DefaultExecutorTest extends TestCase {
 
         // create a custom "PumpStreamHandler" doing no pumping at all
         PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(null, null, null);
-        
+
 		executor.setWatchdog(watchdog);
         executor.setStreamHandler(pumpStreamHandler);
 
