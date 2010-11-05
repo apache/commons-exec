@@ -28,6 +28,11 @@ import java.io.File;
  */
 public class StandAloneTest extends TestCase {
 
+    static{
+        System.setProperty("org.apache.commons.exec.lenient", "false");
+        System.setProperty("org.apache.commons.exec.debug", "true");
+    }
+
     public void testMe() throws Exception {
         if(OS.isFamilyUnix()) {
             File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/standalone");
