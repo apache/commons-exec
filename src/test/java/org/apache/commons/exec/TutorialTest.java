@@ -23,6 +23,7 @@ import junit.framework.TestCase;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * An example based on the tutorial where the user can can safely play with
@@ -83,7 +84,7 @@ public class TutorialTest extends TestCase {
         PrintResultHandler resultHandler;
 
         // build up the command line to using a 'java.io.File'
-        HashMap map = new HashMap();
+        Map map = new HashMap();
         map.put("file", file);
         CommandLine commandLine = new CommandLine(acroRd32Script);
         commandLine.addArgument("/p");

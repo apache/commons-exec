@@ -47,9 +47,9 @@ Apache Commons Exec
 
 +----------------------------------------------------------------------------
 String line = "AcroRd32.exe /p /h " + file.getAbsolutePath();
-CommandLine commandLine = CommandLine.parse(line);
+CommandLine cmdLine = CommandLine.parse(line);
 DefaultExecutor executor = new DefaultExecutor();
-int exitValue = executor.execute(commandLine);
+int exitValue = executor.execute(cmdLine);
 +----------------------------------------------------------------------------
 
   You successfully printed your first PDF document but at the end an exception is thrown - what
@@ -59,10 +59,10 @@ int exitValue = executor.execute(commandLine);
 
 +----------------------------------------------------------------------------
 String line = "AcroRd32.exe /p /h " + file.getAbsolutePath();
-CommandLine commandLine = CommandLine.parse(line);
+CommandLine cmdLine = CommandLine.parse(line);
 DefaultExecutor executor = new DefaultExecutor();
 executor.setExitValue(1);
-int exitValue = executor.execute(commandLine);
+int exitValue = executor.execute(cmdLine);
 +----------------------------------------------------------------------------
 
 * To Watchdog Or Not To Watchdog
@@ -75,12 +75,12 @@ int exitValue = executor.execute(commandLine);
 
 +----------------------------------------------------------------------------
 String line = "AcroRd32.exe /p /h " + file.getAbsolutePath();
-CommandLine commandLine = CommandLine.parse(line);
+CommandLine cmdLine = CommandLine.parse(line);
 DefaultExecutor executor = new DefaultExecutor();
 executor.setExitValue(1);
 ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
 executor.setWatchdog(watchdog);
-int exitValue = executor.execute(commandLine);
+int exitValue = executor.execute(cmdLine);
 +----------------------------------------------------------------------------
 
 * Quoting Is Your Friend
@@ -101,12 +101,12 @@ int exitValue = executor.execute(commandLine);
   
 +----------------------------------------------------------------------------
 String line = "AcroRd32.exe /p /h \"" + file.getAbsolutePath() + "\"";
-CommandLine commandLine = CommandLine.parse(line);
+CommandLine cmdLine = CommandLine.parse(line);
 DefaultExecutor executor = new DefaultExecutor();
 executor.setExitValue(1);
 ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
 executor.setWatchdog(watchdog);
-int exitValue = executor.execute(commandLine);
+int exitValue = executor.execute(cmdLine);
 +----------------------------------------------------------------------------
 
 * Build the Command Line Incrementally
@@ -121,17 +121,17 @@ int exitValue = executor.execute(commandLine);
   
 +----------------------------------------------------------------------------
 Map map = new HashMap();
-map.put("file", new File("the_document_you_would_like_to_print"));
-CommandLine commandLine = CommandLine.parse("AcroRd32.exe");
-commandLine.addArgument("/p");
-commandLine.addArgument("/h");
-commandLine.addArgument("${file}");
-commandLine.setSubstitutionMap(map);
+map.put("file", new File("invoice.pdf"));
+CommandLine cmdLine = new CommandLine("AcroRd32.exe");
+cmdLine.addArgument("/p");
+cmdLine.addArgument("/h");
+cmdLine.addArgument("${file}");
+cmdLine.setSubstitutionMap(map);
 DefaultExecutor executor = new DefaultExecutor();
 executor.setExitValue(1);
 ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
 executor.setWatchdog(watchdog);
-int exitValue = executor.execute(commandLine);
+int exitValue = executor.execute(cmdLine);
 +----------------------------------------------------------------------------
 
   Please note that we are passing an 'java.io.File' instance for expanding
@@ -151,12 +151,12 @@ int exitValue = executor.execute(commandLine);
   offending exception or the process exit code.
 
 +----------------------------------------------------------------------------
-CommandLine commandLine = CommandLine.parse(this.acroRd32Script.getAbsolutePath());
-commandLine.addArgument("/p");
-commandLine.addArgument("/h");
-commandLine.addArgument("${file}");
+CommandLine cmdLine = new CommandLine("AcroRd32.exe");
+cmdLine.addArgument("/p");
+cmdLine.addArgument("/h");
+cmdLine.addArgument("${file}");
 HashMap map = new HashMap();
-map.put("file", "./pom.xml");
+map.put("file", new File("invoice.pdf"));
 commandLine.setSubstitutionMap(map);
 
 DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
@@ -164,9 +164,8 @@ DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
 ExecuteWatchdog watchdog = new ExecuteWatchdog(60*1000);
 Executor executor = new DefaultExecutor();
 executor.setExitValue(1);
-executor.setStreamHandler(new PumpStreamHandler());
 executor.setWatchdog(watchdog);
-executor.execute(commandLine, resultHandler);
+executor.execute(cmdLine, resultHandler);
 
 // some time later the result handler callback was invoked so we
 // can safely request the exit value
