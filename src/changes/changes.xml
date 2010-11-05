@@ -23,6 +23,13 @@
         <author email="sgoeschl@apache.org">Siegfried Goeschl</author>
     </properties>
     <body>
+        <release version="1.2" date="2010-11-05" description="Maintenance Release">
+            <action dev="sgoeschl" type="fix" date="2010-10-05" issue="EXEC-49" due-to="Kevin Telford">
+                "Write dead end" IOException when using Piped streams w/PumpStreamHandler.
+                When encountering a PipedOutputStream we will automatically close it to avoid
+                the exception.
+            </action>
+        </release>
         <release version="1.1" date="2010-10-08" description="Maintenance Release">
             <action dev="sebb" type="fix" date="2010-10-05" >
                 OpenVMS now uses symbols instead of logicals for environment variables.

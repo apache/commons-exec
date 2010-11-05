@@ -18,19 +18,21 @@
 
 package org.apache.commons.exec;
 
+import junit.framework.TestCase;
+import org.apache.commons.exec.environment.EnvironmentUtils;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.util.HashMap;
 import java.util.Map;
-
-import junit.framework.TestCase;
-import org.apache.commons.exec.environment.EnvironmentUtils;
 
 public class DefaultExecutorTest extends TestCase {
 
@@ -935,6 +937,90 @@ public class DefaultExecutorTest extends TestCase {
         watchdog.destroyProcess();
         assertTrue("The watchdog has killed the process", watchdog.killedProcess());
         assertFalse("The watchdog is no longer watching any process", watchdog.isWatching());
+    }
+
+    /**
+     * Test EXEC-49 (https://issues.apache.org/jira/browse/EXEC-49).
+     *
+     * The issue was detected when trying to capture stdout/stderr with a PipedOutputStream and
+     * then pass that to a PipedInputStream. The following code will produce the error.
+     * The reason for the error is the PipedOutputStream is not being closed correctly,
+     * causing the PipedInputStream to break.
+     *
+     * @throws Exception the test failed
+     */
+    public void testExec49_1() throws Exception {
+
+        if(OS.isFamilyUnix()) {
+
+            CommandLine cl = CommandLine.parse("/bin/ls");
+            cl.addArgument("/opt");
+
+            Executor exec = new DefaultExecutor();
+
+            // redirect stdout/stderr to pipedOutputStream
+            PipedOutputStream pipedOutputStream = new PipedOutputStream();
+            PumpStreamHandler psh = new PumpStreamHandler(pipedOutputStream);
+            exec.setStreamHandler(psh);
+
+            // start an asynchronous process to enable the main thread
+            System.out.println("Preparing to execute process - commandLine=" + cl.toString());
+            DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();           
+            exec.execute(cl, handler);
+            System.out.println("Process spun off successfully - process=" + cl.getExecutable());
+    
+            int x;
+            PipedInputStream pis = new PipedInputStream(pipedOutputStream);
+            while ((x = pis.read()) >= 0) {
+                System.out.println("pis.available() " + pis.available());
+                System.out.println("x " + x);
+            }
+            pis.close();
+
+            handler.waitFor();
+        }
+    }
+
+    /**
+     * Test EXEC-49 (https://issues.apache.org/jira/browse/EXEC-49).
+     *
+     * The issue was detected when trying to capture stdout with a PipedOutputStream and
+     * then pass that to a PipedInputStream. The following code will produce the error.
+     * The reason for the error is the PipedOutputStream is not being closed correctly,
+     * causing the PipedInputStream to break.
+     *
+     * @throws Exception the test failed
+     */
+    public void testExec49_2() throws Exception {
+
+        if(OS.isFamilyUnix()) {
+
+            CommandLine cl = CommandLine.parse("/bin/ls");
+            cl.addArgument("/opt");
+
+            Executor exec = new DefaultExecutor();
+
+            // redirect only stdout to pipedOutputStream
+            PipedOutputStream pipedOutputStream = new PipedOutputStream();
+            PumpStreamHandler psh = new PumpStreamHandler(pipedOutputStream, new ByteArrayOutputStream());
+            exec.setStreamHandler(psh);
+
+            // start an asynchronous process to enable the main thread
+            System.out.println("Preparing to execute process - commandLine=" + cl.toString());
+            DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
+            exec.execute(cl, handler);
+            System.out.println("Process spun off successfully - process=" + cl.getExecutable());
+
+            int x;
+            PipedInputStream pis = new PipedInputStream(pipedOutputStream);
+            while ((x = pis.read()) >= 0) {
+                System.out.println("pis.available() " + pis.available());
+                System.out.println("x " + x);
+            }
+            pis.close();
+
+            handler.waitFor();            
+        }
     }
 
     // ======================================================================
