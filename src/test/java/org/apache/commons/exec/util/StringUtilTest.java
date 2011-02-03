@@ -18,11 +18,10 @@
 
 package org.apache.commons.exec.util;
 
-import junit.framework.TestCase;
-import org.apache.commons.exec.environment.EnvironmentUtils;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import junit.framework.TestCase;
 
 public class StringUtilTest extends TestCase
 {
