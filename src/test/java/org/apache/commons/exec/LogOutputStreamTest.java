@@ -41,7 +41,6 @@ public class LogOutputStreamTest extends TestCase
 
 
     protected void setUp() throws Exception {
-        System.out.println(">>> Executing " + getName() + " ...");
         this.systemOut = new SystemLogOutputStream(1);
         this.exec.setStreamHandler(new PumpStreamHandler(systemOut, systemOut));
     }

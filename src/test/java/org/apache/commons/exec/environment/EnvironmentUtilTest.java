@@ -64,7 +64,7 @@ public class EnvironmentUtilTest extends TestCase {
         for(int i=0; i<envArgs.length; i++) {
             assertNotNull("Entry "+i+" should not be null",envArgs[i]);
             assertTrue("Entry "+i+" should not be empty",envArgs[i].length() > 0);
-            System.out.println(envArgs[i]);
+            // System.out.println(envArgs[i]);
         }
     }
 

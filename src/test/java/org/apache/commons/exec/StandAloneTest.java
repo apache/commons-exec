@@ -36,7 +36,6 @@ public class StandAloneTest extends TestCase {
     public void testMe() throws Exception {
         if(OS.isFamilyUnix()) {
             File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/standalone");
-            System.out.println("Executing the following test script : " + testScript.getAbsolutePath());
             Executor exec = new DefaultExecutor();
             exec.setStreamHandler(new PumpStreamHandler());
             CommandLine cl = new CommandLine(testScript);

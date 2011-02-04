@@ -72,8 +72,6 @@ public class DefaultExecutorTest extends TestCase {
 
     protected void setUp() throws Exception {
 
-        System.out.println(">>> Executing " + getName() + " ...");
-
         // delete the marker file
         this.foreverOutputFile.getParentFile().mkdirs();
         if(this.foreverOutputFile.exists()) {
@@ -487,9 +485,8 @@ public class DefaultExecutorTest extends TestCase {
             int exitValue = executor.execute(cl);
             fis.close();
             String result = baos.toString().trim();
-            System.out.println(result);
-            assertTrue(result.indexOf("Finished reading from stdin") > 0);
-            assertFalse(exec.isFailure(exitValue));
+            assertTrue(result, result.indexOf("Finished reading from stdin") > 0);
+            assertFalse("exitValue=" + exitValue, exec.isFailure(exitValue));
         }
         else if(OS.isFamilyWindows()) {
             System.err.println("The code samples to do that in windows look like a joke ... :-( .., no way I'm doing that");
@@ -739,10 +736,6 @@ public class DefaultExecutorTest extends TestCase {
 
             int exitValue = exec.execute(cmdl);
             String result = baos.toString().trim();
-            System.out.println("=== Expected ===");
-            System.out.println(expected);
-            System.out.println("=== Result ===");
-            System.out.println(result);
             assertFalse(exec.isFailure(exitValue));
             assertEquals(expected, result);
         }
@@ -797,10 +790,6 @@ public class DefaultExecutorTest extends TestCase {
 
         int exitValue = exec.execute(cmdl);
         String result = baos.toString().trim();
-        System.out.println("=== Expected ===");
-        System.out.println(expected);
-        System.out.println("=== Result ===");
-        System.out.println(result);
         assertFalse(exec.isFailure(exitValue));
 
         if(OS.isFamilyUnix()) {
