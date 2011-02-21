@@ -181,10 +181,12 @@ public class DefaultExecutor implements Executor {
             throw new IOException(workingDirectory + " doesn't exist.");
         }
 
-        executorThread = new Thread() {
-            public void run() {
+        Runnable runnable = new Runnable()
+        {
+            public void run()
+            {
                 int exitValue = Executor.INVALID_EXITVALUE;
-                try {                    
+                try {
                     exitValue = executeInternal(command, environment, workingDirectory, streamHandler);
                     handler.onProcessComplete(exitValue);
                 } catch (ExecuteException e) {
@@ -195,6 +197,7 @@ public class DefaultExecutor implements Executor {
             }
         };
 
+        this.executorThread = createThread(runnable, "Exec Default Executor");
         getExecutorThread().start();
     }
 
@@ -226,6 +229,18 @@ public class DefaultExecutor implements Executor {
             }
         }
         return true;
+    }
+
+    /**
+     * Factory method to create a thread waiting for the result of an
+     * asynchronous execution.
+     *
+     * @param runnable the runnable passed to the thread
+     * @param name the name of the thread
+     * @return the thread
+     */
+    protected Thread createThread(Runnable runnable, String name) {
+        return new Thread(runnable, name);
     }
 
     /**

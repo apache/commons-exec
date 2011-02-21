@@ -598,7 +598,6 @@ public class DefaultExecutorTest extends TestCase {
         String environment = baos.toString().trim();
         assertTrue("Found no environment variables", environment.length() > 0);
         assertFalse(environment.indexOf("NEW_VAR") >= 0);
-        System.out.println(environment);
     }
 
     /**
@@ -961,8 +960,8 @@ public class DefaultExecutorTest extends TestCase {
             int x;
             PipedInputStream pis = new PipedInputStream(pipedOutputStream);
             while ((x = pis.read()) >= 0) {
-                System.out.println("pis.available() " + pis.available());
-                System.out.println("x " + x);
+                // System.out.println("pis.available() " + pis.available());
+                // System.out.println("x " + x);
             }
             pis.close();
 
@@ -1003,8 +1002,8 @@ public class DefaultExecutorTest extends TestCase {
             int x;
             PipedInputStream pis = new PipedInputStream(pipedOutputStream);
             while ((x = pis.read()) >= 0) {
-                System.out.println("pis.available() " + pis.available());
-                System.out.println("x " + x);
+                // System.out.println("pis.available() " + pis.available());
+                // System.out.println("x " + x);
             }
             pis.close();
 

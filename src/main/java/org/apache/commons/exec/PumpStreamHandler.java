@@ -284,11 +284,10 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     protected Thread createPump(final InputStream is, final OutputStream os,
             final boolean closeWhenExhausted) {
         final Thread result = new Thread(new StreamPumper(is, os,
-                closeWhenExhausted));
+                closeWhenExhausted), "Exec Stream Pumper");
         result.setDaemon(true);
         return result;
     }
-
 
     /**
      * Creates a stream pumper to copy the given input stream to the given
@@ -300,7 +299,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      */
     private Thread createSystemInPump(InputStream is, OutputStream os) {
         inputStreamPumper = new InputStreamPumper(is, os);
-        final Thread result = new Thread(inputStreamPumper);
+        final Thread result = new Thread(inputStreamPumper, "Exec Input Stream Pumper");
         result.setDaemon(true);
         return result;
     }
