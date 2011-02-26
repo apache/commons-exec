@@ -23,6 +23,11 @@
         <author email="sgoeschl@apache.org">Siegfried Goeschl</author>
     </properties>
     <body>
+        <release version="TBA" date="TBA" description="">
+            <action issue="EXEC-52" dev="sebb" type="fix" date="2011-02-26"  due-to="Nickolay Martinov">
+                Tests fail on HP-UX, because it uses a different syntax for the ping command
+            </action>
+        </release>
         <release version="1.2" date="2010-11-05" description="Maintenance Release">
             <action dev="sgoeschl" type="fix" date="2010-10-05" issue="EXEC-49" due-to="Kevin Telford">
                 "Write dead end" IOException when using Piped streams w/PumpStreamHandler.

@@ -815,6 +815,9 @@ public class DefaultExecutorTest extends TestCase {
     	if(OS.isFamilyWindows()) {
     		cmdLine = CommandLine.parse("ping.exe -n 10 -w 1000 127.0.0.1");
     	}
+    	else if("HP-UX".equals(System.getProperty("os.name"))) {
+    		cmdLine = CommandLine.parse("ping 127.0.0.1 -n 10"); // see EXEC-52 - option must appear after the hostname!
+    	}
     	else if(OS.isFamilyUnix()) {
     		cmdLine = CommandLine.parse("ping -c 10 127.0.0.1");
     	}

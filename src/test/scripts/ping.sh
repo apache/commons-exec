@@ -17,7 +17,13 @@
 # limitations under the License.
 #
 
-# ping is started as subprocess which runs '$1' seconds
+# ping is started as subprocess which runs for '$1' seconds
 
-echo "[ping.sh] Blocking for %1 seconds ..."
-ping -c $1 127.0.0.1
+echo "[ping.sh] Blocking for $1 seconds ..."
+# see EXEC-52 - option must appear after the hostname!
+if test "$(uname -s)" = "HP-UX"
+then
+        ping 127.0.0.1 -n $1
+else
+        ping -c $1 127.0.0.1
+fi
