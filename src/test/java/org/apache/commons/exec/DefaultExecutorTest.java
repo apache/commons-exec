@@ -956,10 +956,10 @@ public class DefaultExecutorTest extends TestCase {
 
             // start an asynchronous process to enable the main thread
             System.out.println("Preparing to execute process - commandLine=" + cl.toString());
-            DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();           
+            DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
             exec.execute(cl, handler);
             System.out.println("Process spun off successfully - process=" + cl.getExecutable());
-    
+
             int x;
             PipedInputStream pis = new PipedInputStream(pipedOutputStream);
             while ((x = pis.read()) >= 0) {
@@ -1010,8 +1010,46 @@ public class DefaultExecutorTest extends TestCase {
             }
             pis.close();
 
-            handler.waitFor();            
+            handler.waitFor();
         }
+    }
+
+    /**
+     * Test EXEC-60 (https://issues.apache.org/jira/browse/EXEC-60).
+     *
+     * Possible deadlock when a process is terminating at the same time its timing out. Please
+     * note that a successful test is no proof that the issues was indeed fixed.
+     *
+     * @throws Exception the test failed
+     */
+    public void testExec_60() throws IOException {
+
+        int start = 0;
+        final int seconds = 1;
+        int processTerminatedCounter = 0;
+        int watchdogKilledProcessCounter = 0;
+        CommandLine cmdLine = new CommandLine(pingScript);
+        cmdLine.addArgument(Integer.toString(seconds + 1)); // need to add "1" to wait the requested number of seconds
+
+        for (int offset = start; offset <= 20; offset += 1) {
+            ExecuteWatchdog watchdog = new ExecuteWatchdog(seconds * 1000 + offset);
+            exec.setWatchdog(watchdog);
+            try {
+                exec.execute(cmdLine);
+                processTerminatedCounter++;
+                System.out.println(offset + ": process has terminated: " + watchdog.killedProcess());
+                if(processTerminatedCounter > 5) {
+                    break;
+                }
+            } catch (ExecuteException ex) {
+                System.out.println(offset + ": process was killed: " + watchdog.killedProcess());
+                assertTrue("Watchdog killed the process", watchdog.killedProcess());
+                watchdogKilledProcessCounter++;;
+            }
+        }
+
+        assertTrue("Not a single process terminated on its own", processTerminatedCounter > 0);
+        assertTrue("Not a single process was killed by the watch dog", watchdogKilledProcessCounter > 0);
     }
 
     // ======================================================================
@@ -1062,7 +1100,7 @@ public class DefaultExecutorTest extends TestCase {
 
         String text;
         StringBuffer contents = new StringBuffer();
-        BufferedReader reader = new BufferedReader(new FileReader(file));        
+        BufferedReader reader = new BufferedReader(new FileReader(file));
 
         while ((text = reader.readLine()) != null)
         {

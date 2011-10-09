@@ -24,6 +24,11 @@
     </properties>
     <body>
         <release version="1.1.1-SNAPSHOT" date="TBA" description="Bugfixing Release">
+            <action issue="EXEC-60" dev="sgoeschl" type="fix" date="2011-10-09"  due-to="Peter Kofler">
+                Fixed dead lock by calling the timeout observers outside of the synchronized block thereby
+                removing on pre-requisite of a deadlock. Also added a test case to demonstrate that this
+                problem is fixed (which of course can not guarantee the absence of a dead lock).
+            </action>
             <action issue="EXEC-55" dev="sgoeschl" type="add" date="2011-02-21"  due-to="Dominik Stadler">
                 Set names for started threads.
             </action>
