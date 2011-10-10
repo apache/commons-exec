@@ -24,6 +24,11 @@
     </properties>
     <body>
         <release version="1.1.1-SNAPSHOT" date="TBA" description="Bugfixing Release">
+            <action issue="EXEC-57" dev="sgoeschl" type="fix" date="2011-10-10"  due-to="Nickolay Martinov">
+                Applied the patch from Nickolay Martinov but the timeout disguises the fact
+                that the process might be still runnung - therefore added a sanity check in
+                order to throw an exception if the the timeout for join() was exceeded.
+            </action>
             <action issue="EXEC-60" dev="sgoeschl" type="fix" date="2011-10-09"  due-to="Peter Kofler">
                 Fixed dead lock by calling the timeout observers outside of the synchronized block thereby
                 removing on pre-requisite of a deadlock. Also added a test case to demonstrate that this
