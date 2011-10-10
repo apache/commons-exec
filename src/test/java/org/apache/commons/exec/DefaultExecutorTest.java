@@ -54,6 +54,8 @@ public class DefaultExecutorTest extends TestCase {
     private File acroRd32Script = TestUtil.resolveScriptForOS(testDir + "/acrord32");
     private File stdinSript = TestUtil.resolveScriptForOS(testDir + "/stdin");
     private File environmentSript = TestUtil.resolveScriptForOS(testDir + "/environment");
+    private File wrapperScript = TestUtil.resolveScriptForOS(testDir + "/wrapper");
+
 
     // Get suitable exit codes for the OS
     private static final int SUCCESS_STATUS; // test script successful exit code
@@ -1012,6 +1014,49 @@ public class DefaultExecutorTest extends TestCase {
 
             handler.waitFor();
         }
+    }
+
+    /**
+     * Test EXEC-57 (https://issues.apache.org/jira/browse/EXEC-57).
+     *
+     * DefaultExecutor.execute() does not return even if child process terminated - in this
+     * case the child process hangs because the grand children is connected to stdout & stderr
+     * and is still running. As work-around a stop timeout is used for the PumpStreamHandler
+     * to ensure that the caller does not block forever but if the stop timeout is exceeded
+     * an ExecuteException is thrown to notify the caller.
+     *
+     * @throws Exception the test failed
+     */
+    public void testExec_57() throws IOException {
+
+        if(!OS.isFamilyUnix()) {
+            System.err.println("The test 'testSyncInvocationOfBackgroundProcess' does not support the following OS : " + System.getProperty("os.name"));
+            return;
+        }
+
+        CommandLine cmdLine = new CommandLine("sh").addArgument("-c").addArgument(testDir + "/invoker.sh", false);
+
+        DefaultExecutor executor = new DefaultExecutor();
+        PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(System.out, System.err);
+
+        // Without this timeout current thread will be blocked
+        // even if command we'll invoke will terminate immediately.
+        pumpStreamHandler.setStopTimeout(2000);
+        executor.setStreamHandler(pumpStreamHandler);
+        long startTime = System.currentTimeMillis();
+
+        System.out.println("Executing " + cmdLine);
+
+        try {
+            executor.execute(cmdLine);
+        }
+        catch(ExecuteException e) {
+            long duration = System.currentTimeMillis() - startTime;
+            System.out.println("Process completed in " + duration +" millis; above is its output");
+            return;
+        }
+
+        fail("Expecting an ExecuteException");
     }
 
     /**

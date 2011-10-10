@@ -26,11 +26,13 @@ import java.io.OutputStream;
 import java.io.PipedOutputStream;
 
 /**
- * Copies standard output and error of subprocesses to standard output and error
+ * Copies standard output and error of sub-processes to standard output and error
  * of the parent process. If output or error stream are set to null, any feedback
- * from that stream will be lost. 
+ * from that stream will be lost.
  */
 public class PumpStreamHandler implements ExecuteStreamHandler {
+
+    private static final long STOP_TIMEOUT_ADDITION = 2000L;
 
     private Thread outputThread;
 
@@ -45,7 +47,13 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     private final InputStream input;
 
     private InputStreamPumper inputStreamPumper;
-    
+
+    /** the timeout in ms the implementation waits when stopping the pumper threads */
+    private long stopTimeout;
+
+    /** the last exception being caught */
+    private IOException caught = null;
+
     /**
      * Construct a new <CODE>PumpStreamHandler</CODE>.
      */
@@ -56,20 +64,17 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Construct a new <CODE>PumpStreamHandler</CODE>.
      *
-     * @param outAndErr
-     *            the output/error <CODE>OutputStream</CODE>.
+     * @param outAndErr the output/error <CODE>OutputStream</CODE>.
      */
     public PumpStreamHandler(final OutputStream outAndErr) {
         this(outAndErr, outAndErr);
     }
-    
+
     /**
      * Construct a new <CODE>PumpStreamHandler</CODE>.
      *
-     * @param out
-     *            the output <CODE>OutputStream</CODE>.
-     * @param err
-     *            the error <CODE>OutputStream</CODE>.
+     * @param out the output <CODE>OutputStream</CODE>.
+     * @param err the error <CODE>OutputStream</CODE>.
      */
     public PumpStreamHandler(final OutputStream out, final OutputStream err) {
         this(out, err, null);
@@ -77,28 +82,32 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
 
     /**
      * Construct a new <CODE>PumpStreamHandler</CODE>.
-     * 
-     * @param out
-     *            the output <CODE>OutputStream</CODE>.
-     * @param err
-     *            the error <CODE>OutputStream</CODE>.
-     * @param input
-     *            the input <CODE>InputStream</CODE>.
+     *
+     * @param out   the output <CODE>OutputStream</CODE>.
+     * @param err   the error <CODE>OutputStream</CODE>.
+     * @param input the input <CODE>InputStream</CODE>.
      */
-    public PumpStreamHandler(final OutputStream out, final OutputStream err,
-            final InputStream input) {
-
+    public PumpStreamHandler(final OutputStream out, final OutputStream err, final InputStream input) {
         this.out = out;
         this.err = err;
         this.input = input;
     }
 
     /**
+     * Set maximum time to wait until output streams are exchausted
+     * when {@link #stop()} was called.
+     *
+     * @param timeout timeout in milliseconds or zero to wait forever (default)
+     */
+    public void setStopTimeout(long timeout) {
+        this.stopTimeout = timeout;
+    }
+
+    /**
      * Set the <CODE>InputStream</CODE> from which to read the standard output
      * of the process.
-     * 
-     * @param is
-     *            the <CODE>InputStream</CODE>.
+     *
+     * @param is the <CODE>InputStream</CODE>.
      */
     public void setProcessOutputStream(final InputStream is) {
         if (out != null) {
@@ -109,9 +118,8 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Set the <CODE>InputStream</CODE> from which to read the standard error
      * of the process.
-     * 
-     * @param is
-     *            the <CODE>InputStream</CODE>.
+     *
+     * @param is the <CODE>InputStream</CODE>.
      */
     public void setProcessErrorStream(final InputStream is) {
         if (err != null) {
@@ -122,27 +130,26 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Set the <CODE>OutputStream</CODE> by means of which input can be sent
      * to the process.
-     * 
-     * @param os
-     *            the <CODE>OutputStream</CODE>.
+     *
+     * @param os the <CODE>OutputStream</CODE>.
      */
     public void setProcessInputStream(final OutputStream os) {
         if (input != null) {
             if (input == System.in) {
                 inputThread = createSystemInPump(input, os);
-        } else {
+            } else {
                 inputThread = createPump(input, os, true);
-            }        } 
-        else {
+            }
+        } else {
             try {
                 os.close();
             } catch (IOException e) {
                 String msg = "Got exception while closing output stream";
-                DebugUtils.handleException(msg ,e);
+                DebugUtils.handleException(msg, e);
             }
         }
     }
-        
+
     /**
      * Start the <CODE>Thread</CODE>s.
      */
@@ -159,63 +166,45 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Stop pumping the streams.
+     * Stop pumping the streams. When a timeout is specified it it is not guaranteed that the
+     * pumper threads are cleanly terminated.
      */
-    public void stop() {
+    public void stop() throws IOException {
 
         if (inputStreamPumper != null) {
             inputStreamPumper.stopProcessing();
         }
 
-        if (outputThread != null) {
+        stopThread(outputThread, stopTimeout);
+        stopThread(errorThread, stopTimeout);
+        stopThread(inputThread, stopTimeout);
+
+        if (err != null && err != out) {
             try {
-                outputThread.join();
-                outputThread = null;
-            } catch (InterruptedException e) {
-                // ignore
+                err.flush();
+            } catch (IOException e) {
+                String msg = "Got exception while flushing the error stream : " + e.getMessage();
+                DebugUtils.handleException(msg, e);
             }
         }
 
-        if (errorThread != null) {
+        if (out != null) {
             try {
-                errorThread.join();
-                errorThread = null;
-            } catch (InterruptedException e) {
-                // ignore
+                out.flush();
+            } catch (IOException e) {
+                String msg = "Got exception while flushing the output stream";
+                DebugUtils.handleException(msg, e);
             }
         }
 
-        if (inputThread != null) {
-            try {
-                inputThread.join();
-                inputThread = null;
-            } catch (InterruptedException e) {
-                // ignore
-            }
+        if(caught != null) {
+            throw caught;
         }
-
-         if (err != null && err != out) {
-             try {
-                 err.flush();
-             } catch (IOException e) {
-                 String msg = "Got exception while flushing the error stream : " + e.getMessage();
-                 DebugUtils.handleException(msg ,e);
-             }
-         }
-
-         if (out != null) {
-             try {
-                 out.flush();
-             } catch (IOException e) {
-                 String msg = "Got exception while flushing the output stream";
-                 DebugUtils.handleException(msg ,e);
-             }
-         }
     }
 
     /**
      * Get the error stream.
-     * 
+     *
      * @return <CODE>OutputStream</CODE>.
      */
     protected OutputStream getErr() {
@@ -224,7 +213,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
 
     /**
      * Get the output stream.
-     * 
+     *
      * @return <CODE>OutputStream</CODE>.
      */
     protected OutputStream getOut() {
@@ -233,41 +222,34 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
 
     /**
      * Create the pump to handle process output.
-     * 
-     * @param is
-     *            the <CODE>InputStream</CODE>.
-     * @param os
-     *            the <CODE>OutputStream</CODE>.
+     *
+     * @param is the <CODE>InputStream</CODE>.
+     * @param os the <CODE>OutputStream</CODE>.
      */
-    protected void createProcessOutputPump(final InputStream is,
-            final OutputStream os) {
+    protected void createProcessOutputPump(final InputStream is, final OutputStream os) {
         outputThread = createPump(is, os);
     }
 
     /**
      * Create the pump to handle error output.
-     * 
-     * @param is
-     *            the <CODE>InputStream</CODE>.
-     * @param os
-     *            the <CODE>OutputStream</CODE>.
+     *
+     * @param is the <CODE>InputStream</CODE>.
+     * @param os the <CODE>OutputStream</CODE>.
      */
-    protected void createProcessErrorPump(final InputStream is,
-            final OutputStream os) {
+    protected void createProcessErrorPump(final InputStream is, final OutputStream os) {
         errorThread = createPump(is, os);
     }
 
     /**
      * Creates a stream pumper to copy the given input stream to the given
      * output stream. When the 'os' is an PipedOutputStream we are closing
-     * 'os' afterwards to avoid an IOException ("Write end dead"). 
+     * 'os' afterwards to avoid an IOException ("Write end dead").
      *
      * @param is the input stream to copy from
      * @param os the output stream to copy into
      * @return the stream pumper thread
      */
     protected Thread createPump(final InputStream is, final OutputStream os) {
-
         boolean closeWhenExhausted = (os instanceof PipedOutputStream ? true : false);
         return createPump(is, os, closeWhenExhausted);
     }
@@ -276,17 +258,45 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * Creates a stream pumper to copy the given input stream to the given
      * output stream.
      *
-     * @param is the input stream to copy from
-     * @param os the output stream to copy into
+     * @param is                 the input stream to copy from
+     * @param os                 the output stream to copy into
      * @param closeWhenExhausted close the output stream when the input stream is exhausted
      * @return the stream pumper thread
      */
-    protected Thread createPump(final InputStream is, final OutputStream os,
-            final boolean closeWhenExhausted) {
-        final Thread result = new Thread(new StreamPumper(is, os,
-                closeWhenExhausted), "Exec Stream Pumper");
+    protected Thread createPump(final InputStream is, final OutputStream os, final boolean closeWhenExhausted) {
+        final Thread result = new Thread(new StreamPumper(is, os, closeWhenExhausted), "Exec Stream Pumper");
         result.setDaemon(true);
         return result;
+    }
+
+    /**
+     * Stopping a pumper thread. The implementation actually waits
+     * longer than specified in 'timeout' to detect if the timeout
+     * was indeed exceeded. If the timeout was exceeded an IOException
+     * is created to be thrown to the caller.
+     *
+     * @param thread  the thread to be stopped
+     * @param timeout the time in ms to wait to join
+     */
+    protected void stopThread(Thread thread, long timeout) {
+
+        if (thread != null) {
+            try {
+                if (timeout == 0) {
+                    thread.join();
+                } else {
+                    long timeToWait = timeout + STOP_TIMEOUT_ADDITION;
+                    long startTime = System.currentTimeMillis();
+                    thread.join(timeToWait);
+                    if (!(System.currentTimeMillis() < startTime + timeToWait)) {
+                        String msg = "The stop timeout of " + timeout + " ms was exceeded";
+                        caught = new ExecuteException(msg, Executor.INVALID_EXITVALUE);
+                    }
+                }
+            } catch (InterruptedException e) {
+                thread.interrupt();
+            }
+        }
     }
 
     /**
@@ -303,5 +313,4 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
         result.setDaemon(true);
         return result;
     }
-
 }

@@ -62,5 +62,5 @@ public interface ExecuteStreamHandler {
      * Stop handling of the streams - will not be restarted.
      * Will wait for pump threads to complete.
      */
-    void stop();
+    void stop() throws IOException;
 }

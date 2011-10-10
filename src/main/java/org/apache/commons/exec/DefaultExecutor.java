@@ -66,6 +66,9 @@ public class DefaultExecutor implements Executor {
     /** worker thread for asynchronous execution */
     private Thread executorThread;
 
+    /** the first exception being caught to be thrown to the caller */
+    private IOException exceptionCaught;
+
     /**
      * Default constructor creating a default <code>PumpStreamHandler</code>
      * and sets the working directory of the subprocess to the current
@@ -81,6 +84,7 @@ public class DefaultExecutor implements Executor {
         this.launcher = CommandLauncherFactory.createVMLauncher();
         this.exitValues = new int[0];
         this.workingDirectory = new File(".");
+        this.exceptionCaught = null;
     }
 
     /**
@@ -279,50 +283,40 @@ public class DefaultExecutor implements Executor {
     }
     
     /**
-     * Close the streams belonging to the given Process. In the
-     * original implementation all exceptions were dropped which
-     * is probably not a good thing. On the other hand the signature
-     * allows throwing an IOException so the current implementation
-     * might be quite okay.
-     * 
+     * Close the streams belonging to the given Process.
+     *
      * @param process the <CODE>Process</CODE>.
-     * @throws IOException closing one of the three streams failed
      */
-    private void closeStreams(final Process process) throws IOException {
-
-        IOException caught = null;
+    private void closeProcessStreams(final Process process) {
 
         try {
             process.getInputStream().close();
         }
         catch(IOException e) {
-            caught = e;
+            setExceptionCaught(e);
         }
 
         try {
             process.getOutputStream().close();
         }
         catch(IOException e) {
-            caught = e;
+            setExceptionCaught(e);
         }
 
         try {
             process.getErrorStream().close();
         }
         catch(IOException e) {
-            caught = e;
-        }
-
-        if(caught != null) {
-            throw caught;
+            setExceptionCaught(e);
         }
     }
 
     /**
-     * Execute an internal process.
+     * Execute an internal process. If the executing thread is interrupted while waiting for the
+     * child process to return the child process will be killed.
      *
      * @param command the command to execute
-     * @param environment the execution enviroment
+     * @param environment the execution environment
      * @param dir the working directory
      * @param streams process the streams (in, out, err) of the process
      * @return the exit code of the process
@@ -330,6 +324,8 @@ public class DefaultExecutor implements Executor {
      */
     private int executeInternal(final CommandLine command, final Map environment,
             final File dir, final ExecuteStreamHandler streams) throws IOException {
+
+        setExceptionCaught(null);
 
         final Process process = this.launch(command, environment, dir);
 
@@ -375,8 +371,18 @@ public class DefaultExecutor implements Executor {
                 watchdog.stop();
             }
 
-            streams.stop();
-            closeStreams(process);
+            try {
+                streams.stop();
+            }
+            catch(IOException e) {
+                setExceptionCaught(e);
+            }
+
+            closeProcessStreams(process);
+
+            if(getExceptionCaught() != null) {
+                throw getExceptionCaught();
+            }
 
             if (watchdog != null) {
                 try {
@@ -400,4 +406,25 @@ public class DefaultExecutor implements Executor {
             }
         }
     }
+
+    /**
+     * Keep track of the first IOException being thrown.
+     *
+     * @param e the IOException
+     */
+    private void setExceptionCaught(IOException e) {
+        if(this.exceptionCaught == null) {
+            this.exceptionCaught = e;
+        }
+    }
+
+    /**
+     * Get the first IOException being thrown.
+     *
+     * @return the first IOException being caught
+     */
+    private IOException getExceptionCaught() {
+        return this.exceptionCaught;
+    }
+
 }
