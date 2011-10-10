@@ -37,7 +37,7 @@ public class CommandLineTest extends TestCase {
 
     public void testExecutable() {
         CommandLine cmdl = new CommandLine("test");
-        assertEquals("test", cmdl.toString());
+        assertEquals("[test]", cmdl.toString());
         assertEquals(new String[] {"test"}, cmdl.toStrings());
         assertEquals("test", cmdl.getExecutable());
         assertTrue(cmdl.getArguments().length == 0);
@@ -75,7 +75,7 @@ public class CommandLineTest extends TestCase {
 
         cmdl.addArgument("foo");
         cmdl.addArgument("bar");
-        assertEquals("test foo bar", cmdl.toString());
+        assertEquals("[test, foo, bar]", cmdl.toString());
         assertEquals(new String[] {"test", "foo", "bar"}, cmdl.toStrings());
     }
 
@@ -83,7 +83,7 @@ public class CommandLineTest extends TestCase {
         CommandLine cmdl = new CommandLine("test");
 
         cmdl.addArgument(null);
-        assertEquals("test", cmdl.toString());
+        assertEquals("[test]", cmdl.toString());
         assertEquals(new String[] {"test"}, cmdl.toStrings());
     }
 
@@ -91,7 +91,7 @@ public class CommandLineTest extends TestCase {
         CommandLine cmdl = new CommandLine("test");
         cmdl.addArgument("foo");
         cmdl.addArgument("ba r");
-        assertEquals("test foo \"ba r\"", cmdl.toString());
+        assertEquals("[test, foo, \"ba r\"]", cmdl.toString());
         assertEquals(new String[] {"test", "foo", "\"ba r\""}, cmdl.toStrings());
     }
 
@@ -99,7 +99,7 @@ public class CommandLineTest extends TestCase {
         CommandLine cmdl = new CommandLine("test");
         cmdl.addArgument("foo");
         cmdl.addArgument("ba\"r");
-        assertEquals("test foo 'ba\"r'", cmdl.toString());
+        assertEquals("[test, foo, 'ba\"r']", cmdl.toString());
         assertEquals(new String[] {"test", "foo", "'ba\"r'"}, cmdl.toStrings());
     }
 
@@ -108,7 +108,7 @@ public class CommandLineTest extends TestCase {
         cmdl.addArgument("\'foo\'");
         cmdl.addArgument("\"bar\"");
         cmdl.addArgument("\"fe z\"");
-        assertEquals("test foo bar \"fe z\"", cmdl.toString());
+        assertEquals("[test, foo, bar, \"fe z\"]", cmdl.toString());
         assertEquals(new String[] {"test", "foo", "bar", "\"fe z\""}, cmdl.toStrings());
     }
 
@@ -117,7 +117,7 @@ public class CommandLineTest extends TestCase {
 
         cmdl.addArgument("foo");
         cmdl.addArgument("ba'r");
-        assertEquals("test foo \"ba'r\"", cmdl.toString());
+        assertEquals("[test, foo, \"ba'r\"]", cmdl.toString());
         assertEquals(new String[] {"test", "foo", "\"ba\'r\""}, cmdl
                 .toStrings());
     }
@@ -136,21 +136,21 @@ public class CommandLineTest extends TestCase {
     public void testAddArguments() {
         CommandLine cmdl = new CommandLine("test");
         cmdl.addArguments("foo bar");
-        assertEquals("test foo bar", cmdl.toString());
+        assertEquals("[test, foo, bar]", cmdl.toString());
         assertEquals(new String[] {"test", "foo", "bar"}, cmdl.toStrings());
     }
 
     public void testAddArgumentsWithQuotes() {
         CommandLine cmdl = new CommandLine("test");
         cmdl.addArguments("'foo' \"bar\"");
-        assertEquals("test foo bar", cmdl.toString());
+        assertEquals("[test, foo, bar]", cmdl.toString());
         assertEquals(new String[] {"test", "foo", "bar"}, cmdl.toStrings());
     }
 
     public void testAddArgumentsWithQuotesAndSpaces() {
         CommandLine cmdl = new CommandLine("test");
         cmdl.addArguments("'fo o' \"ba r\"");
-        assertEquals("test \"fo o\" \"ba r\"", cmdl.toString());
+        assertEquals("[test, \"fo o\", \"ba r\"]", cmdl.toString());
         assertEquals(new String[] {"test", "\"fo o\"", "\"ba r\""}, cmdl
                 .toStrings());
     }
@@ -158,14 +158,14 @@ public class CommandLineTest extends TestCase {
     public void testAddArgumentsArray() {
         CommandLine cmdl = new CommandLine("test");
         cmdl.addArguments(new String[] {"foo", "bar"});
-        assertEquals("test foo bar", cmdl.toString());
+        assertEquals("[test, foo, bar]", cmdl.toString());
         assertEquals(new String[] {"test", "foo", "bar"}, cmdl.toStrings());
     }
 
     public void testAddArgumentsArrayNull() {
         CommandLine cmdl = new CommandLine("test");
         cmdl.addArguments((String[]) null);
-        assertEquals("test", cmdl.toString());
+        assertEquals("[test]", cmdl.toString());
         assertEquals(new String[] {"test"}, cmdl.toStrings());
     }
 
@@ -190,13 +190,13 @@ public class CommandLineTest extends TestCase {
 
     public void testParseCommandLine() {
         CommandLine cmdl = CommandLine.parse("test foo bar");
-        assertEquals("test foo bar", cmdl.toString());
+        assertEquals("[test, foo, bar]", cmdl.toString());
         assertEquals(new String[] {"test", "foo", "bar"}, cmdl.toStrings());
     }
 
     public void testParseCommandLineWithQuotes() {
         CommandLine cmdl = CommandLine.parse("test \"foo\" \'ba r\'");
-        assertEquals("test foo \"ba r\"", cmdl.toString());
+        assertEquals("[test, foo, \"ba r\"]", cmdl.toString());
         assertEquals(new String[] {"test", "foo", "\"ba r\""}, cmdl.toStrings());
     }
 
@@ -238,7 +238,7 @@ public class CommandLineTest extends TestCase {
         substitutionMap.put("in", "source.jpg");
         substitutionMap.put("out", "target.jpg");
         CommandLine cmdl = CommandLine.parse("cmd /C convert ${in} -resize \"\'500x> \'\" ${out}", substitutionMap);
-        assertEquals("cmd /C convert source.jpg -resize \"500x> \" target.jpg", cmdl.toString());        
+        assertEquals("[cmd, /C, convert, source.jpg, -resize, \"500x> \", target.jpg]", cmdl.toString());
     }
 
     /**
@@ -434,17 +434,37 @@ public class CommandLineTest extends TestCase {
 
         // use no arguments
         cmdl = CommandLine.parse("AcroRd32.exe", params);
-        assertEquals(cmdl.toString(), "AcroRd32.exe");
+        assertEquals("[AcroRd32.exe]", cmdl.toString());
 
         // use an argument containing spaces
         params.put("file", "C:\\Document And Settings\\documents\\432432.pdf");
         cmdl = CommandLine.parse("AcroRd32.exe /p /h '${file}'", params);
-        assertEquals(cmdl.toString(), "AcroRd32.exe /p /h \"C:\\Document And Settings\\documents\\432432.pdf\"");
+        assertEquals("[AcroRd32.exe, /p, /h, \"C:\\Document And Settings\\documents\\432432.pdf\"]", cmdl.toString());
 
         // use an argument without spaces
         params.put("file", "C:\\documents\\432432.pdf");
         cmdl = CommandLine.parse("AcroRd32.exe /p /h '${file}'", params);
-        assertEquals(cmdl.toString(), "AcroRd32.exe /p /h C:\\documents\\432432.pdf");
+        assertEquals("[AcroRd32.exe, /p, /h, C:\\documents\\432432.pdf]", cmdl.toString());
+    }
+
+    /**
+     * Test that toString() produces output that is useful for troubleshooting.
+     *
+     * @throws Exception the test failed
+     */
+    public void testToStringTroubleshooting() throws Exception {
+        System.out.println("testToStringTroubleshooting");
+        // On HP-UX quotes handling leads to errors,
+        // also usage of quotes isn't mandatory on other platforms too
+        // so it probably should work correctly either way.
+        CommandLine cmd1 = new CommandLine("sh").addArgument("-c")
+                .addArgument("echo 1", false);
+        CommandLine cmd2 = new CommandLine("sh").addArgument("-c")
+                .addArgument("echo").addArgument("1");
+        System.out.println("cmd1: " + cmd1.toString());
+        System.out.println("cmd2: " + cmd2.toString());
+        assertTrue("toString() is useful for troubleshooting",
+                !cmd1.toString().equals(cmd2.toString()));
     }
 
     /**

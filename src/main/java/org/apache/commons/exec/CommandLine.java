@@ -305,7 +305,7 @@ public class CommandLine {
      * @return the command line as single string
      */
     public String toString() {
-        return StringUtils.toString(toStrings(), " ");
+        return "[" + StringUtils.toString(toStrings(), ", ") + "]";
     }
 
     // --- Implementation ---------------------------------------------------
