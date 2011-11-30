@@ -669,9 +669,6 @@ public class DefaultExecutorTest extends TestCase {
         DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
         exec.setWatchdog(watchdog);
         exec.execute(cmdLine, handler);
-        // if you comment out the next line the test will fail
-        Thread.sleep(2000);
-        // terminate it
         assertTrue(watchdog.isWatching());
         watchdog.destroyProcess();
         assertTrue("Watchdog should have killed the process",watchdog.killedProcess());

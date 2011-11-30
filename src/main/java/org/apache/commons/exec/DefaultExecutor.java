@@ -185,6 +185,10 @@ public class DefaultExecutor implements Executor {
             throw new IOException(workingDirectory + " doesn't exist.");
         }
 
+        if (watchdog != null) {
+            watchdog.setProcessNotStarted();
+        }
+
         Runnable runnable = new Runnable()
         {
             public void run()

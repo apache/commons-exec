@@ -68,6 +68,9 @@ public class ExecuteWatchdog implements TimeoutObserver {
     /** Will tell us whether timeout has occurred. */
     private final Watchdog watchdog;
 
+    /** Indicates that the process is verified as started */
+    private volatile boolean processStarted;
+
     /**
      * Creates a new watchdog with a given timeout.
      * 
@@ -79,6 +82,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
         this.killedProcess = false;
         this.watch = false;
         this.hasWatchdog = (timeout != INFINITE_TIMEOUT);
+        this.processStarted = false;
         if(this.hasWatchdog) {
             this.watchdog = new Watchdog(timeout);
             this.watchdog.addTimeoutObserver(this);
@@ -108,6 +112,8 @@ public class ExecuteWatchdog implements TimeoutObserver {
         this.killedProcess = false;
         this.watch = true;
         this.process = process;
+        this.processStarted = true;
+        this.notifyAll();
         if(this.hasWatchdog) {
             watchdog.start();
         }
@@ -129,6 +135,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
      * Destroys the running process manually.
      */
     public synchronized void destroyProcess() {
+        ensureStarted();
         this.timeoutOccured(null);
         this.stop();
     }
@@ -184,6 +191,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
      *         <tt>false</tt>.
      */
     public synchronized boolean isWatching() {
+        ensureStarted();
         return watch;
     }
 
@@ -203,5 +211,23 @@ public class ExecuteWatchdog implements TimeoutObserver {
     protected synchronized void cleanUp() {
         watch = false;
         process = null;
-    }    
+    }
+
+    void setProcessNotStarted(){
+        processStarted = false;
+    }
+
+    /**
+     * Ensures that the process is started, so we do not race with asynch execution.
+     * The caller of this method must be holding the lock on this
+     */
+    private void ensureStarted(){
+        while (!processStarted){
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e.getMessage());
+            }
+        }
+    }
 }
