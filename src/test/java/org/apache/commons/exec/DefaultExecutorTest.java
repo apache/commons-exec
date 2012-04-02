@@ -1067,17 +1067,19 @@ public class DefaultExecutorTest extends TestCase {
 
         int start = 0;
         final int seconds = 1;
+        final int offsetMultiplier = 3;
+        final int maxRetries = 50;
         int processTerminatedCounter = 0;
         int watchdogKilledProcessCounter = 0;
         CommandLine cmdLine = new CommandLine(pingScript);
         cmdLine.addArgument(Integer.toString(seconds + 1)); // need to add "1" to wait the requested number of seconds
 
-        for (int offset = start; offset <= 50; offset++) {
+        for (int offset = start; offset <= maxRetries; offset++) {
             // wait progressively longer for process to complete
             // tricky to get this test right. We want to try and catch the process while it is terminating,
             // so we increase the timeout gradually until the test terminates normally.
             // However if the increase is too gradual, we never wait long enough for any test to exit normally
-            ExecuteWatchdog watchdog = new ExecuteWatchdog(seconds * 1000 + offset * 5);
+            ExecuteWatchdog watchdog = new ExecuteWatchdog(seconds * 1000 + offset * offsetMultiplier);
             exec.setWatchdog(watchdog);
             try {
                 exec.execute(cmdLine);
@@ -1093,7 +1095,8 @@ public class DefaultExecutorTest extends TestCase {
             }
         }
 
-        System.out.println("Processes terminated: "+processTerminatedCounter+" killed: "+watchdogKilledProcessCounter);
+        System.out.println("Processes terminated: "+processTerminatedCounter+" killed: "+watchdogKilledProcessCounter
+                +" Multiplier: "+offsetMultiplier+" MaxRetries: "+maxRetries);
         assertTrue("Not a single process terminated on its own", processTerminatedCounter > 0);
         assertTrue("Not a single process was killed by the watch dog", watchdogKilledProcessCounter > 0);
     }
