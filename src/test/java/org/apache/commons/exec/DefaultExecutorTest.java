@@ -1067,8 +1067,8 @@ public class DefaultExecutorTest extends TestCase {
 
         int start = 0;
         final int seconds = 1;
-        final int offsetMultiplier = 2;
-        final int maxRetries = 50;
+        final int offsetMultiplier = 1;
+        final int maxRetries = 180;
         int processTerminatedCounter = 0;
         int watchdogKilledProcessCounter = 0;
         CommandLine cmdLine = new CommandLine(pingScript);
@@ -1096,9 +1096,10 @@ public class DefaultExecutorTest extends TestCase {
             }
         }
 
-        final long elapsedTime = System.currentTimeMillis() - startTime;
+        final long avg = (System.currentTimeMillis() - startTime) / 
+                (watchdogKilledProcessCounter+processTerminatedCounter);
         System.out.println("Processes terminated: "+processTerminatedCounter+" killed: "+watchdogKilledProcessCounter
-                +" Multiplier: "+offsetMultiplier+" MaxRetries: "+maxRetries+" Elapsed: "+elapsedTime);
+                +" Multiplier: "+offsetMultiplier+" MaxRetries: "+maxRetries+" Elapsed (avg ms): "+avg);
         assertTrue("Not a single process terminated on its own", processTerminatedCounter > 0);
         assertTrue("Not a single process was killed by the watch dog", watchdogKilledProcessCounter > 0);
     }
