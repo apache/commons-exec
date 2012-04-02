@@ -1067,13 +1067,14 @@ public class DefaultExecutorTest extends TestCase {
 
         int start = 0;
         final int seconds = 1;
-        final int offsetMultiplier = 3;
+        final int offsetMultiplier = 2;
         final int maxRetries = 50;
         int processTerminatedCounter = 0;
         int watchdogKilledProcessCounter = 0;
         CommandLine cmdLine = new CommandLine(pingScript);
         cmdLine.addArgument(Integer.toString(seconds + 1)); // need to add "1" to wait the requested number of seconds
 
+        final long startTime = System.currentTimeMillis();
         for (int offset = start; offset <= maxRetries; offset++) {
             // wait progressively longer for process to complete
             // tricky to get this test right. We want to try and catch the process while it is terminating,
@@ -1095,8 +1096,9 @@ public class DefaultExecutorTest extends TestCase {
             }
         }
 
+        final long elapsedTime = System.currentTimeMillis() - startTime;
         System.out.println("Processes terminated: "+processTerminatedCounter+" killed: "+watchdogKilledProcessCounter
-                +" Multiplier: "+offsetMultiplier+" MaxRetries: "+maxRetries);
+                +" Multiplier: "+offsetMultiplier+" MaxRetries: "+maxRetries+" Elapsed: "+elapsedTime);
         assertTrue("Not a single process terminated on its own", processTerminatedCounter > 0);
         assertTrue("Not a single process was killed by the watch dog", watchdogKilledProcessCounter > 0);
     }
