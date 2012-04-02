@@ -1062,9 +1062,8 @@ public class DefaultExecutorTest extends TestCase {
      * Possible deadlock when a process is terminating at the same time its timing out. Please
      * note that a successful test is no proof that the issues was indeed fixed.
      *
-     * @throws Exception the test failed
      */
-    public void testExec_60() throws IOException {
+    public void testExec_60() throws Exception {
 
         int start = 0;
         final int seconds = 1;
@@ -1074,7 +1073,8 @@ public class DefaultExecutorTest extends TestCase {
         cmdLine.addArgument(Integer.toString(seconds + 1)); // need to add "1" to wait the requested number of seconds
 
         for (int offset = start; offset <= 20; offset += 1) {
-            ExecuteWatchdog watchdog = new ExecuteWatchdog(seconds * 1000 + offset);
+            // wait progressively longer for process to complete
+            ExecuteWatchdog watchdog = new ExecuteWatchdog(seconds * 1000 + offset * 10);
             exec.setWatchdog(watchdog);
             try {
                 exec.execute(cmdLine);
@@ -1090,6 +1090,7 @@ public class DefaultExecutorTest extends TestCase {
             }
         }
 
+        System.out.println("Processes terminated: "+processTerminatedCounter+" killed: "+watchdogKilledProcessCounter);
         assertTrue("Not a single process terminated on its own", processTerminatedCounter > 0);
         assertTrue("Not a single process was killed by the watch dog", watchdogKilledProcessCounter > 0);
     }
