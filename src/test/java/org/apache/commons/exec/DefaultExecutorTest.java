@@ -1072,21 +1072,24 @@ public class DefaultExecutorTest extends TestCase {
         CommandLine cmdLine = new CommandLine(pingScript);
         cmdLine.addArgument(Integer.toString(seconds + 1)); // need to add "1" to wait the requested number of seconds
 
-        for (int offset = start; offset <= 20; offset += 1) {
+        for (int offset = start; offset <= 50; offset++) {
             // wait progressively longer for process to complete
-            ExecuteWatchdog watchdog = new ExecuteWatchdog(seconds * 1000 + offset * 10);
+            // tricky to get this test right. We want to try and catch the process while it is terminating,
+            // so we increase the timeout gradually until the test terminates normally.
+            // However if the increase is too gradual, we never wait long enough for any test to exit normally
+            ExecuteWatchdog watchdog = new ExecuteWatchdog(seconds * 1000 + offset * 5);
             exec.setWatchdog(watchdog);
             try {
                 exec.execute(cmdLine);
                 processTerminatedCounter++;
-                System.out.println(offset + ": process has terminated: " + watchdog.killedProcess());
+//                System.out.println(offset + ": process has terminated: " + watchdog.killedProcess());
                 if(processTerminatedCounter > 5) {
                     break;
                 }
             } catch (ExecuteException ex) {
-                System.out.println(offset + ": process was killed: " + watchdog.killedProcess());
+//                System.out.println(offset + ": process was killed: " + watchdog.killedProcess());
                 assertTrue("Watchdog killed the process", watchdog.killedProcess());
-                watchdogKilledProcessCounter++;;
+                watchdogKilledProcessCounter++;
             }
         }
 
