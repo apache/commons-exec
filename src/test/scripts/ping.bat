@@ -21,4 +21,4 @@ REM limitations under the License.
 REM ping is started as subprocess which runs '%1' seconds
 
 echo "[ping.bat] Blocking for %1 seconds ..."
-ping -n %1 -w 1000 127.0.0.1 > nul
+ping.exe -n %1 -w 1000 127.0.0.1 > nul
