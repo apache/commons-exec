@@ -327,6 +327,31 @@ public class DefaultExecutorTest extends TestCase {
     }
 
     /**
+     * [EXEC-68] Synchronously starts a short script with a Watchdog attached with an extremely large timeout. Checks
+     * to see if the script terminated naturally or if it was killed by the Watchdog. Fail if killed by Watchdog.
+     * 
+     * @throws Exception
+     *             the test failed
+     */
+    public void testExecuteWatchdogVeryLongTimeout() throws Exception {
+        long timeout = Long.MAX_VALUE;
+
+        CommandLine cl = new CommandLine(testScript);
+        DefaultExecutor executor = new DefaultExecutor();
+        executor.setWorkingDirectory(new File("."));
+        ExecuteWatchdog watchdog = new ExecuteWatchdog(timeout);
+        executor.setWatchdog(watchdog);
+
+        try {
+            executor.execute(cl);
+        } catch (ExecuteException e) {
+            assertFalse("Process should exit normally, not be killed by watchdog", watchdog.killedProcess());
+            // If the Watchdog did not kill it, something else went wrong.
+            throw e;
+        }
+    }
+
+    /**
      * Try to start an non-existing application which should result
      * in an exception.
      *

@@ -69,25 +69,25 @@ public class Watchdog implements Runnable {
     }
 
     public void run() {
-       final long until = System.currentTimeMillis() + timeout;
-       boolean isWaiting;
-       synchronized (this) {
-          long now = System.currentTimeMillis();
-          isWaiting = until > now;
-          while (!stopped && isWaiting) {
-              try {
-                  wait(until - now);
-              } catch (InterruptedException e) {
-              }
-              now = System.currentTimeMillis();
-              isWaiting = until > now;
-          }
-       }
+        final long startTime = System.currentTimeMillis();
+        boolean isWaiting;
+        synchronized (this) {
+            long timeLeft = timeout - (System.currentTimeMillis() - startTime);
+            isWaiting = timeLeft > 0;
+            while (!stopped && isWaiting) {
+                try {
+                    wait(timeLeft);
+                } catch (InterruptedException e) {
+                }
+                timeLeft = timeout - (System.currentTimeMillis() - startTime);
+                isWaiting = timeLeft > 0;
+            }
+        }
 
-       // notify the listeners outside of the synchronized block (see EXEC-60)
-       if (!isWaiting) {
-           fireTimeoutOccured();
-       }
-   }
+        // notify the listeners outside of the synchronized block (see EXEC-60)
+        if (!isWaiting) {
+            fireTimeoutOccured();
+        }
+    }
     
 }
