@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-parent</artifactId>
-        <version>27</version>
+        <version>28-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <name>Commons Exec</name>
@@ -266,5 +266,6 @@
         <!-- Tell M2 not to use platform specific encodings for copying resources -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <commons.site.path>exec</commons.site.path>
     </properties>
 </project>
