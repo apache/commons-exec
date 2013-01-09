@@ -260,7 +260,7 @@
         <id>setup-checkout</id>
         <activation>
           <file>
-            <missing>${scmPubCheckoutDirectory}</missing>
+            <missing>site-content</missing>
           </file>
         </activation>
         <build>
@@ -279,7 +279,7 @@
                   <configuration>
                     <tasks>
                       <exec executable="svn">
-                        <arg line="checkout - -depth immediates ${commons.scmPubUrl} ${commons.scmPubCheckoutDirectory}" />
+                        <arg line="checkout ${commons.scmPubUrl} ${commons.scmPubCheckoutDirectory}" />
                       </exec>
                       <!-- in case of paths to ignore (added manually) -->
                       <!--
