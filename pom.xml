@@ -173,6 +173,11 @@
                     <excludeFilterFile>${basedir}/findbugs-exclude-filter.xml</excludeFilterFile>
                 </configuration>
             </plugin>
+          <plugin>
+            <groupId>org.codehaus.sonar-plugins</groupId>
+            <artifactId>maven-report</artifactId>
+            <version>0.1</version>
+          </plugin>
         </plugins>
     </reporting>
     <profiles>
