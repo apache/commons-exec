@@ -320,7 +320,6 @@
         <!-- Tell M2 not to use platform specific encodings for copying resources -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <commons.site.path>exec</commons.site.path>
         <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
     </properties>
 </project>
