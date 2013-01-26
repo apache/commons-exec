@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-parent</artifactId>
-        <version>28-SNAPSHOT</version>
+        <version>28</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <name>Commons Exec</name>
@@ -282,18 +282,18 @@
                         <arg line="checkout ${commons.scmPubUrl} ${commons.scmPubCheckoutDirectory}" />
                       </exec>
                       <!-- in case of paths to ignore (added manually) -->
-                      <!--
+
                       <exec executable="svn">
-                        <arg line="update - -set-depth exclude ${commons.scmPubCheckoutDirectory}/javadocs" />
+                        <arg line="update --set-depth exclude ${commons.scmPubCheckoutDirectory}/javadocs" />
                       </exec>
 
                       <pathconvert pathsep=" " property="dirs">
                         <dirset dir="${commons.scmPubCheckoutDirectory}" includes="*" />
                       </pathconvert>
                       <exec executable="svn">
-                        <arg line="update - -set-depth infinity ${dirs}" />
+                        <arg line="update --set-depth infinity ${dirs}" />
                       </exec>
-                      -->
+
                       <exec executable="svn">
                         <arg line="update" />
                       </exec>
