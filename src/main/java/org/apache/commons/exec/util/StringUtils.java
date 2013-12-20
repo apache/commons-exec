@@ -91,10 +91,11 @@ public class StringUtils {
 
                         for (++cIdx; cIdx < argStr.length(); ++cIdx) {
                             ch = argStr.charAt(cIdx);
-                            if (ch == '_' || ch == '.' || ch == '-' || ch == '+' || Character.isLetterOrDigit(ch))
-                                nameBuf.append(ch);
-                            else
-                                break;
+                            if (ch == '_' || ch == '.' || ch == '-' || ch == '+' || Character.isLetterOrDigit(ch)) {
+								nameBuf.append(ch);
+							} else {
+								break;
+							}
                         }
 
                         if (nameBuf.length() >= 0) {
