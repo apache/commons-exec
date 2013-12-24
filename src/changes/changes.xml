@@ -49,8 +49,8 @@
                 the exception.
             </action>
             <action issue="EXEC-34" dev="simonetripodi" type="fix" date="2011-11-30" due-to="Marco Ferrante">
-              Race condition prevent watchdog working using ExecuteStreamHandler.
-              Patch submitted by Kristian Rosenvold.
+                Race condition prevent watchdog working using ExecuteStreamHandler.
+                Patch submitted by Kristian Rosenvold.
             </action>
         </release>
         <release version="1.1" date="2010-10-08" description="Maintenance Release">
