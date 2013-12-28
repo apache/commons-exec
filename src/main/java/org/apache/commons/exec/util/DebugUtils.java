@@ -57,10 +57,8 @@ public class DebugUtils
             if(e instanceof RuntimeException) {
                 throw (RuntimeException) e;
             }
-            else {
-                // can't pass root cause since the constructor is not available on JDK 1.3
-                throw new RuntimeException(e.getMessage());
-            }
+			// can't pass root cause since the constructor is not available on JDK 1.3
+			throw new RuntimeException(e.getMessage());
         }
     }
 
