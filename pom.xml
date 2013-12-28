@@ -66,6 +66,14 @@
             <organization>Apache</organization>
             <timezone>+1</timezone>
         </developer>
+        <developer>
+            <name>Gary Gregory</name>
+            <id>ggregory</id>
+            <organization>Apache</organization>
+            <email>ggregory@apache.org</email>
+            <url>http://www.garygregory.com</url>
+            <timezone>-5</timezone>
+        </developer>        
     </developers>
     <contributors>
         <contributor>
