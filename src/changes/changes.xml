@@ -23,7 +23,7 @@
         <author email="sgoeschl@apache.org">Siegfried Goeschl</author>
     </properties>
     <body>
-        <release version="1.1.1-SNAPSHOT" date="TBA" description="Bugfixing Release">
+        <release version="1.2" date="TBA" description="Maintenance and small feature Release">
             <action issue="EXEC-68" dev="ggregory" type="fix" date="2012-10-22"  due-to="Joel McCance">
                 Watchdog kills process immediately if timeout is too large.
             </action>
@@ -50,7 +50,7 @@
             </action>
             <action issue="EXEC-34" dev="simonetripodi" type="fix" date="2011-11-30" due-to="Marco Ferrante">
                 Race condition prevent watchdog working using ExecuteStreamHandler.
-                Patch submitted by Kristian Rosenvold.
+                Patch submittd by Kristian Rosenvold.
             </action>
         </release>
         <release version="1.1" date="2010-10-08" description="Maintenance Release">

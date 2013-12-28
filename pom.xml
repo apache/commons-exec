@@ -25,7 +25,7 @@
     <name>Apache Commons Exec</name>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-exec</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
     <description>Apache Commons Exec is a library to reliably execute external processes from within the JVM</description>
     <url>http://commons.apache.org/proper/commons-exec/</url>
     <issueManagement>
@@ -310,7 +310,7 @@
         <commons.componentid>exec</commons.componentid>
         <commons.jira.id>EXEC</commons.jira.id>
         <commons.jira.pid>12310814</commons.jira.pid>
-        <commons.release.version>1.1</commons.release.version>
+        <commons.release.version>1.2</commons.release.version>
         <!-- The RC version used in the staging repository URL. -->
         <commons.rc.version>RC1</commons.rc.version>
         <!-- Tell M2 not to use platform specific encodings for copying resources -->
