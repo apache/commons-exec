@@ -232,10 +232,9 @@ public class StringUtils {
             if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1) {
                 throw new IllegalArgumentException(
                         "Can't handle single and double quotes in same argument");
-            } else {
-                return buf.append(SINGLE_QUOTE).append(cleanedArgument).append(
-                        SINGLE_QUOTE).toString();
             }
+			return buf.append(SINGLE_QUOTE).append(cleanedArgument).append(
+			        SINGLE_QUOTE).toString();
         } else if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1
                 || cleanedArgument.indexOf(" ") > -1) {
             return buf.append(DOUBLE_QUOTE).append(cleanedArgument).append(
