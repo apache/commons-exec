@@ -96,13 +96,13 @@ public class ExecuteWatchdog implements TimeoutObserver {
      * Watches the given process and terminates it, if it runs for too long. All
      * information from the previous run are reset.
      * 
-     * @param process
+     * @param processToMonitor
      *            the process to monitor. It cannot be <tt>null</tt>
      * @throws IllegalStateException
      *             if a process is still being monitored.
      */
-    public synchronized void start(final Process process) {
-        if (process == null) {
+    public synchronized void start(final Process processToMonitor) {
+        if (processToMonitor == null) {
             throw new NullPointerException("process is null.");
         }
         if (this.process != null) {
@@ -111,7 +111,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
         this.caught = null;
         this.killedProcess = false;
         this.watch = true;
-        this.process = process;
+        this.process = processToMonitor;
         this.processStarted = true;
         this.notifyAll();
         if (this.hasWatchdog) {
