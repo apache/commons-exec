@@ -32,6 +32,11 @@
         <system>jira</system>
         <url>http://issues.apache.org/jira/browse/EXEC</url>
     </issueManagement>
+    <scm>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/exec/trunk</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/exec/trunk</developerConnection>
+        <url>http://svn.apache.org/viewvc/commons/proper/exec/trunk</url>
+    </scm>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -98,11 +103,6 @@
             <name>Niall Pemberton</name>
         </contributor>
     </contributors>
-    <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/exec/trunk</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/exec/trunk</developerConnection>
-        <url>http://svn.apache.org/viewvc/commons/proper/exec/trunk</url>
-    </scm>
     <build>
         <plugins>
             <plugin>
