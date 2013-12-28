@@ -42,7 +42,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
      */
     public Process exec(final CommandLine cmd, final Map env)
             throws IOException {
-        CommandLine vmsCmd = new CommandLine(
+        final CommandLine vmsCmd = new CommandLine(
                 createCommandFile(cmd, env).getPath()
         );
 
@@ -57,7 +57,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
      */
     public Process exec(final CommandLine cmd, final Map env,
             final File workingDir) throws IOException {
-        CommandLine vmsCmd = new CommandLine(
+        final CommandLine vmsCmd = new CommandLine(
                 createCommandFile(cmd, env).getPath()
         );
 
@@ -77,7 +77,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
      */
     private File createCommandFile(final CommandLine cmd, final Map env)
             throws IOException {
-        File script = File.createTempFile("EXEC", ".TMP");
+        final File script = File.createTempFile("EXEC", ".TMP");
         script.deleteOnExit();
         PrintWriter out = null;
         try {
@@ -85,10 +85,10 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
 
             // add the environment as global symbols for the DCL script
             if (env != null) {
-                Set entries = env.entrySet();
+                final Set entries = env.entrySet();
 
-                for (Iterator iter = entries.iterator(); iter.hasNext();) {
-                    Entry entry = (Entry) iter.next();
+                for (final Iterator iter = entries.iterator(); iter.hasNext();) {
+                    final Entry entry = (Entry) iter.next();
                     out.print("$ ");
                     out.print(entry.getKey());
                     out.print(" == "); // define as global symbol
@@ -96,9 +96,9 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
                     String value = (String) entry.getValue();
                     // Any embedded " values need to be doubled
                     if (value.indexOf('\"') > 0){
-                        StringBuffer sb = new StringBuffer();
+                        final StringBuffer sb = new StringBuffer();
                         for (int i = 0; i < value.length(); i++) {
-                            char c = value.charAt(i);
+                            final char c = value.charAt(i);
                             if (c == '\"') {
                                 sb.append('\"');
                             }
@@ -115,7 +115,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
             if (cmd.isFile()){// We assume it is it a script file
                 out.print("$ @");
                 // This is a bit crude, but seems to work
-                String parts[] = StringUtils.split(command,"/");
+                final String parts[] = StringUtils.split(command,"/");
                 out.print(parts[0]); // device
                 out.print(":[");
                 out.print(parts[1]); // top level directory
@@ -130,7 +130,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
                 out.print("$ ");
                 out.print(command);                
             }
-            String[] args = cmd.getArguments();
+            final String[] args = cmd.getArguments();
             for (int i = 0; i < args.length; i++) {
                 out.println(" -");
                 out.print(args[i]);

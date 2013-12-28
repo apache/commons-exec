@@ -105,14 +105,14 @@ public class StreamPumper implements Runnable {
             while ((length = is.read(buf)) > 0) {
                 os.write(buf, 0, length);
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             // nothing to do - happens quite often with watchdog
         } finally {
             if (closeWhenExhausted) {
                 try {
                     os.close();
-                } catch (IOException e) {
-                    String msg = "Got exception while closing exhausted output stream";
+                } catch (final IOException e) {
+                    final String msg = "Got exception while closing exhausted output stream";
                     DebugUtils.handleException(msg ,e);
                 }
             }

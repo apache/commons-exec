@@ -32,10 +32,10 @@ public class MapUtilTest extends TestCase
      */
     public void testCopyMap() throws Exception {
 
-        HashMap procEnvironment = new HashMap();
+        final HashMap procEnvironment = new HashMap();
         procEnvironment.put("JAVA_HOME", "/usr/opt/java");
 
-        Map result = MapUtils.copy(procEnvironment);
+        final Map result = MapUtils.copy(procEnvironment);
         assertTrue(result.size() == 1);
         assertTrue(procEnvironment.size() == 1);
         assertEquals("/usr/opt/java", result.get("JAVA_HOME"));
@@ -50,11 +50,11 @@ public class MapUtilTest extends TestCase
      */
     public void testMergeMap() throws Exception {
 
-        Map procEnvironment = EnvironmentUtils.getProcEnvironment();
-        HashMap applicationEnvironment = new HashMap();
+        final Map procEnvironment = EnvironmentUtils.getProcEnvironment();
+        final HashMap applicationEnvironment = new HashMap();
 
         applicationEnvironment.put("appMainClass", "foo.bar.Main");
-        Map result = MapUtils.merge(procEnvironment, applicationEnvironment);
+        final Map result = MapUtils.merge(procEnvironment, applicationEnvironment);
         assertTrue(procEnvironment.size() + applicationEnvironment.size() == result.size());
         assertEquals("foo.bar.Main", result.get("appMainClass"));
     }
@@ -64,10 +64,10 @@ public class MapUtilTest extends TestCase
      */
     public void testPrefixMap() throws Exception {
 
-        HashMap procEnvironment = new HashMap();
+        final HashMap procEnvironment = new HashMap();
         procEnvironment.put("JAVA_HOME", "/usr/opt/java");
 
-        Map result = MapUtils.prefix(procEnvironment, "env");
+        final Map result = MapUtils.prefix(procEnvironment, "env");
         assertTrue(procEnvironment.size() == result.size());
         assertEquals("/usr/opt/java", result.get("env.JAVA_HOME"));
     }

@@ -54,7 +54,7 @@ public class WinNTCommandLauncher extends CommandLauncherProxy {
 
         // Use cmd.exe to change to the specified directory before running
         // the command
-        CommandLine newCmd = new CommandLine("cmd");
+        final CommandLine newCmd = new CommandLine("cmd");
         newCmd.addArgument("/c");
         newCmd.addArguments(cmd.toStrings());
 

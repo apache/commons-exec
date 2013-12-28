@@ -29,7 +29,7 @@ public final class TestUtil {
     private TestUtil() {
     }
 
-    public static File resolveScriptForOS(String script) {
+    public static File resolveScriptForOS(final String script) {
         if (OS.isFamilyWindows()) {
             return new File(script + ".bat");
         } else if (OS.isFamilyUnix()) {
@@ -58,7 +58,7 @@ public final class TestUtil {
     }
     
     
-    public static void assertEquals(Object[] expected, Object[] actual, boolean orderSignificant) {
+    public static void assertEquals(final Object[] expected, final Object[] actual, final boolean orderSignificant) {
     	
     	if(expected == null && actual == null) {
     		// all good

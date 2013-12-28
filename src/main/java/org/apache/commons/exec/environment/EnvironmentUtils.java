@@ -54,14 +54,14 @@ public class EnvironmentUtils
      * @return array of key=value assignment strings or <code>null</code> if and only if
      *     the input map was <code>null</code>
      */
-    public static String[] toStrings(Map environment) {
+    public static String[] toStrings(final Map environment) {
         if (environment == null) {
             return null;
         }
-        String[] result = new String[environment.size()];
+        final String[] result = new String[environment.size()];
         int i = 0;
-        for (Iterator iter = environment.entrySet().iterator(); iter.hasNext();) {
-            Map.Entry entry = (Map.Entry) iter.next();
+        for (final Iterator iter = environment.entrySet().iterator(); iter.hasNext();) {
+            final Map.Entry entry = (Map.Entry) iter.next();
 
             result[i] = entry.getKey().toString() + "=" + entry.getValue().toString();
             i++;
@@ -89,8 +89,8 @@ public class EnvironmentUtils
      * @param environment the current environment
      * @param keyAndValue the key/value pair 
      */
-    public static void addVariableToEnvironment(Map environment, String keyAndValue) {
-		String[] parsedVariable = parseEnvironmentVariable(keyAndValue);		
+    public static void addVariableToEnvironment(final Map environment, final String keyAndValue) {
+		final String[] parsedVariable = parseEnvironmentVariable(keyAndValue);		
 		environment.put(parsedVariable[0], parsedVariable[1]);
 	}
     
@@ -102,14 +102,14 @@ public class EnvironmentUtils
      * @return a String[] containing the key and value
      */
     private static String[] parseEnvironmentVariable(final String keyAndValue) {
-        int index = keyAndValue.indexOf('=');
+        final int index = keyAndValue.indexOf('=');
         if (index == -1) {
             throw new IllegalArgumentException(
                     "Environment variable for this platform "
                             + "must contain an equals sign ('=')");
         }
 
-        String[] result = new String[2];
+        final String[] result = new String[2];
         result[0] = keyAndValue.substring(0, index);
         result[1] = keyAndValue.substring(index + 1);
 

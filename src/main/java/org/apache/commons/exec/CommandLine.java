@@ -72,16 +72,16 @@ public class CommandLine {
      * @return the parsed command line
      * @throws IllegalArgumentException If line is null or all whitespace
      */
-    public static CommandLine parse(final String line, Map substitutionMap) {
+    public static CommandLine parse(final String line, final Map substitutionMap) {
                 
         if (line == null) {
             throw new IllegalArgumentException("Command line can not be null");
         } else if (line.trim().length() == 0) {
             throw new IllegalArgumentException("Command line can not be empty");
         } else {
-            String[] tmp = translateCommandline(line);
+            final String[] tmp = translateCommandline(line);
 
-            CommandLine cl = new CommandLine(tmp[0]);
+            final CommandLine cl = new CommandLine(tmp[0]);
             cl.setSubstitutionMap(substitutionMap);
             for (int i = 1; i < tmp.length; i++) {
                 cl.addArgument(tmp[i]);
@@ -96,7 +96,7 @@ public class CommandLine {
      *
      * @param executable the executable
      */
-    public CommandLine(String executable) {
+    public CommandLine(final String executable) {
         this.isFile=false;
         this.executable=getExecutable(executable);
     }
@@ -106,7 +106,7 @@ public class CommandLine {
      *
      * @param  executable the executable file
      */
-    public CommandLine(File executable) {
+    public CommandLine(final File executable) {
         this.isFile=true;
         this.executable=getExecutable(executable.getAbsolutePath());
     }
@@ -116,7 +116,7 @@ public class CommandLine {
      *
      * @param other the instance to copy
      */
-    public CommandLine(CommandLine other)
+    public CommandLine(final CommandLine other)
     {
         this.executable = other.getExecutable();
         this.isFile = other.isFile();
@@ -125,10 +125,10 @@ public class CommandLine {
         if(other.getSubstitutionMap() != null)
         {
             this.substitutionMap = new HashMap();
-            Iterator iterator = other.substitutionMap.keySet().iterator();
+            final Iterator iterator = other.substitutionMap.keySet().iterator();
             while(iterator.hasNext())
             {
-                Object key = iterator.next();
+                final Object key = iterator.next();
                 this.substitutionMap.put(key, other.getSubstitutionMap().get(key));
             }
         }
@@ -172,7 +172,7 @@ public class CommandLine {
      * @param handleQuoting Add the argument with/without handling quoting
      * @return The command line itself
      */
-    public CommandLine addArguments(final String[] arguments, boolean handleQuoting) {
+    public CommandLine addArguments(final String[] arguments, final boolean handleQuoting) {
         if (arguments != null) {
             for (int i = 0; i < arguments.length; i++) {
                 addArgument(arguments[i], handleQuoting);
@@ -203,9 +203,9 @@ public class CommandLine {
      * @param handleQuoting Add the argument with/without handling quoting
      * @return The command line itself
      */
-    public CommandLine addArguments(final String arguments, boolean handleQuoting) {
+    public CommandLine addArguments(final String arguments, final boolean handleQuoting) {
         if (arguments != null) {
-            String[] argumentsArray = translateCommandline(arguments);
+            final String[] argumentsArray = translateCommandline(arguments);
             addArguments(argumentsArray, handleQuoting);
         }
 
@@ -230,7 +230,7 @@ public class CommandLine {
     * @param handleQuoting Add the argument with/without handling quoting
     * @return The command line itself
     */
-   public CommandLine addArgument(final String argument, boolean handleQuoting) {
+   public CommandLine addArgument(final String argument, final boolean handleQuoting) {
 
        if (argument == null)
        {
@@ -257,7 +257,7 @@ public class CommandLine {
 
         Argument currArgument;
         String expandedArgument;
-        String[] result = new String[arguments.size()];
+        final String[] result = new String[arguments.size()];
 
         for(int i=0; i<result.length; i++) {
             currArgument = (Argument) arguments.get(i);
@@ -281,7 +281,7 @@ public class CommandLine {
      * 
      * @param substitutionMap the map
      */
-    public void setSubstitutionMap(Map substitutionMap) {
+    public void setSubstitutionMap(final Map substitutionMap) {
         this.substitutionMap = substitutionMap;
     }
 
@@ -317,7 +317,7 @@ public class CommandLine {
      * @return the expanded string
      */
     private String expandArgument(final String argument) {
-        StringBuffer stringBuffer = StringUtils.stringSubstitution(argument, this.getSubstitutionMap(), true);
+        final StringBuffer stringBuffer = StringUtils.stringSubstitution(argument, this.getSubstitutionMap(), true);
         return stringBuffer.toString();
     }
 
@@ -341,13 +341,13 @@ public class CommandLine {
         final int inQuote = 1;
         final int inDoubleQuote = 2;
         int state = normal;
-        StringTokenizer tok = new StringTokenizer(toProcess, "\"\' ", true);
-        Vector v = new Vector();
+        final StringTokenizer tok = new StringTokenizer(toProcess, "\"\' ", true);
+        final Vector v = new Vector();
         StringBuffer current = new StringBuffer();
         boolean lastTokenHasBeenQuoted = false;
 
         while (tok.hasMoreTokens()) {
-            String nextTok = tok.nextToken();
+            final String nextTok = tok.nextToken();
             switch (state) {
             case inQuote:
                 if ("\'".equals(nextTok)) {
@@ -392,7 +392,7 @@ public class CommandLine {
                     + toProcess);
         }
 
-        String[] args = new String[v.size()];
+        final String[] args = new String[v.size()];
         v.copyInto(args);
         return args;
     }
@@ -422,7 +422,7 @@ public class CommandLine {
         private final String value;
         private final boolean handleQuoting;
 
-        private Argument(String value, boolean handleQuoting)
+        private Argument(final String value, final boolean handleQuoting)
         {
             this.value = value.trim();
             this.handleQuoting = handleQuoting;

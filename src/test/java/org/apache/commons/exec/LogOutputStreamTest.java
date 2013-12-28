@@ -28,10 +28,10 @@ import java.io.OutputStream;
 public class LogOutputStreamTest extends TestCase
 {
 
-    private Executor exec = new DefaultExecutor();
-    private File testDir = new File("src/test/scripts");
+    private final Executor exec = new DefaultExecutor();
+    private final File testDir = new File("src/test/scripts");
     private OutputStream systemOut;
-    private File environmentScript = TestUtil.resolveScriptForOS(testDir + "/environment");
+    private final File environmentScript = TestUtil.resolveScriptForOS(testDir + "/environment");
 
     static{
         // turn on debug mode and throw an exception for each encountered problem
@@ -54,8 +54,8 @@ public class LogOutputStreamTest extends TestCase
     // ======================================================================
 
     public void testStdout() throws Exception {
-        CommandLine cl = new CommandLine(environmentScript);
-        int exitValue = exec.execute(cl);
+        final CommandLine cl = new CommandLine(environmentScript);
+        final int exitValue = exec.execute(cl);
         assertFalse(exec.isFailure(exitValue));
     }
 
@@ -65,11 +65,11 @@ public class LogOutputStreamTest extends TestCase
 
     private class SystemLogOutputStream extends LogOutputStream {
 
-        private SystemLogOutputStream(int level) {
+        private SystemLogOutputStream(final int level) {
             super(level);
         }
 
-        protected void processLine(String line, int level) {
+        protected void processLine(final String line, final int level) {
             System.out.println(line);
         }
     }

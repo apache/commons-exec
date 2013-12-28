@@ -39,22 +39,22 @@ public class DefaultExecutorTest extends TestCase {
     /** Maximum time to wait (15s) */
     private static final int WAITFOR_TIMEOUT = 15000;
 
-    private Executor exec = new DefaultExecutor();
-    private File testDir = new File("src/test/scripts");
-    private File foreverOutputFile = new File("./target/forever.txt");
+    private final Executor exec = new DefaultExecutor();
+    private final File testDir = new File("src/test/scripts");
+    private final File foreverOutputFile = new File("./target/forever.txt");
     private ByteArrayOutputStream baos;
 
-    private File testScript = TestUtil.resolveScriptForOS(testDir + "/test");
-    private File errorTestScript = TestUtil.resolveScriptForOS(testDir + "/error");
-    private File foreverTestScript = TestUtil.resolveScriptForOS(testDir + "/forever");
-    private File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir + "/grmpffffff");
-    private File redirectScript = TestUtil.resolveScriptForOS(testDir + "/redirect");
-    private File pingScript = TestUtil.resolveScriptForOS(testDir + "/ping");
-    private File printArgsScript = TestUtil.resolveScriptForOS(testDir + "/printargs");
-    private File acroRd32Script = TestUtil.resolveScriptForOS(testDir + "/acrord32");
-    private File stdinSript = TestUtil.resolveScriptForOS(testDir + "/stdin");
-    private File environmentSript = TestUtil.resolveScriptForOS(testDir + "/environment");
-    private File wrapperScript = TestUtil.resolveScriptForOS(testDir + "/wrapper");
+    private final File testScript = TestUtil.resolveScriptForOS(testDir + "/test");
+    private final File errorTestScript = TestUtil.resolveScriptForOS(testDir + "/error");
+    private final File foreverTestScript = TestUtil.resolveScriptForOS(testDir + "/forever");
+    private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir + "/grmpffffff");
+    private final File redirectScript = TestUtil.resolveScriptForOS(testDir + "/redirect");
+    private final File pingScript = TestUtil.resolveScriptForOS(testDir + "/ping");
+    private final File printArgsScript = TestUtil.resolveScriptForOS(testDir + "/printargs");
+    private final File acroRd32Script = TestUtil.resolveScriptForOS(testDir + "/acrord32");
+    private final File stdinSript = TestUtil.resolveScriptForOS(testDir + "/stdin");
+    private final File environmentSript = TestUtil.resolveScriptForOS(testDir + "/environment");
+    private final File wrapperScript = TestUtil.resolveScriptForOS(testDir + "/wrapper");
 
 
     // Get suitable exit codes for the OS
@@ -63,7 +63,7 @@ public class DefaultExecutorTest extends TestCase {
 
     static{
 
-        int statuses[] = TestUtil.getTestScriptCodesForOS();
+        final int statuses[] = TestUtil.getTestScriptCodesForOS();
         SUCCESS_STATUS=statuses[0];
         ERROR_STATUS=statuses[1];
 
@@ -102,51 +102,51 @@ public class DefaultExecutorTest extends TestCase {
      * @throws Exception the test failed
      */
     public void testExecute() throws Exception {
-        CommandLine cl = new CommandLine(testScript);
-        int exitValue = exec.execute(cl);
+        final CommandLine cl = new CommandLine(testScript);
+        final int exitValue = exec.execute(cl);
         assertEquals("FOO..", baos.toString().trim());
         assertFalse(exec.isFailure(exitValue));
         assertEquals(new File("."), exec.getWorkingDirectory());
     }
 
     public void testExecuteWithWorkingDirectory() throws Exception {
-        File workingDir = new File("./target");
-        CommandLine cl = new CommandLine(testScript);
+        final File workingDir = new File("./target");
+        final CommandLine cl = new CommandLine(testScript);
         exec.setWorkingDirectory(workingDir);
-        int exitValue = exec.execute(cl);
+        final int exitValue = exec.execute(cl);
         assertEquals("FOO..", baos.toString().trim());
         assertFalse(exec.isFailure(exitValue));
         assertEquals(exec.getWorkingDirectory(), workingDir);
     }
 
     public void testExecuteWithInvalidWorkingDirectory() throws Exception {
-        File workingDir = new File("/foo/bar");
-        CommandLine cl = new CommandLine(testScript);
+        final File workingDir = new File("/foo/bar");
+        final CommandLine cl = new CommandLine(testScript);
         exec.setWorkingDirectory(workingDir);
         try {
             exec.execute(cl);
             fail("Expected exception due to invalid working directory");
         }
-        catch(IOException e) {
+        catch(final IOException e) {
             return;
         }
     }
 
     public void testExecuteWithError() throws Exception {
-        CommandLine cl = new CommandLine(errorTestScript);
+        final CommandLine cl = new CommandLine(errorTestScript);
 
         try{
             exec.execute(cl);
             fail("Must throw ExecuteException");
-        } catch(ExecuteException e) {
+        } catch(final ExecuteException e) {
             assertTrue(exec.isFailure(e.getExitValue()));
         }
     }
 
     public void testExecuteWithArg() throws Exception {
-        CommandLine cl = new CommandLine(testScript);
+        final CommandLine cl = new CommandLine(testScript);
         cl.addArgument("BAR");
-        int exitValue = exec.execute(cl);
+        final int exitValue = exec.execute(cl);
 
         assertEquals("FOO..BAR", baos.toString().trim());
         assertFalse(exec.isFailure(exitValue));
@@ -157,12 +157,12 @@ public class DefaultExecutorTest extends TestCase {
      * 'TEST_ENV_VAR'.
      */
     public void testExecuteWithSingleEnvironmentVariable() throws Exception {
-    	Map env = new HashMap();
+    	final Map env = new HashMap();
         env.put("TEST_ENV_VAR", "XYZ");
 
-        CommandLine cl = new CommandLine(testScript);
+        final CommandLine cl = new CommandLine(testScript);
 
-        int exitValue = exec.execute(cl, env);
+        final int exitValue = exec.execute(cl, env);
 
         assertEquals("FOO.XYZ.", baos.toString().trim());
         assertFalse(exec.isFailure(exitValue));
@@ -175,8 +175,8 @@ public class DefaultExecutorTest extends TestCase {
      * @throws Exception the test failed
      */
     public void testExecuteAsync() throws Exception {
-        CommandLine cl = new CommandLine(testScript);
-        DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
+        final CommandLine cl = new CommandLine(testScript);
+        final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
         exec.execute(cl, resultHandler);
         resultHandler.waitFor(2000);
         assertTrue(resultHandler.hasResult());
@@ -192,8 +192,8 @@ public class DefaultExecutorTest extends TestCase {
      * @throws Exception the test failed
      */
     public void testExecuteAsyncWithError() throws Exception {
-        CommandLine cl = new CommandLine(errorTestScript);
-        DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
+        final CommandLine cl = new CommandLine(errorTestScript);
+        final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
         exec.execute(cl, resultHandler);
         resultHandler.waitFor(2000);
         assertTrue(resultHandler.hasResult());
@@ -209,10 +209,10 @@ public class DefaultExecutorTest extends TestCase {
      * @throws Exception the test failed
      */
     public void testExecuteAsyncWithTimelyUserTermination() throws Exception {
-        CommandLine cl = new CommandLine(foreverTestScript);
-        ExecuteWatchdog watchdog = new ExecuteWatchdog(Integer.MAX_VALUE);
+        final CommandLine cl = new CommandLine(foreverTestScript);
+        final ExecuteWatchdog watchdog = new ExecuteWatchdog(Integer.MAX_VALUE);
         exec.setWatchdog(watchdog);
-        DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
+        final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
         exec.execute(cl, handler);
         // wait for script to run
         Thread.sleep(2000);
@@ -236,9 +236,9 @@ public class DefaultExecutorTest extends TestCase {
      * @throws Exception the test failed
      */
     public void testExecuteAsyncWithTooLateUserTermination() throws Exception {
-        CommandLine cl = new CommandLine(foreverTestScript);
-        DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
-        ExecuteWatchdog watchdog = new ExecuteWatchdog(3000);
+        final CommandLine cl = new CommandLine(foreverTestScript);
+        final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
+        final ExecuteWatchdog watchdog = new ExecuteWatchdog(3000);
         exec.setWatchdog(watchdog);
         exec.execute(cl, handler);
         // wait for script to be terminated by the watchdog
@@ -270,25 +270,25 @@ public class DefaultExecutorTest extends TestCase {
             return;
         }
 
-        long timeout = 10000;
+        final long timeout = 10000;
 
-        CommandLine cl = new CommandLine(foreverTestScript);
-        DefaultExecutor executor = new DefaultExecutor();
+        final CommandLine cl = new CommandLine(foreverTestScript);
+        final DefaultExecutor executor = new DefaultExecutor();
         executor.setWorkingDirectory(new File("."));
-        ExecuteWatchdog watchdog = new ExecuteWatchdog(timeout);
+        final ExecuteWatchdog watchdog = new ExecuteWatchdog(timeout);
         executor.setWatchdog(watchdog);
 
         try {
             executor.execute(cl);
         }
-        catch(ExecuteException e) {
+        catch(final ExecuteException e) {
             Thread.sleep(timeout);
-            int nrOfInvocations = getOccurrences(readFile(this.foreverOutputFile), '.');
+            final int nrOfInvocations = getOccurrences(readFile(this.foreverOutputFile), '.');
             assertTrue( executor.getWatchdog().killedProcess() );
             assertTrue("killing the subprocess did not work : " + nrOfInvocations, nrOfInvocations > 5 && nrOfInvocations <= 11);
             return;
         }
-        catch(Throwable t) {
+        catch(final Throwable t) {
             fail(t.getMessage());
         }
 
@@ -307,11 +307,11 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testExecuteWatchdogAsync() throws Exception {
 
-        long timeout = 10000;
+        final long timeout = 10000;
 
-        CommandLine cl = new CommandLine(foreverTestScript);
-        DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
-        DefaultExecutor executor = new DefaultExecutor();
+        final CommandLine cl = new CommandLine(foreverTestScript);
+        final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
+        final DefaultExecutor executor = new DefaultExecutor();
         executor.setWorkingDirectory(new File("."));
         executor.setWatchdog(new ExecuteWatchdog(timeout));
 
@@ -322,7 +322,7 @@ public class DefaultExecutorTest extends TestCase {
         assertTrue("ResultHandler received a result", handler.hasResult());
         assertNotNull("ResultHandler received an exception as result", handler.getException());
 
-        int nrOfInvocations = getOccurrences(readFile(this.foreverOutputFile), '.');
+        final int nrOfInvocations = getOccurrences(readFile(this.foreverOutputFile), '.');
         assertTrue("Killing the process did not work : " + nrOfInvocations, nrOfInvocations > 5 && nrOfInvocations <= 11);
     }
 
@@ -334,17 +334,17 @@ public class DefaultExecutorTest extends TestCase {
      *             the test failed
      */
     public void testExecuteWatchdogVeryLongTimeout() throws Exception {
-        long timeout = Long.MAX_VALUE;
+        final long timeout = Long.MAX_VALUE;
 
-        CommandLine cl = new CommandLine(testScript);
-        DefaultExecutor executor = new DefaultExecutor();
+        final CommandLine cl = new CommandLine(testScript);
+        final DefaultExecutor executor = new DefaultExecutor();
         executor.setWorkingDirectory(new File("."));
-        ExecuteWatchdog watchdog = new ExecuteWatchdog(timeout);
+        final ExecuteWatchdog watchdog = new ExecuteWatchdog(timeout);
         executor.setWatchdog(watchdog);
 
         try {
             executor.execute(cl);
-        } catch (ExecuteException e) {
+        } catch (final ExecuteException e) {
             assertFalse("Process should exit normally, not be killed by watchdog", watchdog.killedProcess());
             // If the Watchdog did not kill it, something else went wrong.
             throw e;
@@ -358,12 +358,12 @@ public class DefaultExecutorTest extends TestCase {
      * @throws Exception the test failed
      */
     public void testExecuteNonExistingApplication() throws Exception {
-        CommandLine cl = new CommandLine(nonExistingTestScript);
-        DefaultExecutor executor = new DefaultExecutor();
+        final CommandLine cl = new CommandLine(nonExistingTestScript);
+        final DefaultExecutor executor = new DefaultExecutor();
         try {
             executor.execute(cl);
         }
-        catch( IOException e) {
+        catch( final IOException e) {
             // expected
             return;
         }
@@ -377,8 +377,8 @@ public class DefaultExecutorTest extends TestCase {
      * @throws Exception the test failed
      */
     public void testExecuteAsyncWithNonExistingApplication() throws Exception {
-        CommandLine cl = new CommandLine(nonExistingTestScript);
-        DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
+        final CommandLine cl = new CommandLine(nonExistingTestScript);
+        final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
         exec.execute(cl, handler);
         Thread.sleep(2000);
         assertNotNull(handler.getException());
@@ -393,7 +393,7 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testExecuteWithCustomExitValue1() throws Exception {
         exec.setExitValue(ERROR_STATUS);
-        CommandLine cl = new CommandLine(errorTestScript);
+        final CommandLine cl = new CommandLine(errorTestScript);
         exec.execute(cl);
     }
 
@@ -404,12 +404,12 @@ public class DefaultExecutorTest extends TestCase {
      * @throws Exception the test failed
      */
     public void testExecuteWithCustomExitValue2() throws Exception {
-        CommandLine cl = new CommandLine(errorTestScript);
+        final CommandLine cl = new CommandLine(errorTestScript);
         exec.setExitValue(SUCCESS_STATUS);
         try{
             exec.execute(cl);
             fail("Must throw ExecuteException");
-        } catch(ExecuteException e) {
+        } catch(final ExecuteException e) {
             assertTrue(exec.isFailure(e.getExitValue()));
             return;
         }
@@ -422,14 +422,14 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testExecuteWithProcessDestroyer() throws Exception {
 
-      CommandLine cl = new CommandLine(testScript);
-      ShutdownHookProcessDestroyer processDestroyer = new ShutdownHookProcessDestroyer();
+      final CommandLine cl = new CommandLine(testScript);
+      final ShutdownHookProcessDestroyer processDestroyer = new ShutdownHookProcessDestroyer();
       exec.setProcessDestroyer(processDestroyer);
 
       assertTrue(processDestroyer.size() == 0);
       assertTrue(processDestroyer.isAddedAsShutdownHook() == false);
 
-      int exitValue = exec.execute(cl);
+      final int exitValue = exec.execute(cl);
 
       assertEquals("FOO..", baos.toString().trim());
       assertFalse(exec.isFailure(exitValue));
@@ -446,10 +446,10 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testExecuteAsyncWithProcessDestroyer() throws Exception {
 
-      CommandLine cl = new CommandLine(foreverTestScript);
-      DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
-      ShutdownHookProcessDestroyer processDestroyer = new ShutdownHookProcessDestroyer();
-      ExecuteWatchdog watchdog = new ExecuteWatchdog(Integer.MAX_VALUE);
+      final CommandLine cl = new CommandLine(foreverTestScript);
+      final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
+      final ShutdownHookProcessDestroyer processDestroyer = new ShutdownHookProcessDestroyer();
+      final ExecuteWatchdog watchdog = new ExecuteWatchdog(Integer.MAX_VALUE);
 
       assertTrue(exec.getProcessDestroyer() == null);
       assertTrue(processDestroyer.size() == 0);
@@ -483,9 +483,9 @@ public class DefaultExecutorTest extends TestCase {
      * @throws Exception the test failed
      */
     public void testExecuteWithFancyArg() throws Exception {
-        CommandLine cl = new CommandLine(testScript);
+        final CommandLine cl = new CommandLine(testScript);
         cl.addArgument("test $;`(0)[1]{2}");
-        int exitValue = exec.execute(cl);
+        final int exitValue = exec.execute(cl);
         assertTrue(baos.toString().trim().indexOf("test $;`(0)[1]{2}") > 0);
         assertFalse(exec.isFailure(exitValue));
     }
@@ -503,15 +503,15 @@ public class DefaultExecutorTest extends TestCase {
     {
         if(OS.isFamilyUnix())
         {
-            FileInputStream fis = new FileInputStream("./NOTICE.txt");
-            CommandLine cl = new CommandLine(redirectScript);
-            PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( baos, baos, fis );
-            DefaultExecutor executor = new DefaultExecutor();
+            final FileInputStream fis = new FileInputStream("./NOTICE.txt");
+            final CommandLine cl = new CommandLine(redirectScript);
+            final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( baos, baos, fis );
+            final DefaultExecutor executor = new DefaultExecutor();
             executor.setWorkingDirectory(new File("."));
             executor.setStreamHandler( pumpStreamHandler );
-            int exitValue = executor.execute(cl);
+            final int exitValue = executor.execute(cl);
             fis.close();
-            String result = baos.toString().trim();
+            final String result = baos.toString().trim();
             assertTrue(result, result.indexOf("Finished reading from stdin") > 0);
             assertFalse("exitValue=" + exitValue, exec.isFailure(exitValue));
         }
@@ -533,11 +533,11 @@ public class DefaultExecutorTest extends TestCase {
       */
      public void testExecuteWithStdOutErr() throws Exception
      {
-         CommandLine cl = new CommandLine(testScript);
-         PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( System.out, System.err );
-         DefaultExecutor executor = new DefaultExecutor();
+         final CommandLine cl = new CommandLine(testScript);
+         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( System.out, System.err );
+         final DefaultExecutor executor = new DefaultExecutor();
          executor.setStreamHandler( pumpStreamHandler );
-         int exitValue = executor.execute(cl);
+         final int exitValue = executor.execute(cl);
          assertFalse(exec.isFailure(exitValue));
      }
 
@@ -548,11 +548,11 @@ public class DefaultExecutorTest extends TestCase {
       */
      public void testExecuteWithNullOutErr() throws Exception
      {
-         CommandLine cl = new CommandLine(testScript);
-         PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( null, null );
-         DefaultExecutor executor = new DefaultExecutor();
+         final CommandLine cl = new CommandLine(testScript);
+         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( null, null );
+         final DefaultExecutor executor = new DefaultExecutor();
          executor.setStreamHandler( pumpStreamHandler );
-         int exitValue = executor.execute(cl);
+         final int exitValue = executor.execute(cl);
          assertFalse(exec.isFailure(exitValue));
      }
 
@@ -563,13 +563,13 @@ public class DefaultExecutorTest extends TestCase {
       */
      public void testExecuteWithRedirectOutErr() throws Exception
      {
-         File outfile = File.createTempFile("EXEC", ".test");
+         final File outfile = File.createTempFile("EXEC", ".test");
          outfile.deleteOnExit();
-         CommandLine cl = new CommandLine(testScript);
-         PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( new FileOutputStream(outfile) );
-         DefaultExecutor executor = new DefaultExecutor();
+         final CommandLine cl = new CommandLine(testScript);
+         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( new FileOutputStream(outfile) );
+         final DefaultExecutor executor = new DefaultExecutor();
          executor.setStreamHandler( pumpStreamHandler );
-         int exitValue = executor.execute(cl);
+         final int exitValue = executor.execute(cl);
          assertFalse(exec.isFailure(exitValue));
          assertTrue(outfile.exists());
      }
@@ -581,11 +581,11 @@ public class DefaultExecutorTest extends TestCase {
      * @throws Exception the test failed
      */
     public void testExecuteWithComplexArguments() throws Exception {
-        CommandLine cl = new CommandLine(printArgsScript);
+        final CommandLine cl = new CommandLine(printArgsScript);
         cl.addArgument("gdal_translate");
         cl.addArgument("HDF5:\"/home/kk/grass/data/4404.he5\"://HDFEOS/GRIDS/OMI_Column_Amount_O3/Data_Fields/ColumnAmountO3/home/kk/4.tif", false);
-        DefaultExecutor executor = new DefaultExecutor();
-        int exitValue = executor.execute(cl);
+        final DefaultExecutor executor = new DefaultExecutor();
+        final int exitValue = executor.execute(cl);
         assertFalse(exec.isFailure(exitValue));
      }
 
@@ -599,11 +599,11 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testStdInHandling() throws Exception {
 
-        ByteArrayInputStream bais = new ByteArrayInputStream("Foo".getBytes()); // newline not needed; causes problems for VMS
-        CommandLine cl = new CommandLine(this.stdinSript);
-        PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( this.baos, System.err, bais);
-        DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
-        Executor executor = new DefaultExecutor();
+        final ByteArrayInputStream bais = new ByteArrayInputStream("Foo".getBytes()); // newline not needed; causes problems for VMS
+        final CommandLine cl = new CommandLine(this.stdinSript);
+        final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( this.baos, System.err, bais);
+        final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
+        final Executor executor = new DefaultExecutor();
         executor.setStreamHandler(pumpStreamHandler);
         executor.execute(cl, resultHandler);
 
@@ -611,7 +611,7 @@ public class DefaultExecutorTest extends TestCase {
         assertTrue("ResultHandler received a result", resultHandler.hasResult());
 
         assertFalse(exec.isFailure(resultHandler.getExitValue()));
-        String result = baos.toString();
+        final String result = baos.toString();
         assertTrue("Result '"+result+"' should contain 'Hello Foo!'", result.indexOf("Hello Foo!") >= 0);
     }
 
@@ -622,7 +622,7 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testEnvironmentVariables() throws Exception {
         exec.execute(new CommandLine(environmentSript));
-        String environment = baos.toString().trim();
+        final String environment = baos.toString().trim();
         assertTrue("Found no environment variables", environment.length() > 0);
         assertFalse(environment.indexOf("NEW_VAR") >= 0);
     }
@@ -634,23 +634,23 @@ public class DefaultExecutorTest extends TestCase {
      * @throws Exception the test failed
      */
     public void testAddEnvironmentVariables() throws Exception {
-        Map myEnvVars = new HashMap();
+        final Map myEnvVars = new HashMap();
         myEnvVars.putAll(EnvironmentUtils.getProcEnvironment());
         myEnvVars.put("NEW_VAR","NEW_VAL");
         exec.execute(new CommandLine(environmentSript), myEnvVars);
-        String environment = baos.toString().trim();
+        final String environment = baos.toString().trim();
         assertTrue("Expecting NEW_VAR in "+environment,environment.indexOf("NEW_VAR") >= 0);
         assertTrue("Expecting NEW_VAL in "+environment,environment.indexOf("NEW_VAL") >= 0);
     }
 
     public void testAddEnvironmentVariableEmbeddedQuote() throws Exception {
-        Map myEnvVars = new HashMap();
+        final Map myEnvVars = new HashMap();
         myEnvVars.putAll(EnvironmentUtils.getProcEnvironment());
-        String name = "NEW_VAR";
-        String value = "NEW_\"_VAL";
+        final String name = "NEW_VAR";
+        final String value = "NEW_\"_VAL";
         myEnvVars.put(name,value);
         exec.execute(new CommandLine(environmentSript), myEnvVars);
-        String environment = baos.toString().trim();
+        final String environment = baos.toString().trim();
         assertTrue("Expecting "+name+" in "+environment,environment.indexOf(name) >= 0);
         assertTrue("Expecting "+value+" in "+environment,environment.indexOf(value) >= 0);
     }
@@ -668,11 +668,11 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testExec33() throws Exception
     {
-        CommandLine cl = new CommandLine(testScript);
-        PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( System.out, System.err, System.in );
-        DefaultExecutor executor = new DefaultExecutor();
+        final CommandLine cl = new CommandLine(testScript);
+        final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( System.out, System.err, System.in );
+        final DefaultExecutor executor = new DefaultExecutor();
         executor.setStreamHandler( pumpStreamHandler );
-        int exitValue = executor.execute(cl);
+        final int exitValue = executor.execute(cl);
         assertFalse(exec.isFailure(exitValue));
     }
 
@@ -687,11 +687,11 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testExec34_1() throws Exception {
 
-        CommandLine cmdLine = new CommandLine(pingScript);
+        final CommandLine cmdLine = new CommandLine(pingScript);
         cmdLine.addArgument("10"); // sleep 10 secs
 
-        ExecuteWatchdog watchdog = new ExecuteWatchdog(Integer.MAX_VALUE);
-        DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
+        final ExecuteWatchdog watchdog = new ExecuteWatchdog(Integer.MAX_VALUE);
+        final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
         exec.setWatchdog(watchdog);
         exec.execute(cmdLine, handler);
         assertTrue(watchdog.isWatching());
@@ -710,11 +710,11 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testExec34_2() throws Exception {
 
-        CommandLine cmdLine = new CommandLine(pingScript);
+        final CommandLine cmdLine = new CommandLine(pingScript);
         cmdLine.addArgument("10"); // sleep 10 secs
 
-        ExecuteWatchdog watchdog = new ExecuteWatchdog(5000);
-        DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
+        final ExecuteWatchdog watchdog = new ExecuteWatchdog(5000);
+        final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
         exec.setWatchdog(watchdog);
         exec.execute(cmdLine, handler);
         handler.waitFor();
@@ -742,7 +742,7 @@ public class DefaultExecutorTest extends TestCase {
              *     INSTALLER_PATH="/var/lib/ cruise-agent/installers" INSTALLER_DOWNLOAD_SERVER='something' WITHOUT_HELP_DOC=true
              */
 
-            String expected = "./script/jrake\n" +
+            final String expected = "./script/jrake\n" +
                     "cruise:publish_installers\n" +
                     "INSTALLER_VERSION=unstable_2_1\n" +
                     "INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\"\n" +
@@ -757,8 +757,8 @@ public class DefaultExecutorTest extends TestCase {
             cmdl.addArgument("INSTALLER_DOWNLOAD_SERVER='something'", false);
             cmdl.addArgument("WITHOUT_HELP_DOC=true", false);
 
-            int exitValue = exec.execute(cmdl);
-            String result = baos.toString().trim();
+            final int exitValue = exec.execute(cmdl);
+            final String result = baos.toString().trim();
             assertFalse(exec.isFailure(exitValue));
             assertEquals(expected, result);
         }
@@ -801,8 +801,8 @@ public class DefaultExecutorTest extends TestCase {
         }
 
         CommandLine cmdl;
-        File file = new File("/Documents and Settings/myusername/Local Settings/Temp/netfx.log");
-        Map map = new HashMap();
+        final File file = new File("/Documents and Settings/myusername/Local Settings/Temp/netfx.log");
+        final Map map = new HashMap();
         map.put("FILE", file);
 
         cmdl = new CommandLine(printArgsScript);
@@ -811,8 +811,8 @@ public class DefaultExecutorTest extends TestCase {
         cmdl.addArgument("/q:a", false);
         cmdl.addArgument("/c:\"install.exe /l \"\"${FILE}\"\" /q\"", false);
 
-        int exitValue = exec.execute(cmdl);
-        String result = baos.toString().trim();
+        final int exitValue = exec.execute(cmdl);
+        final String result = baos.toString().trim();
         assertFalse(exec.isFailure(exitValue));
 
         if(OS.isFamilyUnix()) {
@@ -850,24 +850,24 @@ public class DefaultExecutorTest extends TestCase {
     		return;
     	}
 
-		DefaultExecutor executor = new DefaultExecutor();
-		ExecuteWatchdog watchdog = new ExecuteWatchdog(2*1000); // allow process no more than 2 secs
-        PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( System.out, System.err);
+		final DefaultExecutor executor = new DefaultExecutor();
+		final ExecuteWatchdog watchdog = new ExecuteWatchdog(2*1000); // allow process no more than 2 secs
+        final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( System.out, System.err);
         // this method was part of the patch I reverted
         // pumpStreamHandler.setAlwaysWaitForStreamThreads(false);
 
 		executor.setWatchdog(watchdog);
         executor.setStreamHandler(pumpStreamHandler);
 
-		long startTime = System.currentTimeMillis();
+		final long startTime = System.currentTimeMillis();
 
 		try {
 			executor.execute(cmdLine);
-		} catch (ExecuteException e) {
+		} catch (final ExecuteException e) {
 			// nothing to do
 		}
 
-        long duration = System.currentTimeMillis() - startTime;
+        final long duration = System.currentTimeMillis() - startTime;
 
 		System.out.println("Process completed in " + duration +" millis; below is its output");
 
@@ -894,26 +894,26 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testExec41WithoutStreams() throws Exception {
 
-		CommandLine cmdLine = new CommandLine(pingScript);
+		final CommandLine cmdLine = new CommandLine(pingScript);
 		cmdLine.addArgument("10"); // sleep 10 secs
-		DefaultExecutor executor = new DefaultExecutor();
-		ExecuteWatchdog watchdog = new ExecuteWatchdog(2*1000); // allow process no more than 2 secs
+		final DefaultExecutor executor = new DefaultExecutor();
+		final ExecuteWatchdog watchdog = new ExecuteWatchdog(2*1000); // allow process no more than 2 secs
 
         // create a custom "PumpStreamHandler" doing no pumping at all
-        PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(null, null, null);
+        final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(null, null, null);
 
 		executor.setWatchdog(watchdog);
         executor.setStreamHandler(pumpStreamHandler);
 
-		long startTime = System.currentTimeMillis();
+		final long startTime = System.currentTimeMillis();
 
 		try {
 			executor.execute(cmdLine);
-		} catch (ExecuteException e) {
+		} catch (final ExecuteException e) {
 			System.out.println(e);
 		}
 
-        long duration = System.currentTimeMillis() - startTime;
+        final long duration = System.currentTimeMillis() - startTime;
 
 		System.out.println("Process completed in " + duration +" millis; below is its output");
 
@@ -937,9 +937,9 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testExec44() throws Exception {
 
-        CommandLine cl = new CommandLine(foreverTestScript);
-        DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
-        ExecuteWatchdog watchdog = new ExecuteWatchdog(ExecuteWatchdog.INFINITE_TIMEOUT);
+        final CommandLine cl = new CommandLine(foreverTestScript);
+        final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
+        final ExecuteWatchdog watchdog = new ExecuteWatchdog(ExecuteWatchdog.INFINITE_TIMEOUT);
 
         exec.setWatchdog(watchdog);
         exec.execute(cl, resultHandler);
@@ -968,24 +968,24 @@ public class DefaultExecutorTest extends TestCase {
 
         if(OS.isFamilyUnix()) {
 
-            CommandLine cl = CommandLine.parse("/bin/ls");
+            final CommandLine cl = CommandLine.parse("/bin/ls");
             cl.addArgument("/opt");
 
-            Executor exec = new DefaultExecutor();
+            final Executor exec = new DefaultExecutor();
 
             // redirect stdout/stderr to pipedOutputStream
-            PipedOutputStream pipedOutputStream = new PipedOutputStream();
-            PumpStreamHandler psh = new PumpStreamHandler(pipedOutputStream);
+            final PipedOutputStream pipedOutputStream = new PipedOutputStream();
+            final PumpStreamHandler psh = new PumpStreamHandler(pipedOutputStream);
             exec.setStreamHandler(psh);
 
             // start an asynchronous process to enable the main thread
             System.out.println("Preparing to execute process - commandLine=" + cl.toString());
-            DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
+            final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
             exec.execute(cl, handler);
             System.out.println("Process spun off successfully - process=" + cl.getExecutable());
 
             int x;
-            PipedInputStream pis = new PipedInputStream(pipedOutputStream);
+            final PipedInputStream pis = new PipedInputStream(pipedOutputStream);
             while ((x = pis.read()) >= 0) {
                 // System.out.println("pis.available() " + pis.available());
                 // System.out.println("x " + x);
@@ -1010,24 +1010,24 @@ public class DefaultExecutorTest extends TestCase {
 
         if(OS.isFamilyUnix()) {
 
-            CommandLine cl = CommandLine.parse("/bin/ls");
+            final CommandLine cl = CommandLine.parse("/bin/ls");
             cl.addArgument("/opt");
 
-            Executor exec = new DefaultExecutor();
+            final Executor exec = new DefaultExecutor();
 
             // redirect only stdout to pipedOutputStream
-            PipedOutputStream pipedOutputStream = new PipedOutputStream();
-            PumpStreamHandler psh = new PumpStreamHandler(pipedOutputStream, new ByteArrayOutputStream());
+            final PipedOutputStream pipedOutputStream = new PipedOutputStream();
+            final PumpStreamHandler psh = new PumpStreamHandler(pipedOutputStream, new ByteArrayOutputStream());
             exec.setStreamHandler(psh);
 
             // start an asynchronous process to enable the main thread
             System.out.println("Preparing to execute process - commandLine=" + cl.toString());
-            DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
+            final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
             exec.execute(cl, handler);
             System.out.println("Process spun off successfully - process=" + cl.getExecutable());
 
             int x;
-            PipedInputStream pis = new PipedInputStream(pipedOutputStream);
+            final PipedInputStream pis = new PipedInputStream(pipedOutputStream);
             while ((x = pis.read()) >= 0) {
                 // System.out.println("pis.available() " + pis.available());
                 // System.out.println("x " + x);
@@ -1056,24 +1056,24 @@ public class DefaultExecutorTest extends TestCase {
             return;
         }
 
-        CommandLine cmdLine = new CommandLine("sh").addArgument("-c").addArgument(testDir + "/invoker.sh", false);
+        final CommandLine cmdLine = new CommandLine("sh").addArgument("-c").addArgument(testDir + "/invoker.sh", false);
 
-        DefaultExecutor executor = new DefaultExecutor();
-        PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(System.out, System.err);
+        final DefaultExecutor executor = new DefaultExecutor();
+        final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(System.out, System.err);
 
         // Without this timeout current thread will be blocked
         // even if command we'll invoke will terminate immediately.
         pumpStreamHandler.setStopTimeout(2000);
         executor.setStreamHandler(pumpStreamHandler);
-        long startTime = System.currentTimeMillis();
+        final long startTime = System.currentTimeMillis();
 
         System.out.println("Executing " + cmdLine);
 
         try {
             executor.execute(cmdLine);
         }
-        catch(ExecuteException e) {
-            long duration = System.currentTimeMillis() - startTime;
+        catch(final ExecuteException e) {
+            final long duration = System.currentTimeMillis() - startTime;
             System.out.println("Process completed in " + duration +" millis; above is its output");
             return;
         }
@@ -1090,13 +1090,13 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testExec_60() throws Exception {
 
-        int start = 0;
+        final int start = 0;
         final int seconds = 1;
         final int offsetMultiplier = 1;
         final int maxRetries = 180;
         int processTerminatedCounter = 0;
         int watchdogKilledProcessCounter = 0;
-        CommandLine cmdLine = new CommandLine(pingScript);
+        final CommandLine cmdLine = new CommandLine(pingScript);
         cmdLine.addArgument(Integer.toString(seconds + 1)); // need to add "1" to wait the requested number of seconds
 
         final long startTime = System.currentTimeMillis();
@@ -1105,7 +1105,7 @@ public class DefaultExecutorTest extends TestCase {
             // tricky to get this test right. We want to try and catch the process while it is terminating,
             // so we increase the timeout gradually until the test terminates normally.
             // However if the increase is too gradual, we never wait long enough for any test to exit normally
-            ExecuteWatchdog watchdog = new ExecuteWatchdog(seconds * 1000 + offset * offsetMultiplier);
+            final ExecuteWatchdog watchdog = new ExecuteWatchdog(seconds * 1000 + offset * offsetMultiplier);
             exec.setWatchdog(watchdog);
             try {
                 exec.execute(cmdLine);
@@ -1114,7 +1114,7 @@ public class DefaultExecutorTest extends TestCase {
                 if(processTerminatedCounter > 5) {
                     break;
                 }
-            } catch (ExecuteException ex) {
+            } catch (final ExecuteException ex) {
 //                System.out.println(offset + ": process was killed: " + watchdog.killedProcess());
                 assertTrue("Watchdog killed the process", watchdog.killedProcess());
                 watchdogKilledProcessCounter++;
@@ -1143,10 +1143,10 @@ public class DefaultExecutorTest extends TestCase {
 
         // make a plain-vanilla test
         for(int i=0; i<100; i++) {
-            Map env = new HashMap();
+            final Map env = new HashMap();
             env.put("TEST_ENV_VAR", new Integer(i));
-            CommandLine cl = new CommandLine(testScript);
-            int exitValue = exec.execute(cl,env);
+            final CommandLine cl = new CommandLine(testScript);
+            final int exitValue = exec.execute(cl,env);
             assertFalse(exec.isFailure(exitValue));
             assertEquals("FOO." + i + ".", baos.toString().trim());
             baos.reset();
@@ -1154,11 +1154,11 @@ public class DefaultExecutorTest extends TestCase {
 
         // now be nasty and use the watchdog to kill out sub-processes
         for(int i=0; i<100; i++) {
-            Map env = new HashMap();
+            final Map env = new HashMap();
             env.put("TEST_ENV_VAR", new Integer(i));
-            DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
-            CommandLine cl = new CommandLine(foreverTestScript);
-            ExecuteWatchdog watchdog = new ExecuteWatchdog(500);
+            final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
+            final CommandLine cl = new CommandLine(foreverTestScript);
+            final ExecuteWatchdog watchdog = new ExecuteWatchdog(500);
             exec.setWatchdog(watchdog);
             exec.execute(cl, env, resultHandler);
             resultHandler.waitFor(WAITFOR_TIMEOUT);
@@ -1173,11 +1173,11 @@ public class DefaultExecutorTest extends TestCase {
     // === Helper methods
     // ======================================================================
 
-    private String readFile(File file) throws Exception {
+    private String readFile(final File file) throws Exception {
 
         String text;
-        StringBuffer contents = new StringBuffer();
-        BufferedReader reader = new BufferedReader(new FileReader(file));
+        final StringBuffer contents = new StringBuffer();
+        final BufferedReader reader = new BufferedReader(new FileReader(file));
 
         while ((text = reader.readLine()) != null)
         {
@@ -1189,7 +1189,7 @@ public class DefaultExecutorTest extends TestCase {
         return contents.toString();
     }
 
-    private int getOccurrences(String data, char c) {
+    private int getOccurrences(final String data, final char c) {
 
         int result = 0;
 

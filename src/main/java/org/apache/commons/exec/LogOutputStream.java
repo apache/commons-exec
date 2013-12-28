@@ -135,7 +135,7 @@ public abstract class LogOutputStream
                 remaining--;
             }
             // either end of buffer or a line separator char
-            int blockLength = offset - blockStartOffset;
+            final int blockLength = offset - blockStartOffset;
             if (blockLength > 0) {
                 buffer.write(b, blockStartOffset, blockLength);
             }

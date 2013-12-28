@@ -36,16 +36,16 @@ import java.util.Map;
 public class TutorialTest extends TestCase {
 
     /** the directory to pick up the test scripts */
-    private File testDir = new File("src/test/scripts");
+    private final File testDir = new File("src/test/scripts");
 
     /** simulates a PDF print job */
-    private File acroRd32Script = TestUtil.resolveScriptForOS(testDir + "/acrord32");
+    private final File acroRd32Script = TestUtil.resolveScriptForOS(testDir + "/acrord32");
 
     public void testTutorialExample() throws Exception {
 
-        long printJobTimeout = 15000;
-        boolean printInBackground = false;
-        File pdfFile = new File("/Documents and Settings/foo.pdf");
+        final long printJobTimeout = 15000;
+        final boolean printInBackground = false;
+        final File pdfFile = new File("/Documents and Settings/foo.pdf");
 
         PrintResultHandler printResult;
 
@@ -55,7 +55,7 @@ public class TutorialTest extends TestCase {
             printResult = print(pdfFile, printJobTimeout, printInBackground);
             System.out.println("[main] Successfully sent the print job ...");
         }
-        catch(Exception e) {
+        catch(final Exception e) {
             e.printStackTrace();
             fail("[main] Printing of the following document failed : " + pdfFile.getAbsolutePath());
             throw e;
@@ -76,7 +76,7 @@ public class TutorialTest extends TestCase {
      * @return a print result handler (implementing a future)
      * @throws IOException the test failed
      */
-    public PrintResultHandler print(File file, long printJobTimeout, boolean printInBackground)
+    public PrintResultHandler print(final File file, final long printJobTimeout, final boolean printInBackground)
             throws IOException {
 
         int exitValue;
@@ -84,16 +84,16 @@ public class TutorialTest extends TestCase {
         PrintResultHandler resultHandler;
 
         // build up the command line to using a 'java.io.File'
-        Map map = new HashMap();
+        final Map map = new HashMap();
         map.put("file", file);
-        CommandLine commandLine = new CommandLine(acroRd32Script);
+        final CommandLine commandLine = new CommandLine(acroRd32Script);
         commandLine.addArgument("/p");
         commandLine.addArgument("/h");
         commandLine.addArgument("${file}");
         commandLine.setSubstitutionMap(map);
 
         // create the executor and consider the exitValue '1' as success
-        Executor executor = new DefaultExecutor();
+        final Executor executor = new DefaultExecutor();
         executor.setExitValue(1);
         
         // create a watchdog if requested
@@ -121,21 +121,21 @@ public class TutorialTest extends TestCase {
 
         private ExecuteWatchdog watchdog;
 
-        public PrintResultHandler(ExecuteWatchdog watchdog)
+        public PrintResultHandler(final ExecuteWatchdog watchdog)
         {
             this.watchdog = watchdog;
         }
 
-        public PrintResultHandler(int exitValue) {
+        public PrintResultHandler(final int exitValue) {
             super.onProcessComplete(exitValue);
         }
         
-        public void onProcessComplete(int exitValue) {
+        public void onProcessComplete(final int exitValue) {
             super.onProcessComplete(exitValue);
             System.out.println("[resultHandler] The document was successfully printed ...");
         }
 
-        public void onProcessFailed(ExecuteException e){
+        public void onProcessFailed(final ExecuteException e){
             super.onProcessFailed(e);
             if(watchdog != null && watchdog.killedProcess()) {
                 System.err.println("[resultHandler] The print process timed out");

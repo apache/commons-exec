@@ -35,10 +35,10 @@ public class StandAloneTest extends TestCase {
 
     public void testMe() throws Exception {
         if(OS.isFamilyUnix()) {
-            File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/standalone");
-            Executor exec = new DefaultExecutor();
+            final File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/standalone");
+            final Executor exec = new DefaultExecutor();
             exec.setStreamHandler(new PumpStreamHandler());
-            CommandLine cl = new CommandLine(testScript);
+            final CommandLine cl = new CommandLine(testScript);
             exec.execute(cl);
             assertTrue(new File("./target/mybackup.gz").exists());
         }        

@@ -38,7 +38,7 @@ public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
      */    
     protected Map createProcEnvironment() throws IOException {
         if (procEnvironment == null) {
-            BufferedReader in = runProcEnvCommand();
+            final BufferedReader in = runProcEnvCommand();
             procEnvironment = addVMSenvironmentVariables(new HashMap(), in);
         }
 
@@ -52,7 +52,7 @@ public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
      * @return the command line
      */    
     protected CommandLine getProcEnvCommand() {
-        CommandLine commandLine = new CommandLine("show");
+        final CommandLine commandLine = new CommandLine("show");
         commandLine.addArgument("symbol/global"); // the parser assumes symbols are global
         commandLine.addArgument("*");
         return commandLine;
@@ -73,9 +73,9 @@ public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
         String line;
         while ((line = in.readLine()) != null) {
             final String SEP = "=="; // global symbol separator
-            int sepidx = line.indexOf(SEP);
+            final int sepidx = line.indexOf(SEP);
             if (sepidx > 0){
-                String name = line.substring(0, sepidx).trim();
+                final String name = line.substring(0, sepidx).trim();
                 String value = line.substring(sepidx+SEP.length()).trim();
                 value = value.substring(1,value.length()-1); // drop enclosing quotes
                 environment.put(name,value);

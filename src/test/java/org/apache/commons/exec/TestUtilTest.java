@@ -24,70 +24,70 @@ import junit.framework.TestCase;
 public class TestUtilTest extends TestCase {
 
 	public void testAssertArrayEquals() {
-		String[] expected = new String[]{"aaa", "bbb", "ccc"};
-		String[] actual = new String[]{"aaa", "bbb", "ccc"};
+		final String[] expected = new String[]{"aaa", "bbb", "ccc"};
+		final String[] actual = new String[]{"aaa", "bbb", "ccc"};
 		
 		TestUtil.assertEquals(expected, actual, true);
 	}
 
 	public void testAssertArrayNotEquals() {
-		String[] expected = new String[]{"aaa", "bbb", "ccc"};
-		String[] actual = new String[]{"aaa", "ddd", "ccc"};
+		final String[] expected = new String[]{"aaa", "bbb", "ccc"};
+		final String[] actual = new String[]{"aaa", "ddd", "ccc"};
 		
 		try{
 			TestUtil.assertEquals(expected, actual, true);
 			fail("Must throw AssertionFailedError");
-		} catch(AssertionFailedError e) {
+		} catch(final AssertionFailedError e) {
 			// OK
 		}
 	}
 
 	public void testAssertArrayNotOrderEquals() {
-		String[] expected = new String[]{"aaa", "ccc", "bbb"};
-		String[] actual = new String[]{"aaa", "ddd", "ccc"};
+		final String[] expected = new String[]{"aaa", "ccc", "bbb"};
+		final String[] actual = new String[]{"aaa", "ddd", "ccc"};
 		
 		try{
 			TestUtil.assertEquals(expected, actual, true);
 			fail("Must throw AssertionFailedError");
-		} catch(AssertionFailedError e) {
+		} catch(final AssertionFailedError e) {
 			// OK
 		}
 	}
 	
 	public void testAssertArrayEqualsOrderNotSignificant() {
-		String[] expected = new String[]{"aaa", "ccc", "bbb"};
-		String[] actual = new String[]{"aaa", "bbb", "ccc"};
+		final String[] expected = new String[]{"aaa", "ccc", "bbb"};
+		final String[] actual = new String[]{"aaa", "bbb", "ccc"};
 		
 		TestUtil.assertEquals(expected, actual, false);
 	}
 	
 	public void testAssertArrayEqualsNullNull() {
-		String[] expected = null;
-		String[] actual = null;
+		final String[] expected = null;
+		final String[] actual = null;
 		
 		TestUtil.assertEquals(expected, actual, false);
 	}
 
 	public void testAssertArrayEqualsActualNull() {
-		String[] expected = new String[]{"aaa", "ccc", "bbb"};
-		String[] actual = null;
+		final String[] expected = new String[]{"aaa", "ccc", "bbb"};
+		final String[] actual = null;
 		
 		try{
 			TestUtil.assertEquals(expected, actual, true);
 			fail("Must throw AssertionFailedError");
-		} catch(AssertionFailedError e) {
+		} catch(final AssertionFailedError e) {
 			// OK
 		}
 	}
 	
 	public void testAssertArrayEqualsExpectedNull() {
-		String[] expected = null;
-		String[] actual = new String[]{"aaa", "ddd", "ccc"};
+		final String[] expected = null;
+		final String[] actual = new String[]{"aaa", "ddd", "ccc"};
 		
 		try{
 			TestUtil.assertEquals(expected, actual, true);
 			fail("Must throw AssertionFailedError");
-		} catch(AssertionFailedError e) {
+		} catch(final AssertionFailedError e) {
 			// OK
 		}
 	}

@@ -68,8 +68,8 @@ public class InputStreamPumper implements Runnable {
                 os.flush();
                 Thread.sleep(SLEEPING_TIME);
             }
-        } catch (Exception e) {
-            String msg = "Got exception while reading/writing the stream";
+        } catch (final Exception e) {
+            final String msg = "Got exception while reading/writing the stream";
             DebugUtils.handleException(msg ,e);
         } finally {
         }

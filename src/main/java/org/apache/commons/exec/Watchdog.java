@@ -28,7 +28,7 @@ import java.util.Vector;
  */
 public class Watchdog implements Runnable {
 
-    private Vector observers = new Vector(1);
+    private final Vector observers = new Vector(1);
 
     private final long timeout;
 
@@ -50,7 +50,7 @@ public class Watchdog implements Runnable {
     }
 
     protected final void fireTimeoutOccured() {
-        Enumeration e = observers.elements();
+        final Enumeration e = observers.elements();
         while (e.hasMoreElements()) {
             ((TimeoutObserver) e.nextElement()).timeoutOccured(this);
         }
@@ -58,7 +58,7 @@ public class Watchdog implements Runnable {
 
     public synchronized void start() {
         stopped = false;
-        Thread t = new Thread(this, "WATCHDOG");
+        final Thread t = new Thread(this, "WATCHDOG");
         t.setDaemon(true);
         t.start();
     }
@@ -77,7 +77,7 @@ public class Watchdog implements Runnable {
             while (!stopped && isWaiting) {
                 try {
                     wait(timeLeft);
-                } catch (InterruptedException e) {
+                } catch (final InterruptedException e) {
                 }
                 timeLeft = timeout - (System.currentTimeMillis() - startTime);
                 isWaiting = timeLeft > 0;

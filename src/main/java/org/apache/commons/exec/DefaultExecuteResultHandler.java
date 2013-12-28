@@ -47,7 +47,7 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
     /**
      * @see org.apache.commons.exec.ExecuteResultHandler#onProcessComplete(int)
      */
-    public void onProcessComplete(int exitValue) {
+    public void onProcessComplete(final int exitValue) {
         this.exitValue = exitValue;
         this.exception = null;
         this.hasResult = true;
@@ -56,7 +56,7 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
     /**
      * @see org.apache.commons.exec.ExecuteResultHandler#onProcessFailed(org.apache.commons.exec.ExecuteException)
      */
-    public void onProcessFailed(ExecuteException e) {
+    public void onProcessFailed(final ExecuteException e) {
         this.exitValue = e.getExitValue();            
         this.exception = e;
         this.hasResult = true;
@@ -133,9 +133,9 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
      *             thread while it is waiting, then the wait is ended and
      *             an {@link InterruptedException} is thrown.
      */
-    public void waitFor(long timeout) throws InterruptedException {
+    public void waitFor(final long timeout) throws InterruptedException {
 
-        long until = System.currentTimeMillis() + timeout;
+        final long until = System.currentTimeMillis() + timeout;
 
         while (!hasResult() && (System.currentTimeMillis() < until)) {
             Thread.sleep(SLEEP_TIME_MS);

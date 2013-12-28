@@ -29,14 +29,14 @@ import org.apache.commons.exec.util.StringUtils;
 
 public class CommandLineTest extends TestCase {
 
-    private void assertEquals(String[] expected, String[] actual) {
+    private void assertEquals(final String[] expected, final String[] actual) {
         if (!Arrays.equals(expected, actual)) {
             throw new AssertionFailedError("Arrays not equal");
         }
     }
 
     public void testExecutable() {
-        CommandLine cmdl = new CommandLine("test");
+        final CommandLine cmdl = new CommandLine("test");
         assertEquals("[test]", cmdl.toString());
         assertEquals(new String[] {"test"}, cmdl.toStrings());
         assertEquals("test", cmdl.getExecutable());
@@ -47,7 +47,7 @@ public class CommandLineTest extends TestCase {
         try {
             new CommandLine("");
             fail("Must throw IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             // Expected
         }
     }
@@ -56,7 +56,7 @@ public class CommandLineTest extends TestCase {
         try {
             new CommandLine("   ");
             fail("Must throw IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             // Expected
         }
     }
@@ -65,13 +65,13 @@ public class CommandLineTest extends TestCase {
         try {
             new CommandLine((String)null);
             fail("Must throw IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             // Expected
         }
     }
 
     public void testAddArgument() {
-        CommandLine cmdl = new CommandLine("test");
+        final CommandLine cmdl = new CommandLine("test");
 
         cmdl.addArgument("foo");
         cmdl.addArgument("bar");
@@ -80,7 +80,7 @@ public class CommandLineTest extends TestCase {
     }
 
     public void testAddNullArgument() {
-        CommandLine cmdl = new CommandLine("test");
+        final CommandLine cmdl = new CommandLine("test");
 
         cmdl.addArgument(null);
         assertEquals("[test]", cmdl.toString());
@@ -88,7 +88,7 @@ public class CommandLineTest extends TestCase {
     }
 
     public void testAddArgumentWithSpace() {
-        CommandLine cmdl = new CommandLine("test");
+        final CommandLine cmdl = new CommandLine("test");
         cmdl.addArgument("foo");
         cmdl.addArgument("ba r");
         assertEquals("[test, foo, \"ba r\"]", cmdl.toString());
@@ -96,7 +96,7 @@ public class CommandLineTest extends TestCase {
     }
 
     public void testAddArgumentWithQuote() {
-        CommandLine cmdl = new CommandLine("test");
+        final CommandLine cmdl = new CommandLine("test");
         cmdl.addArgument("foo");
         cmdl.addArgument("ba\"r");
         assertEquals("[test, foo, 'ba\"r']", cmdl.toString());
@@ -104,7 +104,7 @@ public class CommandLineTest extends TestCase {
     }
 
     public void testAddArgumentWithQuotesAround() {
-        CommandLine cmdl = new CommandLine("test");
+        final CommandLine cmdl = new CommandLine("test");
         cmdl.addArgument("\'foo\'");
         cmdl.addArgument("\"bar\"");
         cmdl.addArgument("\"fe z\"");
@@ -113,7 +113,7 @@ public class CommandLineTest extends TestCase {
     }
 
     public void testAddArgumentWithSingleQuote() {
-        CommandLine cmdl = new CommandLine("test");
+        final CommandLine cmdl = new CommandLine("test");
 
         cmdl.addArgument("foo");
         cmdl.addArgument("ba'r");
@@ -123,32 +123,32 @@ public class CommandLineTest extends TestCase {
     }
 
     public void testAddArgumentWithBothQuotes() {
-        CommandLine cmdl = new CommandLine("test");
+        final CommandLine cmdl = new CommandLine("test");
 
         try {
             cmdl.addArgument("b\"a'r");
             fail("IllegalArgumentException should be thrown");
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             // OK, expected
         }
     }
 
     public void testAddArguments() {
-        CommandLine cmdl = new CommandLine("test");
+        final CommandLine cmdl = new CommandLine("test");
         cmdl.addArguments("foo bar");
         assertEquals("[test, foo, bar]", cmdl.toString());
         assertEquals(new String[] {"test", "foo", "bar"}, cmdl.toStrings());
     }
 
     public void testAddArgumentsWithQuotes() {
-        CommandLine cmdl = new CommandLine("test");
+        final CommandLine cmdl = new CommandLine("test");
         cmdl.addArguments("'foo' \"bar\"");
         assertEquals("[test, foo, bar]", cmdl.toString());
         assertEquals(new String[] {"test", "foo", "bar"}, cmdl.toStrings());
     }
 
     public void testAddArgumentsWithQuotesAndSpaces() {
-        CommandLine cmdl = new CommandLine("test");
+        final CommandLine cmdl = new CommandLine("test");
         cmdl.addArguments("'fo o' \"ba r\"");
         assertEquals("[test, \"fo o\", \"ba r\"]", cmdl.toString());
         assertEquals(new String[] {"test", "\"fo o\"", "\"ba r\""}, cmdl
@@ -156,14 +156,14 @@ public class CommandLineTest extends TestCase {
     }
 
     public void testAddArgumentsArray() {
-        CommandLine cmdl = new CommandLine("test");
+        final CommandLine cmdl = new CommandLine("test");
         cmdl.addArguments(new String[] {"foo", "bar"});
         assertEquals("[test, foo, bar]", cmdl.toString());
         assertEquals(new String[] {"test", "foo", "bar"}, cmdl.toStrings());
     }
 
     public void testAddArgumentsArrayNull() {
-        CommandLine cmdl = new CommandLine("test");
+        final CommandLine cmdl = new CommandLine("test");
         cmdl.addArguments((String[]) null);
         assertEquals("[test]", cmdl.toString());
         assertEquals(new String[] {"test"}, cmdl.toStrings());
@@ -176,12 +176,12 @@ public class CommandLineTest extends TestCase {
      */
     public void testAddTwoArguments() {
 
-        CommandLine userAddCL1 = new CommandLine("useradd");
+        final CommandLine userAddCL1 = new CommandLine("useradd");
         userAddCL1.addArgument("-g");
         userAddCL1.addArgument("tomcat");
         userAddCL1.addArgument("foo");
 
-        CommandLine userAddCL2 = new CommandLine("useradd");
+        final CommandLine userAddCL2 = new CommandLine("useradd");
         userAddCL2.addArgument("-g").addArgument("tomcat");
         userAddCL2.addArgument("foo");
 
@@ -189,13 +189,13 @@ public class CommandLineTest extends TestCase {
     }
 
     public void testParseCommandLine() {
-        CommandLine cmdl = CommandLine.parse("test foo bar");
+        final CommandLine cmdl = CommandLine.parse("test foo bar");
         assertEquals("[test, foo, bar]", cmdl.toString());
         assertEquals(new String[] {"test", "foo", "bar"}, cmdl.toStrings());
     }
 
     public void testParseCommandLineWithQuotes() {
-        CommandLine cmdl = CommandLine.parse("test \"foo\" \'ba r\'");
+        final CommandLine cmdl = CommandLine.parse("test \"foo\" \'ba r\'");
         assertEquals("[test, foo, \"ba r\"]", cmdl.toString());
         assertEquals(new String[] {"test", "foo", "\"ba r\""}, cmdl.toStrings());
     }
@@ -204,7 +204,7 @@ public class CommandLineTest extends TestCase {
         try {
             CommandLine.parse("test \"foo bar");
             fail("IllegalArgumentException must be thrown due to uneven quotes");
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             // Expected
         }
     }
@@ -213,7 +213,7 @@ public class CommandLineTest extends TestCase {
         try {
             CommandLine.parse(null);
             fail("IllegalArgumentException must be thrown due to incorrect command line");
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             // Expected
         }
     }
@@ -222,7 +222,7 @@ public class CommandLineTest extends TestCase {
         try {
             CommandLine.parse("  ");
             fail("IllegalArgumentException must be thrown due to incorrect command line");
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             // Expected
         }
     }
@@ -234,10 +234,10 @@ public class CommandLineTest extends TestCase {
      * do that without adding a space, e.g. "500x> ".
      */
     public void testParseComplexCommandLine1() {
-        HashMap substitutionMap = new HashMap();
+        final HashMap substitutionMap = new HashMap();
         substitutionMap.put("in", "source.jpg");
         substitutionMap.put("out", "target.jpg");
-        CommandLine cmdl = CommandLine.parse("cmd /C convert ${in} -resize \"\'500x> \'\" ${out}", substitutionMap);
+        final CommandLine cmdl = CommandLine.parse("cmd /C convert ${in} -resize \"\'500x> \'\" ${out}", substitutionMap);
         assertEquals("[cmd, /C, convert, source.jpg, -resize, \"500x> \", target.jpg]", cmdl.toString());
     }
 
@@ -248,14 +248,14 @@ public class CommandLineTest extends TestCase {
      */
     public void testParseComplexCommandLine2() {
 
-        String commandline = "./script/jrake cruise:publish_installers "
+        final String commandline = "./script/jrake cruise:publish_installers "
             + "INSTALLER_VERSION=unstable_2_1 "
             + "INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\" "
             + "INSTALLER_DOWNLOAD_SERVER=\'something\' "
             + "WITHOUT_HELP_DOC=true";
 
-        CommandLine cmdl = CommandLine.parse(commandline);
-        String[] args = cmdl.getArguments();
+        final CommandLine cmdl = CommandLine.parse(commandline);
+        final String[] args = cmdl.getArguments();
         assertEquals(args[0], "cruise:publish_installers");
         assertEquals(args[1], "INSTALLER_VERSION=unstable_2_1");
         // assertEquals(args[2], "INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\"");
@@ -270,10 +270,10 @@ public class CommandLineTest extends TestCase {
      */
     public void testParseRealLifeCommandLine_1() {
 
-        String commandline = "cmd.exe /C \"c:\\was51\\Web Sphere\\AppServer\\bin\\versionInfo.bat\"";
+        final String commandline = "cmd.exe /C \"c:\\was51\\Web Sphere\\AppServer\\bin\\versionInfo.bat\"";
 
-        CommandLine cmdl = CommandLine.parse(commandline);
-        String[] args = cmdl.getArguments();
+        final CommandLine cmdl = CommandLine.parse(commandline);
+        final String[] args = cmdl.getArguments();
         assertEquals("/C", args[0]);
         assertEquals("\"c:\\was51\\Web Sphere\\AppServer\\bin\\versionInfo.bat\"", args[1]);
     }
@@ -283,7 +283,7 @@ public class CommandLineTest extends TestCase {
     * e.g. "runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""
     */
     public void testComplexAddArgument() {
-        CommandLine cmdl = new CommandLine("runMemorySud.cmd");
+        final CommandLine cmdl = new CommandLine("runMemorySud.cmd");
         cmdl.addArgument("10", false);
         cmdl.addArgument("30", false);
         cmdl.addArgument("-XX:+UseParallelGC", false);
@@ -296,7 +296,7 @@ public class CommandLineTest extends TestCase {
      * e.g. "runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""
      */
      public void testComplexAddArguments1() {
-         CommandLine cmdl = new CommandLine("runMemorySud.cmd");
+         final CommandLine cmdl = new CommandLine("runMemorySud.cmd");
          cmdl.addArguments(new String[] {"10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""}, false);
          assertEquals(new String[] {"runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""}, cmdl.toStrings());
      }
@@ -308,7 +308,7 @@ public class CommandLineTest extends TestCase {
      * don't know if this is a bug or a feature.
      */
      public void testComplexAddArguments2() {
-         CommandLine cmdl = new CommandLine("runMemorySud.cmd");
+         final CommandLine cmdl = new CommandLine("runMemorySud.cmd");
          cmdl.addArguments("10 30 -XX:+UseParallelGC '\"-XX:ParallelGCThreads=2\"'", false);
          assertEquals(new String[] {"runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""}, cmdl.toStrings());
      }
@@ -320,13 +320,13 @@ public class CommandLineTest extends TestCase {
 
         CommandLine cmdl;
 
-        HashMap substitutionMap = new HashMap();
+        final HashMap substitutionMap = new HashMap();
         substitutionMap.put("JAVA_HOME", "/usr/local/java");
         substitutionMap.put("appMainClass", "foo.bar.Main");
         substitutionMap.put("file1", new File("./pom.xml"));
         substitutionMap.put("file2", new File(".\\temp\\READ ME.txt"));
 
-        HashMap incompleteMap = new HashMap();
+        final HashMap incompleteMap = new HashMap();
         incompleteMap.put("JAVA_HOME", "/usr/local/java");
 
         // do not pass substitution map
@@ -367,7 +367,7 @@ public class CommandLineTest extends TestCase {
         String[] result;
 
         // build the user supplied parameters
-        HashMap substitutionMap = new HashMap();
+        final HashMap substitutionMap = new HashMap();
         substitutionMap.put("JAVA_HOME", "C:\\Programme\\jdk1.5.0_12");
         substitutionMap.put("appMainClass", "foo.bar.Main");
 
@@ -392,8 +392,8 @@ public class CommandLineTest extends TestCase {
 
         // verify the first command line again but by
         // accessing the executable and arguments directly
-        String executable = cmdl.getExecutable();
-        String[] arguments = cmdl.getArguments();
+        final String executable = cmdl.getExecutable();
+        final String[] arguments = cmdl.getArguments();
         assertEquals(StringUtils.fixFileSeparatorChar("C:\\Programme\\jdk1.5.0_12\\bin\\java"), executable);
         assertEquals("-class", arguments[0]);
         assertEquals("foo.bar.Main", arguments[1]);
@@ -409,14 +409,14 @@ public class CommandLineTest extends TestCase {
     }
 
     public void testCommandLineParsingWithExpansion3(){
-        CommandLine cmdl = CommandLine.parse("AcroRd32.exe");
+        final CommandLine cmdl = CommandLine.parse("AcroRd32.exe");
         cmdl.addArgument("/p");
         cmdl.addArgument("/h");
         cmdl.addArgument("${file}", false);
-        HashMap params = new HashMap();
+        final HashMap params = new HashMap();
         params.put("file", "C:\\Document And Settings\\documents\\432432.pdf");
         cmdl.setSubstitutionMap(params);
-        String[] result = cmdl.toStrings();
+        final String[] result = cmdl.toStrings();
         assertEquals("AcroRd32.exe", result[0]);
         assertEquals("/p", result[1]);
         assertEquals("/h", result[2]);
@@ -430,7 +430,7 @@ public class CommandLineTest extends TestCase {
      */
     public void testToString() throws Exception {
         CommandLine cmdl;
-        HashMap params = new HashMap();
+        final HashMap params = new HashMap();
 
         // use no arguments
         cmdl = CommandLine.parse("AcroRd32.exe", params);
@@ -457,9 +457,9 @@ public class CommandLineTest extends TestCase {
         // On HP-UX quotes handling leads to errors,
         // also usage of quotes isn't mandatory on other platforms too
         // so it probably should work correctly either way.
-        CommandLine cmd1 = new CommandLine("sh").addArgument("-c")
+        final CommandLine cmd1 = new CommandLine("sh").addArgument("-c")
                 .addArgument("echo 1", false);
-        CommandLine cmd2 = new CommandLine("sh").addArgument("-c")
+        final CommandLine cmd2 = new CommandLine("sh").addArgument("-c")
                 .addArgument("echo").addArgument("1");
         System.out.println("cmd1: " + cmd1.toString());
         System.out.println("cmd2: " + cmd2.toString());
@@ -475,7 +475,7 @@ public class CommandLineTest extends TestCase {
 
         CommandLine cmdl;
 
-        String line = "./script/jrake "
+        final String line = "./script/jrake "
           + "cruise:publish_installers "
           + "INSTALLER_VERSION=unstable_2_1 "
           + "INSTALLER_PATH=\"/var/lib/cruise-agent/installers\" "
@@ -483,7 +483,7 @@ public class CommandLineTest extends TestCase {
           + "WITHOUT_HELP_DOC=true";
 
         cmdl = CommandLine.parse(line);
-        String[] args = cmdl.toStrings();
+        final String[] args = cmdl.toStrings();
         assertEquals("./script/jrake", args[0]);
         assertEquals("cruise:publish_installers", args[1]);
         assertEquals("INSTALLER_VERSION=unstable_2_1", args[2]);
@@ -500,12 +500,12 @@ public class CommandLineTest extends TestCase {
 
         CommandLine cmdl;
 
-        String line = "dotnetfx.exe"
+        final String line = "dotnetfx.exe"
                 + " /q:a "
                 + "/c:\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"";
 
         cmdl = CommandLine.parse(line);
-        String[] args = cmdl.toStrings();
+        final String[] args = cmdl.toStrings();
         assertEquals("dotnetfx.exe", args[0]);
         assertEquals("/q:a", args[1]);
         assertEquals("/c:\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"", args[2] );
@@ -518,10 +518,10 @@ public class CommandLineTest extends TestCase {
      */
     public void _testExec36_3() {
 
-        String commandline = "C:\\CVS_DB\\WeightsEngine /f WeightsEngine.mak CFG=\"WeightsEngine - Win32Release\"";
+        final String commandline = "C:\\CVS_DB\\WeightsEngine /f WeightsEngine.mak CFG=\"WeightsEngine - Win32Release\"";
 
-        CommandLine cmdl = CommandLine.parse(commandline);
-        String[] args = cmdl.getArguments();
+        final CommandLine cmdl = CommandLine.parse(commandline);
+        final String[] args = cmdl.getArguments();
         assertEquals("/f", args[0]);
         assertEquals("WeightsEngine.mak", args[1]);
         assertEquals("CFG=\"WeightsEngine - Win32Release\"", args[2]);
@@ -529,13 +529,13 @@ public class CommandLineTest extends TestCase {
 
     public void testCopyConstructor()
     {
-        Map map = new HashMap();
+        final Map map = new HashMap();
         map.put("bar", "bar");
-        CommandLine other = new CommandLine("test");
+        final CommandLine other = new CommandLine("test");
         other.addArgument("foo");
         other.setSubstitutionMap(map);
 
-        CommandLine cmdl = new CommandLine(other);
+        final CommandLine cmdl = new CommandLine(other);
         assertEquals(other.getExecutable(), cmdl.getExecutable());
         assertEquals(other.getArguments(), cmdl.getArguments());
         assertEquals(other.isFile(), cmdl.isFile());

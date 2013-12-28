@@ -46,7 +46,7 @@ public class DebugUtils
      * @param msg message describing the problem
      * @param e an exception being handled
      */
-    public static void handleException(String msg, Exception e) {
+    public static void handleException(final String msg, final Exception e) {
 
         if(isDebugEnabled()) {
             System.err.println(msg);

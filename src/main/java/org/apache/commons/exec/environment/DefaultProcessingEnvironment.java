@@ -65,7 +65,7 @@ public class DefaultProcessingEnvironment {
         // create a copy of the map just in case that
         // anyone is going to modifiy it, e.g. removing
         // or setting an evironment variable
-        Map copy = createEnvironmentMap();
+        final Map copy = createEnvironmentMap();
         copy.putAll(procEnvironment);
         return copy;
     }
@@ -79,22 +79,22 @@ public class DefaultProcessingEnvironment {
     protected Map createProcEnvironment() throws IOException {
         if (procEnvironment == null) {
             try {
-                Method getenvs = System.class.getMethod( "getenv", (java.lang.Class[]) null );
-                Map env = (Map) getenvs.invoke( null, (java.lang.Object[]) null );
+                final Method getenvs = System.class.getMethod( "getenv", (java.lang.Class[]) null );
+                final Map env = (Map) getenvs.invoke( null, (java.lang.Object[]) null );
                 procEnvironment = createEnvironmentMap();
                 procEnvironment.putAll(env);
-            } catch ( NoSuchMethodException e ) {
+            } catch ( final NoSuchMethodException e ) {
                 // ok, just not on JDK 1.5
-            } catch ( IllegalAccessException e ) {
+            } catch ( final IllegalAccessException e ) {
                 // Unexpected error obtaining environment - using JDK 1.4 method
-            } catch ( InvocationTargetException e ) {
+            } catch ( final InvocationTargetException e ) {
                 // Unexpected error obtaining environment - using JDK 1.4 method
             }
         }
 
         if(procEnvironment == null) {
             procEnvironment = createEnvironmentMap();
-            BufferedReader in = runProcEnvCommand();
+            final BufferedReader in = runProcEnvCommand();
 
             String var = null;
             String line;
@@ -130,8 +130,8 @@ public class DefaultProcessingEnvironment {
      * @throws IOException starting the process failed
      */
     protected BufferedReader runProcEnvCommand() throws IOException {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        Executor exe = new DefaultExecutor();
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final Executor exe = new DefaultExecutor();
         exe.setStreamHandler(new PumpStreamHandler(out));
         // ignore the exit value - Just try to use what we got
         exe.execute(getProcEnvCommand());
@@ -203,13 +203,13 @@ public class DefaultProcessingEnvironment {
         if (OS.isFamilyZOS()) {
             try {
                 return bos.toString("Cp1047");
-            } catch (java.io.UnsupportedEncodingException e) {
+            } catch (final java.io.UnsupportedEncodingException e) {
                 // noop default encoding used
             }
         } else if (OS.isFamilyOS400()) {
             try {
                 return bos.toString("Cp500");
-            } catch (java.io.UnsupportedEncodingException e) {
+            } catch (final java.io.UnsupportedEncodingException e) {
                 // noop default encoding used
             }
         }
@@ -227,9 +227,9 @@ public class DefaultProcessingEnvironment {
     private Map createEnvironmentMap() {
         if (OS.isFamilyWindows()) {
             return new TreeMap(new Comparator() {
-                public int compare(Object arg0, Object arg1) {
-                    String key0 = (String) arg0;
-                    String key1 = (String) arg1;
+                public int compare(final Object arg0, final Object arg1) {
+                    final String key0 = (String) arg0;
+                    final String key1 = (String) arg1;
                     return key0.compareToIgnoreCase(key1);
                 }
             });

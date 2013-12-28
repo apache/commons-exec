@@ -37,13 +37,13 @@ public class MapUtils
      * @param source the source map
      * @return the clone of the source map
      */
-    public static Map copy(Map source) {
+    public static Map copy(final Map source) {
 
         if(source == null) {
             return null;
         }
 
-        Map result = new HashMap();
+        final Map result = new HashMap();
         result.putAll(source);
         return result;
     }
@@ -57,20 +57,20 @@ public class MapUtils
      * @param prefix the prefix used for all names
      * @return the clone of the source map
      */
-    public static Map prefix(Map source, String prefix) {
+    public static Map prefix(final Map source, final String prefix) {
 
         if(source == null) {
             return null;
         }
 
-        Map result = new HashMap();
+        final Map result = new HashMap();
 
-        Iterator iter = source.entrySet().iterator();
+        final Iterator iter = source.entrySet().iterator();
 
         while(iter.hasNext()) {
-            Map.Entry entry = (Map.Entry) iter.next();
-            Object key = entry.getKey();
-            Object value = entry.getValue();
+            final Map.Entry entry = (Map.Entry) iter.next();
+            final Object key = entry.getKey();
+            final Object value = entry.getValue();
             result.put(prefix + '.' + key.toString(), value);
         }
 
@@ -85,7 +85,7 @@ public class MapUtils
      * @param rhs the second map
      * @return the merged map
      */
-    public static Map merge(Map lhs, Map rhs) {
+    public static Map merge(final Map lhs, final Map rhs) {
 
         Map result = null;
 

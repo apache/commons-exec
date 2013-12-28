@@ -99,7 +99,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      *
      * @param timeout timeout in milliseconds or zero to wait forever (default)
      */
-    public void setStopTimeout(long timeout) {
+    public void setStopTimeout(final long timeout) {
         this.stopTimeout = timeout;
     }
 
@@ -143,8 +143,8 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
         } else {
             try {
                 os.close();
-            } catch (IOException e) {
-                String msg = "Got exception while closing output stream";
+            } catch (final IOException e) {
+                final String msg = "Got exception while closing output stream";
                 DebugUtils.handleException(msg, e);
             }
         }
@@ -182,8 +182,8 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
         if (err != null && err != out) {
             try {
                 err.flush();
-            } catch (IOException e) {
-                String msg = "Got exception while flushing the error stream : " + e.getMessage();
+            } catch (final IOException e) {
+                final String msg = "Got exception while flushing the error stream : " + e.getMessage();
                 DebugUtils.handleException(msg, e);
             }
         }
@@ -191,8 +191,8 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
         if (out != null) {
             try {
                 out.flush();
-            } catch (IOException e) {
-                String msg = "Got exception while flushing the output stream";
+            } catch (final IOException e) {
+                final String msg = "Got exception while flushing the output stream";
                 DebugUtils.handleException(msg, e);
             }
         }
@@ -250,7 +250,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * @return the stream pumper thread
      */
     protected Thread createPump(final InputStream is, final OutputStream os) {
-        boolean closeWhenExhausted = os instanceof PipedOutputStream ? true : false;
+        final boolean closeWhenExhausted = os instanceof PipedOutputStream ? true : false;
         return createPump(is, os, closeWhenExhausted);
     }
 
@@ -278,22 +278,22 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * @param thread  the thread to be stopped
      * @param timeout the time in ms to wait to join
      */
-    protected void stopThread(Thread thread, long timeout) {
+    protected void stopThread(final Thread thread, final long timeout) {
 
         if (thread != null) {
             try {
                 if (timeout == 0) {
                     thread.join();
                 } else {
-                    long timeToWait = timeout + STOP_TIMEOUT_ADDITION;
-                    long startTime = System.currentTimeMillis();
+                    final long timeToWait = timeout + STOP_TIMEOUT_ADDITION;
+                    final long startTime = System.currentTimeMillis();
                     thread.join(timeToWait);
                     if (!(System.currentTimeMillis() < startTime + timeToWait)) {
-                        String msg = "The stop timeout of " + timeout + " ms was exceeded";
+                        final String msg = "The stop timeout of " + timeout + " ms was exceeded";
                         caught = new ExecuteException(msg, Executor.INVALID_EXITVALUE);
                     }
                 }
-            } catch (InterruptedException e) {
+            } catch (final InterruptedException e) {
                 thread.interrupt();
             }
         }
@@ -307,7 +307,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * @param os the output stream to copy into
      * @return the stream pumper thread
      */
-    private Thread createSystemInPump(InputStream is, OutputStream os) {
+    private Thread createSystemInPump(final InputStream is, final OutputStream os) {
         inputStreamPumper = new InputStreamPumper(is, os);
         final Thread result = new Thread(inputStreamPumper, "Exec Input Stream Pumper");
         result.setDaemon(true);

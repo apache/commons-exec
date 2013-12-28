@@ -62,9 +62,9 @@ public class StringUtils {
      * @param isLenient ignore a key not found in vars or throw a RuntimeException?
      * @return String target string with replacements.
      */
-    public static StringBuffer stringSubstitution(String argStr, Map vars, boolean isLenient) {
+    public static StringBuffer stringSubstitution(final String argStr, final Map vars, final boolean isLenient) {
 
-        StringBuffer argBuf = new StringBuffer();
+        final StringBuffer argBuf = new StringBuffer();
 
         if (argStr == null || argStr.length() == 0) {
             return argBuf;
@@ -74,7 +74,7 @@ public class StringUtils {
             return argBuf.append(argStr);
         }
 
-        int argStrLength = argStr.length();
+        final int argStrLength = argStr.length();
 
         for (int cIdx = 0; cIdx < argStrLength;) {
 
@@ -84,7 +84,7 @@ public class StringUtils {
             switch (ch) {
 
                 case '$':
-                    StringBuffer nameBuf = new StringBuffer();
+                    final StringBuffer nameBuf = new StringBuffer();
                     del = argStr.charAt(cIdx + 1);
                     if (del == '{') {
                         cIdx++;
@@ -101,7 +101,7 @@ public class StringUtils {
                         if (nameBuf.length() >= 0) {
 
                             String value;
-                            Object temp = vars.get(nameBuf.toString());
+                            final Object temp = vars.get(nameBuf.toString());
 
                             if(temp instanceof File) {
                                 // for a file we have to fix the separator chars to allow
@@ -158,9 +158,9 @@ public class StringUtils {
      * @param splitChar what to split on
      * @return the array of strings
      */
-    public static String[] split(String input, String splitChar) {
-        StringTokenizer tokens = new StringTokenizer(input, splitChar);
-        List strList = new ArrayList();
+    public static String[] split(final String input, final String splitChar) {
+        final StringTokenizer tokens = new StringTokenizer(input, splitChar);
+        final List strList = new ArrayList();
         while (tokens.hasMoreTokens()) {
             strList.add(tokens.nextToken());
         }
@@ -179,7 +179,7 @@ public class StringUtils {
      * @param arg the argument to fix
      * @return the transformed argument 
      */
-    public static String fixFileSeparatorChar(String arg) {
+    public static String fixFileSeparatorChar(final String arg) {
         return arg.replace(SLASH_CHAR, File.separatorChar).replace(
                 BACKSLASH_CHAR, File.separatorChar);
     }
@@ -191,8 +191,8 @@ public class StringUtils {
      * @param separator the separator between two strings
      * @return the concatenated strings
      */
-    public static String toString(String[] strings, String separator) {
-        StringBuffer sb = new StringBuffer();
+    public static String toString(final String[] strings, final String separator) {
+        final StringBuffer sb = new StringBuffer();
         for (int i = 0; i < strings.length; i++) {
             if (i > 0) {
                 sb.append(separator);

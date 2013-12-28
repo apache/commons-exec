@@ -90,7 +90,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
 	 */
 	private void removeShutdownHook() {
 		if (added && !running) {
-			boolean removed = Runtime.getRuntime().removeShutdownHook(
+			final boolean removed = Runtime.getRuntime().removeShutdownHook(
 					destroyProcessThread);
 			if (!removed) {
 				System.err.println("Could not remove shutdown hook");
@@ -106,7 +106,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
 			// this should return quickly, since it basically is a NO-OP.
 			try {
 				destroyProcessThread.join(20000);
-			} catch (InterruptedException ie) {
+			} catch (final InterruptedException ie) {
 				// the thread didn't die in time
 				// it should not kill any processes unexpectedly
 			}
@@ -156,7 +156,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
 	 */
 	public boolean remove(final Process process) {
         synchronized (processes) {
-            boolean processRemoved = processes.removeElement(process);
+            final boolean processRemoved = processes.removeElement(process);
             if (processRemoved && processes.size() == 0) {
                 removeShutdownHook();
             }
@@ -179,13 +179,13 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
   public void run() {
       synchronized (processes) {
           running = true;
-          Enumeration e = processes.elements();
+          final Enumeration e = processes.elements();
           while (e.hasMoreElements()) {
-              Process process = (Process) e.nextElement();
+              final Process process = (Process) e.nextElement();
               try {
                   process.destroy();
               }
-              catch (Throwable t) {
+              catch (final Throwable t) {
                   System.err.println("Unable to terminate process during process shutdown");
               }
           }

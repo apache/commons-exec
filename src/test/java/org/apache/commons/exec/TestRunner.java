@@ -31,7 +31,7 @@ import org.apache.commons.exec.util.MapUtilTest;
 public class TestRunner extends TestCase {
 
     public static Test suite() {
-        TestSuite suite = new TestSuite("TestRunner");
+        final TestSuite suite = new TestSuite("TestRunner");
         suite.addTestSuite(CommandLineTest.class);
         suite.addTestSuite(DefaultExecutorTest.class);
         suite.addTestSuite(EnvironmentUtilTest.class);
@@ -40,11 +40,11 @@ public class TestRunner extends TestCase {
         return suite;
     }
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
 
-        Test test = TestRunner.suite();
-        junit.textui.TestRunner testRunner = new junit.textui.TestRunner(System.out);
-        TestResult testResult = testRunner.doRun(test);
+        final Test test = TestRunner.suite();
+        final junit.textui.TestRunner testRunner = new junit.textui.TestRunner(System.out);
+        final TestResult testResult = testRunner.doRun(test);
 
         if(!testResult.wasSuccessful()) {
             System.exit(1);

@@ -151,7 +151,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
                 if(process != null) {
                     process.exitValue();
                 }
-            } catch (IllegalThreadStateException itse) {
+            } catch (final IllegalThreadStateException itse) {
                 // the process is not terminated, if this is really
                 // a timeout and not a manual stop then destroy it.
                 if (watch) {
@@ -159,7 +159,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
                     process.destroy();
                 }
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             caught = e;
             DebugUtils.handleException("Getting the exit value of the process failed", e);
         } finally {
@@ -225,7 +225,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
         while (!processStarted){
             try {
                 this.wait();
-            } catch (InterruptedException e) {
+            } catch (final InterruptedException e) {
                 throw new RuntimeException(e.getMessage());
             }
         }

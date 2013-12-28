@@ -97,7 +97,7 @@ public class DefaultExecutor implements Executor {
     /**
      * @see org.apache.commons.exec.Executor#setStreamHandler(org.apache.commons.exec.ExecuteStreamHandler)
      */
-    public void setStreamHandler(ExecuteStreamHandler streamHandler) {
+    public void setStreamHandler(final ExecuteStreamHandler streamHandler) {
         this.streamHandler = streamHandler;
     }
 
@@ -111,7 +111,7 @@ public class DefaultExecutor implements Executor {
     /**
      * @see org.apache.commons.exec.Executor#setWatchdog(org.apache.commons.exec.ExecuteWatchdog)
      */
-    public void setWatchdog(ExecuteWatchdog watchDog) {
+    public void setWatchdog(final ExecuteWatchdog watchDog) {
         this.watchdog = watchDog;
     }
 
@@ -125,7 +125,7 @@ public class DefaultExecutor implements Executor {
     /**
      * @see org.apache.commons.exec.Executor#setProcessDestroyer(ProcessDestroyer)
      */
-    public void setProcessDestroyer(ProcessDestroyer processDestroyer) {
+    public void setProcessDestroyer(final ProcessDestroyer processDestroyer) {
       this.processDestroyer = processDestroyer;
     }
 
@@ -139,7 +139,7 @@ public class DefaultExecutor implements Executor {
     /**
      * @see org.apache.commons.exec.Executor#setWorkingDirectory(java.io.File)
      */
-    public void setWorkingDirectory(File dir) {
+    public void setWorkingDirectory(final File dir) {
         this.workingDirectory = dir;
     }
 
@@ -154,7 +154,7 @@ public class DefaultExecutor implements Executor {
     /**
      * @see org.apache.commons.exec.Executor#execute(CommandLine, java.util.Map)
      */
-    public int execute(final CommandLine command, Map environment)
+    public int execute(final CommandLine command, final Map environment)
             throws ExecuteException, IOException {
 
         if (workingDirectory != null && !workingDirectory.exists()) {
@@ -169,7 +169,7 @@ public class DefaultExecutor implements Executor {
      * @see org.apache.commons.exec.Executor#execute(CommandLine,
      *      org.apache.commons.exec.ExecuteResultHandler)
      */
-    public void execute(final CommandLine command, ExecuteResultHandler handler)
+    public void execute(final CommandLine command, final ExecuteResultHandler handler)
             throws ExecuteException, IOException {
         execute(command, null, handler);
     }
@@ -189,7 +189,7 @@ public class DefaultExecutor implements Executor {
             watchdog.setProcessNotStarted();
         }
 
-        Runnable runnable = new Runnable()
+        final Runnable runnable = new Runnable()
         {
             public void run()
             {
@@ -197,9 +197,9 @@ public class DefaultExecutor implements Executor {
                 try {
                     exitValue = executeInternal(command, environment, workingDirectory, streamHandler);
                     handler.onProcessComplete(exitValue);
-                } catch (ExecuteException e) {
+                } catch (final ExecuteException e) {
                     handler.onProcessFailed(e);
-                } catch(Exception e) {
+                } catch(final Exception e) {
                     handler.onProcessFailed(new ExecuteException("Execution failed", exitValue, e));
                 }
             }
@@ -247,7 +247,7 @@ public class DefaultExecutor implements Executor {
      * @param name the name of the thread
      * @return the thread
      */
-    protected Thread createThread(Runnable runnable, String name) {
+    protected Thread createThread(final Runnable runnable, final String name) {
         return new Thread(runnable, name);
     }
 
@@ -296,21 +296,21 @@ public class DefaultExecutor implements Executor {
         try {
             process.getInputStream().close();
         }
-        catch(IOException e) {
+        catch(final IOException e) {
             setExceptionCaught(e);
         }
 
         try {
             process.getOutputStream().close();
         }
-        catch(IOException e) {
+        catch(final IOException e) {
             setExceptionCaught(e);
         }
 
         try {
             process.getErrorStream().close();
         }
-        catch(IOException e) {
+        catch(final IOException e) {
             setExceptionCaught(e);
         }
     }
@@ -337,7 +337,7 @@ public class DefaultExecutor implements Executor {
             streams.setProcessInputStream(process.getOutputStream());
             streams.setProcessOutputStream(process.getInputStream());
             streams.setProcessErrorStream(process.getErrorStream());
-        } catch (IOException e) {
+        } catch (final IOException e) {
             process.destroy();
             throw e;
         }
@@ -360,7 +360,7 @@ public class DefaultExecutor implements Executor {
 
             try {
                 exitValue = process.waitFor();
-            } catch (InterruptedException e) {
+            } catch (final InterruptedException e) {
                 process.destroy();
             }
             finally {
@@ -378,7 +378,7 @@ public class DefaultExecutor implements Executor {
             try {
                 streams.stop();
             }
-            catch(IOException e) {
+            catch(final IOException e) {
                 setExceptionCaught(e);
             }
 
@@ -391,9 +391,9 @@ public class DefaultExecutor implements Executor {
             if (watchdog != null) {
                 try {
                     watchdog.checkException();
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     throw e;
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     throw new IOException(e.getMessage());
                 }
             }
@@ -416,7 +416,7 @@ public class DefaultExecutor implements Executor {
      *
      * @param e the IOException
      */
-    private void setExceptionCaught(IOException e) {
+    private void setExceptionCaught(final IOException e) {
         if(this.exceptionCaught == null) {
             this.exceptionCaught = e;
         }
