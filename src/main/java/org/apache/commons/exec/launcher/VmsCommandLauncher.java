@@ -68,7 +68,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
     public boolean isFailure( final int exitValue )
     {
         // even exit value signals failure
-        return (exitValue % 2) == 0;        
+        return exitValue % 2 == 0;        
     }
 
     /*

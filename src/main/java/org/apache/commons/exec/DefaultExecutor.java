@@ -217,7 +217,7 @@ public class DefaultExecutor implements Executor {
 
     /** @see org.apache.commons.exec.Executor#setExitValues(int[]) */
     public void setExitValues(final int[] values) {
-        this.exitValues = (values == null ? null : (int[]) values.clone());
+        this.exitValues = values == null ? null : (int[]) values.clone();
     }
 
     /** @see org.apache.commons.exec.Executor#isFailure(int) */

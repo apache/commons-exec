@@ -55,7 +55,7 @@ public class MapUtilTest extends TestCase
 
         applicationEnvironment.put("appMainClass", "foo.bar.Main");
         Map result = MapUtils.merge(procEnvironment, applicationEnvironment);
-        assertTrue((procEnvironment.size() + applicationEnvironment.size()) == result.size());
+        assertTrue(procEnvironment.size() + applicationEnvironment.size() == result.size());
         assertEquals("foo.bar.Main", result.get("appMainClass"));
     }
 

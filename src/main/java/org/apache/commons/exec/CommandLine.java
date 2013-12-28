@@ -262,7 +262,7 @@ public class CommandLine {
         for(int i=0; i<result.length; i++) {
             currArgument = (Argument) arguments.get(i);
             expandedArgument = expandArgument(currArgument.getValue());
-            result[i] = (currArgument.isHandleQuoting() ? StringUtils.quoteArgument(expandedArgument) : expandedArgument);
+            result[i] = currArgument.isHandleQuoting() ? StringUtils.quoteArgument(expandedArgument) : expandedArgument;
         }
 
         return result;

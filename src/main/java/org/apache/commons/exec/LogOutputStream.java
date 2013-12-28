@@ -74,14 +74,14 @@ public abstract class LogOutputStream
      */
     public void write(final int cc) throws IOException {
         final byte c = (byte) cc;
-        if ((c == '\n') || (c == '\r')) {
+        if (c == '\n' || c == '\r') {
             if (!skip) {
                 processBuffer();
             }
         } else {
             buffer.write(cc);
         }
-        skip = (c == '\r');
+        skip = c == '\r';
     }
 
     /**

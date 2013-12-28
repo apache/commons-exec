@@ -72,7 +72,7 @@ public class ExecuteException extends IOException {
      * Return the underlying cause of this exception (if any).
      */
     public Throwable getCause() {
-        return (this.cause);
+        return this.cause;
     }
 
     /**

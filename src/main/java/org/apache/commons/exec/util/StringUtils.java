@@ -109,7 +109,7 @@ public class StringUtils {
                                 value = fixFileSeparatorChar(((File) temp).getAbsolutePath());
                             }
                             else {
-                                value = (temp != null ? temp.toString() : null);    
+                                value = temp != null ? temp.toString() : null;    
                             }
 
                             if (value != null) {
@@ -253,7 +253,7 @@ public class StringUtils {
      * @return true when the argument is quoted
      */
     public static boolean isQuoted(final String argument) {
-        return ( argument.startsWith( SINGLE_QUOTE ) && argument.endsWith( SINGLE_QUOTE ) ) ||
-            ( argument.startsWith( DOUBLE_QUOTE ) && argument.endsWith( DOUBLE_QUOTE ) );
+        return argument.startsWith( SINGLE_QUOTE ) && argument.endsWith( SINGLE_QUOTE ) ||
+            argument.startsWith( DOUBLE_QUOTE ) && argument.endsWith( DOUBLE_QUOTE );
     }
 }

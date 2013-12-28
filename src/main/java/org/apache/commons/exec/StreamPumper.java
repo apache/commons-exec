@@ -74,7 +74,7 @@ public class StreamPumper implements Runnable {
             final boolean closeWhenExhausted, final int size) {
         this.is = is;
         this.os = os;
-        this.size = (size > 0 ? size : DEFAULT_SIZE);
+        this.size = size > 0 ? size : DEFAULT_SIZE;
         this.closeWhenExhausted = closeWhenExhausted;
     }
 

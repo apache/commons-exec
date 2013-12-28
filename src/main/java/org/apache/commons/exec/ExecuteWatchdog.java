@@ -81,7 +81,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
     public ExecuteWatchdog(final long timeout) {
         this.killedProcess = false;
         this.watch = false;
-        this.hasWatchdog = (timeout != INFINITE_TIMEOUT);
+        this.hasWatchdog = timeout != INFINITE_TIMEOUT;
         this.processStarted = false;
         if(this.hasWatchdog) {
             this.watchdog = new Watchdog(timeout);

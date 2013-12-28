@@ -89,10 +89,10 @@ public class MapUtils
 
         Map result = null;
 
-        if((lhs == null) || (lhs.size() == 0)) {
+        if(lhs == null || lhs.size() == 0) {
             result = copy(rhs);
         }
-        else if((rhs == null) || (rhs.size() == 0)) {
+        else if(rhs == null || rhs.size() == 0) {
             result = copy(lhs);
         }
         else {
