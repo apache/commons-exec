@@ -79,20 +79,20 @@ public class DefaultProcessingEnvironment {
     protected Map createProcEnvironment() throws IOException {
         if (procEnvironment == null) {
             try {
-                final Method getenvs = System.class.getMethod( "getenv", (java.lang.Class[]) null );
-                final Map env = (Map) getenvs.invoke( null, (java.lang.Object[]) null );
+                final Method getenvs = System.class.getMethod("getenv", (java.lang.Class[]) null);
+                final Map env = (Map) getenvs.invoke(null, (java.lang.Object[]) null);
                 procEnvironment = createEnvironmentMap();
                 procEnvironment.putAll(env);
-            } catch ( final NoSuchMethodException e ) {
+            } catch (final NoSuchMethodException e) {
                 // ok, just not on JDK 1.5
-            } catch ( final IllegalAccessException e ) {
+            } catch (final IllegalAccessException e) {
                 // Unexpected error obtaining environment - using JDK 1.4 method
-            } catch ( final InvocationTargetException e ) {
+            } catch (final InvocationTargetException e) {
                 // Unexpected error obtaining environment - using JDK 1.4 method
             }
         }
 
-        if(procEnvironment == null) {
+        if (procEnvironment == null) {
             procEnvironment = createEnvironmentMap();
             final BufferedReader in = runProcEnvCommand();
 
@@ -110,14 +110,14 @@ public class DefaultProcessingEnvironment {
                 } else {
                     // New env var...append the previous one if we have it.
                     if (var != null) {
-                    	EnvironmentUtils.addVariableToEnvironment(procEnvironment, var);
+                        EnvironmentUtils.addVariableToEnvironment(procEnvironment, var);
                     }
                     var = line;
                 }
             }
             // Since we "look ahead" before adding, there's one last env var.
             if (var != null) {
-            	EnvironmentUtils.addVariableToEnvironment(procEnvironment, var);
+                EnvironmentUtils.addVariableToEnvironment(procEnvironment, var);
             }
         }
         return procEnvironment;

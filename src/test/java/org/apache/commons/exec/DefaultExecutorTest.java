@@ -281,11 +281,12 @@ public class DefaultExecutorTest extends TestCase {
         try {
             executor.execute(cl);
         }
-        catch(final ExecuteException e) {
+ catch (final ExecuteException e) {
             Thread.sleep(timeout);
             final int nrOfInvocations = getOccurrences(readFile(this.foreverOutputFile), '.');
-            assertTrue( executor.getWatchdog().killedProcess() );
-            assertTrue("killing the subprocess did not work : " + nrOfInvocations, nrOfInvocations > 5 && nrOfInvocations <= 11);
+            assertTrue(executor.getWatchdog().killedProcess());
+            assertTrue("killing the subprocess did not work : " + nrOfInvocations, nrOfInvocations > 5
+                    && nrOfInvocations <= 11);
             return;
         }
         catch(final Throwable t) {
@@ -362,8 +363,7 @@ public class DefaultExecutorTest extends TestCase {
         final DefaultExecutor executor = new DefaultExecutor();
         try {
             executor.execute(cl);
-        }
-        catch( final IOException e) {
+        } catch (final IOException e) {
             // expected
             return;
         }
@@ -499,29 +499,28 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
-    public void testExecuteWithRedirectedStreams() throws Exception
-    {
-        if(OS.isFamilyUnix())
-        {
+    public void testExecuteWithRedirectedStreams() throws Exception {
+        if (OS.isFamilyUnix()) {
             final FileInputStream fis = new FileInputStream("./NOTICE.txt");
             final CommandLine cl = new CommandLine(redirectScript);
-            final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( baos, baos, fis );
+            final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(baos, baos, fis);
             final DefaultExecutor executor = new DefaultExecutor();
             executor.setWorkingDirectory(new File("."));
-            executor.setStreamHandler( pumpStreamHandler );
+            executor.setStreamHandler(pumpStreamHandler);
             final int exitValue = executor.execute(cl);
             fis.close();
             final String result = baos.toString().trim();
             assertTrue(result, result.indexOf("Finished reading from stdin") > 0);
             assertFalse("exitValue=" + exitValue, exec.isFailure(exitValue));
-        }
-        else if(OS.isFamilyWindows()) {
-            System.err.println("The code samples to do that in windows look like a joke ... :-( .., no way I'm doing that");
-            System.err.println("The test 'testExecuteWithRedirectedStreams' does not support the following OS : " + System.getProperty("os.name"));
+        } else if (OS.isFamilyWindows()) {
+            System.err
+                    .println("The code samples to do that in windows look like a joke ... :-( .., no way I'm doing that");
+            System.err.println("The test 'testExecuteWithRedirectedStreams' does not support the following OS : "
+                    + System.getProperty("os.name"));
             return;
-        }
-        else {
-            System.err.println("The test 'testExecuteWithRedirectedStreams' does not support the following OS : " + System.getProperty("os.name"));
+        } else {
+            System.err.println("The test 'testExecuteWithRedirectedStreams' does not support the following OS : "
+                    + System.getProperty("os.name"));
             return;
         }
     }
@@ -531,30 +530,29 @@ public class DefaultExecutorTest extends TestCase {
       *
       * @throws Exception the test failed
       */
-     public void testExecuteWithStdOutErr() throws Exception
-     {
-         final CommandLine cl = new CommandLine(testScript);
-         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( System.out, System.err );
-         final DefaultExecutor executor = new DefaultExecutor();
-         executor.setStreamHandler( pumpStreamHandler );
-         final int exitValue = executor.execute(cl);
-         assertFalse(exec.isFailure(exitValue));
-     }
+    public void testExecuteWithStdOutErr() throws Exception {
+        final CommandLine cl = new CommandLine(testScript);
+        final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(System.out, System.err);
+        final DefaultExecutor executor = new DefaultExecutor();
+        executor.setStreamHandler(pumpStreamHandler);
+        final int exitValue = executor.execute(cl);
+        assertFalse(exec.isFailure(exitValue));
+    }
 
-     /**
-      * Start a process and connect it to no stream.
-      *
-      * @throws Exception the test failed
-      */
-     public void testExecuteWithNullOutErr() throws Exception
-     {
-         final CommandLine cl = new CommandLine(testScript);
-         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( null, null );
-         final DefaultExecutor executor = new DefaultExecutor();
-         executor.setStreamHandler( pumpStreamHandler );
-         final int exitValue = executor.execute(cl);
-         assertFalse(exec.isFailure(exitValue));
-     }
+    /**
+     * Start a process and connect it to no stream.
+     * 
+     * @throws Exception
+     *             the test failed
+     */
+    public void testExecuteWithNullOutErr() throws Exception {
+        final CommandLine cl = new CommandLine(testScript);
+        final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(null, null);
+        final DefaultExecutor executor = new DefaultExecutor();
+        executor.setStreamHandler(pumpStreamHandler);
+        final int exitValue = executor.execute(cl);
+        assertFalse(exec.isFailure(exitValue));
+    }
 
      /**
       * Start a process and connect out and err to a file.
@@ -566,9 +564,9 @@ public class DefaultExecutorTest extends TestCase {
          final File outfile = File.createTempFile("EXEC", ".test");
          outfile.deleteOnExit();
          final CommandLine cl = new CommandLine(testScript);
-         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( new FileOutputStream(outfile) );
+        final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(new FileOutputStream(outfile));
          final DefaultExecutor executor = new DefaultExecutor();
-         executor.setStreamHandler( pumpStreamHandler );
+        executor.setStreamHandler(pumpStreamHandler);
          final int exitValue = executor.execute(cl);
          assertFalse(exec.isFailure(exitValue));
          assertTrue(outfile.exists());
@@ -598,10 +596,10 @@ public class DefaultExecutorTest extends TestCase {
      * @throws Exception the test failed
      */
     public void testStdInHandling() throws Exception {
-
-        final ByteArrayInputStream bais = new ByteArrayInputStream("Foo".getBytes()); // newline not needed; causes problems for VMS
+        // newline not needed; causes problems for VMS
+        final ByteArrayInputStream bais = new ByteArrayInputStream("Foo".getBytes());
         final CommandLine cl = new CommandLine(this.stdinSript);
-        final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( this.baos, System.err, bais);
+        final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(this.baos, System.err, bais);
         final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
         final Executor executor = new DefaultExecutor();
         executor.setStreamHandler(pumpStreamHandler);
@@ -612,7 +610,7 @@ public class DefaultExecutorTest extends TestCase {
 
         assertFalse(exec.isFailure(resultHandler.getExitValue()));
         final String result = baos.toString();
-        assertTrue("Result '"+result+"' should contain 'Hello Foo!'", result.indexOf("Hello Foo!") >= 0);
+        assertTrue("Result '" + result + "' should contain 'Hello Foo!'", result.indexOf("Hello Foo!") >= 0);
     }
 
     /**
@@ -666,12 +664,11 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
-    public void testExec33() throws Exception
-    {
+    public void testExec33() throws Exception {
         final CommandLine cl = new CommandLine(testScript);
-        final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( System.out, System.err, System.in );
+        final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(System.out, System.err, System.in);
         final DefaultExecutor executor = new DefaultExecutor();
-        executor.setStreamHandler( pumpStreamHandler );
+        executor.setStreamHandler(pumpStreamHandler);
         final int exitValue = executor.execute(cl);
         assertFalse(exec.isFailure(exitValue));
     }
@@ -834,46 +831,45 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testExec41WithStreams() throws Exception {
 
-    	CommandLine cmdLine;
+        CommandLine cmdLine;
 
-    	if(OS.isFamilyWindows()) {
-    		cmdLine = CommandLine.parse("ping.exe -n 10 -w 1000 127.0.0.1");
-    	}
-    	else if("HP-UX".equals(System.getProperty("os.name"))) {
-    		cmdLine = CommandLine.parse("ping 127.0.0.1 -n 10"); // see EXEC-52 - option must appear after the hostname!
-    	}
-    	else if(OS.isFamilyUnix()) {
-    		cmdLine = CommandLine.parse("ping -c 10 127.0.0.1");
-    	}
-    	else {
-    		System.err.println("The test 'testExec41WithStreams' does not support the following OS : " + System.getProperty("os.name"));
-    		return;
-    	}
+        if (OS.isFamilyWindows()) {
+            cmdLine = CommandLine.parse("ping.exe -n 10 -w 1000 127.0.0.1");
+        } else if ("HP-UX".equals(System.getProperty("os.name"))) {
+            // see EXEC-52 - option must appear after the hostname!
+            cmdLine = CommandLine.parse("ping 127.0.0.1 -n 10");
+        } else if (OS.isFamilyUnix()) {
+            cmdLine = CommandLine.parse("ping -c 10 127.0.0.1");
+        } else {
+            System.err.println("The test 'testExec41WithStreams' does not support the following OS : "
+                    + System.getProperty("os.name"));
+            return;
+        }
 
-		final DefaultExecutor executor = new DefaultExecutor();
-		final ExecuteWatchdog watchdog = new ExecuteWatchdog(2*1000); // allow process no more than 2 secs
-        final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler( System.out, System.err);
+        final DefaultExecutor executor = new DefaultExecutor();
+        final ExecuteWatchdog watchdog = new ExecuteWatchdog(2 * 1000); // allow process no more than 2 secs
+        final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(System.out, System.err);
         // this method was part of the patch I reverted
         // pumpStreamHandler.setAlwaysWaitForStreamThreads(false);
 
-		executor.setWatchdog(watchdog);
+        executor.setWatchdog(watchdog);
         executor.setStreamHandler(pumpStreamHandler);
 
-		final long startTime = System.currentTimeMillis();
+        final long startTime = System.currentTimeMillis();
 
-		try {
-			executor.execute(cmdLine);
-		} catch (final ExecuteException e) {
-			// nothing to do
-		}
+        try {
+            executor.execute(cmdLine);
+        } catch (final ExecuteException e) {
+            // nothing to do
+        }
 
         final long duration = System.currentTimeMillis() - startTime;
 
-		System.out.println("Process completed in " + duration +" millis; below is its output");
+        System.out.println("Process completed in " + duration + " millis; below is its output");
 
-		if (watchdog.killedProcess()) {
-			System.out.println("Process timed out and was killed by watchdog.");
-		}
+        if (watchdog.killedProcess()) {
+            System.out.println("Process timed out and was killed by watchdog.");
+        }
 
         assertTrue("The process was killed by the watchdog", watchdog.killedProcess());
         assertTrue("Skipping the Thread.join() did not work", duration < 9000);

@@ -92,7 +92,7 @@ public class EnvironmentUtilTest extends TestCase {
         }
 
         // add an environment variable and check access
-        EnvironmentUtils.addVariableToEnvironment( procEnvironment, "foo=bar" );
+        EnvironmentUtils.addVariableToEnvironment(procEnvironment, "foo=bar");
         assertEquals("bar", procEnvironment.get("FOO"));
         assertEquals("bar", procEnvironment.get("Foo"));
         assertEquals("bar", procEnvironment.get("foo"));
@@ -109,7 +109,7 @@ public class EnvironmentUtilTest extends TestCase {
     public void testCaseInsensitiveVariableLookup() throws Exception {
         final Map procEnvironment = EnvironmentUtils.getProcEnvironment();
         // Check that case is preserved for values
-        EnvironmentUtils.addVariableToEnvironment( procEnvironment, "foo=bAr" );
+        EnvironmentUtils.addVariableToEnvironment(procEnvironment, "foo=bAr");
         assertEquals("bAr", procEnvironment.get("foo"));
     }
 

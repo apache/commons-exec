@@ -252,7 +252,7 @@ public class StringUtils {
      * @return true when the argument is quoted
      */
     public static boolean isQuoted(final String argument) {
-        return argument.startsWith( SINGLE_QUOTE ) && argument.endsWith( SINGLE_QUOTE ) ||
-            argument.startsWith( DOUBLE_QUOTE ) && argument.endsWith( DOUBLE_QUOTE );
+        return argument.startsWith(SINGLE_QUOTE) && argument.endsWith(SINGLE_QUOTE)
+                || argument.startsWith(DOUBLE_QUOTE) && argument.endsWith(DOUBLE_QUOTE);
     }
 }
