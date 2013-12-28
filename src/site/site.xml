@@ -18,6 +18,12 @@
  under the License.
 -->
 <project name="Commons Exec">
+  <bannerRight>
+    <name>Apache Commons Exec</name>
+    <src>/images/logo.png</src>
+    <href>/index.html</href>
+  </bannerRight>
+  
   <body>
 
     <menu name="Commons Exec">
