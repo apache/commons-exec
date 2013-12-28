@@ -148,9 +148,9 @@
     </build>
     <distributionManagement>
         <site>
-            <id>website</id>
-            <name>Apache Website</name>
-            <url>${commons.deployment.protocol}://people.apache.org/www/commons.apache.org/exec/</url>
+            <id>stagingSite</id>
+            <name>Apache Staging Website</name>
+            <url>${commons.deployment.protocol}://people.apache.org/www/commons.apache.org/${commons.componentid}/</url>
         </site>
     </distributionManagement>
     <reporting>
@@ -200,19 +200,6 @@
                     </plugin>
                 </plugins>
             </reporting>
-        </profile>
-        <profile>
-            <id>rc</id>
-            <distributionManagement>
-                <!-- Cannot define in parent ATM, see COMMONSSITE-26 -->
-                <site>
-                    <id>apache.website</id>
-                    <name>Apache Commons Release Candidate Staging Site</name>
-                    <url>
-                        ${commons.deployment.protocol}://people.apache.org/www/people.apache.org/builds/commons/${commons.componentid}/${commons.release.version}/${commons.rc.version}/site
-                    </url>
-                </site>
-            </distributionManagement>
         </profile>
         <profile>
             <!-- Create archives containing stand-alone test cases -->
