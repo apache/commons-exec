@@ -74,7 +74,7 @@ public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
         while ((line = in.readLine()) != null) {
             final String SEP = "=="; // global symbol separator
             final int sepidx = line.indexOf(SEP);
-            if (sepidx > 0){
+            if (sepidx > 0) {
                 final String name = line.substring(0, sepidx).trim();
                 String value = line.substring(sepidx+SEP.length()).trim();
                 value = value.substring(1,value.length()-1); // drop enclosing quotes

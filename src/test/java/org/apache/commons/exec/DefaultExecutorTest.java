@@ -264,7 +264,7 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testExecuteWatchdogSync() throws Exception {
 
-        if (OS.isFamilyOpenVms()){
+        if (OS.isFamilyOpenVms()) {
             System.out.println("The test 'testExecuteWatchdogSync' currently hangs on the following OS : "
                     + System.getProperty("os.name"));
             return;

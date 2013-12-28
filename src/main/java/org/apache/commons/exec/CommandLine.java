@@ -151,7 +151,7 @@ public class CommandLine {
      *
      * @return true if a file was used for setting the executable 
      */
-    public boolean isFile(){
+    public boolean isFile() {
         return isFile;
     }
 

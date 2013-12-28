@@ -408,7 +408,7 @@ public class CommandLineTest extends TestCase {
         assertEquals("\"C:\\Document And Settings\\documents\\432432.pdf\"", result[3]);                
     }
 
-    public void testCommandLineParsingWithExpansion3(){
+    public void testCommandLineParsingWithExpansion3() {
         final CommandLine cmdl = CommandLine.parse("AcroRd32.exe");
         cmdl.addArgument("/p");
         cmdl.addArgument("/h");

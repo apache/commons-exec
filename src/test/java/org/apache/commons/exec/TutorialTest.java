@@ -135,7 +135,7 @@ public class TutorialTest extends TestCase {
             System.out.println("[resultHandler] The document was successfully printed ...");
         }
 
-        public void onProcessFailed(final ExecuteException e){
+        public void onProcessFailed(final ExecuteException e) {
             super.onProcessFailed(e);
             if(watchdog != null && watchdog.killedProcess()) {
                 System.err.println("[resultHandler] The print process timed out");

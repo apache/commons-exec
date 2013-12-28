@@ -95,7 +95,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
                     out.println('\"');
                     String value = (String) entry.getValue();
                     // Any embedded " values need to be doubled
-                    if (value.indexOf('\"') > 0){
+                    if (value.indexOf('\"') > 0) {
                         final StringBuffer sb = new StringBuffer();
                         for (int i = 0; i < value.length(); i++) {
                             final char c = value.charAt(i);
@@ -112,7 +112,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
             }
 
             final String command = cmd.getExecutable();
-            if (cmd.isFile()){// We assume it is it a script file
+            if (cmd.isFile()) {// We assume it is it a script file
                 out.print("$ @");
                 // This is a bit crude, but seems to work
                 final String parts[] = StringUtils.split(command,"/");
@@ -120,7 +120,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
                 out.print(":[");
                 out.print(parts[1]); // top level directory
                 final int lastPart = parts.length-1;
-                for(int i=2; i< lastPart; i++){
+                for(int i=2; i< lastPart; i++) {
                     out.print(".");
                     out.print(parts[i]);
                 }

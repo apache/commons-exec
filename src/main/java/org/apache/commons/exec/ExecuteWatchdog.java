@@ -213,7 +213,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
         process = null;
     }
 
-    void setProcessNotStarted(){
+    void setProcessNotStarted() {
         processStarted = false;
     }
 
@@ -221,8 +221,8 @@ public class ExecuteWatchdog implements TimeoutObserver {
      * Ensures that the process is started, so we do not race with asynch execution.
      * The caller of this method must be holding the lock on this
      */
-    private void ensureStarted(){
-        while (!processStarted){
+    private void ensureStarted() {
+        while (!processStarted) {
             try {
                 this.wait();
             } catch (final InterruptedException e) {
