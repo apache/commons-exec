@@ -158,24 +158,24 @@ public class CommandLine {
     /**
      * Add multiple arguments. Handles parsing of quotes and whitespace.
      * 
-     * @param arguments An array of arguments
+     * @param addArguments An array of arguments
      * @return The command line itself
      */
-    public CommandLine addArguments(final String[] arguments) {
-        return this.addArguments(arguments, true);
+    public CommandLine addArguments(final String[] addArguments) {
+        return this.addArguments(addArguments, true);
     }
 
     /**
      * Add multiple arguments.
      *
-     * @param arguments An array of arguments
+     * @param addArguments An array of arguments
      * @param handleQuoting Add the argument with/without handling quoting
      * @return The command line itself
      */
-    public CommandLine addArguments(final String[] arguments, final boolean handleQuoting) {
-        if (arguments != null) {
-            for (int i = 0; i < arguments.length; i++) {
-                addArgument(arguments[i], handleQuoting);
+    public CommandLine addArguments(final String[] addArguments, final boolean handleQuoting) {
+        if (addArguments != null) {
+            for (int i = 0; i < addArguments.length; i++) {
+                addArgument(addArguments[i], handleQuoting);
             }
         }
 
@@ -187,11 +187,11 @@ public class CommandLine {
      * Please note that the parsing can have undesired side-effects therefore
      * it is recommended to build the command line incrementally.
      * 
-     * @param arguments An string containing multiple arguments. 
+     * @param addArguments An string containing multiple arguments. 
      * @return The command line itself
      */
-    public CommandLine addArguments(final String arguments) {
-        return this.addArguments(arguments, true);
+    public CommandLine addArguments(final String addArguments) {
+        return this.addArguments(addArguments, true);
     }
 
     /**
@@ -199,13 +199,13 @@ public class CommandLine {
      * Please note that the parsing can have undesired side-effects therefore
      * it is recommended to build the command line incrementally.
      *
-     * @param arguments An string containing multiple arguments.
+     * @param addArguments An string containing multiple arguments.
      * @param handleQuoting Add the argument with/without handling quoting
      * @return The command line itself
      */
-    public CommandLine addArguments(final String arguments, final boolean handleQuoting) {
-        if (arguments != null) {
-            final String[] argumentsArray = translateCommandline(arguments);
+    public CommandLine addArguments(final String addArguments, final boolean handleQuoting) {
+        if (addArguments != null) {
+            final String[] argumentsArray = translateCommandline(addArguments);
             addArguments(argumentsArray, handleQuoting);
         }
 
