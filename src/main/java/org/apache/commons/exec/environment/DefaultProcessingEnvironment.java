@@ -233,9 +233,8 @@ public class DefaultProcessingEnvironment {
                     return key0.compareToIgnoreCase(key1);
                 }
             });
-        } else {
-            return new HashMap();
         }
+		return new HashMap();
     }
 
 }
