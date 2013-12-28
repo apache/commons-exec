@@ -103,7 +103,7 @@ public class StringUtils {
                             String value;
                             final Object temp = vars.get(nameBuf.toString());
 
-                            if(temp instanceof File) {
+                            if (temp instanceof File) {
                                 // for a file we have to fix the separator chars to allow
                                 // cross-platform compatibility
                                 value = fixFileSeparatorChar(((File) temp).getAbsolutePath());
@@ -219,11 +219,11 @@ public class StringUtils {
         String cleanedArgument = argument.trim();
 
         // strip the quotes from both ends
-        while(cleanedArgument.startsWith(SINGLE_QUOTE) || cleanedArgument.startsWith(DOUBLE_QUOTE)) {
+        while (cleanedArgument.startsWith(SINGLE_QUOTE) || cleanedArgument.startsWith(DOUBLE_QUOTE)) {
             cleanedArgument = cleanedArgument.substring(1);
         }
         
-        while(cleanedArgument.endsWith(SINGLE_QUOTE) || cleanedArgument.endsWith(DOUBLE_QUOTE)) {
+        while (cleanedArgument.endsWith(SINGLE_QUOTE) || cleanedArgument.endsWith(DOUBLE_QUOTE)) {
             cleanedArgument = cleanedArgument.substring(0, cleanedArgument.length() - 1);
         }
 

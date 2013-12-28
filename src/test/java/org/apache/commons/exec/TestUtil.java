@@ -60,18 +60,18 @@ public final class TestUtil {
     
     public static void assertEquals(final Object[] expected, final Object[] actual, final boolean orderSignificant) {
     	
-    	if(expected == null && actual == null) {
+    	if (expected == null && actual == null) {
     		// all good
     	} else if (actual == null) {
     		throw new AssertionFailedError("Expected non null array");
     	} else if (expected == null) {
     		throw new AssertionFailedError("Expected null array");
     	} else {
-    		if(expected.length != actual.length) {
+    		if (expected.length != actual.length) {
     			throw new AssertionFailedError("Arrays not of same length");
     		}
     		
-    		if(!orderSignificant) {
+    		if (!orderSignificant) {
     			Arrays.sort(expected);
     			Arrays.sort(actual);
     		}

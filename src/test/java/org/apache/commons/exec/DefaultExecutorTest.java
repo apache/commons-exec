@@ -76,7 +76,7 @@ public class DefaultExecutorTest extends TestCase {
 
         // delete the marker file
         this.foreverOutputFile.getParentFile().mkdirs();
-        if(this.foreverOutputFile.exists()) {
+        if (this.foreverOutputFile.exists()) {
             this.foreverOutputFile.delete();
         }
 
@@ -127,7 +127,7 @@ public class DefaultExecutorTest extends TestCase {
             exec.execute(cl);
             fail("Expected exception due to invalid working directory");
         }
-        catch(final IOException e) {
+        catch (final IOException e) {
             return;
         }
     }
@@ -138,7 +138,7 @@ public class DefaultExecutorTest extends TestCase {
         try{
             exec.execute(cl);
             fail("Must throw ExecuteException");
-        } catch(final ExecuteException e) {
+        } catch (final ExecuteException e) {
             assertTrue(exec.isFailure(e.getExitValue()));
         }
     }
@@ -289,7 +289,7 @@ public class DefaultExecutorTest extends TestCase {
                     && nrOfInvocations <= 11);
             return;
         }
-        catch(final Throwable t) {
+        catch (final Throwable t) {
             fail(t.getMessage());
         }
 
@@ -409,7 +409,7 @@ public class DefaultExecutorTest extends TestCase {
         try{
             exec.execute(cl);
             fail("Must throw ExecuteException");
-        } catch(final ExecuteException e) {
+        } catch (final ExecuteException e) {
             assertTrue(exec.isFailure(e.getExitValue()));
             return;
         }
@@ -730,7 +730,7 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testExec36_1() throws Exception {
 
-        if(OS.isFamilyUnix()) {
+        if (OS.isFamilyUnix()) {
 
             CommandLine cmdl;
 
@@ -782,12 +782,12 @@ public class DefaultExecutorTest extends TestCase {
         // the original command line
         // dotnetfx.exe /q:a /c:"install.exe /l ""\Documents and Settings\myusername\Local Settings\Temp\netfx.log"" /q"
 
-        if(OS.isFamilyWindows()) {
+        if (OS.isFamilyWindows()) {
             expected = "dotnetfx.exe\n" +
                 "/q:a\n" +
                 "/c:\"install.exe /l \"\"\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"";
         }
-        else if(OS.isFamilyUnix()) {
+        else if (OS.isFamilyUnix()) {
             expected = "dotnetfx.exe\n" +
                 "/q:a\n" +
                 "/c:\"install.exe /l \"\"/Documents and Settings/myusername/Local Settings/Temp/netfx.log\"\" /q\"";
@@ -812,7 +812,7 @@ public class DefaultExecutorTest extends TestCase {
         final String result = baos.toString().trim();
         assertFalse(exec.isFailure(exitValue));
 
-        if(OS.isFamilyUnix()) {
+        if (OS.isFamilyUnix()) {
         	// the parameters fall literally apart under Windows - need to disable the check for Win32
         	assertEquals(expected, result);
         }
@@ -962,7 +962,7 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testExec49_1() throws Exception {
 
-        if(OS.isFamilyUnix()) {
+        if (OS.isFamilyUnix()) {
 
             final CommandLine cl = CommandLine.parse("/bin/ls");
             cl.addArgument("/opt");
@@ -1004,7 +1004,7 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testExec49_2() throws Exception {
 
-        if(OS.isFamilyUnix()) {
+        if (OS.isFamilyUnix()) {
 
             final CommandLine cl = CommandLine.parse("/bin/ls");
             cl.addArgument("/opt");
@@ -1047,7 +1047,7 @@ public class DefaultExecutorTest extends TestCase {
      */
     public void testExec_57() throws IOException {
 
-        if(!OS.isFamilyUnix()) {
+        if (!OS.isFamilyUnix()) {
             System.err.println("The test 'testSyncInvocationOfBackgroundProcess' does not support the following OS : " + System.getProperty("os.name"));
             return;
         }
@@ -1068,7 +1068,7 @@ public class DefaultExecutorTest extends TestCase {
         try {
             executor.execute(cmdLine);
         }
-        catch(final ExecuteException e) {
+        catch (final ExecuteException e) {
             final long duration = System.currentTimeMillis() - startTime;
             System.out.println("Process completed in " + duration +" millis; above is its output");
             return;
@@ -1107,7 +1107,7 @@ public class DefaultExecutorTest extends TestCase {
                 exec.execute(cmdLine);
                 processTerminatedCounter++;
 //                System.out.println(offset + ": process has terminated: " + watchdog.killedProcess());
-                if(processTerminatedCounter > 5) {
+                if (processTerminatedCounter > 5) {
                     break;
                 }
             } catch (final ExecuteException ex) {
@@ -1138,7 +1138,7 @@ public class DefaultExecutorTest extends TestCase {
     public void _testExecuteStability() throws Exception {
 
         // make a plain-vanilla test
-        for(int i=0; i<100; i++) {
+        for (int i=0; i<100; i++) {
             final Map env = new HashMap();
             env.put("TEST_ENV_VAR", new Integer(i));
             final CommandLine cl = new CommandLine(testScript);
@@ -1149,7 +1149,7 @@ public class DefaultExecutorTest extends TestCase {
         }
 
         // now be nasty and use the watchdog to kill out sub-processes
-        for(int i=0; i<100; i++) {
+        for (int i=0; i<100; i++) {
             final Map env = new HashMap();
             env.put("TEST_ENV_VAR", new Integer(i));
             final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
@@ -1189,8 +1189,8 @@ public class DefaultExecutorTest extends TestCase {
 
         int result = 0;
 
-        for(int i=0; i<data.length(); i++) {
-            if(data.charAt(i) == c) {
+        for (int i=0; i<data.length(); i++) {
+            if (data.charAt(i) == c) {
                 result++;
             }
         }

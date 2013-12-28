@@ -55,7 +55,7 @@ public class TutorialTest extends TestCase {
             printResult = print(pdfFile, printJobTimeout, printInBackground);
             System.out.println("[main] Successfully sent the print job ...");
         }
-        catch(final Exception e) {
+        catch (final Exception e) {
             e.printStackTrace();
             fail("[main] Printing of the following document failed : " + pdfFile.getAbsolutePath());
             throw e;
@@ -97,13 +97,13 @@ public class TutorialTest extends TestCase {
         executor.setExitValue(1);
         
         // create a watchdog if requested
-        if(printJobTimeout > 0) {
+        if (printJobTimeout > 0) {
             watchdog = new ExecuteWatchdog(printJobTimeout);
             executor.setWatchdog(watchdog);
         }
 
         // pass a "ExecuteResultHandler" when doing background printing
-        if(printInBackground) {
+        if (printInBackground) {
             System.out.println("[print] Executing non-blocking print job  ...");
             resultHandler = new PrintResultHandler(watchdog);
             executor.execute(commandLine, resultHandler);
@@ -137,7 +137,7 @@ public class TutorialTest extends TestCase {
 
         public void onProcessFailed(final ExecuteException e) {
             super.onProcessFailed(e);
-            if(watchdog != null && watchdog.killedProcess()) {
+            if (watchdog != null && watchdog.killedProcess()) {
                 System.err.println("[resultHandler] The print process timed out");
             }
             else {

@@ -39,7 +39,7 @@ public class MapUtils
      */
     public static Map copy(final Map source) {
 
-        if(source == null) {
+        if (source == null) {
             return null;
         }
 
@@ -59,7 +59,7 @@ public class MapUtils
      */
     public static Map prefix(final Map source, final String prefix) {
 
-        if(source == null) {
+        if (source == null) {
             return null;
         }
 
@@ -67,7 +67,7 @@ public class MapUtils
 
         final Iterator iter = source.entrySet().iterator();
 
-        while(iter.hasNext()) {
+        while (iter.hasNext()) {
             final Map.Entry entry = (Map.Entry) iter.next();
             final Object key = entry.getKey();
             final Object value = entry.getValue();
@@ -89,10 +89,10 @@ public class MapUtils
 
         Map result = null;
 
-        if(lhs == null || lhs.size() == 0) {
+        if (lhs == null || lhs.size() == 0) {
             result = copy(rhs);
         }
-        else if(rhs == null || rhs.size() == 0) {
+        else if (rhs == null || rhs.size() == 0) {
             result = copy(lhs);
         }
         else {

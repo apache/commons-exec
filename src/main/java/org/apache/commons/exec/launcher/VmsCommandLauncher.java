@@ -119,7 +119,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
                 out.print(":[");
                 out.print(parts[1]); // top level directory
                 final int lastPart = parts.length-1;
-                for(int i=2; i< lastPart; i++) {
+                for (int i=2; i< lastPart; i++) {
                     out.print(".");
                     out.print(parts[i]);
                 }

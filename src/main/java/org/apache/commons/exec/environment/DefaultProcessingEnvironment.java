@@ -58,7 +58,7 @@ public class DefaultProcessingEnvironment {
      */
     public synchronized Map getProcEnvironment() throws IOException {
 
-        if(procEnvironment == null) {
+        if (procEnvironment == null) {
             procEnvironment = this.createProcEnvironment();
         }
 
@@ -183,7 +183,7 @@ public class DefaultProcessingEnvironment {
             executable = null;
         }
         CommandLine commandLine = null;
-        if(executable != null) {
+        if (executable != null) {
             commandLine = new CommandLine(executable);
             commandLine.addArguments(arguments);
         }

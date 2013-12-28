@@ -34,7 +34,7 @@ public class StandAloneTest extends TestCase {
     }
 
     public void testMe() throws Exception {
-        if(OS.isFamilyUnix()) {
+        if (OS.isFamilyUnix()) {
             final File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/standalone");
             final Executor exec = new DefaultExecutor();
             exec.setStreamHandler(new PumpStreamHandler());

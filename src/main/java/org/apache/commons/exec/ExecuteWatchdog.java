@@ -83,7 +83,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
         this.watch = false;
         this.hasWatchdog = timeout != INFINITE_TIMEOUT;
         this.processStarted = false;
-        if(this.hasWatchdog) {
+        if (this.hasWatchdog) {
             this.watchdog = new Watchdog(timeout);
             this.watchdog.addTimeoutObserver(this);
         }
@@ -114,7 +114,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
         this.process = process;
         this.processStarted = true;
         this.notifyAll();
-        if(this.hasWatchdog) {
+        if (this.hasWatchdog) {
             watchdog.start();
         }
     }
@@ -124,7 +124,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
      * object.
      */
     public synchronized void stop() {
-        if(hasWatchdog) {
+        if (hasWatchdog) {
             watchdog.stop();
         }
         watch = false;
@@ -148,7 +148,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
             try {
                 // We must check if the process was not stopped
                 // before being here
-                if(process != null) {
+                if (process != null) {
                     process.exitValue();
                 }
             } catch (final IllegalThreadStateException itse) {

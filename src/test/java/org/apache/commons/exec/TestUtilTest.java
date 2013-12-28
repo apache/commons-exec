@@ -37,7 +37,7 @@ public class TestUtilTest extends TestCase {
 		try{
 			TestUtil.assertEquals(expected, actual, true);
 			fail("Must throw AssertionFailedError");
-		} catch(final AssertionFailedError e) {
+		} catch (final AssertionFailedError e) {
 			// OK
 		}
 	}
@@ -49,7 +49,7 @@ public class TestUtilTest extends TestCase {
 		try{
 			TestUtil.assertEquals(expected, actual, true);
 			fail("Must throw AssertionFailedError");
-		} catch(final AssertionFailedError e) {
+		} catch (final AssertionFailedError e) {
 			// OK
 		}
 	}
@@ -75,7 +75,7 @@ public class TestUtilTest extends TestCase {
 		try{
 			TestUtil.assertEquals(expected, actual, true);
 			fail("Must throw AssertionFailedError");
-		} catch(final AssertionFailedError e) {
+		} catch (final AssertionFailedError e) {
 			// OK
 		}
 	}
@@ -87,7 +87,7 @@ public class TestUtilTest extends TestCase {
 		try{
 			TestUtil.assertEquals(expected, actual, true);
 			fail("Must throw AssertionFailedError");
-		} catch(final AssertionFailedError e) {
+		} catch (final AssertionFailedError e) {
 			// OK
 		}
 	}

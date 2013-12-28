@@ -46,7 +46,7 @@ public class TestRunner extends TestCase {
         final junit.textui.TestRunner testRunner = new junit.textui.TestRunner(System.out);
         final TestResult testResult = testRunner.doRun(test);
 
-        if(!testResult.wasSuccessful()) {
+        if (!testResult.wasSuccessful()) {
             System.exit(1);
         }
 

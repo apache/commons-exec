@@ -61,7 +61,7 @@ public class EnvironmentUtilTest extends TestCase {
         // for this process, i.e. $JAVA_HOME
         assertTrue("Expecting non-zero environment size", procEnvironment.size() > 0);
         final String[] envArgs = EnvironmentUtils.toStrings(procEnvironment);
-        for(int i=0; i<envArgs.length; i++) {
+        for (int i=0; i<envArgs.length; i++) {
             assertNotNull("Entry "+i+" should not be null",envArgs[i]);
             assertTrue("Entry "+i+" should not be empty",envArgs[i].length() > 0);
             // System.out.println(envArgs[i]);

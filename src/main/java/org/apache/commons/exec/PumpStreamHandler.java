@@ -197,7 +197,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
             }
         }
 
-        if(caught != null) {
+        if (caught != null) {
             throw caught;
         }
     }

@@ -199,7 +199,7 @@ public class DefaultExecutor implements Executor {
                     handler.onProcessComplete(exitValue);
                 } catch (final ExecuteException e) {
                     handler.onProcessFailed(e);
-                } catch(final Exception e) {
+                } catch (final Exception e) {
                     handler.onProcessFailed(new ExecuteException("Execution failed", exitValue, e));
                 }
             }
@@ -223,15 +223,15 @@ public class DefaultExecutor implements Executor {
     /** @see org.apache.commons.exec.Executor#isFailure(int) */
     public boolean isFailure(final int exitValue) {
 
-        if(this.exitValues == null) {
+        if (this.exitValues == null) {
             return false;
         }
-        else if(this.exitValues.length == 0) {
+        else if (this.exitValues.length == 0) {
             return this.launcher.isFailure(exitValue);
         }
         else {
-            for(int i=0; i<this.exitValues.length; i++) {
-                if(this.exitValues[i] == exitValue) {
+            for (int i=0; i<this.exitValues.length; i++) {
+                if (this.exitValues[i] == exitValue) {
                     return false;
                 }
             }
@@ -296,21 +296,21 @@ public class DefaultExecutor implements Executor {
         try {
             process.getInputStream().close();
         }
-        catch(final IOException e) {
+        catch (final IOException e) {
             setExceptionCaught(e);
         }
 
         try {
             process.getOutputStream().close();
         }
-        catch(final IOException e) {
+        catch (final IOException e) {
             setExceptionCaught(e);
         }
 
         try {
             process.getErrorStream().close();
         }
-        catch(final IOException e) {
+        catch (final IOException e) {
             setExceptionCaught(e);
         }
     }
@@ -347,7 +347,7 @@ public class DefaultExecutor implements Executor {
         try {
 
             // add the process to the list of those to destroy if the VM exits
-            if(this.getProcessDestroyer() != null) {
+            if (this.getProcessDestroyer() != null) {
               this.getProcessDestroyer().add(process);
             }
 
@@ -378,13 +378,13 @@ public class DefaultExecutor implements Executor {
             try {
                 streams.stop();
             }
-            catch(final IOException e) {
+            catch (final IOException e) {
                 setExceptionCaught(e);
             }
 
             closeProcessStreams(process);
 
-            if(getExceptionCaught() != null) {
+            if (getExceptionCaught() != null) {
                 throw getExceptionCaught();
             }
 
@@ -398,14 +398,14 @@ public class DefaultExecutor implements Executor {
                 }
             }
 
-            if(this.isFailure(exitValue)) {
+            if (this.isFailure(exitValue)) {
                 throw new ExecuteException("Process exited with an error: " + exitValue, exitValue);
             }
 
             return exitValue;
         } finally {
             // remove the process to the list of those to destroy if the VM exits
-            if(this.getProcessDestroyer() != null) {
+            if (this.getProcessDestroyer() != null) {
               this.getProcessDestroyer().remove(process);
             }
         }
@@ -417,7 +417,7 @@ public class DefaultExecutor implements Executor {
      * @param e the IOException
      */
     private void setExceptionCaught(final IOException e) {
-        if(this.exceptionCaught == null) {
+        if (this.exceptionCaught == null) {
             this.exceptionCaught = e;
         }
     }

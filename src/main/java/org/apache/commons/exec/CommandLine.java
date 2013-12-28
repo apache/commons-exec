@@ -122,11 +122,11 @@ public class CommandLine {
         this.isFile = other.isFile();
         this.arguments.addAll(other.arguments);
 
-        if(other.getSubstitutionMap() != null)
+        if (other.getSubstitutionMap() != null)
         {
             this.substitutionMap = new HashMap();
             final Iterator iterator = other.substitutionMap.keySet().iterator();
-            while(iterator.hasNext())
+            while (iterator.hasNext())
             {
                 final Object key = iterator.next();
                 this.substitutionMap.put(key, other.getSubstitutionMap().get(key));
@@ -259,7 +259,7 @@ public class CommandLine {
         String expandedArgument;
         final String[] result = new String[arguments.size()];
 
-        for(int i=0; i<result.length; i++) {
+        for (int i=0; i<result.length; i++) {
             currArgument = (Argument) arguments.get(i);
             expandedArgument = expandArgument(currArgument.getValue());
             result[i] = currArgument.isHandleQuoting() ? StringUtils.quoteArgument(expandedArgument) : expandedArgument;
@@ -407,7 +407,7 @@ public class CommandLine {
     private String getExecutable(final String executable) {
         if (executable == null) {
             throw new IllegalArgumentException("Executable can not be null");
-        } else if(executable.trim().length() == 0) {
+        } else if (executable.trim().length() == 0) {
             throw new IllegalArgumentException("Executable can not be empty");
         } else {
             return StringUtils.fixFileSeparatorChar(executable);

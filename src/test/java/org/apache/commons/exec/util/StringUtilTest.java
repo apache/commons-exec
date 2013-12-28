@@ -67,7 +67,7 @@ public class StringUtilTest extends TestCase
             StringUtils.stringSubstitution("This is a ${foo} & ${bar} test", vars, false).toString();
             fail();
         }
-        catch(final RuntimeException e)
+        catch (final RuntimeException e)
         {
             // nothing to do
         }
