@@ -147,26 +147,22 @@
     </distributionManagement>
     <reporting>
         <plugins>
-            <!-- generate the changes report from changes.xml -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-changes-plugin</artifactId>
-                <version>2.0</version>
-                <configuration>
-                    <issueLinkTemplate>%URL%/%ISSUE%</issueLinkTemplate>
-                </configuration>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>changes-report</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
+           <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-pmd-plugin</artifactId>
+              <version>3.0.1</version>
+              <configuration>
+                <targetJdk>${maven.compiler.target}</targetJdk>
+                <linkXref>true</linkXref>
+                <rulesets>
+                  <ruleset>${basedir}/pmd.xml</ruleset>
+                </rulesets>
+              </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
-                <version>2.5.2</version>
+                <version>2.5.3</version>
                 <configuration>
                     <threshold>Normal</threshold>
                     <effort>Default</effort>
@@ -192,7 +188,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>cobertura-maven-plugin</artifactId>
-                        <version>2.0</version>
+                        <version>2.6</version>
                     </plugin>
                 </plugins>
             </reporting>
