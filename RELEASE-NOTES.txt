@@ -4,6 +4,8 @@ The Apache Commons Exec team is pleased to announce the Apache commons-exec-1.2 
 
 Apache Commons Exec is a library to reliably execute external processes from within the JVM.
 
+Feature and fix release. Requires a minimum of Java 1.3.
+
 Changes in this version include:
 
 New features:
