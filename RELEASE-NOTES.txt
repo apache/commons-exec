@@ -24,7 +24,7 @@ o Issue: EXEC-57.
   Thanks to Nickolay Martinov.
    
 o Issue: EXEC-60. 
-  Fixed dead lock by calling the timeout observers outside of the synchronized block thereby removing on pre-requisite of a deadlock. 
+  Fixed deadlock by calling the timeout observers outside of the synchronized block thereby removing a prerequisite of a deadlock. 
   Also added a test case to demonstrate that this problem is fixed (which of course can not guarantee the absence of a dead lock). 
   Thanks to Peter Kofler.
    
