@@ -33,8 +33,8 @@
   <!-- JUnit version should agree with the version in pom.xml -->
   <property name="maven.junit.jar" value="${maven.repo.local}/junit/junit/3.8.1/junit-3.8.1.jar"/>
   <!-- These must agree with the versions in pom.xml -->
-  <property name="maven.compile.source" value="1.3"/>
-  <property name="maven.compile.target" value="1.3"/>
+  <property name="maven.compiler.source" value="1.3"/>
+  <property name="maven.compiler.target" value="1.3"/>
 
   <path id="junit">
       <pathelement location="${maven.junit.jar}"/>
@@ -48,7 +48,7 @@
     <mkdir dir="${maven.build.output}"/>
     <javac destdir="${maven.build.output}" excludes="**/package.html" debug="true" deprecation="true" optimize="false"
         includeAntRuntime="false"
-        source="${maven.compile.source}" target="${maven.compile.target}">
+        source="${maven.compiler.source}" target="${maven.compiler.target}">
       <src>
         <pathelement location="${basedir}/src/main/java"/>
       </src>
@@ -63,7 +63,7 @@
     <mkdir dir="${maven.test.output}"/>
     <javac destdir="${maven.test.output}" excludes="**/package.html" debug="true" deprecation="true" optimize="false" 
         includeAntRuntime="false"
-        source="${maven.compile.source}" target="${maven.compile.target}">
+        source="${maven.compiler.source}" target="${maven.compiler.target}">
       <src>
         <pathelement location="${basedir}/src/test/java"/>
       </src>
