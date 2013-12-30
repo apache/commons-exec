@@ -25,7 +25,7 @@
     <name>Apache Commons Exec</name>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-exec</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.2</version>
     <description>Apache Commons Exec is a library to reliably execute external processes from within the JVM.</description>
     <url>http://commons.apache.org/proper/commons-exec/</url>
     <issueManagement>
