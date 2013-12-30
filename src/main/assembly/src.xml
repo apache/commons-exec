@@ -28,10 +28,10 @@
                 <include>findbugs-exclude-filter.xml</include>                
                 <include>LICENSE.txt</include>
                 <include>NOTICE.txt</include>
-                <include>pom.xml</include>
                 <include>pmd.xml</include>
-                <include>STATUS</include>
+                <include>pom.xml</include>
                 <include>RELEASE-NOTES.txt</include>                
+                <include>STATUS</include>
             </includes>
         </fileSet>
         <fileSet>
