@@ -118,8 +118,8 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <descriptors>
-                        <descriptor>src/assembly/bin.xml</descriptor>
-                        <descriptor>src/assembly/src.xml</descriptor>
+                        <descriptor>src/main/bin.xml</descriptor>
+                        <descriptor>src/main/src.xml</descriptor>
                     </descriptors>
                     <tarLongFileMode>gnu</tarLongFileMode>
                 </configuration>
