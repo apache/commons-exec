@@ -12,19 +12,33 @@ o Set names for started threads.  Issue: EXEC-55. Thanks to Dominik Stadler.
 
 Fixed Bugs:
 
-o Watchdog kills process immediately if timeout is too large.  Issue: EXEC-68. Thanks to Joel McCance. 
-o Applied the patch from Nickolay Martinov but the timeout disguises the fact
-                that the process might be still runnung - therefore added a sanity check in
-                order to throw an exception if the the timeout for join() was exceeded.  Issue: EXEC-57. Thanks to Nickolay Martinov. 
-o Fixed dead lock by calling the timeout observers outside of the synchronized block thereby
-                removing on pre-requisite of a deadlock. Also added a test case to demonstrate that this
-                problem is fixed (which of course can not guarantee the absence of a dead lock).  Issue: EXEC-60. Thanks to Peter Kofler. 
-o Tests fail on HP-UX, because it uses a different syntax for the ping command.  Issue: EXEC-52. Thanks to Nickolay Martinov. 
-o "Write dead end" IOException when using Piped streams w/PumpStreamHandler.
-                When encountering a PipedOutputStream we will automatically close it to avoid
-                the exception.  Issue: EXEC-49. Thanks to Kevin Telford. 
-o Race condition prevent watchdog working using ExecuteStreamHandler.
-                Patch submittd by Kristian Rosenvold.  Issue: EXEC-34. Thanks to Marco Ferrante. 
+o Issue: EXEC-68. 
+  Watchdog kills process immediately if timeout is too large. 
+  Thanks to Joel McCance. 
+  
+o Issue: EXEC-57. 
+  Applied the patch from Nickolay Martinov but the timeout disguises the fact that the process might be still running.
+  Therefore added a sanity check in order to throw an exception if the the timeout for join() was exceeded. 
+  Thanks to Nickolay Martinov.
+   
+o Issue: EXEC-60. 
+  Fixed dead lock by calling the timeout observers outside of the synchronized block thereby removing on pre-requisite of a deadlock. 
+  Also added a test case to demonstrate that this problem is fixed (which of course can not guarantee the absence of a dead lock). 
+  Thanks to Peter Kofler.
+   
+o Issue: EXEC-52. 
+  Tests fail on HP-UX, because it uses a different syntax for the ping command. 
+  Thanks to Nickolay Martinov.
+   
+o Issue: EXEC-49. 
+  "Write dead end" IOException when using Piped streams w/PumpStreamHandler.
+  When encountering a PipedOutputStream we will automatically close it to avoid the exception.  
+  Thanks to Kevin Telford. 
+  
+o Issue: EXEC-34. 
+  Race condition prevent watchdog working using ExecuteStreamHandler.
+  Patch submittd by Kristian Rosenvold. 
+  Thanks to Marco Ferrante. 
 
 For complete information on Apache Commons Exec, including instructions on how to submit bug reports, patches, or suggestions for improvement, see the Apache Commons Exec website:
 
