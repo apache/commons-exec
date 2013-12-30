@@ -23,7 +23,7 @@
         <author email="sgoeschl@apache.org">Siegfried Goeschl</author>
     </properties>
     <body>
-        <release version="1.2" date="TBA" description="Maintenance and small feature Release">
+        <release version="1.2" date="2013-12-30" description="Maintenance and small feature Release">
             <action issue="EXEC-68" dev="ggregory" type="fix" date="2012-10-22"  due-to="Joel McCance">
                 Watchdog kills process immediately if timeout is too large.
             </action>
