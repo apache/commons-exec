@@ -29,12 +29,12 @@
             </action>
             <action issue="EXEC-57" dev="sgoeschl" type="fix" date="2011-10-10"  due-to="Nickolay Martinov">
                 Applied the patch from Nickolay Martinov but the timeout disguises the fact
-                that the process might be still runnung - therefore added a sanity check in
+                that the process might be still running. Therefore added a sanity check in
                 order to throw an exception if the the timeout for join() was exceeded.
             </action>
             <action issue="EXEC-60" dev="sgoeschl" type="fix" date="2011-10-09"  due-to="Peter Kofler">
-                Fixed dead lock by calling the timeout observers outside of the synchronized block thereby
-                removing on pre-requisite of a deadlock. Also added a test case to demonstrate that this
+                Fixed deadlock by calling the timeout observers outside of the synchronized block thereby
+                removing a prerequisite of a deadlock. Also added a test case to demonstrate that this
                 problem is fixed (which of course can not guarantee the absence of a dead lock).
             </action>
             <action issue="EXEC-55" dev="sgoeschl" type="add" date="2011-02-21"  due-to="Dominik Stadler">
