@@ -36,6 +36,19 @@
         </fileSet>
         <fileSet>
             <directory>src</directory>
+            <excludes>
+                <!-- relative to directory -->
+                <exclude>test/scripts/*.sh</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>src</directory>
+            <!-- Ensure that shell scripts are executable -->
+            <fileMode>775</fileMode>
+            <includes>
+                <!-- relative to directory -->
+                <include>test/scripts/*.sh</include>
+            </includes>
         </fileSet>
     </fileSets>
 </assembly>
