@@ -54,4 +54,7 @@ Apache Commons Exec
   The latest version v1.2, is JDK 1.3 compatible - 
   {{{http://commons.apache.org/exec/download_exec.cgi}Download now!}}. 
 
-  For previous releases, see the {{{http://archive.apache.org/dist/commons/exec/}Apache Archive}}. 
+  For previous releases, see the {{{http://archive.apache.org/dist/commons/exec/}Apache Archive}}.
+  
+  Version v1.1, is JDK 1.3 compatible. 
+   
