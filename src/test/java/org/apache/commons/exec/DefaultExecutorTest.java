@@ -51,10 +51,10 @@ public class DefaultExecutorTest extends TestCase {
     private final File redirectScript = TestUtil.resolveScriptForOS(testDir + "/redirect");
     private final File pingScript = TestUtil.resolveScriptForOS(testDir + "/ping");
     private final File printArgsScript = TestUtil.resolveScriptForOS(testDir + "/printargs");
-    private final File acroRd32Script = TestUtil.resolveScriptForOS(testDir + "/acrord32");
+//    private final File acroRd32Script = TestUtil.resolveScriptForOS(testDir + "/acrord32");
     private final File stdinSript = TestUtil.resolveScriptForOS(testDir + "/stdin");
     private final File environmentSript = TestUtil.resolveScriptForOS(testDir + "/environment");
-    private final File wrapperScript = TestUtil.resolveScriptForOS(testDir + "/wrapper");
+//    private final File wrapperScript = TestUtil.resolveScriptForOS(testDir + "/wrapper");
 
 
     // Get suitable exit codes for the OS
