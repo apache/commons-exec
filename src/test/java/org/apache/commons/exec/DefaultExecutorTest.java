@@ -967,8 +967,6 @@ public class DefaultExecutorTest extends TestCase {
             final CommandLine cl = CommandLine.parse("/bin/ls");
             cl.addArgument("/opt");
 
-            final Executor exec = new DefaultExecutor();
-
             // redirect stdout/stderr to pipedOutputStream
             final PipedOutputStream pipedOutputStream = new PipedOutputStream();
             final PumpStreamHandler psh = new PumpStreamHandler(pipedOutputStream);
@@ -1008,8 +1006,6 @@ public class DefaultExecutorTest extends TestCase {
 
             final CommandLine cl = CommandLine.parse("/bin/ls");
             cl.addArgument("/opt");
-
-            final Executor exec = new DefaultExecutor();
 
             // redirect only stdout to pipedOutputStream
             final PipedOutputStream pipedOutputStream = new PipedOutputStream();
