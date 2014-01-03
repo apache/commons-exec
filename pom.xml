@@ -27,6 +27,9 @@
     <artifactId>commons-exec</artifactId>
     <version>1.2-SNAPSHOT</version>
     <description>Apache Commons Exec is a library to reliably execute external processes from within the JVM.</description>
+    <prerequisites>
+      <maven>2.2.1</maven>
+    </prerequisites>  
     <url>http://commons.apache.org/proper/commons-exec/</url>
     <issueManagement>
         <system>jira</system>
