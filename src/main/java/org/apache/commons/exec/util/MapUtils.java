@@ -28,6 +28,8 @@ import java.util.Iterator;
  * could change without warning.
  *
  * @author <a href="mailto:siegfried.goeschl@it20one.at">Siegfried Goeschl</a>
+ *
+ * @version $Id$
  */
 public class MapUtils
 {

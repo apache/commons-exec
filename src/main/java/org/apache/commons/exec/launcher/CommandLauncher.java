@@ -27,6 +27,8 @@ import org.apache.commons.exec.CommandLine;
 /**
  * Interface to shield the caller from the various platform-dependent
  * implementations.
+ *
+ * @version $Id$
  */
 public interface CommandLauncher {
 

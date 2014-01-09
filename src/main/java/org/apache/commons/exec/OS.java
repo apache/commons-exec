@@ -22,6 +22,8 @@ import java.util.Locale;
 
 /**
  * Condition that tests the OS type.
+ *
+ * @version $Id$
  */
 public final class OS {
     private static final String FAMILY_OS_400 = "os/400";

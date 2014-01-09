@@ -26,6 +26,8 @@ import org.apache.commons.exec.CommandLine;
 /**
  * A command launcher that proxies another command launcher. Sub-classes
  * override exec(args, env, workdir)
+ *
+ * @version $Id$
  */
 public abstract class CommandLauncherProxy extends CommandLauncherImpl {
 

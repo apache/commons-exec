@@ -23,6 +23,9 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+/**
+ * @version $Id$
+ */
 public class StringUtilTest extends TestCase
 {
     /**

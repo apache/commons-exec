@@ -27,6 +27,8 @@ import org.apache.commons.exec.util.MapUtilTest;
 /**
  * A stand-alone JUnit invocation to allow running JUnit tests without
  * having ANT or M2 installed.
+ *
+ * @version $Id$
  */
 public class TestRunner extends TestCase {
 

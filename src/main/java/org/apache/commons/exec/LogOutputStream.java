@@ -27,6 +27,8 @@ import java.io.OutputStream;
  * error stream of then external process. The implementation
  * parses the incoming data to construct a line and passes
  * the complete line to an user-defined implementation.
+ *
+ * @version $Id$
  */
 public abstract class LogOutputStream
   extends OutputStream {

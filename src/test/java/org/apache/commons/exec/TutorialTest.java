@@ -32,6 +32,8 @@ import java.util.Map;
  *  <li>with print job timeouts to trigger the <code>ExecuteWatchdog</code>
  *  <li>with the <code>exitValue</code> returned from the print script
  * </ul>
+ *
+ * @version $Id$
  */
 public class TutorialTest extends TestCase {
 

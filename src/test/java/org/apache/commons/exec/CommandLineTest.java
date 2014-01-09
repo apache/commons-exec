@@ -27,6 +27,9 @@ import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import org.apache.commons.exec.util.StringUtils;
 
+/**
+ * @version $Id$
+ */
 public class CommandLineTest extends TestCase {
 
     private void assertEquals(final String[] expected, final String[] actual) {

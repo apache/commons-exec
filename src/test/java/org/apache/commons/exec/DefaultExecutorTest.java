@@ -34,6 +34,9 @@ import java.io.PipedOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @version $Id$
+ */
 public class DefaultExecutorTest extends TestCase {
 
     /** Maximum time to wait (15s) */

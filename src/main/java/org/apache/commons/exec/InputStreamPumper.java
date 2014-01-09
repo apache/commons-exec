@@ -27,6 +27,8 @@ import java.io.OutputStream;
  * Copies all data from an System.input stream to an output stream of the executed process.
  *
  * @author mkleint
+ *
+ * @version $Id$
  */
 public class InputStreamPumper implements Runnable {
 

@@ -30,6 +30,8 @@ import java.util.Map;
 /**
  * CommandLine objects help handling command lines specifying processes to
  * execute. The class can be used to a command line by an application.
+ *
+ * @version $Id$
  */
 public class CommandLine {
 

@@ -24,6 +24,8 @@ import java.io.OutputStream;
 
 /**
  * Test the LogOutputStream.
+ *
+ * @version $Id$
  */
 public class LogOutputStreamTest extends TestCase
 {

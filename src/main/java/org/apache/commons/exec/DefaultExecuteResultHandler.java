@@ -21,6 +21,8 @@ package org.apache.commons.exec;
 /**
  * A default implementation of 'ExecuteResultHandler' used for asynchronous
  * process handling.
+ *
+ * @version $Id$
  */
 public class DefaultExecuteResultHandler implements ExecuteResultHandler {
 

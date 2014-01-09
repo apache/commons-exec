@@ -21,6 +21,9 @@ package org.apache.commons.exec;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
+/**
+ * @version $Id$
+ */
 public class TestUtilTest extends TestCase {
 
 	public void testAssertArrayEquals() {

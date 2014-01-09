@@ -40,7 +40,9 @@ import org.apache.commons.exec.PumpStreamHandler;
  * for the OS. Depending on the JDK the environment
  * variables can be either retrieved directly from the
  * JVM or requires starting a process to get them running
- * an OS command line. 
+ * an OS command line.
+ *
+ * @version $Id$
  */
 public class DefaultProcessingEnvironment {
 

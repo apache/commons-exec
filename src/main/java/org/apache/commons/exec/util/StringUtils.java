@@ -33,6 +33,8 @@ import java.io.File;
  * warning.
  *
  * @author <a href="mailto:siegfried.goeschl@it20one.at">Siegfried Goeschl</a>
+ *
+ * @version $Id$
  */
 public class StringUtils {
 

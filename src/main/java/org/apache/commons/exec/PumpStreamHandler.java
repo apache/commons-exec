@@ -29,6 +29,8 @@ import java.io.PipedOutputStream;
  * Copies standard output and error of sub-processes to standard output and error
  * of the parent process. If output or error stream are set to null, any feedback
  * from that stream will be lost.
+ *
+ * @version $Id$
  */
 public class PumpStreamHandler implements ExecuteStreamHandler {
 

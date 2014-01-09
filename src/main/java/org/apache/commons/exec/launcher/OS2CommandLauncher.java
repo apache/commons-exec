@@ -33,6 +33,8 @@ import org.apache.commons.exec.CommandLine;
  * </p>
  * Please not that this class is currently unused because the Java13CommandLauncher
  * is used for 0S/2
+ *
+ * @version $Id$
  */
 public class OS2CommandLauncher extends CommandLauncherProxy {
 

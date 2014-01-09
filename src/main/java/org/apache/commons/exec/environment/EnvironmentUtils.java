@@ -26,6 +26,8 @@ import org.apache.commons.exec.OS;
 
 /**
  * Wrapper for environment variables.
+ *
+ * @version $Id$
  */
 public class EnvironmentUtils
 {

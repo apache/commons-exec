@@ -26,6 +26,8 @@ import java.io.OutputStream;
 
 /**
  * Copies all data from an input stream to an output stream.
+ *
+ * @version $Id$
  */
 public class StreamPumper implements Runnable {
 

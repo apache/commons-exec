@@ -24,6 +24,9 @@ import java.util.Arrays;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
+/**
+ * @version $Id$
+ */
 public final class TestUtil {
 
     private TestUtil() {

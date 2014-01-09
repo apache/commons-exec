@@ -22,6 +22,8 @@ package org.apache.commons.exec;
  * Interface for classes that want to be notified by Watchdog.
  * 
  * @see org.apache.commons.exec.Watchdog
+ *
+ * @version $Id$
  */
 public interface TimeoutObserver {
 

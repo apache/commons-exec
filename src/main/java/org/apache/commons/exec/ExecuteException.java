@@ -22,6 +22,8 @@ import java.io.IOException;
 
 /**
  * An exception indicating that the executing a subprocesses failed.
+ *
+ * @version $Id$
  */
 public class ExecuteException extends IOException {
 
