@@ -21,8 +21,6 @@ package org.apache.commons.exec.util;
 /**
  * Helper classes to provide debugging support.
  *
- * @author <a href="mailto:siegfried.goeschl@it20one.at">Siegfried Goeschl</a>
- *
  * @version $Id$
  */
 public class DebugUtils
