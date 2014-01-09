@@ -864,8 +864,8 @@ public class DefaultExecutorTest {
         assertFalse(exec.isFailure(exitValue));
 
         if (OS.isFamilyUnix()) {
-        	// the parameters fall literally apart under Windows - need to disable the check for Win32
-        	assertEquals(expected, result);
+            // the parameters fall literally apart under Windows - need to disable the check for Win32
+            assertEquals(expected, result);
         }
     }
 
@@ -943,32 +943,32 @@ public class DefaultExecutorTest {
     @Test
     public void testExec41WithoutStreams() throws Exception {
 
-		final CommandLine cmdLine = new CommandLine(pingScript);
-		cmdLine.addArgument("10"); // sleep 10 secs
-		final DefaultExecutor executor = new DefaultExecutor();
-		final ExecuteWatchdog watchdog = new ExecuteWatchdog(2*1000); // allow process no more than 2 secs
+        final CommandLine cmdLine = new CommandLine(pingScript);
+        cmdLine.addArgument("10"); // sleep 10 secs
+        final DefaultExecutor executor = new DefaultExecutor();
+        final ExecuteWatchdog watchdog = new ExecuteWatchdog(2*1000); // allow process no more than 2 secs
 
         // create a custom "PumpStreamHandler" doing no pumping at all
         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(null, null, null);
 
-		executor.setWatchdog(watchdog);
+        executor.setWatchdog(watchdog);
         executor.setStreamHandler(pumpStreamHandler);
 
-		final long startTime = System.currentTimeMillis();
+        final long startTime = System.currentTimeMillis();
 
-		try {
-			executor.execute(cmdLine);
-		} catch (final ExecuteException e) {
-			System.out.println(e);
-		}
+        try {
+            executor.execute(cmdLine);
+        } catch (final ExecuteException e) {
+            System.out.println(e);
+        }
 
         final long duration = System.currentTimeMillis() - startTime;
 
-		System.out.println("Process completed in " + duration +" millis; below is its output");
+        System.out.println("Process completed in " + duration +" millis; below is its output");
 
-		if (watchdog.killedProcess()) {
-			System.out.println("Process timed out and was killed.");
-		}
+        if (watchdog.killedProcess()) {
+            System.out.println("Process timed out and was killed.");
+        }
 
         assertTrue("The process was killed by the watchdog", watchdog.killedProcess());
         assertTrue("Skipping the Thread.join() did not work, duration="+duration, duration < 9000);

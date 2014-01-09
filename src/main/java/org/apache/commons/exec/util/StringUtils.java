@@ -92,10 +92,10 @@ public class StringUtils {
                         for (++cIdx; cIdx < argStr.length(); ++cIdx) {
                             ch = argStr.charAt(cIdx);
                             if (ch == '_' || ch == '.' || ch == '-' || ch == '+' || Character.isLetterOrDigit(ch)) {
-								nameBuf.append(ch);
-							} else {
-								break;
-							}
+                                nameBuf.append(ch);
+                            } else {
+                                break;
+                            }
                         }
 
                         if (nameBuf.length() >= 0) {
@@ -233,8 +233,8 @@ public class StringUtils {
                 throw new IllegalArgumentException(
                         "Can't handle single and double quotes in same argument");
             }
-			return buf.append(SINGLE_QUOTE).append(cleanedArgument).append(
-			        SINGLE_QUOTE).toString();
+            return buf.append(SINGLE_QUOTE).append(cleanedArgument).append(
+                    SINGLE_QUOTE).toString();
         } else if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1
                 || cleanedArgument.indexOf(" ") > -1) {
             return buf.append(DOUBLE_QUOTE).append(cleanedArgument).append(
