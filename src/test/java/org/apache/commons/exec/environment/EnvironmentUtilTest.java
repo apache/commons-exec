@@ -40,7 +40,7 @@ public class EnvironmentUtilTest extends TestCase {
      */
     public void testToStrings() {
         // check for a non-existing environment when passing null
-        TestUtil.assertEquals(null, EnvironmentUtils.toStrings(null), false);
+        assertNull(EnvironmentUtils.toStrings(null));
         // check for an environment when filling in two variables
         final Map env = new HashMap();
         TestUtil.assertEquals(new String[0], EnvironmentUtils.toStrings(env), false);
