@@ -29,6 +29,8 @@ import junit.framework.TestCase;
 import org.apache.commons.exec.OS;
 import org.apache.commons.exec.TestUtil;
 
+import static org.junit.Assert.assertArrayEquals;
+
 /**
  * @version $Id$
  */
@@ -43,12 +45,12 @@ public class EnvironmentUtilTest extends TestCase {
         assertNull(EnvironmentUtils.toStrings(null));
         // check for an environment when filling in two variables
         final Map env = new HashMap();
-        TestUtil.assertEquals(new String[0], EnvironmentUtils.toStrings(env), false);
+        assertArrayEquals(new String[0], EnvironmentUtils.toStrings(env));
         env.put("foo2", "bar2");
         env.put("foo", "bar");
         final String[] envStrings = EnvironmentUtils.toStrings(env);
-        final String[] expected = new String[]{"foo=bar", "foo2=bar2"};
-        TestUtil.assertEquals(expected, envStrings, false);
+        final String[] expected = new String[]{"foo2=bar2", "foo=bar"};
+        assertArrayEquals(expected, envStrings);
     }
 
     /**
