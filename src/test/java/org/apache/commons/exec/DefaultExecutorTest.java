@@ -18,8 +18,12 @@
 
 package org.apache.commons.exec;
 
-import junit.framework.TestCase;
-import org.apache.commons.exec.environment.EnvironmentUtils;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -34,10 +38,17 @@ import java.io.PipedOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.exec.environment.EnvironmentUtils;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
+import org.junit.Test;
+
 /**
  * @version $Id$
  */
-public class DefaultExecutorTest extends TestCase {
+public class DefaultExecutorTest {
 
     /** Maximum time to wait (15s) */
     private static final int WAITFOR_TIMEOUT = 15000;
@@ -61,10 +72,11 @@ public class DefaultExecutorTest extends TestCase {
 
 
     // Get suitable exit codes for the OS
-    private static final int SUCCESS_STATUS; // test script successful exit code
-    private static final int ERROR_STATUS;   // test script error exit code
+    private static int SUCCESS_STATUS; // test script successful exit code
+    private static int ERROR_STATUS;   // test script error exit code
 
-    static{
+    @BeforeClass
+    public static void classSetUp() {
 
         final int statuses[] = TestUtil.getTestScriptCodesForOS();
         SUCCESS_STATUS=statuses[0];
@@ -75,7 +87,8 @@ public class DefaultExecutorTest extends TestCase {
         System.setProperty("org.apache.commons.exec.debug", "true");
     }
 
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
 
         // delete the marker file
         this.foreverOutputFile.getParentFile().mkdirs();
@@ -88,7 +101,8 @@ public class DefaultExecutorTest extends TestCase {
         this.exec.setStreamHandler(new PumpStreamHandler(baos, baos));
     }
 
-    protected void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         this.baos.close();
         foreverOutputFile.delete();
     }
@@ -104,6 +118,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExecute() throws Exception {
         final CommandLine cl = new CommandLine(testScript);
         final int exitValue = exec.execute(cl);
@@ -112,6 +127,7 @@ public class DefaultExecutorTest extends TestCase {
         assertEquals(new File("."), exec.getWorkingDirectory());
     }
 
+    @Test
     public void testExecuteWithWorkingDirectory() throws Exception {
         final File workingDir = new File("./target");
         final CommandLine cl = new CommandLine(testScript);
@@ -122,6 +138,7 @@ public class DefaultExecutorTest extends TestCase {
         assertEquals(exec.getWorkingDirectory(), workingDir);
     }
 
+    @Test
     public void testExecuteWithInvalidWorkingDirectory() throws Exception {
         final File workingDir = new File("/foo/bar");
         final CommandLine cl = new CommandLine(testScript);
@@ -135,6 +152,7 @@ public class DefaultExecutorTest extends TestCase {
         }
     }
 
+    @Test
     public void testExecuteWithError() throws Exception {
         final CommandLine cl = new CommandLine(errorTestScript);
 
@@ -146,6 +164,7 @@ public class DefaultExecutorTest extends TestCase {
         }
     }
 
+    @Test
     public void testExecuteWithArg() throws Exception {
         final CommandLine cl = new CommandLine(testScript);
         cl.addArgument("BAR");
@@ -159,8 +178,9 @@ public class DefaultExecutorTest extends TestCase {
      * Execute the test script and pass a environment containing
      * 'TEST_ENV_VAR'.
      */
+    @Test
     public void testExecuteWithSingleEnvironmentVariable() throws Exception {
-    	final Map env = new HashMap();
+        final Map env = new HashMap();
         env.put("TEST_ENV_VAR", "XYZ");
 
         final CommandLine cl = new CommandLine(testScript);
@@ -177,6 +197,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExecuteAsync() throws Exception {
         final CommandLine cl = new CommandLine(testScript);
         final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
@@ -194,6 +215,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExecuteAsyncWithError() throws Exception {
         final CommandLine cl = new CommandLine(errorTestScript);
         final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
@@ -211,6 +233,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExecuteAsyncWithTimelyUserTermination() throws Exception {
         final CommandLine cl = new CommandLine(foreverTestScript);
         final ExecuteWatchdog watchdog = new ExecuteWatchdog(Integer.MAX_VALUE);
@@ -238,6 +261,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExecuteAsyncWithTooLateUserTermination() throws Exception {
         final CommandLine cl = new CommandLine(foreverTestScript);
         final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
@@ -265,6 +289,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExecuteWatchdogSync() throws Exception {
 
         if (OS.isFamilyOpenVms()) {
@@ -309,6 +334,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExecuteWatchdogAsync() throws Exception {
 
         final long timeout = 10000;
@@ -337,6 +363,7 @@ public class DefaultExecutorTest extends TestCase {
      * @throws Exception
      *             the test failed
      */
+    @Test
     public void testExecuteWatchdogVeryLongTimeout() throws Exception {
         final long timeout = Long.MAX_VALUE;
 
@@ -361,6 +388,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExecuteNonExistingApplication() throws Exception {
         final CommandLine cl = new CommandLine(nonExistingTestScript);
         final DefaultExecutor executor = new DefaultExecutor();
@@ -379,6 +407,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExecuteAsyncWithNonExistingApplication() throws Exception {
         final CommandLine cl = new CommandLine(nonExistingTestScript);
         final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
@@ -394,6 +423,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExecuteWithCustomExitValue1() throws Exception {
         exec.setExitValue(ERROR_STATUS);
         final CommandLine cl = new CommandLine(errorTestScript);
@@ -406,6 +436,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExecuteWithCustomExitValue2() throws Exception {
         final CommandLine cl = new CommandLine(errorTestScript);
         exec.setExitValue(SUCCESS_STATUS);
@@ -423,6 +454,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExecuteWithProcessDestroyer() throws Exception {
 
       final CommandLine cl = new CommandLine(testScript);
@@ -447,6 +479,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExecuteAsyncWithProcessDestroyer() throws Exception {
 
       final CommandLine cl = new CommandLine(foreverTestScript);
@@ -485,6 +518,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExecuteWithFancyArg() throws Exception {
         final CommandLine cl = new CommandLine(testScript);
         cl.addArgument("test $;`(0)[1]{2}");
@@ -502,6 +536,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExecuteWithRedirectedStreams() throws Exception {
         if (OS.isFamilyUnix()) {
             final FileInputStream fis = new FileInputStream("./NOTICE.txt");
@@ -533,6 +568,7 @@ public class DefaultExecutorTest extends TestCase {
       *
       * @throws Exception the test failed
       */
+     @Test
     public void testExecuteWithStdOutErr() throws Exception {
         final CommandLine cl = new CommandLine(testScript);
         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(System.out, System.err);
@@ -548,6 +584,7 @@ public class DefaultExecutorTest extends TestCase {
      * @throws Exception
      *             the test failed
      */
+    @Test
     public void testExecuteWithNullOutErr() throws Exception {
         final CommandLine cl = new CommandLine(testScript);
         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(null, null);
@@ -562,6 +599,7 @@ public class DefaultExecutorTest extends TestCase {
       *
       * @throws Exception the test failed
       */
+     @Test
      public void testExecuteWithRedirectOutErr() throws Exception
      {
          final File outfile = File.createTempFile("EXEC", ".test");
@@ -581,6 +619,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExecuteWithComplexArguments() throws Exception {
         final CommandLine cl = new CommandLine(printArgsScript);
         cl.addArgument("gdal_translate");
@@ -598,6 +637,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testStdInHandling() throws Exception {
         // newline not needed; causes problems for VMS
         final ByteArrayInputStream bais = new ByteArrayInputStream("Foo".getBytes());
@@ -621,6 +661,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testEnvironmentVariables() throws Exception {
         exec.execute(new CommandLine(environmentSript));
         final String environment = baos.toString().trim();
@@ -634,6 +675,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testAddEnvironmentVariables() throws Exception {
         final Map myEnvVars = new HashMap();
         myEnvVars.putAll(EnvironmentUtils.getProcEnvironment());
@@ -644,6 +686,7 @@ public class DefaultExecutorTest extends TestCase {
         assertTrue("Expecting NEW_VAL in "+environment,environment.indexOf("NEW_VAL") >= 0);
     }
 
+    @Test
     public void testAddEnvironmentVariableEmbeddedQuote() throws Exception {
         final Map myEnvVars = new HashMap();
         myEnvVars.putAll(EnvironmentUtils.getProcEnvironment());
@@ -667,6 +710,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExec33() throws Exception {
         final CommandLine cl = new CommandLine(testScript);
         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(System.out, System.err, System.in);
@@ -685,6 +729,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExec34_1() throws Exception {
 
         final CommandLine cmdLine = new CommandLine(pingScript);
@@ -708,6 +753,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExec34_2() throws Exception {
 
         final CommandLine cmdLine = new CommandLine(pingScript);
@@ -731,6 +777,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExec36_1() throws Exception {
 
         if (OS.isFamilyUnix()) {
@@ -778,6 +825,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExec36_2() throws Exception {
 
         String expected;
@@ -832,6 +880,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExec41WithStreams() throws Exception {
 
         CommandLine cmdLine;
@@ -891,6 +940,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExec41WithoutStreams() throws Exception {
 
 		final CommandLine cmdLine = new CommandLine(pingScript);
@@ -934,6 +984,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExec44() throws Exception {
 
         final CommandLine cl = new CommandLine(foreverTestScript);
@@ -963,6 +1014,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExec49_1() throws Exception {
 
         if (OS.isFamilyUnix()) {
@@ -1003,6 +1055,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExec49_2() throws Exception {
 
         if (OS.isFamilyUnix()) {
@@ -1044,6 +1097,7 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testExec_57() throws IOException {
 
         if (!OS.isFamilyUnix()) {
@@ -1083,6 +1137,7 @@ public class DefaultExecutorTest extends TestCase {
      * note that a successful test is no proof that the issues was indeed fixed.
      *
      */
+    @Test
     public void testExec_60() throws Exception {
 
         final int start = 0;
@@ -1134,6 +1189,8 @@ public class DefaultExecutorTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
+    @Ignore
     public void _testExecuteStability() throws Exception {
 
         // make a plain-vanilla test

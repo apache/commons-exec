@@ -18,21 +18,23 @@
 
 package org.apache.commons.exec.util;
 
-import org.apache.commons.exec.environment.EnvironmentUtils;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
+import org.apache.commons.exec.environment.EnvironmentUtils;
+import org.junit.Test;
 
 /**
  * @version $Id$
  */
-public class MapUtilTest extends TestCase
-{
+public class MapUtilTest {
     /**
      * Test copying of map
      */
+    @Test
     public void testCopyMap() throws Exception {
 
         final HashMap procEnvironment = new HashMap();
@@ -51,6 +53,7 @@ public class MapUtilTest extends TestCase
     /**
      * Test merging of maps
      */
+    @Test
     public void testMergeMap() throws Exception {
 
         final Map procEnvironment = EnvironmentUtils.getProcEnvironment();
@@ -65,6 +68,7 @@ public class MapUtilTest extends TestCase
     /**
      * Test prefixing of map
      */
+    @Test
     public void testPrefixMap() throws Exception {
 
         final HashMap procEnvironment = new HashMap();

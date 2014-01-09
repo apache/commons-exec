@@ -18,12 +18,14 @@
 
 package org.apache.commons.exec;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.junit.Test;
 
 /**
  * An example based on the tutorial where the user can can safely play with
@@ -35,7 +37,7 @@ import java.util.Map;
  *
  * @version $Id$
  */
-public class TutorialTest extends TestCase {
+public class TutorialTest {
 
     /** the directory to pick up the test scripts */
     private final File testDir = new File("src/test/scripts");
@@ -43,6 +45,7 @@ public class TutorialTest extends TestCase {
     /** simulates a PDF print job */
     private final File acroRd32Script = TestUtil.resolveScriptForOS(testDir + "/acrord32");
 
+    @Test
     public void testTutorialExample() throws Exception {
 
         final long printJobTimeout = 15000;

@@ -18,9 +18,12 @@
 
 package org.apache.commons.exec;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * Placeholder for mailing list question - provided a minimal test case
@@ -28,13 +31,15 @@ import java.io.File;
  *
  * @version $Id$
  */
-public class StandAloneTest extends TestCase {
+public class StandAloneTest {
 
-    static{
+    @BeforeClass
+    public static void classSetUp() {
         System.setProperty("org.apache.commons.exec.lenient", "false");
         System.setProperty("org.apache.commons.exec.debug", "true");
     }
 
+    @Test
     public void testMe() throws Exception {
         if (OS.isFamilyUnix()) {
             final File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/standalone");
@@ -43,6 +48,6 @@ public class StandAloneTest extends TestCase {
             final CommandLine cl = new CommandLine(testScript);
             exec.execute(cl);
             assertTrue(new File("./target/mybackup.gz").exists());
-        }        
+        }
     }
 }

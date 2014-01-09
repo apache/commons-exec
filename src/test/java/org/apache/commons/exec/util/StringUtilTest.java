@@ -18,19 +18,22 @@
 
 package org.apache.commons.exec.util;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * @version $Id$
  */
-public class StringUtilTest extends TestCase
-{
+public class StringUtilTest {
     /**
      * Test no string substitution
      */
+    @Test
     public void testNoStringSubstitution() throws Exception
     {
         final Map vars = new HashMap();
@@ -44,6 +47,7 @@ public class StringUtilTest extends TestCase
      * Test a default string substitution, e.g. all placeholders
      * are expanded.
      */
+    @Test
     public void testDefaultStringSubstitution() throws Exception 
     {
         final Map vars = new HashMap();
@@ -58,6 +62,7 @@ public class StringUtilTest extends TestCase
      * Test an incomplete string substitution where not all placeholders
      * are expanded.
      */
+    @Test
     public void testIncompleteSubstitution() throws Exception {
 
         final Map vars = new HashMap();
@@ -79,6 +84,7 @@ public class StringUtilTest extends TestCase
     /**
      * Test a erroneous template.
      */
+    @Test
     public void testErroneousTemplate() throws Exception
     {
         final Map vars = new HashMap();

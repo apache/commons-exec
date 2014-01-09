@@ -18,28 +18,31 @@
 
 package org.apache.commons.exec.environment;
 
+import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.exec.OS;
-import org.apache.commons.exec.TestUtil;
-
-import static org.junit.Assert.assertArrayEquals;
+import org.junit.Test;
 
 /**
  * @version $Id$
  */
-public class EnvironmentUtilTest extends TestCase {
+public class EnvironmentUtilTest {
 
     /**
      * Tests the behaviour of the EnvironmentUtils.toStrings()
      * when using a <code>null</code> environment.
      */
+    @Test
     public void testToStrings() {
         // check for a non-existing environment when passing null
         assertNull(EnvironmentUtils.toStrings(null));
@@ -60,6 +63,7 @@ public class EnvironmentUtilTest extends TestCase {
      *
      * @throws IOException the test failed
      */
+    @Test
     public void testGetProcEnvironment() throws IOException {
         final Map procEnvironment = EnvironmentUtils.getProcEnvironment();
         // we assume that there is at least one environment variable
@@ -80,6 +84,7 @@ public class EnvironmentUtilTest extends TestCase {
      *
      * @throws IOException the test failed
      */
+    @Test
     public void testGetProcEnvironmentCaseInsensitiveLookup() throws IOException {
         // run tests only on windows platforms
         if (!OS.isFamilyWindows()) {
@@ -111,6 +116,7 @@ public class EnvironmentUtilTest extends TestCase {
      *
      * @throws Exception the test failed
      */
+    @Test
     public void testCaseInsensitiveVariableLookup() throws Exception {
         final Map procEnvironment = EnvironmentUtils.getProcEnvironment();
         // Check that case is preserved for values
