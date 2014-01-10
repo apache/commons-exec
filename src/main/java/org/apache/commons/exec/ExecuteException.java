@@ -32,15 +32,15 @@ public class ExecuteException extends IOException {
      */
     private static final long serialVersionUID = 3256443620654331699L;
 
-	/**
-	 * The underlying cause of this exception.
-	 */
-	private final Throwable cause;
+    /**
+     * The underlying cause of this exception.
+     */
+    private final Throwable cause;
 
-	/**
-	 * The exit value returned by the failed process
-	 */
-	private final int exitValue;
+    /**
+     * The exit value returned by the failed process
+     */
+    private final int exitValue;
     
     /**
      * Construct a new exception with the specified detail message.
@@ -82,6 +82,6 @@ public class ExecuteException extends IOException {
      * @return The exit value
      */
     public int getExitValue() {
-    	return exitValue;
+        return exitValue;
     }
 }
