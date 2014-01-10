@@ -19,11 +19,11 @@
 package org.apache.commons.exec.util;
 
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.io.File;
 
 /**
  * Supplement of commons-lang, the stringSubstitution() was in a simpler

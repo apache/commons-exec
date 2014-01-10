@@ -19,10 +19,8 @@
 package org.apache.commons.exec;
 
 import java.io.File;
-import java.util.Arrays;
 
 import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
 
 /**
  * @version $Id$

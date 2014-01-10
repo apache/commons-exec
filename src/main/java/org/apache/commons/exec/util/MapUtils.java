@@ -18,9 +18,9 @@
 
 package org.apache.commons.exec.util;
 
-import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Helper classes to manipulate maps to pass substition map to the

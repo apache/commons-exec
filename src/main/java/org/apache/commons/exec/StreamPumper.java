@@ -18,11 +18,11 @@
 
 package org.apache.commons.exec;
 
-import org.apache.commons.exec.util.DebugUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import org.apache.commons.exec.util.DebugUtils;
 
 /**
  * Copies all data from an input stream to an output stream.

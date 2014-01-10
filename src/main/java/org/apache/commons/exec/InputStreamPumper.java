@@ -18,10 +18,10 @@
 
 package org.apache.commons.exec;
 
-import org.apache.commons.exec.util.DebugUtils;
-
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import org.apache.commons.exec.util.DebugUtils;
 
 /**
  * Copies all data from an System.input stream to an output stream of the executed process.

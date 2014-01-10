@@ -18,14 +18,14 @@
 
 package org.apache.commons.exec;
 
-import org.apache.commons.exec.util.StringUtils;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.Vector;
-import java.util.Map;
+
+import org.apache.commons.exec.util.StringUtils;
 
 /**
  * CommandLine objects help handling command lines specifying processes to

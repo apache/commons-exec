@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.exec.util.StringUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
