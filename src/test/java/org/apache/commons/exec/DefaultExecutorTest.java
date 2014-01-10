@@ -135,18 +135,13 @@ public class DefaultExecutorTest {
         assertEquals(exec.getWorkingDirectory(), workingDir);
     }
 
-    @Test
+    @Test(expected = IOException.class)
     public void testExecuteWithInvalidWorkingDirectory() throws Exception {
         final File workingDir = new File("/foo/bar");
         final CommandLine cl = new CommandLine(testScript);
         exec.setWorkingDirectory(workingDir);
-        try {
-            exec.execute(cl);
-            fail("Expected exception due to invalid working directory");
-        }
-        catch (final IOException e) {
-            return;
-        }
+
+        exec.execute(cl);
     }
 
     @Test
@@ -385,17 +380,12 @@ public class DefaultExecutorTest {
      *
      * @throws Exception the test failed
      */
-    @Test
+    @Test(expected = IOException.class)
     public void testExecuteNonExistingApplication() throws Exception {
         final CommandLine cl = new CommandLine(nonExistingTestScript);
         final DefaultExecutor executor = new DefaultExecutor();
-        try {
-            executor.execute(cl);
-        } catch (final IOException e) {
-            // expected
-            return;
-        }
-        fail("Got no exception when executing an non-existing application");
+
+        executor.execute(cl);
     }
 
     /**
@@ -442,7 +432,6 @@ public class DefaultExecutorTest {
             fail("Must throw ExecuteException");
         } catch (final ExecuteException e) {
             assertTrue(exec.isFailure(e.getExitValue()));
-            return;
         }
     }
 
@@ -597,8 +586,7 @@ public class DefaultExecutorTest {
       * @throws Exception the test failed
       */
      @Test
-     public void testExecuteWithRedirectOutErr() throws Exception
-     {
+     public void testExecuteWithRedirectOutErr() throws Exception {
          final File outfile = File.createTempFile("EXEC", ".test");
          outfile.deleteOnExit();
          final CommandLine cl = new CommandLine(testScript);
