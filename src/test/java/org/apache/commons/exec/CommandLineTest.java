@@ -179,7 +179,7 @@ public class CommandLineTest {
         assertArrayEquals(new String[]{"test", "foo", "bar"}, cmdl.toStrings());
     }
 
-    @TestO
+    @Test
     public void testAddArgumentsArrayNull() {
         final CommandLine cmdl = new CommandLine("test");
         cmdl.addArguments((String[]) null);
