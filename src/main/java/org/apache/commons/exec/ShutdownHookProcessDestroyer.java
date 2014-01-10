@@ -50,6 +50,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
             super("ProcessDestroyer Shutdown Hook");
         }
 
+        @Override
         public void run() {
             if (shouldDestroy) {
                 ShutdownHookProcessDestroyer.this.run();

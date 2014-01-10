@@ -42,6 +42,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
     /**
      * Launches the given command in a new process.
      */
+    @Override
     public Process exec(final CommandLine cmd, final Map env)
             throws IOException {
         final CommandLine vmsCmd = new CommandLine(
@@ -57,6 +58,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
      * only works if <code>workingDir</code> is null or the logical
      * JAVA$FORK_SUPPORT_CHDIR needs to be set to TRUE.
      */
+    @Override
     public Process exec(final CommandLine cmd, final Map env,
             final File workingDir) throws IOException {
         final CommandLine vmsCmd = new CommandLine(
@@ -67,6 +69,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
     }
 
     /** @see org.apache.commons.exec.launcher.CommandLauncher#isFailure(int) */
+    @Override
     public boolean isFailure(final int exitValue) {
         // even exit value signals failure
         return exitValue % 2 == 0;

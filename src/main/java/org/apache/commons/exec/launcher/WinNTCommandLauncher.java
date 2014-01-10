@@ -48,6 +48,7 @@ public class WinNTCommandLauncher extends CommandLauncherProxy {
      * @throws IOException
      *             forwarded from the exec method of the command launcher
      */
+    @Override
     public Process exec(final CommandLine cmd, final Map env,
             final File workingDir) throws IOException {
         if (workingDir == null) {

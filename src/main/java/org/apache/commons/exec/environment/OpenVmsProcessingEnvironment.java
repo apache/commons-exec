@@ -38,6 +38,7 @@ public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
      * @return a map containing the environment variables
      * @throws IOException the operation failed
      */    
+    @Override
     protected Map createProcEnvironment() throws IOException {
         if (procEnvironment == null) {
             final BufferedReader in = runProcEnvCommand();
@@ -53,6 +54,7 @@ public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
      *
      * @return the command line
      */    
+    @Override
     protected CommandLine getProcEnvCommand() {
         final CommandLine commandLine = new CommandLine("show");
         commandLine.addArgument("symbol/global"); // the parser assumes symbols are global

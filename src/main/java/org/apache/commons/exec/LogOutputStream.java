@@ -74,6 +74,7 @@ public abstract class LogOutputStream
      * @param cc data to log (byte).
      * @see java.io.OutputStream#write(int)
      */
+    @Override
     public void write(final int cc) throws IOException {
         final byte c = (byte) cc;
         if (c == '\n' || c == '\r') {
@@ -91,6 +92,7 @@ public abstract class LogOutputStream
      *
      * @see java.io.OutputStream#flush()
      */
+    @Override
     public void flush() {
         if (buffer.size() > 0) {
             processBuffer();
@@ -102,6 +104,7 @@ public abstract class LogOutputStream
      *
      * @see java.io.OutputStream#close()
      */
+    @Override
     public void close() throws IOException {
         if (buffer.size() > 0) {
             processBuffer();
@@ -125,6 +128,7 @@ public abstract class LogOutputStream
      * @throws java.io.IOException if the data cannot be written into the stream.
      * @see java.io.OutputStream#write(byte[], int, int)
      */
+    @Override
     public void write(final byte[] b, final int off, final int len)
             throws IOException {
         // find the line breaks and pass other chars through in blocks

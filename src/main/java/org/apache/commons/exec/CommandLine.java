@@ -306,6 +306,7 @@ public class CommandLine {
      *
      * @return the command line as single string
      */
+    @Override
     public String toString() {
         return "[" + StringUtils.toString(toStrings(), ", ") + "]";
     }

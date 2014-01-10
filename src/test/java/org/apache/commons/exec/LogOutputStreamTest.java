@@ -78,6 +78,7 @@ public class LogOutputStreamTest {
             super(level);
         }
 
+        @Override
         protected void processLine(final String line, final int level) {
             System.out.println(line);
         }

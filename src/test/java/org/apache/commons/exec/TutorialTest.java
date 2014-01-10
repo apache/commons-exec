@@ -135,11 +135,13 @@ public class TutorialTest {
             super.onProcessComplete(exitValue);
         }
         
+        @Override
         public void onProcessComplete(final int exitValue) {
             super.onProcessComplete(exitValue);
             System.out.println("[resultHandler] The document was successfully printed ...");
         }
 
+        @Override
         public void onProcessFailed(final ExecuteException e) {
             super.onProcessFailed(e);
             if (watchdog != null && watchdog.killedProcess()) {

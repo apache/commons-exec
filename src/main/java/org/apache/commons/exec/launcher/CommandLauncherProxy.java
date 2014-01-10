@@ -48,6 +48,7 @@ public abstract class CommandLauncherProxy extends CommandLauncherImpl {
      * @throws IOException
      *             forwarded from the exec method of the command launcher
      */
+    @Override
     public Process exec(final CommandLine cmd, final Map env)
             throws IOException {
         return myLauncher.exec(cmd, env);
