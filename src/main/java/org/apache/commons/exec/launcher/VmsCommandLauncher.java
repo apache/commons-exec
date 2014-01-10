@@ -132,9 +132,9 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
                 out.print(command);                
             }
             final String[] args = cmd.getArguments();
-            for (int i = 0; i < args.length; i++) {
+            for (String arg : args) {
                 out.println(" -");
-                out.print(args[i]);
+                out.print(arg);
             }
             out.println();
         } finally {

@@ -176,8 +176,8 @@ public class CommandLine {
      */
     public CommandLine addArguments(final String[] addArguments, final boolean handleQuoting) {
         if (addArguments != null) {
-            for (int i = 0; i < addArguments.length; i++) {
-                addArgument(addArguments[i], handleQuoting);
+            for (String addArgument : addArguments) {
+                addArgument(addArgument, handleQuoting);
             }
         }
 

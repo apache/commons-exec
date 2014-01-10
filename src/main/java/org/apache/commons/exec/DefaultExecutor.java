@@ -232,8 +232,8 @@ public class DefaultExecutor implements Executor {
             return this.launcher.isFailure(exitValue);
         }
         else {
-            for (int i=0; i<this.exitValues.length; i++) {
-                if (this.exitValues[i] == exitValue) {
+            for (int exitValue2 : this.exitValues) {
+                if (exitValue2 == exitValue) {
                     return false;
                 }
             }
