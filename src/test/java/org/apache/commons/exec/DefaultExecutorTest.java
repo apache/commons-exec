@@ -301,7 +301,7 @@ public class DefaultExecutorTest {
         try {
             executor.execute(cl);
         }
- catch (final ExecuteException e) {
+        catch (final ExecuteException e) {
             Thread.sleep(timeout);
             final int nrOfInvocations = getOccurrences(readFile(this.foreverOutputFile), '.');
             assertTrue(executor.getWatchdog().killedProcess());
