@@ -32,16 +32,16 @@ import org.apache.commons.exec.OS;
 public class EnvironmentUtils
 {
 
-	private static final DefaultProcessingEnvironment PROCESSING_ENVIRONMENT_IMPLEMENTATION;
-	
-	static {
+    private static final DefaultProcessingEnvironment PROCESSING_ENVIRONMENT_IMPLEMENTATION;
+    
+    static {
         if (OS.isFamilyOpenVms()) {
-        	PROCESSING_ENVIRONMENT_IMPLEMENTATION = new OpenVmsProcessingEnvironment();
+            PROCESSING_ENVIRONMENT_IMPLEMENTATION = new OpenVmsProcessingEnvironment();
         } else {
-        	PROCESSING_ENVIRONMENT_IMPLEMENTATION = new DefaultProcessingEnvironment();
+            PROCESSING_ENVIRONMENT_IMPLEMENTATION = new DefaultProcessingEnvironment();
         }
-	}
-	
+    }
+    
     /**
      * Disable constructor.
      */
@@ -81,7 +81,7 @@ public class EnvironmentUtils
      * @throws IOException the operation failed
      */
     public static Map getProcEnvironment() throws IOException {
-    	return PROCESSING_ENVIRONMENT_IMPLEMENTATION.getProcEnvironment();
+        return PROCESSING_ENVIRONMENT_IMPLEMENTATION.getProcEnvironment();
     }
 
     /**
@@ -92,9 +92,9 @@ public class EnvironmentUtils
      * @param keyAndValue the key/value pair 
      */
     public static void addVariableToEnvironment(final Map environment, final String keyAndValue) {
-		final String[] parsedVariable = parseEnvironmentVariable(keyAndValue);		
-		environment.put(parsedVariable[0], parsedVariable[1]);
-	}
+        final String[] parsedVariable = parseEnvironmentVariable(keyAndValue);        
+        environment.put(parsedVariable[0], parsedVariable[1]);
+    }
     
     /**
      * Split a key/value pair into a String[]. It is assumed
