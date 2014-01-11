@@ -19,6 +19,7 @@
 package org.apache.commons.exec;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -345,7 +346,7 @@ public class CommandLine {
         final int inDoubleQuote = 2;
         int state = normal;
         final StringTokenizer tok = new StringTokenizer(toProcess, "\"\' ", true);
-        final Vector v = new Vector();
+        final ArrayList<String> list = new ArrayList<String>();
         StringBuffer current = new StringBuffer();
         boolean lastTokenHasBeenQuoted = false;
 
@@ -375,7 +376,7 @@ public class CommandLine {
                     state = inDoubleQuote;
                 } else if (" ".equals(nextTok)) {
                     if (lastTokenHasBeenQuoted || current.length() != 0) {
-                        v.addElement(current.toString());
+                        list.add(current.toString());
                         current = new StringBuffer();
                     }
                 } else {
@@ -387,7 +388,7 @@ public class CommandLine {
         }
 
         if (lastTokenHasBeenQuoted || current.length() != 0) {
-            v.addElement(current.toString());
+            list.add(current.toString());
         }
 
         if (state == inQuote || state == inDoubleQuote) {
@@ -395,9 +396,8 @@ public class CommandLine {
                     + toProcess);
         }
 
-        final String[] args = new String[v.size()];
-        v.copyInto(args);
-        return args;
+        final String[] args = new String[list.size()];
+        return list.toArray(args);
     }
 
     /**
