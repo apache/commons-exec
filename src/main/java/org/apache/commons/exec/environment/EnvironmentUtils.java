@@ -91,7 +91,7 @@ public class EnvironmentUtils
      * @param environment the current environment
      * @param keyAndValue the key/value pair 
      */
-    public static void addVariableToEnvironment(final Map<String, String> environment, final String keyAndValue) {
+    public static void addVariableToEnvironment(final Map environment, final String keyAndValue) {
         final String[] parsedVariable = parseEnvironmentVariable(keyAndValue);        
         environment.put(parsedVariable[0], parsedVariable[1]);
     }
