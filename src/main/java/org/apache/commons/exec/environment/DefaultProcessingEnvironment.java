@@ -1,4 +1,4 @@
-/* 
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -68,7 +68,7 @@ public class DefaultProcessingEnvironment {
      * Find the list of environment variables for this process.
      *
      * @return a amp containing the environment variables
-     * @throws IOException the operation failed 
+     * @throws IOException the operation failed
      */
     protected Map<String, String> createProcEnvironment() throws IOException {
         if (procEnvironment == null) {
@@ -112,7 +112,7 @@ public class DefaultProcessingEnvironment {
     /**
      * Start a process to list the environment variables.
      *
-     * @return a reader containing the output of the process 
+     * @return a reader containing the output of the process
      * @throws IOException starting the process failed
      * @deprecated No longer needed
      */
@@ -141,7 +141,7 @@ public class DefaultProcessingEnvironment {
 //        if (OS.isFamilyOS2()) {
 //            // OS/2 - use same mechanism as Windows 2000
 //            executable = "cmd";
-//            
+//
 //            arguments = new String[] {"/c", "set"};
 //        } else if (OS.isFamilyWindows()) {
 //            // Determine if we're running under XP/2000/NT or 98/95
@@ -184,7 +184,7 @@ public class DefaultProcessingEnvironment {
 //    /**
 //     * ByteArrayOutputStream#toString doesn't seem to work reliably on OS/390,
 //     * at least not the way we use it in the execution context.
-//     * 
+//     *
 //     * @param bos
 //     *            the output stream that one wants to read
 //     * @return the output stream as a string, read with special encodings in the
@@ -211,7 +211,7 @@ public class DefaultProcessingEnvironment {
      * Creates a map that obeys the casing rules of the current platform for key
      * lookup. E.g. on a Windows platform, the map keys will be
      * case-insensitive.
-     * 
+     *
      * @return The map for storage of environment variables, never
      *         <code>null</code>.
      */
@@ -223,7 +223,7 @@ public class DefaultProcessingEnvironment {
                 }
             });
         }
-		return new HashMap<String, String>();
+        return new HashMap<String, String>();
     }
 
 }

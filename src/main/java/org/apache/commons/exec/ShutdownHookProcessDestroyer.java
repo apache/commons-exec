@@ -40,7 +40,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
     /**
      * Whether or not this ProcessDestroyer is currently running as shutdown hook
      */
-  	private volatile boolean running = false;
+    private volatile boolean running = false;
 
     private class ProcessDestroyerImpl extends Thread {
 
@@ -87,77 +87,77 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
         }
     }
 
-	/**
-	 * Removes this <code>ProcessDestroyer</code> as a shutdown hook, uses
-	 * reflection to ensure pre-JDK 1.3 compatibility
-	 */
-	private void removeShutdownHook() {
-		if (added && !running) {
-			final boolean removed = Runtime.getRuntime().removeShutdownHook(
-					destroyProcessThread);
-			if (!removed) {
-				System.err.println("Could not remove shutdown hook");
-			}
-			/*
-			 * start the hook thread, a unstarted thread may not be eligible for
-			 * garbage collection Cf.: http://developer.java.sun.com/developer/
-			 * bugParade/bugs/4533087.html
-			 */
+    /**
+     * Removes this <code>ProcessDestroyer</code> as a shutdown hook, uses
+     * reflection to ensure pre-JDK 1.3 compatibility
+     */
+    private void removeShutdownHook() {
+        if (added && !running) {
+            final boolean removed = Runtime.getRuntime().removeShutdownHook(
+                    destroyProcessThread);
+            if (!removed) {
+                System.err.println("Could not remove shutdown hook");
+            }
+            /*
+             * start the hook thread, a unstarted thread may not be eligible for
+             * garbage collection Cf.: http://developer.java.sun.com/developer/
+             * bugParade/bugs/4533087.html
+             */
 
-			destroyProcessThread.setShouldDestroy(false);
-			destroyProcessThread.start();
-			// this should return quickly, since it basically is a NO-OP.
-			try {
-				destroyProcessThread.join(20000);
-			} catch (final InterruptedException ie) {
-				// the thread didn't die in time
-				// it should not kill any processes unexpectedly
-			}
-			destroyProcessThread = null;
-			added = false;
-		}
-	}
+            destroyProcessThread.setShouldDestroy(false);
+            destroyProcessThread.start();
+            // this should return quickly, since it basically is a NO-OP.
+            try {
+                destroyProcessThread.join(20000);
+            } catch (final InterruptedException ie) {
+                // the thread didn't die in time
+                // it should not kill any processes unexpectedly
+            }
+            destroyProcessThread = null;
+            added = false;
+        }
+    }
 
-	/**
-	 * Returns whether or not the ProcessDestroyer is registered as as shutdown
-	 * hook
-	 * 
-	 * @return true if this is currently added as shutdown hook
-	 */
-	public boolean isAddedAsShutdownHook() {
-		return added;
-	}
+    /**
+     * Returns whether or not the ProcessDestroyer is registered as as shutdown
+     * hook
+     *
+     * @return true if this is currently added as shutdown hook
+     */
+    public boolean isAddedAsShutdownHook() {
+        return added;
+    }
 
-	/**
-	 * Returns <code>true</code> if the specified <code>Process</code> was
-	 * successfully added to the list of processes to destroy upon VM exit.
-	 * 
-	 * @param process
-	 *            the process to add
-	 * @return <code>true</code> if the specified <code>Process</code> was
-	 *         successfully added
-	 */
-	public boolean add(final Process process) {
-		synchronized (processes) {
-			// if this list is empty, register the shutdown hook
-			if (processes.size() == 0) {
-				addShutdownHook();
-			}
-			processes.addElement(process);
-			return processes.contains(process);
-		}
-	}
+    /**
+     * Returns <code>true</code> if the specified <code>Process</code> was
+     * successfully added to the list of processes to destroy upon VM exit.
+     *
+     * @param process
+     *            the process to add
+     * @return <code>true</code> if the specified <code>Process</code> was
+     *         successfully added
+     */
+    public boolean add(final Process process) {
+        synchronized (processes) {
+            // if this list is empty, register the shutdown hook
+            if (processes.size() == 0) {
+                addShutdownHook();
+            }
+            processes.addElement(process);
+            return processes.contains(process);
+        }
+    }
 
-	/**
-	 * Returns <code>true</code> if the specified <code>Process</code> was
-	 * successfully removed from the list of processes to destroy upon VM exit.
-	 * 
-	 * @param process
-	 *            the process to remove
-	 * @return <code>true</code> if the specified <code>Process</code> was
-	 *         successfully removed
-	 */
-	public boolean remove(final Process process) {
+    /**
+     * Returns <code>true</code> if the specified <code>Process</code> was
+     * successfully removed from the list of processes to destroy upon VM exit.
+     *
+     * @param process
+     *            the process to remove
+     * @return <code>true</code> if the specified <code>Process</code> was
+     *         successfully removed
+     */
+    public boolean remove(final Process process) {
         synchronized (processes) {
             final boolean processRemoved = processes.removeElement(process);
             if (processRemoved && processes.size() == 0) {
@@ -165,7 +165,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
             }
             return processRemoved;
         }
-	}
+    }
 
   /**
    * Returns the number of registered processes.
@@ -177,8 +177,8 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
   }
 
   /**
-	 * Invoked by the VM when it is exiting.
-	 */
+     * Invoked by the VM when it is exiting.
+     */
   public void run() {
       synchronized (processes) {
           running = true;
