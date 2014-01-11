@@ -100,7 +100,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
                     String value = entry.getValue();
                     // Any embedded " values need to be doubled
                     if (value.indexOf('\"') > 0) {
-                        final StringBuffer sb = new StringBuffer();
+                        final StringBuilder sb = new StringBuilder();
                         for (int i = 0; i < value.length(); i++) {
                             final char c = value.charAt(i);
                             if (c == '\"') {

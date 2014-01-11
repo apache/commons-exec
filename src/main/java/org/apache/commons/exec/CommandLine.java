@@ -347,7 +347,7 @@ public class CommandLine {
         int state = normal;
         final StringTokenizer tok = new StringTokenizer(toProcess, "\"\' ", true);
         final ArrayList<String> list = new ArrayList<String>();
-        StringBuffer current = new StringBuffer();
+        StringBuilder current = new StringBuilder();
         boolean lastTokenHasBeenQuoted = false;
 
         while (tok.hasMoreTokens()) {
@@ -377,7 +377,7 @@ public class CommandLine {
                 } else if (" ".equals(nextTok)) {
                     if (lastTokenHasBeenQuoted || current.length() != 0) {
                         list.add(current.toString());
-                        current = new StringBuffer();
+                        current = new StringBuilder();
                     }
                 } else {
                     current.append(nextTok);

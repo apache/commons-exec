@@ -84,7 +84,7 @@ public class StringUtils {
             switch (ch) {
 
                 case '$':
-                    final StringBuffer nameBuf = new StringBuffer();
+                    final StringBuilder nameBuf = new StringBuilder();
                     del = argStr.charAt(cIdx + 1);
                     if (del == '{') {
                         cIdx++;
@@ -192,7 +192,7 @@ public class StringUtils {
      * @return the concatenated strings
      */
     public static String toString(final String[] strings, final String separator) {
-        final StringBuffer sb = new StringBuffer();
+        final StringBuilder sb = new StringBuilder();
         for (int i = 0; i < strings.length; i++) {
             if (i > 0) {
                 sb.append(separator);
@@ -227,7 +227,7 @@ public class StringUtils {
             cleanedArgument = cleanedArgument.substring(0, cleanedArgument.length() - 1);
         }
 
-        final StringBuffer buf = new StringBuffer();
+        final StringBuilder buf = new StringBuilder();
         if (cleanedArgument.indexOf(DOUBLE_QUOTE) > -1) {
             if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1) {
                 throw new IllegalArgumentException(

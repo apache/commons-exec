@@ -733,7 +733,7 @@ public class DefaultExecutorTest {
     private String readFile(final File file) throws Exception {
 
         String text;
-        final StringBuffer contents = new StringBuffer();
+        final StringBuilder contents = new StringBuilder();
         final BufferedReader reader = new BufferedReader(new FileReader(file));
 
         while ((text = reader.readLine()) != null)
