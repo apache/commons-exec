@@ -19,7 +19,6 @@
 package org.apache.commons.exec.util;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
