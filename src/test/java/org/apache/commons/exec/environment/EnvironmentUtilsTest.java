@@ -37,7 +37,7 @@ import org.junit.Test;
 /**
  * @version $Id$
  */
-public class EnvironmentUtilTest {
+public class EnvironmentUtilsTest {
 
     /**
      * Tests the behaviour of the EnvironmentUtils.toStrings()
