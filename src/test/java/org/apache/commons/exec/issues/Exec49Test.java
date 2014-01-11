@@ -68,8 +68,8 @@ public class Exec49Test {
             int x;
             final PipedInputStream pis = new PipedInputStream(pipedOutputStream);
             while ((x = pis.read()) >= 0) {
-                 System.out.println("pis.available() " + pis.available());
-                 System.out.println("x " + x);
+//                 System.out.println("pis.available() " + pis.available());
+//                 System.out.println("x " + x);
             }
             pis.close();
 
@@ -108,8 +108,8 @@ public class Exec49Test {
             int x;
             final PipedInputStream pis = new PipedInputStream(pipedOutputStream);
             while ((x = pis.read()) >= 0) {
-                 System.out.println("pis.available() " + pis.available());
-                 System.out.println("x " + x);
+//                 System.out.println("pis.available() " + pis.available());
+//                 System.out.println("x " + x);
             }
             pis.close();
 
