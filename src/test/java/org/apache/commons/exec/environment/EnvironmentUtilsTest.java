@@ -25,6 +25,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
@@ -54,6 +55,9 @@ public class EnvironmentUtilsTest {
         env.put("foo", "bar");
         final String[] envStrings = EnvironmentUtils.toStrings(env);
         final String[] expected = new String[]{"foo2=bar2", "foo=bar"};
+        // ensure the result does not depend on the hash ordering
+        Arrays.sort(expected);
+        Arrays.sort(envStrings);
         assertArrayEquals(expected, envStrings);
     }
 
