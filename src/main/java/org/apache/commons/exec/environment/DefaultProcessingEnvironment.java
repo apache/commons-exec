@@ -18,20 +18,14 @@
 package org.apache.commons.exec.environment;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.DefaultExecutor;
-import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.OS;
-import org.apache.commons.exec.PumpStreamHandler;
 
 /**
  * Helper class to determine the environment variable
