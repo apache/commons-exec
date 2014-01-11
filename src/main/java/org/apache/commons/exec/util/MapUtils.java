@@ -37,13 +37,13 @@ public class MapUtils
      * @param source the source map
      * @return the clone of the source map
      */
-    public static Map copy(final Map source) {
+    public static <K, V> Map<K, V> copy(final Map<K, V> source) {
 
         if (source == null) {
             return null;
         }
 
-        final Map result = new HashMap();
+        final Map<K, V> result = new HashMap<K, V>();
         result.putAll(source);
         return result;
     }
@@ -57,20 +57,20 @@ public class MapUtils
      * @param prefix the prefix used for all names
      * @return the clone of the source map
      */
-    public static Map prefix(final Map source, final String prefix) {
+    public static <K, V> Map<String, V> prefix(final Map<K, V> source, final String prefix) {
 
         if (source == null) {
             return null;
         }
 
-        final Map result = new HashMap();
+        final Map<String, V> result = new HashMap<String, V>();
 
-        final Iterator iter = source.entrySet().iterator();
+        final Iterator<Map.Entry<K, V>> iter = source.entrySet().iterator();
 
         while (iter.hasNext()) {
-            final Map.Entry entry = (Map.Entry) iter.next();
-            final Object key = entry.getKey();
-            final Object value = entry.getValue();
+            final Map.Entry<K, V> entry = iter.next();
+            final K key = entry.getKey();
+            final V value = entry.getValue();
             result.put(prefix + '.' + key.toString(), value);
         }
 
@@ -85,7 +85,7 @@ public class MapUtils
      * @param rhs the second map
      * @return the merged map
      */
-    public static Map merge(final Map lhs, final Map rhs) {
+    public static <K, V> Map<K, V> merge(final Map<K, V> lhs, final Map<K, V> rhs) {
 
         Map result = null;
 
