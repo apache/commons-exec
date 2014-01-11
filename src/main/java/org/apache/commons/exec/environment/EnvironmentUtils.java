@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.commons.exec.OS;
+//import org.apache.commons.exec.OS;
 
 /**
  * Wrapper for environment variables.
@@ -35,11 +35,11 @@ public class EnvironmentUtils
     private static final DefaultProcessingEnvironment PROCESSING_ENVIRONMENT_IMPLEMENTATION;
     
     static {
-        if (OS.isFamilyOpenVms()) {
-            PROCESSING_ENVIRONMENT_IMPLEMENTATION = new OpenVmsProcessingEnvironment();
-        } else {
+//        if (OS.isFamilyOpenVms()) {
+//            PROCESSING_ENVIRONMENT_IMPLEMENTATION = new OpenVmsProcessingEnvironment();
+//        } else {
             PROCESSING_ENVIRONMENT_IMPLEMENTATION = new DefaultProcessingEnvironment();
-        }
+//        }
     }
     
     /**
