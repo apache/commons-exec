@@ -68,12 +68,13 @@ public class Exec49Test {
             int x;
             final PipedInputStream pis = new PipedInputStream(pipedOutputStream);
             while ((x = pis.read()) >= 0) {
-                // System.out.println("pis.available() " + pis.available());
-                // System.out.println("x " + x);
+                 System.out.println("pis.available() " + pis.available());
+                 System.out.println("x " + x);
             }
             pis.close();
 
-            handler.waitFor();
+            handler.waitFor(10000);
+            handler.getExitValue(); // will fail if process has not finished
         }
     }
 
@@ -107,12 +108,13 @@ public class Exec49Test {
             int x;
             final PipedInputStream pis = new PipedInputStream(pipedOutputStream);
             while ((x = pis.read()) >= 0) {
-                // System.out.println("pis.available() " + pis.available());
-                // System.out.println("x " + x);
+                 System.out.println("pis.available() " + pis.available());
+                 System.out.println("x " + x);
             }
             pis.close();
 
-            handler.waitFor();
+            handler.waitFor(10000);
+            handler.getExitValue(); // will fail if process has not finished
         }
     }
 
