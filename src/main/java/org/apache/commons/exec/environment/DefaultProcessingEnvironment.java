@@ -22,8 +22,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,7 +45,7 @@ import org.apache.commons.exec.PumpStreamHandler;
 public class DefaultProcessingEnvironment {
 
     /** the line separator of the system */
-    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
+//    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     /** the environment variables of the process */
     protected Map<String, String> procEnvironment;
@@ -80,48 +78,40 @@ public class DefaultProcessingEnvironment {
      */
     protected Map<String, String> createProcEnvironment() throws IOException {
         if (procEnvironment == null) {
-            try {
-                final Method getenvs = System.class.getMethod("getenv", (java.lang.Class[]) null);
-                final Map<String, String> env = (Map<String, String>) getenvs.invoke(null, (java.lang.Object[]) null);
-                procEnvironment = createEnvironmentMap();
-                procEnvironment.putAll(env);
-            } catch (final NoSuchMethodException e) {
-                // ok, just not on JDK 1.5
-            } catch (final IllegalAccessException e) {
-                // Unexpected error obtaining environment - using JDK 1.4 method
-            } catch (final InvocationTargetException e) {
-                // Unexpected error obtaining environment - using JDK 1.4 method
-            }
-        }
-
-        if (procEnvironment == null) {
+            final Map<String, String> env = System.getenv();
             procEnvironment = createEnvironmentMap();
-            final BufferedReader in = runProcEnvCommand();
-
-            String var = null;
-            String line;
-            while ((line = in.readLine()) != null) {
-                if (line.indexOf('=') == -1) {
-                    // Chunk part of previous env var (UNIX env vars can
-                    // contain embedded new lines).
-                    if (var == null) {
-                        var = LINE_SEPARATOR + line;
-                    } else {
-                        var += LINE_SEPARATOR + line;
-                    }
-                } else {
-                    // New env var...append the previous one if we have it.
-                    if (var != null) {
-                        EnvironmentUtils.addVariableToEnvironment(procEnvironment, var);
-                    }
-                    var = line;
-                }
-            }
-            // Since we "look ahead" before adding, there's one last env var.
-            if (var != null) {
-                EnvironmentUtils.addVariableToEnvironment(procEnvironment, var);
-            }
+            procEnvironment.putAll(env);
         }
+
+// No longer needed
+//        if (procEnvironment == null) {
+//            procEnvironment = createEnvironmentMap();
+//            final BufferedReader in = runProcEnvCommand();
+//
+//            String var = null;
+//            String line;
+//            while ((line = in.readLine()) != null) {
+//                if (line.indexOf('=') == -1) {
+//                    // Chunk part of previous env var (UNIX env vars can
+//                    // contain embedded new lines).
+//                    if (var == null) {
+//                        var = LINE_SEPARATOR + line;
+//                    } else {
+//                        var += LINE_SEPARATOR + line;
+//                    }
+//                } else {
+//                    // New env var...append the previous one if we have it.
+//                    if (var != null) {
+//                        EnvironmentUtils.addVariableToEnvironment(procEnvironment, var);
+//                    }
+//                    var = line;
+//                }
+//            }
+//            // Since we "look ahead" before adding, there's one last env var.
+//            if (var != null) {
+//                EnvironmentUtils.addVariableToEnvironment(procEnvironment, var);
+//            }
+//        }
         return procEnvironment;
     }
 
@@ -130,14 +120,17 @@ public class DefaultProcessingEnvironment {
      *
      * @return a reader containing the output of the process 
      * @throws IOException starting the process failed
+     * @deprecated No longer needed
      */
+    @Deprecated
     protected BufferedReader runProcEnvCommand() throws IOException {
-        final ByteArrayOutputStream out = new ByteArrayOutputStream();
-        final Executor exe = new DefaultExecutor();
-        exe.setStreamHandler(new PumpStreamHandler(out));
-        // ignore the exit value - Just try to use what we got
-        exe.execute(getProcEnvCommand());
-        return new BufferedReader(new StringReader(toString(out)));
+//        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+//        final Executor exe = new DefaultExecutor();
+//        exe.setStreamHandler(new PumpStreamHandler(out));
+//        // ignore the exit value - Just try to use what we got
+//        exe.execute(getProcEnvCommand());
+//        return new BufferedReader(new StringReader(toString(out)));
+        return null;
     }
 
     /**
@@ -145,78 +138,80 @@ public class DefaultProcessingEnvironment {
      * variables.
      *
      * @return the command line
+     * @deprecated No longer needed
      */
+    @Deprecated
     protected CommandLine getProcEnvCommand() {
-        String executable;
-        String[] arguments = null;
-        if (OS.isFamilyOS2()) {
-            // OS/2 - use same mechanism as Windows 2000
-            executable = "cmd";
-            
-            arguments = new String[] {"/c", "set"};
-        } else if (OS.isFamilyWindows()) {
-            // Determine if we're running under XP/2000/NT or 98/95
-            if (OS.isFamilyWin9x()) {
-                executable = "command.com";
-                // Windows 98/95
-            } else {
-                executable = "cmd";
-                // Windows XP/2000/NT/2003
-            }
-            arguments = new String[] {"/c", "set"};
-        } else if (OS.isFamilyZOS() || OS.isFamilyUnix()) {
-            // On most systems one could use: /bin/sh -c env
-
-            // Some systems have /bin/env, others /usr/bin/env, just try
-            if (new File("/bin/env").canRead()) {
-                executable = "/bin/env";
-            } else if (new File("/usr/bin/env").canRead()) {
-                executable = "/usr/bin/env";
-            } else {
-                // rely on PATH
-                executable = "env";
-            }
-        } else if (OS.isFamilyNetware() || OS.isFamilyOS400()) {
-            // rely on PATH
-            executable = "env";
-        } else {
-            // MAC OS 9 and previous
-            // TODO: I have no idea how to get it, someone must fix it
-            executable = null;
-        }
+//        String executable;
+//        String[] arguments = null;
+//        if (OS.isFamilyOS2()) {
+//            // OS/2 - use same mechanism as Windows 2000
+//            executable = "cmd";
+//            
+//            arguments = new String[] {"/c", "set"};
+//        } else if (OS.isFamilyWindows()) {
+//            // Determine if we're running under XP/2000/NT or 98/95
+//            if (OS.isFamilyWin9x()) {
+//                executable = "command.com";
+//                // Windows 98/95
+//            } else {
+//                executable = "cmd";
+//                // Windows XP/2000/NT/2003
+//            }
+//            arguments = new String[] {"/c", "set"};
+//        } else if (OS.isFamilyZOS() || OS.isFamilyUnix()) {
+//            // On most systems one could use: /bin/sh -c env
+//
+//            // Some systems have /bin/env, others /usr/bin/env, just try
+//            if (new File("/bin/env").canRead()) {
+//                executable = "/bin/env";
+//            } else if (new File("/usr/bin/env").canRead()) {
+//                executable = "/usr/bin/env";
+//            } else {
+//                // rely on PATH
+//                executable = "env";
+//            }
+//        } else if (OS.isFamilyNetware() || OS.isFamilyOS400()) {
+//            // rely on PATH
+//            executable = "env";
+//        } else {
+//            // MAC OS 9 and previous
+//            // TODO: I have no idea how to get it, someone must fix it
+//            executable = null;
+//        }
         CommandLine commandLine = null;
-        if (executable != null) {
-            commandLine = new CommandLine(executable);
-            commandLine.addArguments(arguments);
-        }
+//        if (executable != null) {
+//            commandLine = new CommandLine(executable);
+//            commandLine.addArguments(arguments);
+//        }
         return commandLine;
     }
 
-    /**
-     * ByteArrayOutputStream#toString doesn't seem to work reliably on OS/390,
-     * at least not the way we use it in the execution context.
-     * 
-     * @param bos
-     *            the output stream that one wants to read
-     * @return the output stream as a string, read with special encodings in the
-     *         case of z/os and os/400
-     */
-    private String toString(final ByteArrayOutputStream bos) {
-        if (OS.isFamilyZOS()) {
-            try {
-                return bos.toString("Cp1047");
-            } catch (final java.io.UnsupportedEncodingException e) {
-                // noop default encoding used
-            }
-        } else if (OS.isFamilyOS400()) {
-            try {
-                return bos.toString("Cp500");
-            } catch (final java.io.UnsupportedEncodingException e) {
-                // noop default encoding used
-            }
-        }
-        return bos.toString();
-    }
+//    /**
+//     * ByteArrayOutputStream#toString doesn't seem to work reliably on OS/390,
+//     * at least not the way we use it in the execution context.
+//     * 
+//     * @param bos
+//     *            the output stream that one wants to read
+//     * @return the output stream as a string, read with special encodings in the
+//     *         case of z/os and os/400
+//     */
+//    private String toString(final ByteArrayOutputStream bos) {
+//        if (OS.isFamilyZOS()) {
+//            try {
+//                return bos.toString("Cp1047");
+//            } catch (final java.io.UnsupportedEncodingException e) {
+//                // noop default encoding used
+//            }
+//        } else if (OS.isFamilyOS400()) {
+//            try {
+//                return bos.toString("Cp500");
+//            } catch (final java.io.UnsupportedEncodingException e) {
+//                // noop default encoding used
+//            }
+//        }
+//        return bos.toString();
+//    }
 
     /**
      * Creates a map that obeys the casing rules of the current platform for key
