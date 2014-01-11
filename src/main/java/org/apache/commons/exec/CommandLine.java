@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-import org.apache.commons.exec.CommandLine.Argument;
 import org.apache.commons.exec.util.StringUtils;
 
 /**
