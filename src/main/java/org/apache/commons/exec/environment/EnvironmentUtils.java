@@ -56,14 +56,14 @@ public class EnvironmentUtils
      * @return array of key=value assignment strings or <code>null</code> if and only if
      *     the input map was <code>null</code>
      */
-    public static String[] toStrings(final Map environment) {
+    public static String[] toStrings(final Map<String, String> environment) {
         if (environment == null) {
             return null;
         }
         final String[] result = new String[environment.size()];
         int i = 0;
-        for (final Iterator iter = environment.entrySet().iterator(); iter.hasNext();) {
-            final Map.Entry entry = (Map.Entry) iter.next();
+        for (final Iterator<Map.Entry<String, String>> iter = environment.entrySet().iterator(); iter.hasNext();) {
+            final Map.Entry<String, String> entry = iter.next();
 
             result[i] = entry.getKey().toString() + "=" + entry.getValue().toString();
             i++;
@@ -80,7 +80,7 @@ public class EnvironmentUtils
      * @return a map containing the environment variables, may be empty but never <code>null</code>
      * @throws IOException the operation failed
      */
-    public static Map getProcEnvironment() throws IOException {
+    public static Map<String, String> getProcEnvironment() throws IOException {
         return PROCESSING_ENVIRONMENT_IMPLEMENTATION.getProcEnvironment();
     }
 
@@ -91,7 +91,7 @@ public class EnvironmentUtils
      * @param environment the current environment
      * @param keyAndValue the key/value pair 
      */
-    public static void addVariableToEnvironment(final Map environment, final String keyAndValue) {
+    public static void addVariableToEnvironment(final Map<String, String> environment, final String keyAndValue) {
         final String[] parsedVariable = parseEnvironmentVariable(keyAndValue);        
         environment.put(parsedVariable[0], parsedVariable[1]);
     }

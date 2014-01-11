@@ -34,13 +34,13 @@ import org.apache.commons.exec.environment.EnvironmentUtils;
  */
 public abstract class CommandLauncherImpl implements CommandLauncher {
 
-    public Process exec(final CommandLine cmd, final Map env)
+    public Process exec(final CommandLine cmd, final Map<String, String> env)
             throws IOException {
         final String[] envVar = EnvironmentUtils.toStrings(env);
         return Runtime.getRuntime().exec(cmd.toStrings(), envVar);
     }
 
-    public abstract Process exec(final CommandLine cmd, final Map env,
+    public abstract Process exec(final CommandLine cmd, final Map<String, String> env,
             final File workingDir) throws IOException;
 
     /** @see org.apache.commons.exec.launcher.CommandLauncher#isFailure(int) */    

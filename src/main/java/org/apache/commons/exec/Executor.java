@@ -179,7 +179,7 @@ public interface Executor {
      *          subprocess returned a exit value indicating a failure
      *          {@link Executor#setExitValue(int)}.
      */
-    int execute(CommandLine command, Map environment)
+    int execute(CommandLine command, Map<String, String> environment)
         throws ExecuteException, IOException;
     
     /**
@@ -205,6 +205,6 @@ public interface Executor {
      * @param handler capture process termination and exit code 
      * @throws ExecuteException execution of subprocess failed     
      */
-    void execute(CommandLine command, Map environment, ExecuteResultHandler handler)
+    void execute(CommandLine command, Map<String, String> environment, ExecuteResultHandler handler)
         throws ExecuteException, IOException;
 }

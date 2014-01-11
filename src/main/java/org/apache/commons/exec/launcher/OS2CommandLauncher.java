@@ -56,7 +56,7 @@ public class OS2CommandLauncher extends CommandLauncherProxy {
      *             forwarded from the exec method of the command launcher
      */
     @Override
-    public Process exec(final CommandLine cmd, final Map env,
+    public Process exec(final CommandLine cmd, final Map<String, String> env,
             final File workingDir) throws IOException {
         if (workingDir == null) {
             return exec(cmd, env);

@@ -29,7 +29,7 @@ import java.util.Vector;
 public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable {
 
     /** the list of currently running processes */
-    private final Vector processes = new Vector();
+    private final Vector<Process> processes = new Vector<Process>();
 
     /** The thread registered at the JVM to execute the shutdown handler */
     private ProcessDestroyerImpl destroyProcessThread = null;
@@ -182,9 +182,9 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
   public void run() {
       synchronized (processes) {
           running = true;
-          final Enumeration e = processes.elements();
+          final Enumeration<Process> e = processes.elements();
           while (e.hasMoreElements()) {
-              final Process process = (Process) e.nextElement();
+              final Process process = e.nextElement();
               try {
                   process.destroy();
               }

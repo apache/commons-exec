@@ -37,7 +37,7 @@ public class MapUtilTest {
     @Test
     public void testCopyMap() throws Exception {
 
-        final HashMap procEnvironment = new HashMap();
+        final HashMap<String, String> procEnvironment = new HashMap<String, String>();
         procEnvironment.put("JAVA_HOME", "/usr/opt/java");
 
         final Map result = MapUtils.copy(procEnvironment);
@@ -56,11 +56,11 @@ public class MapUtilTest {
     @Test
     public void testMergeMap() throws Exception {
 
-        final Map procEnvironment = EnvironmentUtils.getProcEnvironment();
-        final HashMap applicationEnvironment = new HashMap();
+        final Map<String, String> procEnvironment = EnvironmentUtils.getProcEnvironment();
+        final HashMap<String, String> applicationEnvironment = new HashMap<String, String>();
 
         applicationEnvironment.put("appMainClass", "foo.bar.Main");
-        final Map result = MapUtils.merge(procEnvironment, applicationEnvironment);
+        final Map<String, String> result = MapUtils.merge(procEnvironment, applicationEnvironment);
         assertTrue(procEnvironment.size() + applicationEnvironment.size() == result.size());
         assertEquals("foo.bar.Main", result.get("appMainClass"));
     }
@@ -71,7 +71,7 @@ public class MapUtilTest {
     @Test
     public void testPrefixMap() throws Exception {
 
-        final HashMap procEnvironment = new HashMap();
+        final HashMap<String, String> procEnvironment = new HashMap<String, String>();
         procEnvironment.put("JAVA_HOME", "/usr/opt/java");
 
         final Map result = MapUtils.prefix(procEnvironment, "env");

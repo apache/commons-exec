@@ -39,10 +39,10 @@ public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
      * @throws IOException the operation failed
      */    
     @Override
-    protected Map createProcEnvironment() throws IOException {
+    protected Map<String, String> createProcEnvironment() throws IOException {
         if (procEnvironment == null) {
             final BufferedReader in = runProcEnvCommand();
-            procEnvironment = addVMSenvironmentVariables(new HashMap(), in);
+            procEnvironment = addVMSenvironmentVariables(new HashMap<String, String>(), in);
         }
 
         return procEnvironment;
@@ -72,7 +72,7 @@ public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
      * @return the updated environment
      * @throws IOException operation failed
      */
-    private Map addVMSenvironmentVariables(final Map environment,
+    private Map<String, String> addVMSenvironmentVariables(final Map<String, String> environment,
             final BufferedReader in) throws IOException {
         String line;
         while ((line = in.readLine()) != null) {

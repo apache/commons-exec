@@ -50,7 +50,7 @@ public class DefaultProcessingEnvironment {
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     /** the environment variables of the process */
-    protected Map procEnvironment;
+    protected Map<String, String> procEnvironment;
 
     /**
      * Find the list of environment variables for this process.
@@ -58,7 +58,7 @@ public class DefaultProcessingEnvironment {
      * @return a map containing the environment variables
      * @throws IOException obtaining the environment variables failed
      */
-    public synchronized Map getProcEnvironment() throws IOException {
+    public synchronized Map<String, String> getProcEnvironment() throws IOException {
 
         if (procEnvironment == null) {
             procEnvironment = this.createProcEnvironment();
@@ -67,7 +67,7 @@ public class DefaultProcessingEnvironment {
         // create a copy of the map just in case that
         // anyone is going to modifiy it, e.g. removing
         // or setting an evironment variable
-        final Map copy = createEnvironmentMap();
+        final Map<String, String> copy = createEnvironmentMap();
         copy.putAll(procEnvironment);
         return copy;
     }
@@ -78,11 +78,11 @@ public class DefaultProcessingEnvironment {
      * @return a amp containing the environment variables
      * @throws IOException the operation failed 
      */
-    protected Map createProcEnvironment() throws IOException {
+    protected Map<String, String> createProcEnvironment() throws IOException {
         if (procEnvironment == null) {
             try {
                 final Method getenvs = System.class.getMethod("getenv", (java.lang.Class[]) null);
-                final Map env = (Map) getenvs.invoke(null, (java.lang.Object[]) null);
+                final Map<String, String> env = (Map<String, String>) getenvs.invoke(null, (java.lang.Object[]) null);
                 procEnvironment = createEnvironmentMap();
                 procEnvironment.putAll(env);
             } catch (final NoSuchMethodException e) {
@@ -226,17 +226,15 @@ public class DefaultProcessingEnvironment {
      * @return The map for storage of environment variables, never
      *         <code>null</code>.
      */
-    private Map createEnvironmentMap() {
+    private Map<String, String> createEnvironmentMap() {
         if (OS.isFamilyWindows()) {
-            return new TreeMap(new Comparator() {
-                public int compare(final Object arg0, final Object arg1) {
-                    final String key0 = (String) arg0;
-                    final String key1 = (String) arg1;
+            return new TreeMap<String, String>(new Comparator<String>() {
+                public int compare(final String key0, final String key1) {
                     return key0.compareToIgnoreCase(key1);
                 }
             });
         }
-		return new HashMap();
+		return new HashMap<String, String>();
     }
 
 }

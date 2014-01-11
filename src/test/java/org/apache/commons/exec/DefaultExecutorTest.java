@@ -172,7 +172,7 @@ public class DefaultExecutorTest {
      */
     @Test
     public void testExecuteWithSingleEnvironmentVariable() throws Exception {
-        final Map env = new HashMap();
+        final Map<String, String> env = new HashMap<String, String>();
         env.put("TEST_ENV_VAR", "XYZ");
 
         final CommandLine cl = new CommandLine(testScript);
@@ -662,7 +662,7 @@ public class DefaultExecutorTest {
      */
     @Test
     public void testAddEnvironmentVariables() throws Exception {
-        final Map myEnvVars = new HashMap();
+        final Map<String, String> myEnvVars = new HashMap<String, String>();
         myEnvVars.putAll(EnvironmentUtils.getProcEnvironment());
         myEnvVars.put("NEW_VAR","NEW_VAL");
         exec.execute(new CommandLine(environmentSript), myEnvVars);

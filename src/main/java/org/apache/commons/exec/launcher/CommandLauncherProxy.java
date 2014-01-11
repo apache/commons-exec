@@ -49,7 +49,7 @@ public abstract class CommandLauncherProxy extends CommandLauncherImpl {
      *             forwarded from the exec method of the command launcher
      */
     @Override
-    public Process exec(final CommandLine cmd, final Map env)
+    public Process exec(final CommandLine cmd, final Map<String, String> env)
             throws IOException {
         return myLauncher.exec(cmd, env);
     }

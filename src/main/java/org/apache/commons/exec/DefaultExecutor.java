@@ -150,13 +150,13 @@ public class DefaultExecutor implements Executor {
      */
     public int execute(final CommandLine command) throws ExecuteException,
             IOException {
-        return execute(command, (Map) null);
+        return execute(command, (Map<String, String>) null);
     }
 
     /**
      * @see org.apache.commons.exec.Executor#execute(CommandLine, java.util.Map)
      */
-    public int execute(final CommandLine command, final Map environment)
+    public int execute(final CommandLine command, final Map<String, String> environment)
             throws ExecuteException, IOException {
 
         if (workingDirectory != null && !workingDirectory.exists()) {
@@ -180,7 +180,7 @@ public class DefaultExecutor implements Executor {
      * @see org.apache.commons.exec.Executor#execute(CommandLine,
      *      java.util.Map, org.apache.commons.exec.ExecuteResultHandler)
      */
-    public void execute(final CommandLine command, final Map environment,
+    public void execute(final CommandLine command, final Map<String, String> environment,
             final ExecuteResultHandler handler) throws ExecuteException, IOException {
 
         if (workingDirectory != null && !workingDirectory.exists()) {
@@ -266,7 +266,7 @@ public class DefaultExecutor implements Executor {
      * @throws IOException
      *             forwarded from the particular launcher used
      */
-    protected Process launch(final CommandLine command, final Map env,
+    protected Process launch(final CommandLine command, final Map<String, String> env,
             final File dir) throws IOException {
 
         if (this.launcher == null) {
@@ -328,7 +328,7 @@ public class DefaultExecutor implements Executor {
      * @return the exit code of the process
      * @throws IOException executing the process failed
      */
-    private int executeInternal(final CommandLine command, final Map environment,
+    private int executeInternal(final CommandLine command, final Map<String, String> environment,
             final File dir, final ExecuteStreamHandler streams) throws IOException {
 
         setExceptionCaught(null);

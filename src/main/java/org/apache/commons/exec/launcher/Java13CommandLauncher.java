@@ -53,7 +53,7 @@ public class Java13CommandLauncher extends CommandLauncherImpl {
      *             probably forwarded from Runtime#exec
      */
     @Override
-    public Process exec(final CommandLine cmd, final Map env,
+    public Process exec(final CommandLine cmd, final Map<String, String> env,
             final File workingDir) throws IOException {
 
         final String[] envVars = EnvironmentUtils.toStrings(env);

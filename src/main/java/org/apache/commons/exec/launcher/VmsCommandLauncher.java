@@ -43,7 +43,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
      * Launches the given command in a new process.
      */
     @Override
-    public Process exec(final CommandLine cmd, final Map env)
+    public Process exec(final CommandLine cmd, final Map<String, String> env)
             throws IOException {
         final CommandLine vmsCmd = new CommandLine(
                 createCommandFile(cmd, env).getPath()
@@ -59,7 +59,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
      * JAVA$FORK_SUPPORT_CHDIR needs to be set to TRUE.
      */
     @Override
-    public Process exec(final CommandLine cmd, final Map env,
+    public Process exec(final CommandLine cmd, final Map<String, String> env,
             final File workingDir) throws IOException {
         final CommandLine vmsCmd = new CommandLine(
                 createCommandFile(cmd, env).getPath()
@@ -79,7 +79,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
      * Writes the command into a temporary DCL script and returns the
      * corresponding File object. The script will be deleted on exit.
      */
-    private File createCommandFile(final CommandLine cmd, final Map env)
+    private File createCommandFile(final CommandLine cmd, final Map<String, String> env)
             throws IOException {
         final File script = File.createTempFile("EXEC", ".TMP");
         script.deleteOnExit();
@@ -89,15 +89,15 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
 
             // add the environment as global symbols for the DCL script
             if (env != null) {
-                final Set entries = env.entrySet();
+                final Set<Entry<String, String>> entries = env.entrySet();
 
-                for (final Iterator iter = entries.iterator(); iter.hasNext();) {
-                    final Entry entry = (Entry) iter.next();
+                for (final Iterator<Entry<String, String>> iter = entries.iterator(); iter.hasNext();) {
+                    final Entry<String, String> entry = iter.next();
                     out.print("$ ");
                     out.print(entry.getKey());
                     out.print(" == "); // define as global symbol
                     out.println('\"');
-                    String value = (String) entry.getValue();
+                    String value = entry.getValue();
                     // Any embedded " values need to be doubled
                     if (value.indexOf('\"') > 0) {
                         final StringBuffer sb = new StringBuffer();

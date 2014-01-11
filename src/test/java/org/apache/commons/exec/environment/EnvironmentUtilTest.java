@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.exec.OS;
 import org.junit.Test;
@@ -47,7 +48,7 @@ public class EnvironmentUtilTest {
         // check for a non-existing environment when passing null
         assertNull(EnvironmentUtils.toStrings(null));
         // check for an environment when filling in two variables
-        final Map env = new HashMap();
+        final Map<String, String> env = new HashMap<String, String>();
         assertArrayEquals(new String[0], EnvironmentUtils.toStrings(env));
         env.put("foo2", "bar2");
         env.put("foo", "bar");
@@ -65,7 +66,7 @@ public class EnvironmentUtilTest {
      */
     @Test
     public void testGetProcEnvironment() throws IOException {
-        final Map procEnvironment = EnvironmentUtils.getProcEnvironment();
+        final Map<String, String> procEnvironment = EnvironmentUtils.getProcEnvironment();
         // we assume that there is at least one environment variable
         // for this process, i.e. $JAVA_HOME
         assertTrue("Expecting non-zero environment size", procEnvironment.size() > 0);
@@ -92,11 +93,11 @@ public class EnvironmentUtilTest {
         }
 
         // ensure that we have the same value for upper and lowercase keys
-        final Map procEnvironment = EnvironmentUtils.getProcEnvironment();
-        for (final Iterator it = procEnvironment.entrySet().iterator(); it.hasNext();) {
-            final Map.Entry entry = (Map.Entry) it.next();
-            final String key = (String) entry.getKey();
-            final String value = (String) entry.getValue();
+        final Map<String, String> procEnvironment = EnvironmentUtils.getProcEnvironment();
+        for (final Iterator<Entry<String, String>> it = procEnvironment.entrySet().iterator(); it.hasNext();) {
+            final Entry<String, String> entry = it.next();
+            final String key = entry.getKey();
+            final String value = entry.getValue();
             assertEquals(value, procEnvironment.get(key.toLowerCase(Locale.ENGLISH)));
             assertEquals(value, procEnvironment.get(key.toUpperCase(Locale.ENGLISH)));
         }
@@ -118,7 +119,7 @@ public class EnvironmentUtilTest {
      */
     @Test
     public void testCaseInsensitiveVariableLookup() throws Exception {
-        final Map procEnvironment = EnvironmentUtils.getProcEnvironment();
+        final Map<String, String> procEnvironment = EnvironmentUtils.getProcEnvironment();
         // Check that case is preserved for values
         EnvironmentUtils.addVariableToEnvironment(procEnvironment, "foo=bAr");
         assertEquals("bAr", procEnvironment.get("foo"));

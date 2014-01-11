@@ -45,7 +45,7 @@ public interface CommandLauncher {
      * @throws IOException
      *             if attempting to run a command in a specific directory
      */
-    Process exec(final CommandLine cmd, final Map env)
+    Process exec(final CommandLine cmd, final Map<String, String> env)
             throws IOException;
 
     /**
@@ -65,7 +65,7 @@ public interface CommandLauncher {
      * @throws IOException
      *             if trying to change directory
      */
-    Process exec(final CommandLine cmd, final Map env,
+    Process exec(final CommandLine cmd, final Map<String, String> env,
             final File workingDir) throws IOException;
 
 

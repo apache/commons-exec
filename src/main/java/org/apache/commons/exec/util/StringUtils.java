@@ -160,11 +160,11 @@ public class StringUtils {
      */
     public static String[] split(final String input, final String splitChar) {
         final StringTokenizer tokens = new StringTokenizer(input, splitChar);
-        final List strList = new ArrayList();
+        final List<String> strList = new ArrayList<String>();
         while (tokens.hasMoreTokens()) {
             strList.add(tokens.nextToken());
         }
-        return (String[]) strList.toArray(new String[strList.size()]);
+        return strList.toArray(new String[strList.size()]);
     }
 
     /**

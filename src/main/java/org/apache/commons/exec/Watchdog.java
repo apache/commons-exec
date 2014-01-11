@@ -30,7 +30,7 @@ import java.util.Vector;
  */
 public class Watchdog implements Runnable {
 
-    private final Vector observers = new Vector(1);
+    private final Vector<TimeoutObserver> observers = new Vector<TimeoutObserver>(1);
 
     private final long timeout;
 
@@ -52,9 +52,9 @@ public class Watchdog implements Runnable {
     }
 
     protected final void fireTimeoutOccured() {
-        final Enumeration e = observers.elements();
+        final Enumeration<TimeoutObserver> e = observers.elements();
         while (e.hasMoreElements()) {
-            ((TimeoutObserver) e.nextElement()).timeoutOccured(this);
+            e.nextElement().timeoutOccured(this);
         }
     }
 

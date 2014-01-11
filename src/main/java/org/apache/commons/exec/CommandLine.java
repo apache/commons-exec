@@ -48,7 +48,7 @@ public class CommandLine {
     /**
      * A map of name value pairs used to expand command line arguments
      */
-    private Map substitutionMap;
+    private Map substitutionMap; // N.B. This can contain values other than Strings
 
     /**
      * Was a file being used to set the executable?
