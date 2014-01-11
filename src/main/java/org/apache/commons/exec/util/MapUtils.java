@@ -83,7 +83,7 @@ public class MapUtils
      */
     public static <K, V> Map<K, V> merge(final Map<K, V> lhs, final Map<K, V> rhs) {
 
-        Map result = null;
+        Map<K, V> result = null;
 
         if (lhs == null || lhs.size() == 0) {
             result = copy(rhs);
