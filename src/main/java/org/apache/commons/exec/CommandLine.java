@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import org.apache.commons.exec.CommandLine.Argument;
 import org.apache.commons.exec.util.StringUtils;
 
 /**
@@ -38,7 +39,7 @@ public class CommandLine {
     /**
      * The arguments of the command.
      */
-    private final Vector arguments = new Vector();
+    private final Vector<Argument> arguments = new Vector<Argument>();
 
     /**
      * The program to execute.
@@ -262,7 +263,7 @@ public class CommandLine {
         final String[] result = new String[arguments.size()];
 
         for (int i=0; i<result.length; i++) {
-            currArgument = (Argument) arguments.get(i);
+            currArgument = arguments.get(i);
             expandedArgument = expandArgument(currArgument.getValue());
             result[i] = currArgument.isHandleQuoting() ? StringUtils.quoteArgument(expandedArgument) : expandedArgument;
         }
