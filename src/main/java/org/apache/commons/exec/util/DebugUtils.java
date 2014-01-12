@@ -69,7 +69,8 @@ public class DebugUtils
      * @return true if debug mode is enabled
      */
     public static boolean isDebugEnabled() {
-        return "true".equalsIgnoreCase(System.getProperty(COMMONS_EXEC_DEBUG, "false"));
+        final String debug = System.getProperty(COMMONS_EXEC_DEBUG, Boolean.FALSE.toString());
+        return Boolean.TRUE.toString().equalsIgnoreCase(debug);
     }
 
     /**
@@ -78,7 +79,8 @@ public class DebugUtils
      * @return true if lenient mode is enabled
      */
     public static boolean isLenientEnabled() {
-        return "true".equalsIgnoreCase(System.getProperty(COMMONS_EXEC_LENIENT, "true"));
+        final String lenient = System.getProperty(COMMONS_EXEC_LENIENT, Boolean.TRUE.toString());
+        return Boolean.TRUE.toString().equalsIgnoreCase(lenient);
     }
 
 }
