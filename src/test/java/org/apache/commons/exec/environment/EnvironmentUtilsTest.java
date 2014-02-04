@@ -129,4 +129,30 @@ public class EnvironmentUtilsTest {
         assertEquals("bAr", procEnvironment.get("foo"));
     }
 
+    /**
+     * Tests the behavior of the EnvironmentUtils.toStrings()
+     * when using a <code>null</code> key given to the map.
+     */
+    @Test
+    public void testToStringWithNullKey() {
+        final Map<String, String> env = new HashMap<String, String>();
+        env.put(null, "TheNullKey");
+        String[] strings = EnvironmentUtils.toStrings(env);
+        assertEquals(1, strings.length);
+        assertEquals("=TheNullKey", strings[0]);
+    }
+
+    /**
+     * Tests the behavior of the EnvironmentUtils.toStrings()
+     * when using a <code>null</code> value given to the map.
+     */
+    @Test
+    public void testToStringWithNullValue() {
+        final Map<String, String> env = new HashMap<String, String>();
+        env.put("key", null);
+        String[] strings = EnvironmentUtils.toStrings(env);
+        assertEquals(1, strings.length);
+        assertEquals("key=", strings[0]);
+    }
+
 }

@@ -65,7 +65,9 @@ public class EnvironmentUtils
         for (final Iterator<Map.Entry<String, String>> iter = environment.entrySet().iterator(); iter.hasNext();) {
             final Map.Entry<String, String> entry = iter.next();
 
-            result[i] = entry.getKey().toString() + "=" + entry.getValue().toString();
+            String key  = entry.getKey() == null ? "" : entry.getKey().toString();
+            String value = entry.getValue() == null ? "" : entry.getValue().toString();
+            result[i] = key + "=" + value;
             i++;
         }
         return result;
