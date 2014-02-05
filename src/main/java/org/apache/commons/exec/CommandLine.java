@@ -49,7 +49,7 @@ public class CommandLine {
     /**
      * A map of name value pairs used to expand command line arguments
      */
-    private Map substitutionMap; // N.B. This can contain values other than Strings
+    private Map<String, ?> substitutionMap; // N.B. This can contain values other than Strings
 
     /**
      * Was a file being used to set the executable?
@@ -75,7 +75,7 @@ public class CommandLine {
      * @return the parsed command line
      * @throws IllegalArgumentException If line is null or all whitespace
      */
-    public static CommandLine parse(final String line, final Map substitutionMap) {
+    public static CommandLine parse(final String line, final Map<String, ?> substitutionMap) {
                 
         if (line == null) {
             throw new IllegalArgumentException("Command line can not be null");
@@ -127,12 +127,13 @@ public class CommandLine {
 
         if (other.getSubstitutionMap() != null)
         {
-            this.substitutionMap = new HashMap();
-            final Iterator iterator = other.substitutionMap.keySet().iterator();
+            Map<String, Object> omap = new HashMap<String, Object>();
+            this.substitutionMap = omap;
+            final Iterator<String> iterator = other.substitutionMap.keySet().iterator();
             while (iterator.hasNext())
             {
-                final Object key = iterator.next();
-                this.substitutionMap.put(key, other.getSubstitutionMap().get(key));
+                final String key = iterator.next();
+                omap.put(key, other.getSubstitutionMap().get(key));
             }
         }
     }
@@ -274,7 +275,7 @@ public class CommandLine {
     /**
      * @return the substitution map
      */
-    public Map getSubstitutionMap() {
+    public Map<String, ?> getSubstitutionMap() {
         return substitutionMap;
     }
 
@@ -284,7 +285,7 @@ public class CommandLine {
      * 
      * @param substitutionMap the map
      */
-    public void setSubstitutionMap(final Map substitutionMap) {
+    public void setSubstitutionMap(final Map<String, ?> substitutionMap) {
         this.substitutionMap = substitutionMap;
     }
 
