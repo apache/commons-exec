@@ -673,7 +673,7 @@ public class DefaultExecutorTest {
 
     @Test
     public void testAddEnvironmentVariableEmbeddedQuote() throws Exception {
-        final Map myEnvVars = new HashMap();
+        final Map<String, String> myEnvVars = new HashMap<String, String>();
         myEnvVars.putAll(EnvironmentUtils.getProcEnvironment());
         final String name = "NEW_VAR";
         final String value = "NEW_\"_VAL";
@@ -700,8 +700,8 @@ public class DefaultExecutorTest {
 
         // make a plain-vanilla test
         for (int i=0; i<100; i++) {
-            final Map env = new HashMap();
-            env.put("TEST_ENV_VAR", new Integer(i));
+            final Map<String, String> env = new HashMap<String, String>();
+            env.put("TEST_ENV_VAR", Integer.toString(i));
             final CommandLine cl = new CommandLine(testScript);
             final int exitValue = exec.execute(cl,env);
             assertFalse(exec.isFailure(exitValue));
@@ -711,8 +711,8 @@ public class DefaultExecutorTest {
 
         // now be nasty and use the watchdog to kill out sub-processes
         for (int i=0; i<100; i++) {
-            final Map env = new HashMap();
-            env.put("TEST_ENV_VAR", new Integer(i));
+            final Map<String, String> env = new HashMap<String, String>();
+            env.put("TEST_ENV_VAR", Integer.toString(i));
             final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
             final CommandLine cl = new CommandLine(foreverTestScript);
             final ExecuteWatchdog watchdog = new ExecuteWatchdog(500);

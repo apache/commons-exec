@@ -40,7 +40,7 @@ public class MapUtilTest {
         final HashMap<String, String> procEnvironment = new HashMap<String, String>();
         procEnvironment.put("JAVA_HOME", "/usr/opt/java");
 
-        final Map result = MapUtils.copy(procEnvironment);
+        final Map<String, String> result = MapUtils.copy(procEnvironment);
         assertTrue(result.size() == 1);
         assertTrue(procEnvironment.size() == 1);
         assertEquals("/usr/opt/java", result.get("JAVA_HOME"));
@@ -74,7 +74,8 @@ public class MapUtilTest {
         final HashMap<String, String> procEnvironment = new HashMap<String, String>();
         procEnvironment.put("JAVA_HOME", "/usr/opt/java");
 
-        final Map result = MapUtils.prefix(procEnvironment, "env");
+        final Map<String, String> result =
+          MapUtils.prefix(procEnvironment, "env");
         assertTrue(procEnvironment.size() == result.size());
         assertEquals("/usr/opt/java", result.get("env.JAVA_HOME"));
     }

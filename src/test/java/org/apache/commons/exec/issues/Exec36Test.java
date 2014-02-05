@@ -139,7 +139,7 @@ public class Exec36Test {
 
         CommandLine cmdl;
         final File file = new File("/Documents and Settings/myusername/Local Settings/Temp/netfx.log");
-        final Map map = new HashMap();
+        final Map<String, File> map = new HashMap<String, File>();
         map.put("FILE", file);
 
         cmdl = new CommandLine(printArgsScript);

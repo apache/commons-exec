@@ -258,7 +258,8 @@ public class CommandLineTest {
      */
     @Test
     public void testParseComplexCommandLine1() {
-        final HashMap substitutionMap = new HashMap();
+        final HashMap<String, String> substitutionMap =
+            new HashMap<String, String>();
         substitutionMap.put("in", "source.jpg");
         substitutionMap.put("out", "target.jpg");
         final CommandLine cmdl = CommandLine.parse("cmd /C convert ${in} -resize \"\'500x> \'\" ${out}", substitutionMap);
@@ -350,13 +351,15 @@ public class CommandLineTest {
 
         CommandLine cmdl;
 
-        final HashMap substitutionMap = new HashMap();
+        final HashMap<String, Object> substitutionMap =
+            new HashMap<String, Object>();
         substitutionMap.put("JAVA_HOME", "/usr/local/java");
         substitutionMap.put("appMainClass", "foo.bar.Main");
         substitutionMap.put("file1", new File("./pom.xml"));
         substitutionMap.put("file2", new File(".\\temp\\READ ME.txt"));
 
-        final HashMap incompleteMap = new HashMap();
+        final HashMap<String, String> incompleteMap =
+            new HashMap<String, String>();
         incompleteMap.put("JAVA_HOME", "/usr/local/java");
 
         // do not pass substitution map
@@ -365,7 +368,7 @@ public class CommandLineTest {
         assertArrayEquals(new String[]{"${appMainClass}"}, cmdl.getArguments());
 
         // pass arguments with an empty map
-        cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass}", new HashMap());
+        cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass}", new HashMap<String, Object>());
         assertTrue(cmdl.getExecutable().indexOf("${JAVA_HOME}") == 0 );
         assertArrayEquals(new String[]{"${appMainClass}"}, cmdl.getArguments());
 
@@ -398,7 +401,8 @@ public class CommandLineTest {
         String[] result;
 
         // build the user supplied parameters
-        final HashMap substitutionMap = new HashMap();
+        final HashMap<String, String> substitutionMap =
+            new HashMap<String, String>();
         substitutionMap.put("JAVA_HOME", "C:\\Programme\\jdk1.5.0_12");
         substitutionMap.put("appMainClass", "foo.bar.Main");
 
@@ -445,7 +449,7 @@ public class CommandLineTest {
         cmdl.addArgument("/p");
         cmdl.addArgument("/h");
         cmdl.addArgument("${file}", false);
-        final HashMap params = new HashMap();
+        final HashMap<String, String> params = new HashMap<String, String>();
         params.put("file", "C:\\Document And Settings\\documents\\432432.pdf");
         cmdl.setSubstitutionMap(params);
         final String[] result = cmdl.toStrings();
@@ -463,7 +467,7 @@ public class CommandLineTest {
     @Test
     public void testToString() throws Exception {
         CommandLine cmdl;
-        final HashMap params = new HashMap();
+        final HashMap<String, String> params = new HashMap<String, String>();
 
         // use no arguments
         cmdl = CommandLine.parse("AcroRd32.exe", params);
@@ -504,7 +508,7 @@ public class CommandLineTest {
     @Test
     public void testCopyConstructor()
     {
-        final Map map = new HashMap();
+        final Map<String, String> map = new HashMap<String, String>();
         map.put("bar", "bar");
         final CommandLine other = new CommandLine("test");
         other.addArgument("foo");

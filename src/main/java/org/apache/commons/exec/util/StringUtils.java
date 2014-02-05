@@ -62,7 +62,7 @@ public class StringUtils {
      * @param isLenient ignore a key not found in vars or throw a RuntimeException?
      * @return String target string with replacements.
      */
-    public static StringBuffer stringSubstitution(final String argStr, final Map vars, final boolean isLenient) {
+    public static StringBuffer stringSubstitution(final String argStr, final Map<? super String, ?> vars, final boolean isLenient) {
 
         final StringBuffer argBuf = new StringBuffer();
 
