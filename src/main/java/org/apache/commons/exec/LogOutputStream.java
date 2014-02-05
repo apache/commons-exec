@@ -176,7 +176,7 @@ public abstract class LogOutputStream
      * Logs a line to the log system of the user.
      *
      * @param line the line to log.
-     * @param level the log level to use
+     * @param logLevel the log level to use
      */
-    protected abstract void processLine(final String line, final int level);
+    protected abstract void processLine(final String line, final int logLevel);
 }
