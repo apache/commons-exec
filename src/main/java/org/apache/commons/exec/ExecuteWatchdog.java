@@ -99,7 +99,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
      * information from the previous run are reset.
      * 
      * @param processToMonitor
-     *            the process to monitor. It cannot be <tt>null</tt>
+     *            the process to monitor. It cannot be {@code null}
      * @throws IllegalStateException
      *             if a process is still being monitored.
      */
@@ -189,8 +189,8 @@ public class ExecuteWatchdog implements TimeoutObserver {
     /**
      * Indicates whether or not the watchdog is still monitoring the process.
      * 
-     * @return <tt>true</tt> if the process is still running, otherwise
-     *         <tt>false</tt>.
+     * @return {@code true} if the process is still running, otherwise
+     *         {@code false}.
      */
     public synchronized boolean isWatching() {
         ensureStarted();
@@ -200,8 +200,8 @@ public class ExecuteWatchdog implements TimeoutObserver {
     /**
      * Indicates whether the last process run was killed.
      * 
-     * @return <tt>true</tt> if the process was killed
-     *         <tt>false</tt>.
+     * @return {@code true} if the process was killed
+     *         {@code false}.
      */
     public synchronized boolean killedProcess() {
         return killedProcess;
