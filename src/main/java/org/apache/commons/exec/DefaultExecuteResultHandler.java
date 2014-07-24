@@ -139,7 +139,7 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
 
         final long until = System.currentTimeMillis() + timeout;
 
-        while (!hasResult() && (System.currentTimeMillis() < until)) {
+        while (!hasResult() && System.currentTimeMillis() < until) {
             Thread.sleep(SLEEP_TIME_MS);
         }
     }
