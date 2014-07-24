@@ -97,7 +97,7 @@ public class EnvironmentUtilsTest {
 
         // ensure that we have the same value for upper and lowercase keys
         final Map<String, String> procEnvironment = EnvironmentUtils.getProcEnvironment();
-        for (Entry<String, String> entry : procEnvironment.entrySet()) {
+        for (final Entry<String, String> entry : procEnvironment.entrySet()) {
             final String key = entry.getKey();
             final String value = entry.getValue();
             assertEquals(value, procEnvironment.get(key.toLowerCase(Locale.ENGLISH)));
@@ -135,7 +135,7 @@ public class EnvironmentUtilsTest {
     public void testToStringWithNullKey() {
         final Map<String, String> env = new HashMap<String, String>();
         env.put(null, "TheNullKey");
-        String[] strings = EnvironmentUtils.toStrings(env);
+        final String[] strings = EnvironmentUtils.toStrings(env);
         assertEquals(1, strings.length);
         assertEquals("=TheNullKey", strings[0]);
     }
@@ -148,7 +148,7 @@ public class EnvironmentUtilsTest {
     public void testToStringWithNullValue() {
         final Map<String, String> env = new HashMap<String, String>();
         env.put("key", null);
-        String[] strings = EnvironmentUtils.toStrings(env);
+        final String[] strings = EnvironmentUtils.toStrings(env);
         assertEquals(1, strings.length);
         assertEquals("key=", strings[0]);
     }

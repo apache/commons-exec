@@ -34,8 +34,8 @@ public class DaemonExecutor extends DefaultExecutor {
      * @return the thread
      */
     @Override
-    protected Thread createThread(Runnable runnable, String name) {
-        Thread t = super.createThread(runnable, name);
+    protected Thread createThread(final Runnable runnable, final String name) {
+        final Thread t = super.createThread(runnable, name);
         t.setDaemon(true);
         return t;
     }

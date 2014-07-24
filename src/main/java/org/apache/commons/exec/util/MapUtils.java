@@ -64,7 +64,7 @@ public class MapUtils
 
         final Map<String, V> result = new HashMap<String, V>();
 
-        for (Map.Entry<K, V> entry : source.entrySet()) {
+        for (final Map.Entry<K, V> entry : source.entrySet()) {
             final K key = entry.getKey();
             final V value = entry.getValue();
             result.put(prefix + '.' + key.toString(), value);

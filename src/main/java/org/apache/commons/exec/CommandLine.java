@@ -127,7 +127,7 @@ public class CommandLine {
 
         if (other.getSubstitutionMap() != null)
         {
-            Map<String, Object> omap = new HashMap<String, Object>();
+            final Map<String, Object> omap = new HashMap<String, Object>();
             this.substitutionMap = omap;
             final Iterator<String> iterator = other.substitutionMap.keySet().iterator();
             while (iterator.hasNext())
@@ -178,7 +178,7 @@ public class CommandLine {
      */
     public CommandLine addArguments(final String[] addArguments, final boolean handleQuoting) {
         if (addArguments != null) {
-            for (String addArgument : addArguments) {
+            for (final String addArgument : addArguments) {
                 addArgument(addArgument, handleQuoting);
             }
         }

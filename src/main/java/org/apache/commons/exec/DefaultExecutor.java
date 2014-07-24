@@ -232,7 +232,7 @@ public class DefaultExecutor implements Executor {
             return this.launcher.isFailure(exitValue);
         }
         else {
-            for (int exitValue2 : this.exitValues) {
+            for (final int exitValue2 : this.exitValues) {
                 if (exitValue2 == exitValue) {
                     return false;
                 }

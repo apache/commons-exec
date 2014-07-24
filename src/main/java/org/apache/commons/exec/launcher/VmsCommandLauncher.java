@@ -90,7 +90,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
             if (env != null) {
                 final Set<Entry<String, String>> entries = env.entrySet();
 
-                for (Entry<String, String> entry : entries) {
+                for (final Entry<String, String> entry : entries) {
                     out.print("$ ");
                     out.print(entry.getKey());
                     out.print(" == "); // define as global symbol
@@ -133,7 +133,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
                 out.print(command);                
             }
             final String[] args = cmd.getArguments();
-            for (String arg : args) {
+            for (final String arg : args) {
                 out.println(" -");
                 out.print(arg);
             }

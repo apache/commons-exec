@@ -62,9 +62,9 @@ public class EnvironmentUtils
         }
         final String[] result = new String[environment.size()];
         int i = 0;
-        for (Entry<String, String> entry : environment.entrySet()) {
-            String key  = entry.getKey() == null ? "" : entry.getKey().toString();
-            String value = entry.getValue() == null ? "" : entry.getValue().toString();
+        for (final Entry<String, String> entry : environment.entrySet()) {
+            final String key  = entry.getKey() == null ? "" : entry.getKey().toString();
+            final String value = entry.getValue() == null ? "" : entry.getValue().toString();
             result[i] = key + "=" + value;
             i++;
         }

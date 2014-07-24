@@ -173,7 +173,7 @@ public class DefaultProcessingEnvironment {
 //            // TODO: I have no idea how to get it, someone must fix it
 //            executable = null;
 //        }
-        CommandLine commandLine = null;
+        final CommandLine commandLine = null;
 //        if (executable != null) {
 //            commandLine = new CommandLine(executable);
 //            commandLine.addArguments(arguments);
