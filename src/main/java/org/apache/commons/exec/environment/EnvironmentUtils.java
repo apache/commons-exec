@@ -19,8 +19,8 @@
 package org.apache.commons.exec.environment;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 //import org.apache.commons.exec.OS;
 
@@ -62,9 +62,7 @@ public class EnvironmentUtils
         }
         final String[] result = new String[environment.size()];
         int i = 0;
-        for (final Iterator<Map.Entry<String, String>> iter = environment.entrySet().iterator(); iter.hasNext();) {
-            final Map.Entry<String, String> entry = iter.next();
-
+        for (Entry<String, String> entry : environment.entrySet()) {
             String key  = entry.getKey() == null ? "" : entry.getKey().toString();
             String value = entry.getValue() == null ? "" : entry.getValue().toString();
             result[i] = key + "=" + value;

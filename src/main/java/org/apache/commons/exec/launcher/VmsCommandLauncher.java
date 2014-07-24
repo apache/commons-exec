@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -91,8 +90,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
             if (env != null) {
                 final Set<Entry<String, String>> entries = env.entrySet();
 
-                for (final Iterator<Entry<String, String>> iter = entries.iterator(); iter.hasNext();) {
-                    final Entry<String, String> entry = iter.next();
+                for (Entry<String, String> entry : entries) {
                     out.print("$ ");
                     out.print(entry.getKey());
                     out.print(" == "); // define as global symbol

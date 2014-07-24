@@ -27,7 +27,6 @@ import static org.junit.Assert.assertNull;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -98,8 +97,7 @@ public class EnvironmentUtilsTest {
 
         // ensure that we have the same value for upper and lowercase keys
         final Map<String, String> procEnvironment = EnvironmentUtils.getProcEnvironment();
-        for (final Iterator<Entry<String, String>> it = procEnvironment.entrySet().iterator(); it.hasNext();) {
-            final Entry<String, String> entry = it.next();
+        for (Entry<String, String> entry : procEnvironment.entrySet()) {
             final String key = entry.getKey();
             final String value = entry.getValue();
             assertEquals(value, procEnvironment.get(key.toLowerCase(Locale.ENGLISH)));
