@@ -101,7 +101,7 @@ public class CommandLine {
      */
     public CommandLine(final String executable) {
         this.isFile=false;
-        this.executable=getExecutable(executable);
+        this.executable=toCleanExecutable(executable);
     }
 
     /**
@@ -111,7 +111,7 @@ public class CommandLine {
      */
     public CommandLine(final File executable) {
         this.isFile=true;
-        this.executable=getExecutable(executable.getAbsolutePath());
+        this.executable=toCleanExecutable(executable.getAbsolutePath());
     }
 
     /**
@@ -402,19 +402,19 @@ public class CommandLine {
     }
 
     /**
-     * Get the executable - the argument is trimmed and '/' and '\\' are
+     * Cleans the executable string. The argument is trimmed and '/' and '\\' are
      * replaced with the platform specific file separator char
      *
-     * @param executable the executable
+     * @param dirtyExecutable the executable
      * @return the platform-specific executable string
      */
-    private String getExecutable(final String executable) {
-        if (executable == null) {
+    private String toCleanExecutable(final String dirtyExecutable) {
+        if (dirtyExecutable == null) {
             throw new IllegalArgumentException("Executable can not be null");
-        } else if (executable.trim().length() == 0) {
+        } else if (dirtyExecutable.trim().length() == 0) {
             throw new IllegalArgumentException("Executable can not be empty");
         } else {
-            return StringUtils.fixFileSeparatorChar(executable);
+            return StringUtils.fixFileSeparatorChar(dirtyExecutable);
         }
     }
 
