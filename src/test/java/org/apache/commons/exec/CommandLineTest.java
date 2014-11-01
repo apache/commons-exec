@@ -516,7 +516,7 @@ public class CommandLineTest {
 
         final CommandLine cmdl = new CommandLine(other);
         assertEquals(other.getExecutable(), cmdl.getExecutable());
-        assertEquals(other.getArguments(), cmdl.getArguments());
+        assertArrayEquals(other.getArguments(), cmdl.getArguments());
         assertEquals(other.isFile(), cmdl.isFile());
         assertEquals(other.getSubstitutionMap(), cmdl.getSubstitutionMap());
 
