@@ -590,7 +590,7 @@ public class DefaultExecutorTest {
         final File outfile = File.createTempFile("EXEC", ".test");
         outfile.deleteOnExit();
         final CommandLine cl = new CommandLine(testScript);
-        FileOutputStream outAndErr = new FileOutputStream(outfile);
+        final FileOutputStream outAndErr = new FileOutputStream(outfile);
         try {
             final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(outAndErr);
             final DefaultExecutor executor = new DefaultExecutor();
