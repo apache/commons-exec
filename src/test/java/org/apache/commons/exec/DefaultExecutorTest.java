@@ -111,7 +111,7 @@ public class DefaultExecutorTest {
     /**
      * The simplest possible test - start a script and
      * check that the output was pumped into our
-     * <code>ByteArrayOutputStream</code>.
+     * {@code ByteArrayOutputStream}.
      *
      * @throws Exception the test failed
      */

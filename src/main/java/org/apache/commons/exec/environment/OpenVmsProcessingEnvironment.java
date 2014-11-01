@@ -71,8 +71,8 @@ public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
 //
 //    /**
 //     * This method is VMS specific and used by getProcEnvironment(). Parses VMS
-//     * symbols from <code>in</code> and adds them to <code>environment</code>.
-//     * <code>in</code> is expected to be the output of "SHOW SYMBOL/GLOBAL *".
+//     * symbols from {@code in} and adds them to {@code environment}.
+//     * {@code in} is expected to be the output of "SHOW SYMBOL/GLOBAL *".
 //     *
 //     * @param environment the current environment
 //     * @param in the reader from the process to determine VMS env variables

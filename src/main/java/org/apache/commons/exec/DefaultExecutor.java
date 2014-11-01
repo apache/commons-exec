@@ -72,13 +72,13 @@ public class DefaultExecutor implements Executor {
     private IOException exceptionCaught;
 
     /**
-     * Default constructor creating a default <code>PumpStreamHandler</code>
+     * Default constructor creating a default {@code PumpStreamHandler}
      * and sets the working directory of the subprocess to the current
      * working directory.
      *
-     * The <code>PumpStreamHandler</code> pumps the output of the subprocess
-     * into our <code>System.out</code> and <code>System.err</code> to avoid
-     * into our <code>System.out</code> and <code>System.err</code> to avoid
+     * The {@code PumpStreamHandler} pumps the output of the subprocess
+     * into our {@code System.out} and {@code System.err} to avoid
+     * into our {@code System.out} and {@code System.err} to avoid
      * a blocked or deadlocked subprocess (see{@link java.lang.Process Process}).
      */
     public DefaultExecutor() {

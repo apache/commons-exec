@@ -52,9 +52,9 @@ public class EnvironmentUtils
     /**
      * Get the variable list as an array.
      *
-     * @param environment the environment to use, may be <code>null</code>
-     * @return array of key=value assignment strings or <code>null</code> if and only if
-     *     the input map was <code>null</code>
+     * @param environment the environment to use, may be {@code null}
+     * @return array of key=value assignment strings or {@code null} if and only if
+     *     the input map was {@code null}
      */
     public static String[] toStrings(final Map<String, String> environment) {
         if (environment == null) {
@@ -77,7 +77,7 @@ public class EnvironmentUtils
      * current platform during lookup, e.g. key names will be case-insensitive on Windows
      * platforms.
      *
-     * @return a map containing the environment variables, may be empty but never <code>null</code>
+     * @return a map containing the environment variables, may be empty but never {@code null}
      * @throws IOException the operation failed
      */
     public static Map<String, String> getProcEnvironment() throws IOException {

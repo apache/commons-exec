@@ -23,7 +23,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Used by <code>Execute</code> to handle input and output stream of
+ * Used by {@code Execute} to handle input and output stream of
  * subprocesses.
  *
  * @version $Id$

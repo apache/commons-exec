@@ -213,7 +213,7 @@ public class DefaultProcessingEnvironment {
      * case-insensitive.
      *
      * @return The map for storage of environment variables, never
-     *         <code>null</code>.
+     *         {@code null}.
      */
     private Map<String, String> createEnvironmentMap() {
         if (OS.isFamilyWindows()) {

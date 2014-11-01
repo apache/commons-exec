@@ -41,7 +41,7 @@ public class EnvironmentUtilsTest {
 
     /**
      * Tests the behaviour of the EnvironmentUtils.toStrings()
-     * when using a <code>null</code> environment.
+     * when using a {@code null} environment.
      */
     @Test
     public void testToStrings() {
@@ -129,7 +129,7 @@ public class EnvironmentUtilsTest {
 
     /**
      * Tests the behavior of the EnvironmentUtils.toStrings()
-     * when using a <code>null</code> key given to the map.
+     * when using a {@code null} key given to the map.
      */
     @Test
     public void testToStringWithNullKey() {
@@ -142,7 +142,7 @@ public class EnvironmentUtilsTest {
 
     /**
      * Tests the behavior of the EnvironmentUtils.toStrings()
-     * when using a <code>null</code> value given to the map.
+     * when using a {@code null} value given to the map.
      */
     @Test
     public void testToStringWithNullValue() {

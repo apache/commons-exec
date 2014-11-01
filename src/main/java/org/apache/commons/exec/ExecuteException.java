@@ -28,7 +28,7 @@ import java.io.IOException;
 public class ExecuteException extends IOException {
 
     /**
-     * Comment for <code>serialVersionUID</code>.
+     * Comment for {@code serialVersionUID}.
      */
     private static final long serialVersionUID = 3256443620654331699L;
 

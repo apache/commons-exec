@@ -68,7 +68,7 @@ public class Exec34Test {
 
     /**
      * Some user waited for an asynchronous process using watchdog.isWatching() which
-     * is now properly implemented  using <code>DefaultExecuteResultHandler</code>.
+     * is now properly implemented  using {@code DefaultExecuteResultHandler}.
      *
      * @throws Exception the test failed
      */

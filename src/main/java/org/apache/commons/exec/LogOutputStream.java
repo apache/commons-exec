@@ -155,7 +155,7 @@ public abstract class LogOutputStream
     }
 
     /**
-     * Converts the buffer to a string and sends it to <code>processLine</code>.
+     * Converts the buffer to a string and sends it to {@code processLine}.
      */
     protected void processBuffer() {
         processLine(buffer.toString());

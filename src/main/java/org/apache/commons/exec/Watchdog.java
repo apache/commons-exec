@@ -22,7 +22,7 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 /**
- * Generalization of <code>ExecuteWatchdog</code>
+ * Generalization of {@code ExecuteWatchdog}
  * 
  * @see org.apache.commons.exec.ExecuteWatchdog
  *

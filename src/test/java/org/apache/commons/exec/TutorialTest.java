@@ -31,8 +31,8 @@ import org.junit.Test;
  * An example based on the tutorial where the user can can safely play with
  * <ul>
  *  <li>blocking or non-blocking print jobs
- *  <li>with print job timeouts to trigger the <code>ExecuteWatchdog</code>
- *  <li>with the <code>exitValue</code> returned from the print script
+ *  <li>with print job timeouts to trigger the {@code ExecuteWatchdog}
+ *  <li>with the {@code exitValue} returned from the print script
  * </ul>
  *
  * @version $Id$

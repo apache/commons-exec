@@ -28,26 +28,26 @@ package org.apache.commons.exec;
 public interface ProcessDestroyer {
 
     /**
-     * Returns <code>true</code> if the specified
+     * Returns {@code true} if the specified
      * {@link java.lang.Process} was
      * successfully added to the list of processes to be destroy.
      *
      * @param process
      *      the process to add
-     * @return <code>true</code> if the specified
+     * @return {@code true} if the specified
      *      {@link java.lang.Process} was
      *      successfully added
      */
     boolean add(Process process);
 
     /**
-     * Returns <code>true</code> if the specified
+     * Returns {@code true} if the specified
      * {@link java.lang.Process} was
      * successfully removed from the list of processes to be destroy.
      *
      * @param process
      *            the process to remove
-     * @return <code>true</code> if the specified
+     * @return {@code true} if the specified
      *      {@link java.lang.Process} was
      *      successfully removed
      */

@@ -70,7 +70,7 @@ public interface CommandLauncher {
 
 
     /**
-     * Checks whether <code>exitValue</code> signals a failure on the current
+     * Checks whether {@code exitValue} signals a failure on the current
      * system (OS specific).
      * <p>
      * <b>Note</b> that this method relies on the conventions of the OS, it
@@ -82,7 +82,7 @@ public interface CommandLauncher {
      * </p>
      *
      * @param exitValue the exit value (return code) to be checked
-     * @return <code>true</code> if <code>exitValue</code> signals a failure
+     * @return {@code true} if {@code exitValue} signals a failure
      */
     boolean isFailure(final int exitValue);
 }
