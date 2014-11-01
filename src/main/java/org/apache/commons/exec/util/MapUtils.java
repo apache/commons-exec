@@ -50,7 +50,7 @@ public class MapUtils
     /**
      * Clones a map and prefixes the keys in the clone, e.g.
      * for mapping "JAVA_HOME" to "env.JAVA_HOME" to simulate
-     * the behaviour of ANT.
+     * the behaviour of Ant.
      *
      * @param source the source map
      * @param prefix the prefix used for all names
