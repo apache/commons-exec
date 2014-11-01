@@ -621,7 +621,7 @@ public class DefaultExecutorTest {
 
 
     /**
-     * The test script reads an argument from <code>stdin<code> and prints
+     * The test script reads an argument from {@code stdin} and prints
      * the result to stdout. To make things slightly more interesting
      * we are using an asynchronous process.
      *
