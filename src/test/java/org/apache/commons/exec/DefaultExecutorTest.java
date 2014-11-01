@@ -586,17 +586,17 @@ public class DefaultExecutorTest {
       * @throws Exception the test failed
       */
      @Test
-     public void testExecuteWithRedirectOutErr() throws Exception {
-         final File outfile = File.createTempFile("EXEC", ".test");
-         outfile.deleteOnExit();
-         final CommandLine cl = new CommandLine(testScript);
+    public void testExecuteWithRedirectOutErr() throws Exception {
+        final File outfile = File.createTempFile("EXEC", ".test");
+        outfile.deleteOnExit();
+        final CommandLine cl = new CommandLine(testScript);
         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(new FileOutputStream(outfile));
-         final DefaultExecutor executor = new DefaultExecutor();
+        final DefaultExecutor executor = new DefaultExecutor();
         executor.setStreamHandler(pumpStreamHandler);
-         final int exitValue = executor.execute(cl);
-         assertFalse(exec.isFailure(exitValue));
-         assertTrue(outfile.exists());
-     }
+        final int exitValue = executor.execute(cl);
+        assertFalse(exec.isFailure(exitValue));
+        assertTrue(outfile.exists());
+    }
 
     /**
      * A generic test case to print the command line arguments to 'printargs' script to solve
