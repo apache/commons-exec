@@ -34,7 +34,7 @@
                 NPE in EnvironmentUtils.toString(map)
             </action>
             <action issue="EXEC-78" dev="sebb" type="update" date="2014-01-11">
-                No need to use System.class.getMethod("getenv",... any more
+                No need to use System.class.getMethod("getenv",...) any more
             </action>
             <action issue="EXEC-77" dev="britter" type="update" date="2014-01-10">
                 Update JUnit dependency to 4.11
