@@ -42,24 +42,29 @@ public class StringUtils {
     private static final char BACKSLASH_CHAR = '\\';
 
     /**
-     * Perform a series of substitutions. The substitutions
-     * are performed by replacing ${variable} in the target
-     * string with the value of provided by the key "variable"
-     * in the provided hash table.
-     * <p/><p/>
+     * Perform a series of substitutions.
+     * <p>
+     * The substitutions are performed by replacing ${variable} in the target string with the value of provided by the
+     * key "variable" in the provided hash table.
+     * </p>
+     * <p>
      * A key consists of the following characters:
+     * </p>
      * <ul>
-     *   <li>letter
-     *   <li>digit
-     *   <li>dot character
-     *   <li>hyphen character
-     *   <li>plus character
-     *   <li>underscore character
+     * <li>letter
+     * <li>digit
+     * <li>dot character
+     * <li>hyphen character
+     * <li>plus character
+     * <li>underscore character
      * </ul>
      *
-     * @param argStr    the argument string to be processed
-     * @param vars      name/value pairs used for substitution
-     * @param isLenient ignore a key not found in vars or throw a RuntimeException?
+     * @param argStr
+     *            the argument string to be processed
+     * @param vars
+     *            name/value pairs used for substitution
+     * @param isLenient
+     *            ignore a key not found in vars or throw a RuntimeException?
      * @return String target string with replacements.
      */
     public static StringBuffer stringSubstitution(final String argStr, final Map<? super String, ?> vars, final boolean isLenient) {
@@ -172,8 +177,8 @@ public class StringUtils {
      * using the following replacement.
      * 
      * <ul>
-     *  <li> '/' ==>  File.separatorChar
-     *  <li> '\\' ==>  File.separatorChar
+     *  <li>'/' &#x2192; File.separatorChar</li>
+     *  <li>'\\' &#x2192; File.separatorChar</li>
      * </ul>
      *
      * @param arg the argument to fix
