@@ -22,9 +22,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Helper classes to manipulate maps to pass substition map to the
- * CommandLine. This class is not part of the public API and
- * could change without warning.
+ * Helper classes to manipulate maps to pass substition map to the CommandLine. This class is not part of the public API
+ * and could change without warning.
  *
  * @version $Id$
  */
@@ -32,11 +31,16 @@ public class MapUtils
 {
     /**
      * Clones a map.
-     *
-     * @param source the source map
-     * @return the clone of the source map
+     * 
+     * @param source
+     *            the Map to clone
+     * @param <K>
+     *            the map key type
+     * @param <V>
+     *            the map value type
+     * @return the cloned map
      */
-    public static <K, V> Map<K, V> copy(final Map<K, V> source) {
+   public static <K, V> Map<K, V> copy(final Map<K, V> source) {
 
         if (source == null) {
             return null;
@@ -48,12 +52,17 @@ public class MapUtils
     }
 
     /**
-     * Clones a map and prefixes the keys in the clone, e.g.
-     * for mapping "JAVA_HOME" to "env.JAVA_HOME" to simulate
-     * the behaviour of Ant.
+     * Clones a map and prefixes the keys in the clone, e.g. for mapping "JAVA_HOME" to "env.JAVA_HOME" to simulate the
+     * behaviour of Ant.
      *
-     * @param source the source map
-     * @param prefix the prefix used for all names
+     * @param source
+     *            the source map
+     * @param prefix
+     *            the prefix used for all names
+     * @param <K>
+     *            the map key type
+     * @param <V>
+     *            the map value type
      * @return the clone of the source map
      */
     public static <K, V> Map<String, V> prefix(final Map<K, V> source, final String prefix) {
@@ -74,11 +83,16 @@ public class MapUtils
     }
 
     /**
-     * Clones the lhs map and add all things from the
-     * rhs map.
+     * Clones the lhs map and add all things from the rhs map.
      *
-     * @param lhs the first map
-     * @param rhs the second map
+     * @param lhs
+     *            the first map
+     * @param rhs
+     *            the second map
+     * @param <K>
+     *            the map key type
+     * @param <V>
+     *            the map value type
      * @return the merged map
      */
     public static <K, V> Map<K, V> merge(final Map<K, V> lhs, final Map<K, V> rhs) {
