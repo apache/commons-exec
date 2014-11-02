@@ -19,7 +19,7 @@
 package org.apache.commons.exec.util;
 
 /**
- * Helper classes to provide debugging support.
+ * Provides debugging support.
  *
  * @version $Id$
  */
@@ -41,7 +41,7 @@ public class DebugUtils
     public static final String COMMONS_EXEC_DEBUG = "org.apache.commons.exec.debug";
 
     /**
-     * Handle an exception based on the system properties.
+     * Handles an exception based on the system properties.
      *
      * @param msg message describing the problem
      * @param e an exception being handled
@@ -63,7 +63,7 @@ public class DebugUtils
     }
 
     /**
-     * Determine if debugging is enabled based on the
+     * Determines if debugging is enabled based on the
      * system property "COMMONS_EXEC_DEBUG".
      *
      * @return true if debug mode is enabled
@@ -74,7 +74,7 @@ public class DebugUtils
     }
 
     /**
-     * Determine if lenient mode is enabled.
+     * Determines if lenient mode is enabled.
      *
      * @return true if lenient mode is enabled
      */
