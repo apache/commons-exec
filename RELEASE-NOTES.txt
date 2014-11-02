@@ -1,3 +1,38 @@
+              Apache Commons Exec 1.3 RELEASE NOTES
+
+The Apache Commons Exec team is pleased to announce the commons-exec-1.3 release!
+
+Apache Commons Exec is a library to reliably execute external processes from within the JVM.
+
+Changes in this version include:
+
+New features:
+o DefaultExecutor async execute prevents shutdown hooks running.  
+  Issue: EXEC-69. Thanks to Richard Atkins, Michael Vorburger. 
+
+Fixed Bugs:
+o Remove remaining raw types, unchecked conversions  
+  Issue: EXEC-81. Thanks to Stephen Compall.
+   
+o NPE in EnvironmentUtils.toString(map)  
+  Issue: EXEC-80. 
+
+Changes:
+o No need to use System.class.getMethod("getenv",...) any more  
+  Issue: EXEC-78.
+   
+o Update JUnit dependency to 4.11  
+  Issue: EXEC-77.
+   
+o Update to Java 5  
+  Issue: EXEC-76. 
+
+
+Have fun!
+-Apache Commons Exec team
+
+
+-------------------------------------------------------------------------------
               Apache Commons Exec 1.2 RELEASE NOTES
 
 The Apache Commons Exec team is pleased to announce the Apache commons-exec-1.2 release!
