@@ -23,7 +23,8 @@ limitations under the License.
   <body>
     <section name="Test Matrix">
       <p>The following tables contains the test results of running the comons-exec regression tests
-        on different OS/JVMs</p>
+        on different OS/JVMs.</p>
+      <p>This page has not been updated for version 1.10.</p>
       <subsection name="Linux">
         <table>
           <tr>
