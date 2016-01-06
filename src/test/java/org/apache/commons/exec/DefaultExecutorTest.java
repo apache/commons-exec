@@ -18,30 +18,14 @@
 
 package org.apache.commons.exec;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.apache.commons.exec.environment.EnvironmentUtils;
+import org.junit.*;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.exec.environment.EnvironmentUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * @version $Id$
@@ -377,8 +361,6 @@ public class DefaultExecutorTest {
     /**
      * Try to start an non-existing application which should result
      * in an exception.
-     *
-     * @throws Exception the test failed
      */
     @Test(expected = IOException.class)
     public void testExecuteNonExistingApplication() throws Exception {
@@ -389,19 +371,63 @@ public class DefaultExecutorTest {
     }
 
     /**
-     * Try to start an non-existing application asynchronously which should result
+     * Try to start an non-existing application which should result
      * in an exception.
-     *
-     * @throws Exception the test failed
+     */
+    @Test(expected = IOException.class)
+    public void testExecuteNonExistingApplicationWithWatchDog() throws Exception {
+        final CommandLine cl = new CommandLine(nonExistingTestScript);
+        final DefaultExecutor executor = new DefaultExecutor();
+        executor.setWatchdog(new ExecuteWatchdog(ExecuteWatchdog.INFINITE_TIMEOUT));
+
+        executor.execute(cl);
+    }
+
+    /**
+     * Try to start an non-existing application where the exception is caught/processed
+     * by the result handler.
      */
     @Test
-    public void testExecuteAsyncWithNonExistingApplication() throws Exception {
+    public void testExecuteAsyncNonExistingApplication() throws Exception {
         final CommandLine cl = new CommandLine(nonExistingTestScript);
-        final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
-        exec.execute(cl, handler);
-        Thread.sleep(2000);
-        assertNotNull(handler.getException());
-        assertTrue(exec.isFailure(handler.getExitValue()));
+        final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
+        final DefaultExecutor executor = new DefaultExecutor();
+
+        executor.execute(cl, resultHandler);
+        resultHandler.waitFor();
+
+        assertTrue(executor.isFailure(resultHandler.getExitValue()));
+        assertNotNull(resultHandler.getException());
+    }
+
+    /**
+     * Try to start an non-existing application where the exception is caught/processed
+     * by the result handler. The watchdog in notified to avoid waiting for the
+     * process infinitely.
+     *
+     * @see <a href="https://issues.apache.org/jira/browse/EXEC-71">EXEC-71</a>
+     */
+    @Test
+    public void testExecuteAsyncNonExistingApplicationWithWatchdog() throws Exception {
+        final CommandLine cl = new CommandLine(nonExistingTestScript);
+        final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler() {
+            @Override
+            public void onProcessFailed(ExecuteException e) {
+                System.out.println("Process did not stop gracefully, had exception '" + e.getMessage() + "' while executing process");
+                super.onProcessFailed(e);
+            }
+        };
+        final DefaultExecutor executor = new DefaultExecutor();
+        executor.setWatchdog(new ExecuteWatchdog(ExecuteWatchdog.INFINITE_TIMEOUT));
+
+        executor.execute(cl, resultHandler);
+        resultHandler.waitFor();
+
+        assertTrue(executor.isFailure(resultHandler.getExitValue()));
+        assertNotNull(resultHandler.getException());
+        assertFalse(executor.getWatchdog().isWatching());
+        assertFalse(executor.getWatchdog().killedProcess());
+        executor.getWatchdog().destroyProcess();
     }
 
     /**

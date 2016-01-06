@@ -122,6 +122,18 @@ public class ExecuteWatchdog implements TimeoutObserver {
     }
 
     /**
+     * Notification that starting the process failed.
+     *
+     * @param e the offending exception
+     *
+     */
+    public synchronized void failedToStart(Exception e) {
+        this.processStarted = true;
+        this.caught = e;
+        this.notifyAll();
+    }
+
+    /**
      * Stops the watcher. It will notify all threads possibly waiting on this
      * object.
      */
@@ -220,11 +232,12 @@ public class ExecuteWatchdog implements TimeoutObserver {
     }
 
     /**
-     * Ensures that the process is started, so we do not race with asynch execution.
-     * The caller of this method must be holding the lock on this
+     * Ensures that the process is started or not already terminated
+     * so we do not race with asynch executionor hang forever. The
+     * caller of this method must be holding the lock on this
      */
     private void ensureStarted() {
-        while (!processStarted) {
+        while (!processStarted && caught == null) {
             try {
                 this.wait();
             } catch (final InterruptedException e) {

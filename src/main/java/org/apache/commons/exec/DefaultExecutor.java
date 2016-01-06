@@ -16,12 +16,12 @@
  */
 package org.apache.commons.exec;
 
+import org.apache.commons.exec.launcher.CommandLauncher;
+import org.apache.commons.exec.launcher.CommandLauncherFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-
-import org.apache.commons.exec.launcher.CommandLauncher;
-import org.apache.commons.exec.launcher.CommandLauncherFactory;
 
 /**
  * The default class to start a subprocess. The implementation
@@ -331,9 +331,18 @@ public class DefaultExecutor implements Executor {
     private int executeInternal(final CommandLine command, final Map<String, String> environment,
             final File dir, final ExecuteStreamHandler streams) throws IOException {
 
-        setExceptionCaught(null);
+        final Process process;
+        exceptionCaught = null;
 
-        final Process process = this.launch(command, environment, dir);
+        try {
+            process = this.launch(command, environment, dir);
+        }
+        catch(final IOException e) {
+            if(watchdog != null) {
+                watchdog.failedToStart(e);
+            }
+            throw e;
+        }
 
         try {
             streams.setProcessInputStream(process.getOutputStream());
@@ -341,6 +350,9 @@ public class DefaultExecutor implements Executor {
             streams.setProcessErrorStream(process.getErrorStream());
         } catch (final IOException e) {
             process.destroy();
+            if(watchdog != null) {
+                watchdog.failedToStart(e);
+            }
             throw e;
         }
 
