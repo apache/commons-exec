@@ -32,7 +32,7 @@ public class Exec65Test {
     private static final int TIMEOUT = 3000;
     private final File testDir = new File("src/test/scripts");
 
-    @Test(expected = ExecuteException.class, timeout = 2*TIMEOUT)
+    @Test(expected = ExecuteException.class, timeout = 15000)
     public void testExec65WitSleepUsingCommandLine() throws Exception
     {
         if(OS.isFamilyUnix())
@@ -48,7 +48,7 @@ public class Exec65Test {
         }
     }
 
-    @Test(expected = ExecuteException.class, timeout = 2*TIMEOUT)
+    @Test(expected = ExecuteException.class, timeout = 15000)
     public void testExec65WithSleepUsingShellScript() throws Exception
     {
         final DefaultExecutor executor = new DefaultExecutor();
@@ -64,7 +64,7 @@ public class Exec65Test {
      * Please note that this tests make assumptions about the environment. It assumes
      * that user "root" exists and that the current user is not a "sudoer" already.
      */
-    @Test(expected = ExecuteException.class, timeout = 2*TIMEOUT)
+    @Test(expected = ExecuteException.class, timeout = 15000)
     public void testExec65WithSudoUsingShellScript() throws Exception
     {
         if(OS.isFamilyUnix())
