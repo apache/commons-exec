@@ -22,6 +22,8 @@ import org.junit.Test;
 
 import java.io.File;
 
+import static org.junit.Assert.assertTrue;
+
 /**
  * Test to show that watchdog can destroy 'sudo' and 'sleep'.
  *
@@ -58,6 +60,21 @@ public class Exec65Test {
         final CommandLine command = new CommandLine(TestUtil.resolveScriptForOS(testDir + "/sleep"));
 
         executor.execute(command);
+    }
+
+    @Test(timeout = 15000)
+    public void testExec65WithSleepUsingShellScriptAndRuntimeDirectly() throws Exception
+    {
+        Process process = Runtime.getRuntime().exec(TestUtil.resolveScriptForOS(testDir + "/sleep").getAbsolutePath());
+        Thread.sleep(3000);
+
+        process.destroy();
+
+        while(process.isAlive()) {
+            Thread.sleep(50);
+        }
+
+        assertTrue(process.exitValue() != 0);
     }
 
     /**
