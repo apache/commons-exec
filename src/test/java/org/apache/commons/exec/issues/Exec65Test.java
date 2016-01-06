@@ -42,7 +42,7 @@ public class Exec65Test {
             final ExecuteWatchdog watchdog = new ExecuteWatchdog(TIMEOUT);
             executor.setWatchdog(watchdog);
             final CommandLine command = new CommandLine("sleep");
-            command.addArgument("900");
+            command.addArgument("60");
 
             executor.execute(command);
         }
