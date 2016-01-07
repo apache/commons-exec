@@ -72,9 +72,7 @@ public class Exec65Test {
 
         process.destroy();
 
-        while(process.isAlive()) {
-            Thread.sleep(50);
-        }
+        process.waitFor();
 
         assertTrue(process.exitValue() != 0);
     }
