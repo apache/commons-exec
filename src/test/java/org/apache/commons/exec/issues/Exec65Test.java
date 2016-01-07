@@ -17,7 +17,13 @@
 
 package org.apache.commons.exec.issues;
 
-import org.apache.commons.exec.*;
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.ExecuteException;
+import org.apache.commons.exec.ExecuteWatchdog;
+import org.apache.commons.exec.OS;
+import org.apache.commons.exec.PumpStreamHandler;
+import org.apache.commons.exec.TestUtil;
 import org.junit.Ignore;
 import org.junit.Test;
 
