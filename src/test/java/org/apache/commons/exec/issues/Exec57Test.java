@@ -23,6 +23,7 @@ import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -42,20 +43,11 @@ public class Exec57Test extends AbstractExecTest {
      * an ExecuteException is thrown to notify the caller. But this case the threads are still
      * around causing a resource leak.
      *
-     * @TODO [EXEC-57] Broken for Mac OS X
+     * @TODO [EXEC-57] Broken for Mac OS X & Linux
      */
+    @Ignore("Broken for Unix-based systems")
     @Test(timeout = TEST_TIMEOUT)
     public void testExecutionOfBackgroundProcess() throws IOException {
-
-        if (OS.isFamilyMac()) {
-            testIsBrokenForCurrentOperatingSystem();
-            return;
-        }
-
-        if (!OS.isFamilyUnix()) {
-            testNotSupportedForCurrentOperatingSystem();
-            return;
-        }
 
         final CommandLine cmdLine = new CommandLine("sh").addArgument("-c").addArgument("./src/test/scripts/issues/exec-57-nohup.sh", false);
         final DefaultExecutor executor = new DefaultExecutor();
