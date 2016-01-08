@@ -18,12 +18,12 @@
 
 package org.apache.commons.exec;
 
+import org.apache.commons.exec.util.DebugUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PipedOutputStream;
-
-import org.apache.commons.exec.util.DebugUtils;
 
 /**
  * Copies standard output and error of sub-processes to standard output and error
@@ -290,7 +290,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
                     final long timeToWait = timeout + STOP_TIMEOUT_ADDITION;
                     final long startTime = System.currentTimeMillis();
                     thread.join(timeToWait);
-                    if (!(System.currentTimeMillis() < startTime + timeToWait)) {
+                    if (System.currentTimeMillis() > startTime + timeToWait) {
                         final String msg = "The stop timeout of " + timeout + " ms was exceeded";
                         caught = new ExecuteException(msg, Executor.INVALID_EXITVALUE);
                     }

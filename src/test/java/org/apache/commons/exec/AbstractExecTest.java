@@ -38,13 +38,23 @@ public abstract class AbstractExecTest {
         return result;
     }
 
+    /**
+     * Get the name of the currently executed test.
+     */
     protected String getName() {
         return name.getMethodName();
     }
 
     protected String testNotSupportedForCurrentOperatingSystem() {
-        final String msg = String.format("The test '%s' does not support the following OS : %s", name.getMethodName(), OS_NAME);
+        final String msg = String.format("The test '%s' is not possible for OS : %s", name.getMethodName(), OS_NAME);
         System.out.println(msg);
         return msg;
     }
+
+    protected String testIsBrokenForCurrentOperatingSystem() {
+        final String msg = String.format("The test '%s' is broken for OS : %s", name.getMethodName(), OS_NAME);
+        System.err.println(msg);
+        return msg;
+    }
+
 }

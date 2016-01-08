@@ -17,7 +17,9 @@
 # limitations under the License.
 #
 
+# Create a background process where the child is completely detached
+
 echo "invoker.sh -- going to start daemon process"
-cd ../../../target
-nohup sleep 10 &
-echo "invoker.sh --  daemon process was started"
+cd ./target
+nohup sleep 60 1>/dev/null 2>/dev/null 0</dev/null &
+echo "invoker.sh -- daemon process was started"
