@@ -26,25 +26,25 @@
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-exec</artifactId>
     <version>1.4.0-SNAPSHOT</version>
-    
+
     <inceptionYear>2005</inceptionYear>
     <description>
         Apache Commons Exec is a library to reliably execute external processes from within the JVM.
     </description>
 
     <url>http://commons.apache.org/proper/commons-exec/</url>
-    
+
     <issueManagement>
         <system>jira</system>
         <url>http://issues.apache.org/jira/browse/EXEC</url>
     </issueManagement>
-    
+
     <scm>
         <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/exec/trunk</connection>
         <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/exec/trunk</developerConnection>
         <url>http://svn.apache.org/viewvc/commons/proper/exec/trunk</url>
     </scm>
-    
+
     <developers>
         <developer>
             <id>brett</id>
@@ -77,7 +77,7 @@
             <email>ggregory@apache.org</email>
             <url>http://www.garygregory.com</url>
             <timezone>-5</timezone>
-        </developer>        
+        </developer>
     </developers>
     <contributors>
         <contributor>
@@ -102,7 +102,7 @@
             <name>Niall Pemberton</name>
         </contributor>
     </contributors>
-    
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -111,7 +111,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    
+
     <build>
         <plugins>
             <plugin>
@@ -152,26 +152,26 @@
                     <mavenExecutorId>forked-path</mavenExecutorId>
                 </configuration>
             </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-scm-publish-plugin</artifactId>
-            <configuration>
-              <ignorePathsToDelete>
-                <ignorePathToDelete>javadocs</ignorePathToDelete>
-              </ignorePathsToDelete>
-            </configuration>
-          </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-scm-publish-plugin</artifactId>
+                <configuration>
+                    <ignorePathsToDelete>
+                        <ignorePathToDelete>javadocs</ignorePathToDelete>
+                    </ignorePathsToDelete>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
     <distributionManagement>
-      <site>
-        <id>apache.website</id>
-        <name>Apache Website</name>
-        <url>${commons.deployment.protocol}://people.apache.org/www/commons.apache.org/exec/</url>
-      </site>    
+        <site>
+            <id>apache.website</id>
+            <name>Apache Website</name>
+            <url>${commons.deployment.protocol}://people.apache.org/www/commons.apache.org/exec/</url>
+        </site>
     </distributionManagement>
-    
+
     <reporting>
         <plugins>
             <!-- generate the changes report from changes.xml -->
@@ -188,7 +188,7 @@
                         </reports>
                     </reportSet>
                 </reportSets>
-            </plugin> 
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
@@ -199,13 +199,13 @@
                     <headerFile>${basedir}/conf/HEADER.txt</headerFile>
                 </configuration>
             </plugin>
-           <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-pmd-plugin</artifactId>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
                 <version>2.7.1</version>
-              <configuration>
-                <targetJdk>${maven.compiler.target}</targetJdk>
-              </configuration>
+                <configuration>
+                    <targetJdk>${maven.compiler.target}</targetJdk>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -229,35 +229,37 @@
                         <exclude>src/test/resources/eml/*.eml</exclude>
                     </excludes>
                 </configuration>
-            </plugin> 
+            </plugin>
         </plugins>
     </reporting>
 
     <profiles>
-          <profile>
+        <profile>
             <id>rc</id>
             <distributionManagement>
                 <!-- Cannot define in parent ATM, see COMMONSSITE-26 -->
                 <site>
                     <id>apache.website</id>
                     <name>Apache Commons Release Candidate Staging Site</name>
-                    <url>${commons.deployment.protocol}://people.apache.org/www/people.apache.org/builds/commons/${commons.componentid}/${commons.release.version}/${commons.rc.version}/site</url>
+                    <url>
+                        ${commons.deployment.protocol}://people.apache.org/www/people.apache.org/builds/commons/${commons.componentid}/${commons.release.version}/${commons.rc.version}/site
+                    </url>
                 </site>
             </distributionManagement>
         </profile>
-        
-  		<profile>
-              <!-- Use a profile to detect if we are running in a Java 1.8 environment.
-                   Use different versions of easymock/powermock, otherwise the test execution will fail -->
-              <id>test_java_8</id>
+        <profile>
+            <!-- Use a profile to detect if we are running in a Java 1.8 environment.
+                 Use different versions of easymock/powermock, otherwise the test execution will fail -->
+            <id>test_java_8</id>
             <activation>
-                  <jdk>1.8</jdk>
+                <jdk>1.8</jdk>
             </activation>
             <properties>
                 <findbugs.version>3.0.0</findbugs.version>
             </properties>
-        </profile>          
+        </profile>
     </profiles>
+
     <properties>
         <!-- Compiler source and target JVM (see parent pom). Must agree with versions in build.xml -->
         <maven.compiler.source>1.5</maven.compiler.source>
