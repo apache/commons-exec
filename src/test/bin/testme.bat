@@ -17,4 +17,4 @@ REM limitations under the License.
 REM
 
 mkdir target
-"%JAVA_HOME%\bin\java" -cp .\lib\junit-3.8.1.jar;.\lib\commons-exec-${project.version}-tests.jar;.\lib\commons-exec-${project.version}.jar org.apache.commons.exec.TestRunner
+"%JAVA_HOME%\bin\java" -cp .\lib\junit-4.11.jar;.\lib\commons-exec-@VERSION@-tests.jar;.\lib\commons-exec-@VERSION@.jar org.apache.commons.exec.TestRunner

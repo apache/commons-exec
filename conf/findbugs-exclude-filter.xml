@@ -23,11 +23,4 @@
 -->
 <FindBugsFilter>
 
-  <!-- The following cases are intentional hard-coded paths for different operating systems -->
-  <Match>
-    <Class name="org.apache.commons.exec.environment.DefaultProcessingEnvironment" />
-    <Method name="getProcEnvCommand" params="" returns="org.apache.commons.exec.CommandLine" />
-    <Bug pattern="DMI_HARDCODED_ABSOLUTE_FILENAME" />
-  </Match>
-
 </FindBugsFilter>
