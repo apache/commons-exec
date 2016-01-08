@@ -1,7 +1,5 @@
 @ECHO OFF
 
-REM Little batch file to run nearly foerver
-REM see http://malektips.com/dos0017.html
 REM
 REM Licensed to the Apache Software Foundation (ASF) under one or more
 REM contributor license agreements.  See the NOTICE file distributed with
@@ -18,4 +16,4 @@ REM WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 REM See the License for the specific language governing permissions and
 REM limitations under the License.
 
-@ping 127.0.0.1 -n 2 -w 60000 > nul
+@ping -n 60 localhost> nul
