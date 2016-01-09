@@ -88,9 +88,8 @@ public class Exec65Test extends AbstractExecTest {
         Thread.sleep(WATCHDOG_TIMEOUT);
 
         process.destroy();
-        while (process.isAlive()) {
-            Thread.sleep(100);
-        }
+        
+        process.waitFor();
 
         assertTrue(process.exitValue() != 0);
     }
