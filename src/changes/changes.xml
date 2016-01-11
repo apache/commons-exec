@@ -24,6 +24,9 @@
     </properties>
     <body>
         <release version="1.4" date="" description="Maintenance and feature Release">
+            <action issue="EXEC-100" dev="sgoeschl" type="update" date="2016-01-11">
+                Sync org.apache.commons.exec.OS with the newest Ant source file
+            </action>
             <action issue="EXEC-64" dev="sebb" type="update" due-to=" Michael Vorburger">
                 DefaultExecutor swallows IOException cause instead of propagating it
                 (work-round for Java 1.5)
