@@ -25,10 +25,11 @@ import org.apache.commons.exec.util.DebugUtils;
  *
  * <pre>
  * ExecuteWatchdog watchdog = new ExecuteWatchdog(30000);
- * Executer exec = new Executer(myloghandler, watchdog);
- * exec.setCommandLine(mycmdline);
- * int exitvalue = exec.execute();
- * if (Execute.isFailure(exitvalue) &amp;&amp; watchdog.killedProcess()) {
+ * Executor executor = new DefaultExecutor();
+ * executor.setStreamHandler(new PumpStreamHandler());
+ * executor.setWatchdog(watchdog);
+ * int exitValue = executor.execute(myCommandLine);
+ * if (executor.isFailure(exitValue) &amp;&amp; watchdog.killedProcess()) {
  *     // it was killed on purpose by the watchdog
  * }
  * </pre>
