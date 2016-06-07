@@ -110,7 +110,7 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
      * not yet terminated, the calling thread will be blocked until the
      * process exits.
      *
-     * @exception  InterruptedException if the current thread is
+     * @throws  InterruptedException if the current thread is
      *             {@linkplain Thread#interrupt() interrupted} by another
      *             thread while it is waiting, then the wait is ended and
      *             an {@link InterruptedException} is thrown.
@@ -130,7 +130,7 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
      * process exits.
      *
      * @param timeout the maximum time to wait in milliseconds
-     * @exception  InterruptedException if the current thread is
+     * @throws  InterruptedException if the current thread is
      *             {@linkplain Thread#interrupt() interrupted} by another
      *             thread while it is waiting, then the wait is ended and
      *             an {@link InterruptedException} is thrown.

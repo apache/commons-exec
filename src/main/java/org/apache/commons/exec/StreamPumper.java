@@ -137,7 +137,7 @@ public class StreamPumper implements Runnable {
     /**
      * This method blocks until the stream pumper finishes.
      * 
-     * @exception InterruptedException
+     * @throws InterruptedException
      *                if any thread interrupted the current thread before or while the current thread was waiting for a
      *                notification.
      * @see #isFinished()
