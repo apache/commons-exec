@@ -89,9 +89,11 @@ public class CommandLineTest {
     public void testAddNullArgument() {
         final CommandLine cmdl = new CommandLine("test");
 
-        cmdl.addArgument(null);
-        assertEquals("[test]", cmdl.toString());
-        assertArrayEquals(new String[]{"test"}, cmdl.toStrings());
+        try {
+            cmdl.addArgument(null);
+            fail("IllegalArgumentException expected on null argument");
+        }catch(IllegalArgumentException expected) {
+        }
     }
 
     @Test
@@ -181,9 +183,22 @@ public class CommandLineTest {
     @Test
     public void testAddArgumentsArrayNull() {
         final CommandLine cmdl = new CommandLine("test");
-        cmdl.addArguments((String[]) null);
-        assertEquals("[test]", cmdl.toString());
-        assertArrayEquals(new String[]{"test"}, cmdl.toStrings());
+        try {
+            cmdl.addArguments((String[]) null);
+            fail("IllegalArgumentException expected after adding null arguments");
+        }catch(IllegalArgumentException expected) {
+        }
+    }
+
+    @Test
+    public void testAddEmptyArgument() {
+        final CommandLine cmdl = new CommandLine("test");
+
+        try {
+            cmdl.addArguments(new String[0]);
+            fail("IllegalArgumentException expected on empty arguments");
+        }catch(IllegalArgumentException expected) {
+        }
     }
 
     /**

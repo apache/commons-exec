@@ -162,25 +162,32 @@ public class CommandLine {
     /**
      * Add multiple arguments. Handles parsing of quotes and whitespace.
      * 
-     * @param addArguments An array of arguments
+     * @param arguments An array of arguments
      * @return The command line itself
      */
-    public CommandLine addArguments(final String[] addArguments) {
-        return this.addArguments(addArguments, true);
+    public CommandLine addArguments(final String[] arguments) {
+        return this.addArguments(arguments, true);
     }
 
     /**
      * Add multiple arguments.
      *
-     * @param addArguments An array of arguments
+     * @param arguments An array of arguments
      * @param handleQuoting Add the argument with/without handling quoting
+     * @throws IllegalArgumentException if {@code arguments} is {@code null} or
+     * empty
      * @return The command line itself
      */
-    public CommandLine addArguments(final String[] addArguments, final boolean handleQuoting) {
-        if (addArguments != null) {
-            for (final String addArgument : addArguments) {
-                addArgument(addArgument, handleQuoting);
-            }
+    public CommandLine addArguments(final String[] arguments, final boolean handleQuoting) {
+        if(arguments == null) {
+            throw new IllegalArgumentException("arguments mustn't be null");
+        }
+        if(arguments.length == 0) {
+            throw new IllegalArgumentException("arguments mustn't be empty");
+        }
+
+        for (final String addArgument : arguments) {
+            addArgument(addArgument, handleQuoting);
         }
 
         return this;
@@ -191,11 +198,11 @@ public class CommandLine {
      * Please note that the parsing can have undesired side-effects therefore
      * it is recommended to build the command line incrementally.
      * 
-     * @param addArguments An string containing multiple arguments. 
+     * @param arguments An string containing multiple arguments. 
      * @return The command line itself
      */
-    public CommandLine addArguments(final String addArguments) {
-        return this.addArguments(addArguments, true);
+    public CommandLine addArguments(final String arguments) {
+        return this.addArguments(arguments, true);
     }
 
     /**
@@ -203,13 +210,13 @@ public class CommandLine {
      * Please note that the parsing can have undesired side-effects therefore
      * it is recommended to build the command line incrementally.
      *
-     * @param addArguments An string containing multiple arguments.
+     * @param arguments An string containing multiple arguments.
      * @param handleQuoting Add the argument with/without handling quoting
      * @return The command line itself
      */
-    public CommandLine addArguments(final String addArguments, final boolean handleQuoting) {
-        if (addArguments != null) {
-            final String[] argumentsArray = translateCommandline(addArguments);
+    public CommandLine addArguments(final String arguments, final boolean handleQuoting) {
+        if (arguments != null) {
+            final String[] argumentsArray = translateCommandline(arguments);
             addArguments(argumentsArray, handleQuoting);
         }
 
@@ -232,13 +239,14 @@ public class CommandLine {
     *
     * @param argument The argument to add
     * @param handleQuoting Add the argument with/without handling quoting
+    * @throws IllegalArgumentException if {@code argument} is {@code null}
     * @return The command line itself
     */
    public CommandLine addArgument(final String argument, final boolean handleQuoting) {
 
        if (argument == null)
        {
-           return this;
+           throw new IllegalArgumentException("argument mustn't be null");
        }
 
        // check if we can really quote the argument - if not throw an
