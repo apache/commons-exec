@@ -24,9 +24,12 @@ import org.apache.commons.exec.ExecuteException;
 import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
+import org.junit.Assume;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
+
+import java.io.File;
 
 /**
  * Test to show that watchdog can destroy 'sudo' and 'sleep'.
@@ -101,7 +104,8 @@ public class Exec65Test extends AbstractExecTest {
      */
     @Test(expected = ExecuteException.class, timeout = TEST_TIMEOUT)
     public void testExec65WithSudoUsingShellScript() throws Exception {
-
+        Assume.assumeFalse("Test is skipped on travis, because we have to be a sudoer "
+                + "to make the other tests pass.", new File(".").getAbsolutePath().contains("travis"));
         if (OS.isFamilyUnix()) {
             final DefaultExecutor executor = new DefaultExecutor();
             executor.setStreamHandler(new PumpStreamHandler(System.out, System.err, System.in));
