@@ -25,7 +25,6 @@ import java.util.Map;
  * Helper classes to manipulate maps to pass substition map to the CommandLine. This class is not part of the public API
  * and could change without warning.
  *
- * @version $Id$
  */
 public class MapUtils
 {

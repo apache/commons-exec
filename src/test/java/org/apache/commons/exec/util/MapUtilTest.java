@@ -28,7 +28,6 @@ import org.apache.commons.exec.environment.EnvironmentUtils;
 import org.junit.Test;
 
 /**
- * @version $Id$
  */
 public class MapUtilTest {
     /**

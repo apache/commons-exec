@@ -30,7 +30,6 @@ import java.io.PipedOutputStream;
  * of the parent process. If output or error stream are set to null, any feedback
  * from that stream will be lost.
  *
- * @version $Id$
  */
 public class PumpStreamHandler implements ExecuteStreamHandler {
 

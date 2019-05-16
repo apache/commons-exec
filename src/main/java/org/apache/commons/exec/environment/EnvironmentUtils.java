@@ -27,7 +27,6 @@ import java.util.Map.Entry;
 /**
  * Wrapper for environment variables.
  *
- * @version $Id$
  */
 public class EnvironmentUtils
 {

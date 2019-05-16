@@ -32,7 +32,6 @@ import java.util.StringTokenizer;
  * This class is not part of the public API and could change without
  * warning.
  *
- * @version $Id$
  */
 public class StringUtils {
 

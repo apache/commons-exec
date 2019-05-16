@@ -30,7 +30,6 @@ import org.junit.Test;
 /**
  * Test the LogOutputStream.
  *
- * @version $Id$
  */
 public class LogOutputStreamTest {
 

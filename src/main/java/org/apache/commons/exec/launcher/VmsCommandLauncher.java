@@ -34,7 +34,6 @@ import org.apache.commons.exec.util.StringUtils;
  * before launching commands. This is due to limitations of both the DCL
  * interpreter and the Java VM implementation.
  *
- * @version $Id$
  */
 public class VmsCommandLauncher extends Java13CommandLauncher {
 

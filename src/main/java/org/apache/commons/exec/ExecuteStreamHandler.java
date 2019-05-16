@@ -26,7 +26,6 @@ import java.io.OutputStream;
  * Used by {@code Execute} to handle input and output stream of
  * subprocesses.
  *
- * @version $Id$
  */
 public interface ExecuteStreamHandler {
 

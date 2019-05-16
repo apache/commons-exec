@@ -33,7 +33,6 @@ import org.junit.Test;
  *
  * PumpStreamHandler hangs if System.in is redirect to process input stream .
  *
- * @version $Id$
  */
 public class Exec33Test {
 

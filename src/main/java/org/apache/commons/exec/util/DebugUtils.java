@@ -21,7 +21,6 @@ package org.apache.commons.exec.util;
 /**
  * Provides debugging support.
  *
- * @version $Id$
  */
 public class DebugUtils
 {

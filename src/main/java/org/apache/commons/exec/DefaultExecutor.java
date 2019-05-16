@@ -43,7 +43,6 @@ import java.util.Map;
  * int exitvalue = exec.execute(cl);
  * </pre>
  *
- * @version $Id$
  */
 public class DefaultExecutor implements Executor {
 

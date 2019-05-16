@@ -31,7 +31,6 @@ import org.apache.commons.exec.util.StringUtils;
 import org.junit.Test;
 
 /**
- * @version $Id$
  */
 public class CommandLineTest {
 

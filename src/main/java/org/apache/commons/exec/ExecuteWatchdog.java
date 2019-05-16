@@ -46,7 +46,6 @@ import org.apache.commons.exec.util.DebugUtils;
  * @see org.apache.commons.exec.Executor
  * @see org.apache.commons.exec.Watchdog
  *
- * @version $Id$
  */
 public class ExecuteWatchdog implements TimeoutObserver {
 

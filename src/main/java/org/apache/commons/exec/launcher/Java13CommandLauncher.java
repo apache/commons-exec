@@ -29,7 +29,6 @@ import org.apache.commons.exec.environment.EnvironmentUtils;
  * A command launcher for JDK/JRE 1.3 (and higher). Uses the built-in
  * Runtime.exec() command
  *
- * @version $Id$
  */
 public class Java13CommandLauncher extends CommandLauncherImpl {
 

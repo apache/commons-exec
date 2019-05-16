@@ -23,7 +23,6 @@ package org.apache.commons.exec;
  * 
  * @see org.apache.commons.exec.Watchdog
  *
- * @version $Id$
  */
 public interface TimeoutObserver {
 

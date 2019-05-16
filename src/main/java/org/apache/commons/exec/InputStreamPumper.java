@@ -26,7 +26,6 @@ import org.apache.commons.exec.util.DebugUtils;
 /**
  * Copies all data from an System.input stream to an output stream of the executed process.
  *
- * @version $Id$
  */
 public class InputStreamPumper implements Runnable {
 

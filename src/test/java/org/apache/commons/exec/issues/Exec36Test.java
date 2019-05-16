@@ -39,7 +39,6 @@ import org.junit.Test;
 /**
  * Test EXEC-36 see https://issues.apache.org/jira/browse/EXEC-36
  *
- * @version $Id$
  */
 public class Exec36Test {
 

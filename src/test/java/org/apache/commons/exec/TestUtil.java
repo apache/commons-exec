@@ -23,7 +23,6 @@ import java.io.File;
 import junit.framework.AssertionFailedError;
 
 /**
- * @version $Id$
  */
 public final class TestUtil {
 

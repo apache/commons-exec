@@ -26,7 +26,6 @@ import java.util.Vector;
  * 
  * @see org.apache.commons.exec.ExecuteWatchdog
  *
- * @version $Id$
  */
 public class Watchdog implements Runnable {
 

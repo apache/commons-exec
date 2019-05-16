@@ -27,7 +27,6 @@ import java.util.Map;
 import org.junit.Test;
 
 /**
- * @version $Id$
  */
 public class StringUtilTest {
     /**

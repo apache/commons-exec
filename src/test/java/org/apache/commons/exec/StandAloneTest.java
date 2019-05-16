@@ -29,7 +29,6 @@ import org.junit.Test;
  * Placeholder for mailing list question - provided a minimal test case
  * to answer the question as sel-contained regression test.
  *
- * @version $Id$
  */
 public class StandAloneTest {
 

@@ -27,7 +27,6 @@ import org.apache.commons.exec.util.DebugUtils;
 /**
  * Copies all data from an input stream to an output stream.
  *
- * @version $Id$
  */
 public class StreamPumper implements Runnable {
 

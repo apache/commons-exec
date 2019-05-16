@@ -23,7 +23,6 @@ package org.apache.commons.exec;
  * typically when the VM exits
  * @see org.apache.commons.exec.ShutdownHookProcessDestroyer
  *
- * @version $Id$
  */
 public interface ProcessDestroyer {
 

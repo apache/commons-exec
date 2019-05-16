@@ -24,7 +24,6 @@ import java.util.Vector;
 /**
  * Destroys all registered {@code Process}es when the VM exits.
  *
- * @version $Id$
  */
 public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable {
 

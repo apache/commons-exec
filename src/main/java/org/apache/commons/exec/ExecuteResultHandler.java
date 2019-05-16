@@ -25,7 +25,6 @@ package org.apache.commons.exec;
  *
  * @see org.apache.commons.exec.Executor#execute(CommandLine, java.util.Map, ExecuteResultHandler)
  *
- * @version $Id$
  */
 public interface ExecuteResultHandler {
 

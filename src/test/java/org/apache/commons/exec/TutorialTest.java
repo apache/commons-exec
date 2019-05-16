@@ -35,7 +35,6 @@ import org.junit.Test;
  *  <li>with the {@code exitValue} returned from the print script
  * </ul>
  *
- * @version $Id$
  */
 public class TutorialTest {
 

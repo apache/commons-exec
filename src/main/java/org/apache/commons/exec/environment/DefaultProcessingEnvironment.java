@@ -34,7 +34,6 @@ import org.apache.commons.exec.OS;
  * JVM or requires starting a process to get them running
  * an OS command line.
  *
- * @version $Id$
  */
 public class DefaultProcessingEnvironment {
 

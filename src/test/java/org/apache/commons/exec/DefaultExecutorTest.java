@@ -28,7 +28,6 @@ import java.util.Map;
 import static org.junit.Assert.*;
 
 /**
- * @version $Id$
  */
 public class DefaultExecutorTest {
 

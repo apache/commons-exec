@@ -30,7 +30,6 @@ import org.apache.commons.exec.environment.EnvironmentUtils;
  * purpose command launcher which can only launch commands in the current
  * working directory.
  *
- * @version $Id$
  */
 public abstract class CommandLauncherImpl implements CommandLauncher {
 

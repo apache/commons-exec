@@ -28,7 +28,6 @@ package org.apache.commons.exec.environment;
  * Helper class to determine the environment variable
  * for VMS.
  *
- * @version $Id$
  * @deprecated No longer needed
  */
 @Deprecated
