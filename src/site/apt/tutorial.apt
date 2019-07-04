@@ -175,4 +175,4 @@ int exitValue = resultHandler.waitFor();
 * Get Your Hands Dirty
 
   A tutorial is nice but executing the tutorial code is even nicer. You find
-  the ready-to-run tutorial under {{{http://commons.apache.org/exec/xref-test/org/apache/commons/exec/TutorialTest.html}src/test/java/org/apache/commons/exec/TutorialTest.java}}.
+  the ready-to-run tutorial under {{{https://commons.apache.org/exec/xref-test/org/apache/commons/exec/TutorialTest.html}src/test/java/org/apache/commons/exec/TutorialTest.java}}.

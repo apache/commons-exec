@@ -79,7 +79,7 @@ o Issue: EXEC-34.
 
 For complete information on Apache Commons Exec, including instructions on how to submit bug reports, patches, or suggestions for improvement, see the Apache Commons Exec website:
 
-http://commons.apache.org/proper/commons-exec/
+https://commons.apache.org/proper/commons-exec/
 
 
 Have fun!

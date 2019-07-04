@@ -32,7 +32,7 @@
         Apache Commons Exec is a library to reliably execute external processes from within the JVM.
     </description>
 
-    <url>http://commons.apache.org/proper/commons-exec/</url>
+    <url>https://commons.apache.org/proper/commons-exec/</url>
 
     <issueManagement>
         <system>jira</system>
