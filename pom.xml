@@ -41,7 +41,7 @@
 
     <scm>
         <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/exec/trunk</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/exec/trunk</developerConnection>
+        <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-exec.git</developerConnection>
         <url>https://gitbox.apache.org/repos/asf?p=commons-exec.git</url>
     </scm>
 
