@@ -40,9 +40,9 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/exec/trunk</connection>
-        <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-exec.git</developerConnection>
-        <url>https://gitbox.apache.org/repos/asf?p=commons-exec.git</url>
+        <connection>scm:git:https://gitbox.apache.org/repos/asf/commons-exec</connection>
+        <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-exec</developerConnection>
+        <url>https://gitbox.apache.org/repos/asf/commons-exec</url>
     </scm>
 
     <developers>
