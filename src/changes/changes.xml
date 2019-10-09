@@ -27,9 +27,12 @@
             <action issue="EXEC-100" dev="sgoeschl" type="update" date="2016-01-11">
                 Sync org.apache.commons.exec.OS with the newest Ant source file
             </action>
-            <action issue="EXEC-64" dev="sebb" type="update" due-to=" Michael Vorburger">
+            <action issue="EXEC-64" dev="sebb" type="update" due-to="Michael Vorburger">
                 DefaultExecutor swallows IOException cause instead of propagating it
                 (work-round for Java 1.5)
+            </action>
+            <action issue="EXEC-111" dev="ggregory" type="update" due-to="Gary Gregory">
+                Update Java requirement from Java 5 to 6.
             </action>
         </release>
         <release version="1.3" date="2014-11-02" description="Maintenance and feature Release">
