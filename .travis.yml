@@ -16,7 +16,7 @@
 language: java
 sudo: true
 
-dist: precise
+dist: xenial
 
 jdk:
   - openjdk6
