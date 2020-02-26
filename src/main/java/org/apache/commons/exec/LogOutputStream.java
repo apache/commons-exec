@@ -21,6 +21,8 @@ package org.apache.commons.exec;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
 /**
  * Base class to connect a logging system to the output and/or
@@ -49,6 +51,8 @@ public abstract class LogOutputStream
 
     private final int level;
 
+    private final Charset charset;
+
     /**
      * Creates a new instance of this class.
      * Uses the default level of 999.
@@ -63,7 +67,19 @@ public abstract class LogOutputStream
      * @param level loglevel used to log data written to this stream.
      */
     public LogOutputStream(final int level) {
+        this(level, null);
+    }
+
+    /**
+     * Creates a new instance of this class, specifying the character set that should be used for
+     * outputting the string for each line
+     *
+     * @param level loglevel used to log data written to this stream
+     * @param charset Character Set to use when processing lines
+     */
+    public LogOutputStream(final int level, final Charset charset) {
         this.level = level;
+        this.charset = charset;
     }
 
     /**
@@ -157,8 +173,16 @@ public abstract class LogOutputStream
      * Converts the buffer to a string and sends it to {@code processLine}.
      */
     protected void processBuffer() {
-        processLine(buffer.toString());
-        buffer.reset();
+        if (charset == null) {
+            processLine(buffer.toString());
+        } else {
+            try {
+                processLine(buffer.toString(charset.name()));
+            } catch (UnsupportedEncodingException e) {
+                throw new IllegalStateException(e);
+            }
+            buffer.reset();
+        }
     }
 
     /**

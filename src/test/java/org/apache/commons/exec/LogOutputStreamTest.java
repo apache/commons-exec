@@ -17,10 +17,12 @@
  */
 package org.apache.commons.exec;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import java.io.File;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 
 import org.junit.After;
 import org.junit.Before;
@@ -37,6 +39,7 @@ public class LogOutputStreamTest {
     private final File testDir = new File("src/test/scripts");
     private OutputStream systemOut;
     private final File environmentScript = TestUtil.resolveScriptForOS(testDir + "/environment");
+    private final File utf8CharacterScript = TestUtil.resolveScriptForOS(testDir + "/utf8Characters");
 
     @BeforeClass
     public static void classSetUp() {
@@ -47,13 +50,14 @@ public class LogOutputStreamTest {
 
     @Before
     public void setUp() throws Exception {
-        this.systemOut = new SystemLogOutputStream(1);
-        this.exec.setStreamHandler(new PumpStreamHandler(systemOut, systemOut));
+
     }
 
     @After
     public void tearDown() throws Exception {
-        this.systemOut.close();
+        if (this.systemOut != null) {
+            this.systemOut.close();
+        }
     }
 
     // ======================================================================
@@ -62,9 +66,34 @@ public class LogOutputStreamTest {
 
     @Test
     public void testStdout() throws Exception {
+        this.systemOut = new SystemLogOutputStream(1);
+        this.exec.setStreamHandler(new PumpStreamHandler(systemOut, systemOut));
+
         final CommandLine cl = new CommandLine(environmentScript);
         final int exitValue = exec.execute(cl);
         assertFalse(exec.isFailure(exitValue));
+    }
+
+    @Test
+    public void testStdoutWithUTF8Characters() throws Exception {
+        this.systemOut = new SystemLogOutputStream(1, Charset.forName("UTF-8"));
+        this.exec.setStreamHandler(new PumpStreamHandler(systemOut, systemOut));
+
+        final CommandLine cl = new CommandLine(utf8CharacterScript);
+        final int exitValue = exec.execute(cl);
+        assertFalse(exec.isFailure(exitValue));
+        assertEquals("This string contains UTF-8 characters like the see no evil monkey \uD83D\uDE48 and the right single quotation mark \u2019", ((SystemLogOutputStream) systemOut).getOutput());
+    }
+
+    @Test
+    public void testStdoutWithUTF8CharactersAndNoCharsetSpecified() throws Exception {
+        this.systemOut = new SystemLogOutputStream(1);
+        this.exec.setStreamHandler(new PumpStreamHandler(systemOut, systemOut));
+
+        final CommandLine cl = new CommandLine(utf8CharacterScript);
+        final int exitValue = exec.execute(cl);
+        assertFalse(exec.isFailure(exitValue));
+        assertEquals("This string contains UTF-8 characters like the see no evil monkey \uD83D\uDE48 and the right single quotation mark \u2019", ((SystemLogOutputStream) systemOut).getOutput());
     }
 
     // ======================================================================
@@ -73,13 +102,24 @@ public class LogOutputStreamTest {
 
     private class SystemLogOutputStream extends LogOutputStream {
 
+        StringBuffer output = new StringBuffer();
+
         private SystemLogOutputStream(final int level) {
             super(level);
+        }
+
+        private SystemLogOutputStream(final int level, final Charset charset) {
+            super(level, charset);
         }
 
         @Override
         protected void processLine(final String line, final int level) {
             System.out.println(line);
+            output.append(line);
+        }
+
+        private String getOutput() {
+            return output.toString();
         }
     }
 
