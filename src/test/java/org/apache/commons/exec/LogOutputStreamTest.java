@@ -85,17 +85,6 @@ public class LogOutputStreamTest {
         assertEquals("This string contains UTF-8 characters like the see no evil monkey \uD83D\uDE48 and the right single quotation mark \u2019", ((SystemLogOutputStream) systemOut).getOutput());
     }
 
-    @Test
-    public void testStdoutWithUTF8CharactersAndNoCharsetSpecified() throws Exception {
-        this.systemOut = new SystemLogOutputStream(1);
-        this.exec.setStreamHandler(new PumpStreamHandler(systemOut, systemOut));
-
-        final CommandLine cl = new CommandLine(utf8CharacterScript);
-        final int exitValue = exec.execute(cl);
-        assertFalse(exec.isFailure(exitValue));
-        assertEquals("This string contains UTF-8 characters like the see no evil monkey \uD83D\uDE48 and the right single quotation mark \u2019", ((SystemLogOutputStream) systemOut).getOutput());
-    }
-
     // ======================================================================
     // Helper classes
     // ======================================================================
