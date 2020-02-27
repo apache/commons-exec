@@ -181,8 +181,8 @@ public abstract class LogOutputStream
             } catch (UnsupportedEncodingException e) {
                 throw new IllegalStateException(e);
             }
-            buffer.reset();
         }
+        buffer.reset();
     }
 
     /**
