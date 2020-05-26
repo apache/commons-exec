@@ -17,11 +17,12 @@ language: java
 sudo: true
 
 # Required to build with openjdk6 and 7
-dist: trusty
+dist: precise
 cache:
   directories:
     - $HOME/.m2
 jdk:
+  - openjdk6
   - openjdk7
   - openjdk8
   - openjdk11
