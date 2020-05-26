@@ -15,8 +15,8 @@
 
 language: java
 sudo: true
-dist: trusty
 # Required to build with openjdk6 and 7
+dist: trusty
 cache:
   directories:
     - $HOME/.m2
