@@ -15,20 +15,17 @@
 
 language: java
 sudo: true
-
 # Required to build with openjdk6 and 7
 dist: trusty
-
-addons:
-  apt:
-    packages:
-      - openjdk-6-jdk
-
-jdk:
-  - openjdk6
-  - openjdk7
-  - openjdk8
-  - openjdk11
-
+cache:
+  directories:
+    - $HOME/.m2
+matrix:
+  include:
+    - dist: precise
+      jdk: openjdk6
+    - jdk: openjdk7
+    - jdk: openjdk8
+    - jdk: openjdk11
 after_success:
   - mvn clean cobertura:cobertura coveralls:report
