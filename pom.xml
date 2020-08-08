@@ -23,7 +23,6 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <name>Apache Commons Exec</name>
-    <groupId>org.apache.commons</groupId>
     <artifactId>commons-exec</artifactId>
     <version>1.4.0-SNAPSHOT</version>
 
@@ -113,6 +112,8 @@
     </dependencies>
 
     <build>
+        <!-- TODO Add checkstyle:check -->
+        <defaultGoal>clean verify apache-rat:check japicmp:cmp javadoc:javadoc</defaultGoal>     
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -262,19 +263,21 @@
 
     <properties>
         <!-- Compiler source and target JVM (see parent pom). Must agree with versions in build.xml -->
-        <maven.compiler.source>1.6</maven.compiler.source>
-        <maven.compiler.target>1.6</maven.compiler.target>
-        <test>*Test</test>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <commons.rc.version>RC1</commons.rc.version>
+        <commons.bc.version>1.3</commons.bc.version>
+        <commons.release.version>1.4.0</commons.release.version>
+        <commons.release.isDistModule>true</commons.release.isDistModule>
         <commons.componentid>exec</commons.componentid>
         <commons.module.name>org.apache.commons.exec</commons.module.name>
         <commons.jira.id>EXEC</commons.jira.id>
         <commons.jira.pid>12310814</commons.jira.pid>
-        <commons.release.version>1.4</commons.release.version>
         <!-- The RC version used in the staging repository URL. -->
-        <commons.rc.version>RC1</commons.rc.version>
         <!-- Tell M2 not to use platform specific encodings for copying resources -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
+        <test>*Test</test>
     </properties>
 </project>

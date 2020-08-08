@@ -16,19 +16,16 @@
 language: java
 sudo: true
 
-# Required to build with openjdk6 and 7
+# Required to build with openjdk7
 dist: trusty
 
-addons:
-  apt:
-    packages:
-      - openjdk-6-jdk
-
 jdk:
-  - openjdk6
   - openjdk7
   - openjdk8
   - openjdk11
 
+script:
+  - mvn -V --no-transfer-progress -Ddoclint=all
+
 after_success:
-  - mvn -V clean cobertura:cobertura coveralls:report --no-transfer-progress
+  - mvn -V --no-transfer-progress clean cobertura:cobertura coveralls:report
