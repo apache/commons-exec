@@ -81,10 +81,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
             throws IOException {
         final File script = File.createTempFile("EXEC", ".TMP");
         script.deleteOnExit();
-        PrintWriter out = null;
-        try {
-            out = new PrintWriter(new FileWriter(script.getAbsolutePath(),true));
-
+        try (PrintWriter out = new PrintWriter(new FileWriter(script.getAbsolutePath(),true))) {
             // add the environment as global symbols for the DCL script
             if (env != null) {
                 final Set<Entry<String, String>> entries = env.entrySet();
@@ -137,10 +134,6 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
                 out.print(arg);
             }
             out.println();
-        } finally {
-            if (out != null) {
-                out.close();
-            }
         }
         return script;
     }

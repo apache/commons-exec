@@ -615,16 +615,13 @@ public class DefaultExecutorTest {
         final File outfile = File.createTempFile("EXEC", ".test");
         outfile.deleteOnExit();
         final CommandLine cl = new CommandLine(testScript);
-        final FileOutputStream outAndErr = new FileOutputStream(outfile);
-        try {
+        try (FileOutputStream outAndErr = new FileOutputStream(outfile)) {
             final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(outAndErr);
             final DefaultExecutor executor = new DefaultExecutor();
             executor.setStreamHandler(pumpStreamHandler);
             final int exitValue = executor.execute(cl);
             assertFalse(exec.isFailure(exitValue));
             assertTrue(outfile.exists());
-        } finally {
-            outAndErr.close();
         }
     }
 
