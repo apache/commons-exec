@@ -45,7 +45,7 @@ public class MapUtils
             return null;
         }
 
-        final Map<K, V> result = new HashMap<K, V>();
+        final Map<K, V> result = new HashMap<>();
         result.putAll(source);
         return result;
     }
@@ -70,7 +70,7 @@ public class MapUtils
             return null;
         }
 
-        final Map<String, V> result = new HashMap<String, V>();
+        final Map<String, V> result = new HashMap<>();
 
         for (final Map.Entry<K, V> entry : source.entrySet()) {
             final K key = entry.getKey();

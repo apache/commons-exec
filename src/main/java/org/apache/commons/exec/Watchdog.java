@@ -29,7 +29,7 @@ import java.util.Vector;
  */
 public class Watchdog implements Runnable {
 
-    private final Vector<TimeoutObserver> observers = new Vector<TimeoutObserver>(1);
+    private final Vector<TimeoutObserver> observers = new Vector<>(1);
 
     private final long timeout;
 

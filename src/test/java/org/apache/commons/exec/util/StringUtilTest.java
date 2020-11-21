@@ -35,7 +35,7 @@ public class StringUtilTest {
     @Test
     public void testNoStringSubstitution() throws Exception
     {
-        final Map<String, String> vars = new HashMap<String, String>();
+        final Map<String, String> vars = new HashMap<>();
         vars.put("foo", "FOO");
         vars.put("bar", "BAR");
 
@@ -49,7 +49,7 @@ public class StringUtilTest {
     @Test
     public void testDefaultStringSubstitution() throws Exception 
     {
-        final Map<String, String> vars = new HashMap<String, String>();
+        final Map<String, String> vars = new HashMap<>();
         vars.put("foo", "FOO");
         vars.put("bar", "BAR");
 
@@ -64,7 +64,7 @@ public class StringUtilTest {
     @Test
     public void testIncompleteSubstitution() throws Exception {
 
-        final Map<String, String> vars = new HashMap<String, String>();
+        final Map<String, String> vars = new HashMap<>();
         vars.put("foo", "FOO");
 
         assertEquals("This is a FOO & ${bar} test",  StringUtils.stringSubstitution("This is a ${foo} & ${bar} test", vars, true).toString());
@@ -86,7 +86,7 @@ public class StringUtilTest {
     @Test
     public void testErroneousTemplate() throws Exception
     {
-        final Map<String, String> vars = new HashMap<String, String>();
+        final Map<String, String> vars = new HashMap<>();
         vars.put("foo", "FOO");
 
         assertEquals("This is a FOO & ${}} test",  StringUtils.stringSubstitution("This is a ${foo} & ${}} test", vars, true).toString());

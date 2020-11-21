@@ -47,7 +47,7 @@ public class EnvironmentUtilsTest {
         // check for a non-existing environment when passing null
         assertNull(EnvironmentUtils.toStrings(null));
         // check for an environment when filling in two variables
-        final Map<String, String> env = new HashMap<String, String>();
+        final Map<String, String> env = new HashMap<>();
         assertArrayEquals(new String[0], EnvironmentUtils.toStrings(env));
         env.put("foo2", "bar2");
         env.put("foo", "bar");
@@ -132,7 +132,7 @@ public class EnvironmentUtilsTest {
      */
     @Test
     public void testToStringWithNullKey() {
-        final Map<String, String> env = new HashMap<String, String>();
+        final Map<String, String> env = new HashMap<>();
         env.put(null, "TheNullKey");
         final String[] strings = EnvironmentUtils.toStrings(env);
         assertEquals(1, strings.length);
@@ -145,7 +145,7 @@ public class EnvironmentUtilsTest {
      */
     @Test
     public void testToStringWithNullValue() {
-        final Map<String, String> env = new HashMap<String, String>();
+        final Map<String, String> env = new HashMap<>();
         env.put("key", null);
         final String[] strings = EnvironmentUtils.toStrings(env);
         assertEquals(1, strings.length);

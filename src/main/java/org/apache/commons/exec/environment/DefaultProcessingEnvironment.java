@@ -216,13 +216,13 @@ public class DefaultProcessingEnvironment {
      */
     private Map<String, String> createEnvironmentMap() {
         if (OS.isFamilyWindows()) {
-            return new TreeMap<String, String>(new Comparator<String>() {
+            return new TreeMap<>(new Comparator<String>() {
                 public int compare(final String key0, final String key1) {
                     return key0.compareToIgnoreCase(key1);
                 }
             });
         }
-        return new HashMap<String, String>();
+        return new HashMap<>();
     }
 
 }

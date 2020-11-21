@@ -38,7 +38,7 @@ public class CommandLine {
     /**
      * The arguments of the command.
      */
-    private final Vector<Argument> arguments = new Vector<Argument>();
+    private final Vector<Argument> arguments = new Vector<>();
 
     /**
      * The program to execute.
@@ -126,7 +126,7 @@ public class CommandLine {
 
         if (other.getSubstitutionMap() != null)
         {
-            final Map<String, Object> omap = new HashMap<String, Object>();
+            final Map<String, Object> omap = new HashMap<>();
             this.substitutionMap = omap;
             final Iterator<String> iterator = other.substitutionMap.keySet().iterator();
             while (iterator.hasNext())
@@ -346,7 +346,7 @@ public class CommandLine {
         final int inDoubleQuote = 2;
         int state = normal;
         final StringTokenizer tok = new StringTokenizer(toProcess, "\"\' ", true);
-        final ArrayList<String> list = new ArrayList<String>();
+        final ArrayList<String> list = new ArrayList<>();
         StringBuilder current = new StringBuilder();
         boolean lastTokenHasBeenQuoted = false;
 

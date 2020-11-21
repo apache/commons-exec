@@ -88,7 +88,7 @@ public class TutorialTest {
         PrintResultHandler resultHandler;
 
         // build up the command line to using a 'java.io.File'
-        final Map<String, File> map = new HashMap<String, File>();
+        final Map<String, File> map = new HashMap<>();
         map.put("file", file);
         final CommandLine commandLine = new CommandLine(acroRd32Script);
         commandLine.addArgument("/p");

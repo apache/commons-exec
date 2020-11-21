@@ -164,7 +164,7 @@ public class StringUtils {
      */
     public static String[] split(final String input, final String splitChar) {
         final StringTokenizer tokens = new StringTokenizer(input, splitChar);
-        final List<String> strList = new ArrayList<String>();
+        final List<String> strList = new ArrayList<>();
         while (tokens.hasMoreTokens()) {
             strList.add(tokens.nextToken());
         }
