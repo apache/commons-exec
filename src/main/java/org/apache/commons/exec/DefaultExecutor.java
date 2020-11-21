@@ -91,6 +91,7 @@ public class DefaultExecutor implements Executor {
     /**
      * @see org.apache.commons.exec.Executor#getStreamHandler()
      */
+    @Override
     public ExecuteStreamHandler getStreamHandler() {
         return streamHandler;
     }
@@ -98,6 +99,7 @@ public class DefaultExecutor implements Executor {
     /**
      * @see org.apache.commons.exec.Executor#setStreamHandler(org.apache.commons.exec.ExecuteStreamHandler)
      */
+    @Override
     public void setStreamHandler(final ExecuteStreamHandler streamHandler) {
         this.streamHandler = streamHandler;
     }
@@ -105,6 +107,7 @@ public class DefaultExecutor implements Executor {
     /**
      * @see org.apache.commons.exec.Executor#getWatchdog()
      */
+    @Override
     public ExecuteWatchdog getWatchdog() {
         return watchdog;
     }
@@ -112,6 +115,7 @@ public class DefaultExecutor implements Executor {
     /**
      * @see org.apache.commons.exec.Executor#setWatchdog(org.apache.commons.exec.ExecuteWatchdog)
      */
+    @Override
     public void setWatchdog(final ExecuteWatchdog watchDog) {
         this.watchdog = watchDog;
     }
@@ -119,6 +123,7 @@ public class DefaultExecutor implements Executor {
     /**
      * @see org.apache.commons.exec.Executor#getProcessDestroyer()
      */
+    @Override
     public ProcessDestroyer getProcessDestroyer() {
       return this.processDestroyer;
     }
@@ -126,6 +131,7 @@ public class DefaultExecutor implements Executor {
     /**
      * @see org.apache.commons.exec.Executor#setProcessDestroyer(ProcessDestroyer)
      */
+    @Override
     public void setProcessDestroyer(final ProcessDestroyer processDestroyer) {
       this.processDestroyer = processDestroyer;
     }
@@ -133,6 +139,7 @@ public class DefaultExecutor implements Executor {
     /**
      * @see org.apache.commons.exec.Executor#getWorkingDirectory()
      */
+    @Override
     public File getWorkingDirectory() {
         return workingDirectory;
     }
@@ -140,6 +147,7 @@ public class DefaultExecutor implements Executor {
     /**
      * @see org.apache.commons.exec.Executor#setWorkingDirectory(java.io.File)
      */
+    @Override
     public void setWorkingDirectory(final File dir) {
         this.workingDirectory = dir;
     }
@@ -147,6 +155,7 @@ public class DefaultExecutor implements Executor {
     /**
      * @see org.apache.commons.exec.Executor#execute(CommandLine)
      */
+    @Override
     public int execute(final CommandLine command) throws ExecuteException,
             IOException {
         return execute(command, (Map<String, String>) null);
@@ -155,6 +164,7 @@ public class DefaultExecutor implements Executor {
     /**
      * @see org.apache.commons.exec.Executor#execute(CommandLine, java.util.Map)
      */
+    @Override
     public int execute(final CommandLine command, final Map<String, String> environment)
             throws ExecuteException, IOException {
 
@@ -170,6 +180,7 @@ public class DefaultExecutor implements Executor {
      * @see org.apache.commons.exec.Executor#execute(CommandLine,
      *      org.apache.commons.exec.ExecuteResultHandler)
      */
+    @Override
     public void execute(final CommandLine command, final ExecuteResultHandler handler)
             throws ExecuteException, IOException {
         execute(command, null, handler);
@@ -179,6 +190,7 @@ public class DefaultExecutor implements Executor {
      * @see org.apache.commons.exec.Executor#execute(CommandLine,
      *      java.util.Map, org.apache.commons.exec.ExecuteResultHandler)
      */
+    @Override
     public void execute(final CommandLine command, final Map<String, String> environment,
             final ExecuteResultHandler handler) throws ExecuteException, IOException {
 
@@ -192,6 +204,7 @@ public class DefaultExecutor implements Executor {
 
         final Runnable runnable = new Runnable()
         {
+            @Override
             public void run()
             {
                 int exitValue = Executor.INVALID_EXITVALUE;
@@ -211,17 +224,20 @@ public class DefaultExecutor implements Executor {
     }
 
     /** @see org.apache.commons.exec.Executor#setExitValue(int) */
+    @Override
     public void setExitValue(final int value) {
         this.setExitValues(new int[] {value});
     }
 
 
     /** @see org.apache.commons.exec.Executor#setExitValues(int[]) */
+    @Override
     public void setExitValues(final int[] values) {
         this.exitValues = values == null ? null : (int[]) values.clone();
     }
 
     /** @see org.apache.commons.exec.Executor#isFailure(int) */
+    @Override
     public boolean isFailure(final int exitValue) {
 
         if (this.exitValues == null) {

@@ -110,6 +110,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      *
      * @param is the <CODE>InputStream</CODE>.
      */
+    @Override
     public void setProcessOutputStream(final InputStream is) {
         if (out != null) {
             createProcessOutputPump(is, out);
@@ -122,6 +123,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      *
      * @param is the <CODE>InputStream</CODE>.
      */
+    @Override
     public void setProcessErrorStream(final InputStream is) {
         if (err != null) {
             createProcessErrorPump(is, err);
@@ -134,6 +136,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      *
      * @param os the <CODE>OutputStream</CODE>.
      */
+    @Override
     public void setProcessInputStream(final OutputStream os) {
         if (input != null) {
             if (input == System.in) {
@@ -154,6 +157,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Start the <CODE>Thread</CODE>s.
      */
+    @Override
     public void start() {
         if (outputThread != null) {
             outputThread.start();
@@ -170,6 +174,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * Stop pumping the streams. When a timeout is specified it it is not guaranteed that the
      * pumper threads are cleanly terminated.
      */
+    @Override
     public void stop() throws IOException {
 
         if (inputStreamPumper != null) {

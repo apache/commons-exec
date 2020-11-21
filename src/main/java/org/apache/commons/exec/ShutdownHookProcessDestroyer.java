@@ -136,6 +136,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
      * @return {@code true} if the specified {@code Process} was
      *         successfully added
      */
+    @Override
     public boolean add(final Process process) {
         synchronized (processes) {
             // if this list is empty, register the shutdown hook
@@ -156,6 +157,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
      * @return {@code true} if the specified {@code Process} was
      *         successfully removed
      */
+    @Override
     public boolean remove(final Process process) {
         synchronized (processes) {
             final boolean processRemoved = processes.removeElement(process);
@@ -171,14 +173,16 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
    *
    * @return the number of register process
    */
-  public int size() {
+  @Override
+public int size() {
     return processes.size();
   }
 
   /**
      * Invoked by the VM when it is exiting.
      */
-  public void run() {
+  @Override
+public void run() {
       synchronized (processes) {
           running = true;
           final Enumeration<Process> e = processes.elements();

@@ -157,6 +157,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
     /**
      * Called after watchdog has finished.
      */
+    @Override
     public synchronized void timeoutOccured(final Watchdog w) {
         try {
             try {

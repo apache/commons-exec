@@ -48,6 +48,7 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
     /**
      * @see org.apache.commons.exec.ExecuteResultHandler#onProcessComplete(int)
      */
+    @Override
     public void onProcessComplete(final int exitValue) {
         this.exitValue = exitValue;
         this.exception = null;
@@ -57,6 +58,7 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
     /**
      * @see org.apache.commons.exec.ExecuteResultHandler#onProcessFailed(org.apache.commons.exec.ExecuteException)
      */
+    @Override
     public void onProcessFailed(final ExecuteException e) {
         this.exitValue = e.getExitValue();            
         this.exception = e;
