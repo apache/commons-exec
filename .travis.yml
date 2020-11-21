@@ -16,13 +16,10 @@
 language: java
 sudo: true
 
-# Required to build with openjdk7
-dist: trusty
-
 jdk:
-  - openjdk7
   - openjdk8
   - openjdk11
+  - openjdk15
 
 script:
   - mvn -V --no-transfer-progress -Ddoclint=all
