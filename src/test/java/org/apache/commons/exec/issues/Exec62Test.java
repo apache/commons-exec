@@ -52,19 +52,19 @@ public class Exec62Test
         }
     }
 
-    private void execute (String scriptName) throws Exception {
-        ExecuteWatchdog watchdog = new ExecuteWatchdog(4000);
-        CommandLine commandLine = new CommandLine("/bin/sh");
-        File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/issues/" + scriptName);
+    private void execute (final String scriptName) throws Exception {
+        final ExecuteWatchdog watchdog = new ExecuteWatchdog(4000);
+        final CommandLine commandLine = new CommandLine("/bin/sh");
+        final File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/issues/" + scriptName);
 
         commandLine.addArgument(testScript.getAbsolutePath());
 
-        DefaultExecutor executor = new DefaultExecutor();
+        final DefaultExecutor executor = new DefaultExecutor();
         executor.setExitValues(null); // ignore exit values
         executor.setWatchdog(watchdog);
 
-        FileOutputStream fos = new FileOutputStream(outputFile);
-        PumpStreamHandler streamHandler = new PumpStreamHandler(fos);
+        final FileOutputStream fos = new FileOutputStream(outputFile);
+        final PumpStreamHandler streamHandler = new PumpStreamHandler(fos);
         executor.setStreamHandler(streamHandler);
         executor.execute(commandLine);
 

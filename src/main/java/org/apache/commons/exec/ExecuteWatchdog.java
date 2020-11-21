@@ -127,7 +127,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
      * @param e the offending exception
      *
      */
-    public synchronized void failedToStart(Exception e) {
+    public synchronized void failedToStart(final Exception e) {
         this.processStarted = true;
         this.caught = e;
         this.notifyAll();

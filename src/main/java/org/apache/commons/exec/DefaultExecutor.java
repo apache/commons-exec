@@ -408,7 +408,7 @@ public class DefaultExecutor implements Executor {
                     throw e;
                 } catch (final Exception e) {
                     // Java 1.5 does not support public IOException(String message, Throwable cause)
-                    IOException ioe = new IOException(e.getMessage());
+                    final IOException ioe = new IOException(e.getMessage());
                     ioe.initCause(e);
                     throw ioe;
                 }

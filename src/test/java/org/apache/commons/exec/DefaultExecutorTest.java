@@ -411,7 +411,7 @@ public class DefaultExecutorTest {
         final CommandLine cl = new CommandLine(nonExistingTestScript);
         final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler() {
             @Override
-            public void onProcessFailed(ExecuteException e) {
+            public void onProcessFailed(final ExecuteException e) {
                 System.out.println("Process did not stop gracefully, had exception '" + e.getMessage() + "' while executing process");
                 super.onProcessFailed(e);
             }

@@ -87,7 +87,7 @@ public class Exec65Test extends AbstractExecTest {
     @Test(timeout = TEST_TIMEOUT)
     public void testExec65WithSleepUsingShellScriptAndJDKOnly() throws Exception {
 
-        Process process = Runtime.getRuntime().exec(resolveTestScript("sleep").getAbsolutePath());
+        final Process process = Runtime.getRuntime().exec(resolveTestScript("sleep").getAbsolutePath());
         Thread.sleep(WATCHDOG_TIMEOUT);
 
         process.destroy();
