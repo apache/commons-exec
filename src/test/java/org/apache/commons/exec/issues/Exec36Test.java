@@ -101,7 +101,6 @@ public class Exec36Test {
         }
         else {
             System.err.println("The test 'testExec36_1' does not support the following OS : " + System.getProperty("os.name"));
-            return;
         }
     }
 

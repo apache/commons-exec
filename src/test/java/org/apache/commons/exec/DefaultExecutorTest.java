@@ -566,11 +566,9 @@ public class DefaultExecutorTest {
                     .println("The code samples to do that in windows look like a joke ... :-( .., no way I'm doing that");
             System.err.println("The test 'testExecuteWithRedirectedStreams' does not support the following OS : "
                     + System.getProperty("os.name"));
-            return;
         } else {
             System.err.println("The test 'testExecuteWithRedirectedStreams' does not support the following OS : "
                     + System.getProperty("os.name"));
-            return;
         }
     }
 
