@@ -23,7 +23,7 @@
         <author email="sgoeschl@apache.org">Siegfried Goeschl</author>
     </properties>
     <body>
-        <release version="1.4" date="" description="Maintenance and feature Release">
+        <release version="1.4.0" date="" description="Maintenance and feature Release">
             <action issue="EXEC-100" dev="sgoeschl" type="update" date="2016-01-11">
                 Sync org.apache.commons.exec.OS with the newest Ant source file
             </action>
@@ -42,6 +42,9 @@
             </action>
            <action dev="ggregory" type="update" due-to="Dependabot">
                 Bump junit from 4.13 to 4.13.1 #23.
+            </action>
+           <action dev="ggregory" type="update" due-to="nullptr">
+                Java-style Array declaration and remove empty finally block #26.
             </action>
         </release>
         <release version="1.3" date="2014-11-02" description="Maintenance and feature Release">
