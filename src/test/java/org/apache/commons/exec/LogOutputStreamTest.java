@@ -17,18 +17,18 @@
  */
 package org.apache.commons.exec;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.io.File;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the LogOutputStream.
@@ -42,19 +42,19 @@ public class LogOutputStreamTest {
     private final File environmentScript = TestUtil.resolveScriptForOS(testDir + "/environment");
     private final File utf8CharacterScript = TestUtil.resolveScriptForOS(testDir + "/utf8Characters");
 
-    @BeforeClass
+    @BeforeAll
     public static void classSetUp() {
         // turn on debug mode and throw an exception for each encountered problem
         System.setProperty("org.apache.commons.exec.lenient", "false");
         System.setProperty("org.apache.commons.exec.debug", "true");
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
 
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         if (this.systemOut != null) {
             this.systemOut.close();
@@ -76,7 +76,7 @@ public class LogOutputStreamTest {
     }
 
     @Test
-    @Ignore("The file utf8CharacterScript is missing from the repository and is not in its history")
+    @Disabled("The file utf8CharacterScript is missing from the repository and is not in its history")
     public void testStdoutWithUTF8Characters() throws Exception {
         this.systemOut = new SystemLogOutputStream(1, Charset.forName("UTF-8"));
         this.exec.setStreamHandler(new PumpStreamHandler(systemOut, systemOut));
@@ -84,7 +84,7 @@ public class LogOutputStreamTest {
         final CommandLine cl = new CommandLine(utf8CharacterScript);
         final int exitValue = exec.execute(cl);
         assertFalse(exec.isFailure(exitValue));
-        assertEquals("This string contains UTF-8 characters like the see no evil monkey \uD83D\uDE48 and the right single quotation mark \u2019", ((SystemLogOutputStream) systemOut).getOutput());
+        assertEquals(((SystemLogOutputStream) systemOut).getOutput(), "This string contains UTF-8 characters like the see no evil monkey \uD83D\uDE48 and the right single quotation mark \u2019");
     }
 
     // ======================================================================

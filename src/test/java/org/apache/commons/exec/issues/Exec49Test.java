@@ -27,7 +27,7 @@ import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test EXEC-44 (https://issues.apache.org/jira/browse/EXEC-44).

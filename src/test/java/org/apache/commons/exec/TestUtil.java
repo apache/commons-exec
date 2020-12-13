@@ -18,9 +18,10 @@
 
 package org.apache.commons.exec;
 
+import org.opentest4j.AssertionFailedError;
+
 import java.io.File;
 
-import junit.framework.AssertionFailedError;
 
 /**
  */

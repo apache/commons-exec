@@ -17,7 +17,7 @@
 
 package org.apache.commons.exec.issues;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.io.File;
 
@@ -26,7 +26,7 @@ import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.exec.TestUtil;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the patch for EXEC-33 (https://issues.apache.org/jira/browse/EXEC-33)
