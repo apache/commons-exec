@@ -39,7 +39,7 @@ import org.junit.Test;
 public class EnvironmentUtilsTest {
 
     /**
-     * Tests the behaviour of the EnvironmentUtils.toStrings()
+     * Tests the behavior of the EnvironmentUtils.toStrings()
      * when using a {@code null} environment.
      */
     @Test
