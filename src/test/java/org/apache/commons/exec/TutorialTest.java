@@ -51,7 +51,7 @@ public class TutorialTest {
         final boolean printInBackground = false;
         final File pdfFile = new File("/Documents and Settings/foo.pdf");
 
-        PrintResultHandler printResult;
+        final PrintResultHandler printResult;
 
         try {
             // printing takes around 10 seconds
@@ -83,9 +83,9 @@ public class TutorialTest {
     public PrintResultHandler print(final File file, final long printJobTimeout, final boolean printInBackground)
             throws IOException {
 
-        int exitValue;
+        final int exitValue;
         ExecuteWatchdog watchdog = null;
-        PrintResultHandler resultHandler;
+        final PrintResultHandler resultHandler;
 
         // build up the command line to using a 'java.io.File'
         final Map<String, File> map = new HashMap<>();
