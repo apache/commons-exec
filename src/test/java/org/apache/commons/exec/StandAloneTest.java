@@ -18,12 +18,12 @@
 
 package org.apache.commons.exec;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Placeholder for mailing list question - provided a minimal test case
@@ -32,7 +32,7 @@ import org.junit.Test;
  */
 public class StandAloneTest {
 
-    @BeforeClass
+    @BeforeAll
     public static void classSetUp() {
         System.setProperty("org.apache.commons.exec.lenient", "false");
         System.setProperty("org.apache.commons.exec.debug", "true");

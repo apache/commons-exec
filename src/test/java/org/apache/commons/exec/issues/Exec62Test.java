@@ -18,14 +18,18 @@
 package org.apache.commons.exec.issues;
 
 import org.apache.commons.exec.*;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @see <a href="https://issues.apache.org/jira/browse/EXEC-62">EXEC-62</a>
@@ -34,21 +38,22 @@ public class Exec62Test
 {
     private File outputFile;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         outputFile = File.createTempFile("foo", ".log");
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         outputFile.delete();
     }
 
-    @Ignore("Test behaves differently between Mac OS X and Linux - don't know why")
-    @Test (expected = TimeoutException.class, timeout = 10000)
+    @Disabled("Test behaves differently between Mac OS X and Linux - don't know why")
+    @Test
+    @Timeout(value = 10000, unit = TimeUnit.MILLISECONDS)
     public void testMe() throws Exception {
         if(OS.isFamilyUnix()) {
-            execute ("exec-62");
+            assertThrows(TimeoutException.class, () -> execute ("exec-62"));
         }
     }
 

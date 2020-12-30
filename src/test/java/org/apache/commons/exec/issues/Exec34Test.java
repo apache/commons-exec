@@ -17,9 +17,9 @@
 
 package org.apache.commons.exec.issues;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
@@ -29,7 +29,7 @@ import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.TestUtil;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * EXEC-34 https://issues.apache.org/jira/browse/EXEC-34
@@ -61,8 +61,8 @@ public class Exec34Test {
         exec.execute(cmdLine, handler);
         assertTrue(watchdog.isWatching());
         watchdog.destroyProcess();
-        assertTrue("Watchdog should have killed the process",watchdog.killedProcess());
-        assertFalse("Watchdog is no longer watching the process",watchdog.isWatching());
+        assertTrue(watchdog.killedProcess(), "Watchdog should have killed the process");
+        assertFalse(watchdog.isWatching(), "Watchdog is no longer watching the process");
     }
 
     /**
@@ -82,9 +82,9 @@ public class Exec34Test {
         exec.setWatchdog(watchdog);
         exec.execute(cmdLine, handler);
         handler.waitFor();
-        assertTrue("Process has exited", handler.hasResult());
-        assertNotNull("Process was aborted", handler.getException());
-        assertTrue("Watchdog should have killed the process", watchdog.killedProcess());
-        assertFalse("Watchdog is no longer watching the process", watchdog.isWatching());
+        assertTrue(handler.hasResult(), "Process has exited");
+        assertNotNull(handler.getException(), "Process was aborted");
+        assertTrue(watchdog.killedProcess(), "Watchdog should have killed the process");
+        assertFalse(watchdog.isWatching(), "Watchdog is no longer watching the process");
     }
 }

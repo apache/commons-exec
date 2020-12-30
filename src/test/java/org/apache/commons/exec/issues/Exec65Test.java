@@ -24,12 +24,15 @@ import org.apache.commons.exec.ExecuteException;
 import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
-import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Test to show that watchdog can destroy 'sudo' and 'sleep'.
@@ -38,7 +41,8 @@ import java.io.File;
  */
 public class Exec65Test extends AbstractExecTest {
 
-    @Test(expected = ExecuteException.class, timeout = TEST_TIMEOUT)
+    @Test
+    @Timeout(value = TEST_TIMEOUT, unit = TimeUnit.MILLISECONDS)
     public void testExec65WitSleepUsingSleepCommandDirectly() throws Exception {
 
         if (OS.isFamilyUnix()) {
@@ -49,9 +53,9 @@ public class Exec65Test extends AbstractExecTest {
             executor.setStreamHandler(new PumpStreamHandler(System.out, System.err));
             executor.setWatchdog(watchdog);
 
-            executor.execute(command);
+            assertThrows(ExecuteException.class, () -> executor.execute(command));
         } else {
-            throw new ExecuteException(testNotSupportedForCurrentOperatingSystem(), 0);
+            assertThrows(ExecuteException.class, () -> new ExecuteException(testNotSupportedForCurrentOperatingSystem(), 0));
         }
     }
 
@@ -64,7 +68,8 @@ public class Exec65Test extends AbstractExecTest {
      *
      * @TODO Fix tests for Windows & Linux
      */
-    @Test(expected = ExecuteException.class, timeout = TEST_TIMEOUT)
+    @Test
+    @Timeout(value = TEST_TIMEOUT, unit = TimeUnit.MILLISECONDS)
     public void testExec65WithSleepUsingShellScript() throws Exception {
 
         if (OS.isFamilyMac()) {
@@ -73,9 +78,9 @@ public class Exec65Test extends AbstractExecTest {
             executor.setWatchdog(new ExecuteWatchdog(WATCHDOG_TIMEOUT));
             final CommandLine command = new CommandLine(resolveTestScript("sleep"));
 
-            executor.execute(command);
+            assertThrows(ExecuteException.class, () -> executor.execute(command));
         } else {
-            throw new ExecuteException(testNotSupportedForCurrentOperatingSystem(), 0);
+            assertThrows(ExecuteException.class, () -> new ExecuteException(testNotSupportedForCurrentOperatingSystem(), 0));
         }
     }
 
@@ -84,7 +89,8 @@ public class Exec65Test extends AbstractExecTest {
      * killing the process actually works with JDK only but it does
      * not re-direct any streams.
      */
-    @Test(timeout = TEST_TIMEOUT)
+    @Test
+    @Timeout(value = TEST_TIMEOUT, unit = TimeUnit.MILLISECONDS)
     public void testExec65WithSleepUsingShellScriptAndJDKOnly() throws Exception {
 
         final Process process = Runtime.getRuntime().exec(resolveTestScript("sleep").getAbsolutePath());
@@ -102,19 +108,20 @@ public class Exec65Test extends AbstractExecTest {
      * that user "root" exists and that the current user is not a "sudoer" already
      * (thereby requiring a password).
      */
-    @Test(expected = ExecuteException.class, timeout = TEST_TIMEOUT)
+    @Test
+    @Timeout(value = TEST_TIMEOUT, unit = TimeUnit.MILLISECONDS)
     public void testExec65WithSudoUsingShellScript() throws Exception {
-        Assume.assumeFalse("Test is skipped on travis, because we have to be a sudoer "
-                + "to make the other tests pass.", new File(".").getAbsolutePath().contains("travis"));
+        assumeFalse(new File(".").getAbsolutePath().contains("travis"), "Test is skipped on travis, because we have to be a sudoer "
+                + "to make the other tests pass.");
         if (OS.isFamilyUnix()) {
             final DefaultExecutor executor = new DefaultExecutor();
             executor.setStreamHandler(new PumpStreamHandler(System.out, System.err, System.in));
             executor.setWatchdog(new ExecuteWatchdog(WATCHDOG_TIMEOUT));
             final CommandLine command = new CommandLine(resolveTestScript("issues", "exec-65"));
 
-            executor.execute(command);
+            assertThrows(ExecuteException.class, () -> executor.execute(command));
         } else {
-            throw new ExecuteException(testNotSupportedForCurrentOperatingSystem(), 0);
+            assertThrows(ExecuteException.class, () -> new ExecuteException(testNotSupportedForCurrentOperatingSystem(), 0));
         }
     }
 }

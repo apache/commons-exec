@@ -102,11 +102,23 @@
         </contributor>
     </contributors>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
+        <!-- testing -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.1</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -160,6 +172,14 @@
                     <ignorePathsToDelete>
                         <ignorePathToDelete>javadocs</ignorePathToDelete>
                     </ignorePathsToDelete>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -273,6 +293,7 @@
         <commons.module.name>org.apache.commons.exec</commons.module.name>
         <commons.jira.id>EXEC</commons.jira.id>
         <commons.jira.pid>12310814</commons.jira.pid>
+        <junit.version>5.7.0</junit.version>
         <!-- The RC version used in the staging repository URL. -->
         <!-- Tell M2 not to use platform specific encodings for copying resources -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

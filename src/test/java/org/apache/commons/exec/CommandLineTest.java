@@ -18,17 +18,17 @@
 
 package org.apache.commons.exec;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.exec.util.StringUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  */
@@ -500,8 +500,7 @@ public class CommandLineTest {
                 .addArgument("echo").addArgument("1");
         System.out.println("cmd1: " + cmd1.toString());
         System.out.println("cmd2: " + cmd2.toString());
-        assertTrue("toString() is useful for troubleshooting",
-                !cmd1.toString().equals(cmd2.toString()));
+        assertTrue(!cmd1.toString().equals(cmd2.toString()), "toString() is useful for troubleshooting");
     }
 
     @Test

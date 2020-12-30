@@ -17,8 +17,8 @@
 
 package org.apache.commons.exec.issues;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
@@ -28,7 +28,7 @@ import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.TestUtil;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test EXEC-44 (https://issues.apache.org/jira/browse/EXEC-44).
@@ -61,11 +61,11 @@ public class Exec44Test {
 
         // wait for script to run
         Thread.sleep(5000);
-        assertTrue("The watchdog is watching the process", watchdog.isWatching());
+        assertTrue(watchdog.isWatching(), "The watchdog is watching the process");
 
         // terminate it
         watchdog.destroyProcess();
-        assertTrue("The watchdog has killed the process", watchdog.killedProcess());
-        assertFalse("The watchdog is no longer watching any process", watchdog.isWatching());
+        assertTrue(watchdog.killedProcess(), "The watchdog has killed the process");
+        assertFalse(watchdog.isWatching(), "The watchdog is no longer watching any process");
     }
 }

@@ -23,10 +23,12 @@ import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Test EXEC-57 (https://issues.apache.org/jira/browse/EXEC-57).
@@ -44,8 +46,9 @@ public class Exec57Test extends AbstractExecTest {
      *
      * @TODO [EXEC-57] Broken for Mac OS X & Linux
      */
-    @Ignore("Broken for Unix-based systems")
-    @Test(timeout = TEST_TIMEOUT)
+    @Disabled("Broken for Unix-based systems")
+    @Test
+    @Timeout(value = TEST_TIMEOUT, unit = TimeUnit.MILLISECONDS)
     public void testExecutionOfBackgroundProcess() throws IOException {
 
         final CommandLine cmdLine = new CommandLine("sh").addArgument("-c").addArgument("./src/test/scripts/issues/exec-57-nohup.sh", false);
@@ -62,7 +65,8 @@ public class Exec57Test extends AbstractExecTest {
      *
      * @throws IOException
      */
-    @Test(timeout = TEST_TIMEOUT)
+    @Test
+    @Timeout(value = TEST_TIMEOUT, unit = TimeUnit.MILLISECONDS)
     public void testExecutionOfDetachedProcess() throws IOException {
 
         if (!OS.isFamilyUnix()) {

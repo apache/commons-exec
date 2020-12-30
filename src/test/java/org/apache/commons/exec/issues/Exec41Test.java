@@ -17,7 +17,7 @@
 
 package org.apache.commons.exec.issues;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
@@ -28,7 +28,7 @@ import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.exec.TestUtil;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the patch for EXEC-41 (https://issues.apache.org/jira/browse/EXEC-41).
@@ -92,8 +92,8 @@ public class Exec41Test {
             System.out.println("Process timed out and was killed by watchdog.");
         }
 
-        assertTrue("The process was killed by the watchdog", watchdog.killedProcess());
-        assertTrue("Skipping the Thread.join() did not work", duration < 9000);
+        assertTrue(watchdog.killedProcess(), "The process was killed by the watchdog");
+        assertTrue(duration < 9000, "Skipping the Thread.join() did not work");
     }
 
     /**
@@ -139,7 +139,7 @@ public class Exec41Test {
             System.out.println("Process timed out and was killed.");
         }
 
-        assertTrue("The process was killed by the watchdog", watchdog.killedProcess());
-        assertTrue("Skipping the Thread.join() did not work, duration="+duration, duration < 9000);
+        assertTrue(watchdog.killedProcess(), "The process was killed by the watchdog");
+        assertTrue(duration < 9000, "Skipping the Thread.join() did not work, duration="+duration);
     }
 }

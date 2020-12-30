@@ -19,13 +19,24 @@
 package org.apache.commons.exec;
 
 import org.apache.commons.exec.environment.EnvironmentUtils;
-import org.junit.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 
 /**
  */
@@ -55,7 +66,7 @@ public class DefaultExecutorTest {
     private static int SUCCESS_STATUS; // test script successful exit code
     private static int ERROR_STATUS;   // test script error exit code
 
-    @BeforeClass
+    @BeforeAll
     public static void classSetUp() {
 
         final int statuses[] = TestUtil.getTestScriptCodesForOS();
@@ -67,7 +78,7 @@ public class DefaultExecutorTest {
         System.setProperty("org.apache.commons.exec.debug", "true");
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
 
         // delete the marker file
@@ -81,7 +92,7 @@ public class DefaultExecutorTest {
         this.exec.setStreamHandler(new PumpStreamHandler(baos, baos));
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         this.baos.close();
         foreverOutputFile.delete();
@@ -118,13 +129,13 @@ public class DefaultExecutorTest {
         assertEquals(exec.getWorkingDirectory(), workingDir);
     }
 
-    @Test(expected = IOException.class)
+    @Test
     public void testExecuteWithInvalidWorkingDirectory() throws Exception {
         final File workingDir = new File("/foo/bar");
         final CommandLine cl = new CommandLine(testScript);
         exec.setWorkingDirectory(workingDir);
 
-        exec.execute(cl);
+        assertThrows(IOException.class, () -> exec.execute(cl));
     }
 
     @Test
@@ -217,15 +228,15 @@ public class DefaultExecutorTest {
         exec.execute(cl, handler);
         // wait for script to run
         Thread.sleep(2000);
-        assertTrue("Watchdog should watch the process", watchdog.isWatching());
+        assertTrue(watchdog.isWatching(), "Watchdog should watch the process");
         // terminate it manually using the watchdog
         watchdog.destroyProcess();
         // wait until the result of the process execution is propagated
         handler.waitFor(WAITFOR_TIMEOUT);
-        assertTrue("Watchdog should have killed the process", watchdog.killedProcess());
-        assertFalse("Watchdog is no longer watching the process", watchdog.isWatching());
-        assertTrue("ResultHandler received a result", handler.hasResult());
-        assertNotNull("ResultHandler received an exception as result", handler.getException());
+        assertTrue(watchdog.killedProcess(), "Watchdog should have killed the process");
+        assertFalse(watchdog.isWatching(), "Watchdog is no longer watching the process");
+        assertTrue(handler.hasResult(), "ResultHandler received a result");
+        assertNotNull(handler.getException(), "ResultHandler received an exception as result");
     }
 
     /**
@@ -249,10 +260,10 @@ public class DefaultExecutorTest {
         watchdog.destroyProcess();
         // wait until the result of the process execution is propagated
         handler.waitFor(WAITFOR_TIMEOUT);
-        assertTrue("Watchdog should have killed the process already", watchdog.killedProcess());
-        assertFalse("Watchdog is no longer watching the process", watchdog.isWatching());
-        assertTrue("ResultHandler received a result", handler.hasResult());
-        assertNotNull("ResultHandler received an exception as result", handler.getException());
+        assertTrue(watchdog.killedProcess(), "Watchdog should have killed the process already");
+        assertFalse(watchdog.isWatching(), "Watchdog is no longer watching the process");
+        assertTrue(handler.hasResult(), "ResultHandler received a result");
+        assertNotNull(handler.getException(), "ResultHandler received an exception as result");
     }
 
     /**
@@ -288,15 +299,14 @@ public class DefaultExecutorTest {
             Thread.sleep(timeout);
             final int nrOfInvocations = getOccurrences(readFile(this.foreverOutputFile), '.');
             assertTrue(executor.getWatchdog().killedProcess());
-            assertTrue("killing the subprocess did not work : " + nrOfInvocations, nrOfInvocations > 5
-                    && nrOfInvocations <= 11);
+            assertTrue(nrOfInvocations > 5 && nrOfInvocations <= 11, "killing the subprocess did not work : " + nrOfInvocations);
             return;
         }
         catch (final Throwable t) {
             fail(t.getMessage());
         }
 
-        assertTrue("Killed process should be true", executor.getWatchdog().killedProcess() );
+        assertTrue(executor.getWatchdog().killedProcess(), "Killed process should be true");
         fail("Process did not create ExecuteException when killed");
     }
 
@@ -323,12 +333,12 @@ public class DefaultExecutorTest {
         executor.execute(cl, handler);
         handler.waitFor(WAITFOR_TIMEOUT);
 
-        assertTrue("Killed process should be true", executor.getWatchdog().killedProcess() );
-        assertTrue("ResultHandler received a result", handler.hasResult());
-        assertNotNull("ResultHandler received an exception as result", handler.getException());
+        assertTrue(executor.getWatchdog().killedProcess(), "Killed process should be true");
+        assertTrue(handler.hasResult(), "ResultHandler received a result");
+        assertNotNull(handler.getException(), "ResultHandler received an exception as result");
 
         final int nrOfInvocations = getOccurrences(readFile(this.foreverOutputFile), '.');
-        assertTrue("Killing the process did not work : " + nrOfInvocations, nrOfInvocations > 5 && nrOfInvocations <= 11);
+        assertTrue(nrOfInvocations > 5 && nrOfInvocations <= 11, "Killing the process did not work : " + nrOfInvocations);
     }
 
     /**
@@ -351,7 +361,7 @@ public class DefaultExecutorTest {
         try {
             executor.execute(cl);
         } catch (final ExecuteException e) {
-            assertFalse("Process should exit normally, not be killed by watchdog", watchdog.killedProcess());
+            assertFalse(watchdog.killedProcess(), "Process should exit normally, not be killed by watchdog");
             // If the Watchdog did not kill it, something else went wrong.
             throw e;
         }
@@ -361,25 +371,25 @@ public class DefaultExecutorTest {
      * Try to start an non-existing application which should result
      * in an exception.
      */
-    @Test(expected = IOException.class)
+    @Test
     public void testExecuteNonExistingApplication() throws Exception {
         final CommandLine cl = new CommandLine(nonExistingTestScript);
         final DefaultExecutor executor = new DefaultExecutor();
 
-        executor.execute(cl);
+        assertThrows(IOException.class, () -> executor.execute(cl));
     }
 
     /**
      * Try to start an non-existing application which should result
      * in an exception.
      */
-    @Test(expected = IOException.class)
+    @Test
     public void testExecuteNonExistingApplicationWithWatchDog() throws Exception {
         final CommandLine cl = new CommandLine(nonExistingTestScript);
         final DefaultExecutor executor = new DefaultExecutor();
         executor.setWatchdog(new ExecuteWatchdog(ExecuteWatchdog.INFINITE_TIMEOUT));
 
-        executor.execute(cl);
+        assertThrows(IOException.class, () -> executor.execute(cl));
     }
 
     /**
@@ -510,18 +520,18 @@ public class DefaultExecutorTest {
       Thread.sleep(2000);
 
       // our process destroyer should be initialized now
-      assertNotNull("Process destroyer should exist", exec.getProcessDestroyer());
-      assertEquals("Process destroyer size should be 1", 1, processDestroyer.size());
-      assertTrue("Process destroyer should exist as shutdown hook", processDestroyer.isAddedAsShutdownHook());
+      assertNotNull(exec.getProcessDestroyer(), "Process destroyer should exist");
+      assertEquals(1, processDestroyer.size(), "Process destroyer size should be 1");
+      assertTrue(processDestroyer.isAddedAsShutdownHook(), "Process destroyer should exist as shutdown hook");
 
       // terminate it and the process destroyer is detached
       watchdog.destroyProcess();
       assertTrue(watchdog.killedProcess());
       handler.waitFor(WAITFOR_TIMEOUT);
-      assertTrue("ResultHandler received a result", handler.hasResult());
+      assertTrue(handler.hasResult(), "ResultHandler received a result");
       assertNotNull(handler.getException());
-      assertEquals("Processor Destroyer size should be 0", 0, processDestroyer.size());
-      assertFalse("Process destroyer should not exist as shutdown hook", processDestroyer.isAddedAsShutdownHook());
+      assertEquals(0, processDestroyer.size(), "Processor Destroyer size should be 0");
+      assertFalse(processDestroyer.isAddedAsShutdownHook(), "Process destroyer should not exist as shutdown hook");
     }
 
     /**
@@ -559,8 +569,8 @@ public class DefaultExecutorTest {
             final int exitValue = executor.execute(cl);
             fis.close();
             final String result = baos.toString().trim();
-            assertTrue(result, result.indexOf("Finished reading from stdin") > 0);
-            assertFalse("exitValue=" + exitValue, exec.isFailure(exitValue));
+            assertTrue(result.indexOf("Finished reading from stdin") > 0, result);
+            assertFalse(exec.isFailure(exitValue), "exitValue=" + exitValue);
         } else if (OS.isFamilyWindows()) {
             System.err
                     .println("The code samples to do that in windows look like a joke ... :-( .., no way I'm doing that");
@@ -659,11 +669,11 @@ public class DefaultExecutorTest {
         executor.execute(cl, resultHandler);
 
         resultHandler.waitFor(WAITFOR_TIMEOUT);
-        assertTrue("ResultHandler received a result", resultHandler.hasResult());
+        assertTrue(resultHandler.hasResult(), "ResultHandler received a result");
 
         assertFalse(exec.isFailure(resultHandler.getExitValue()));
         final String result = baos.toString();
-        assertTrue("Result '" + result + "' should contain 'Hello Foo!'", result.indexOf("Hello Foo!") >= 0);
+        assertTrue(result.indexOf("Hello Foo!") >= 0, "Result '" + result + "' should contain 'Hello Foo!'");
     }
 
     /**
@@ -675,7 +685,7 @@ public class DefaultExecutorTest {
     public void testEnvironmentVariables() throws Exception {
         exec.execute(new CommandLine(environmentSript));
         final String environment = baos.toString().trim();
-        assertTrue("Found no environment variables", environment.length() > 0);
+        assertTrue(environment.length() > 0, "Found no environment variables");
         assertFalse(environment.indexOf("NEW_VAR") >= 0);
     }
 
@@ -692,8 +702,8 @@ public class DefaultExecutorTest {
         myEnvVars.put("NEW_VAR","NEW_VAL");
         exec.execute(new CommandLine(environmentSript), myEnvVars);
         final String environment = baos.toString().trim();
-        assertTrue("Expecting NEW_VAR in "+environment,environment.indexOf("NEW_VAR") >= 0);
-        assertTrue("Expecting NEW_VAL in "+environment,environment.indexOf("NEW_VAL") >= 0);
+        assertTrue(environment.indexOf("NEW_VAR") >= 0, "Expecting NEW_VAR in "+environment);
+        assertTrue(environment.indexOf("NEW_VAL") >= 0, "Expecting NEW_VAL in "+environment);
     }
 
     @Test
@@ -705,8 +715,8 @@ public class DefaultExecutorTest {
         myEnvVars.put(name,value);
         exec.execute(new CommandLine(environmentSript), myEnvVars);
         final String environment = baos.toString().trim();
-        assertTrue("Expecting "+name+" in "+environment,environment.indexOf(name) >= 0);
-        assertTrue("Expecting "+value+" in "+environment,environment.indexOf(value) >= 0);
+        assertTrue(environment.indexOf(name) >= 0, "Expecting "+name+" in "+environment);
+        assertTrue(environment.indexOf(value) >= 0, "Expecting "+value+" in "+environment);
     }
 
     // ======================================================================
@@ -720,7 +730,7 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    @Ignore
+    @Disabled
     public void _testExecuteStability() throws Exception {
 
         // make a plain-vanilla test
@@ -744,7 +754,7 @@ public class DefaultExecutorTest {
             exec.setWatchdog(watchdog);
             exec.execute(cl, env, resultHandler);
             resultHandler.waitFor(WAITFOR_TIMEOUT);
-            assertTrue("ResultHandler received a result", resultHandler.hasResult());
+            assertTrue(resultHandler.hasResult(), "ResultHandler received a result");
             assertNotNull(resultHandler.getException());
             baos.reset();
         }

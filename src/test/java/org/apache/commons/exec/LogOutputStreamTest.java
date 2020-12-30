@@ -17,15 +17,15 @@
  */
 package org.apache.commons.exec;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.io.File;
 import java.io.OutputStream;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the LogOutputStream.
@@ -38,20 +38,20 @@ public class LogOutputStreamTest {
     private OutputStream systemOut;
     private final File environmentScript = TestUtil.resolveScriptForOS(testDir + "/environment");
 
-    @BeforeClass
+    @BeforeAll
     public static void classSetUp() {
         // turn on debug mode and throw an exception for each encountered problem
         System.setProperty("org.apache.commons.exec.lenient", "false");
         System.setProperty("org.apache.commons.exec.debug", "true");
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         this.systemOut = new SystemLogOutputStream(1);
         this.exec.setStreamHandler(new PumpStreamHandler(systemOut, systemOut));
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         this.systemOut.close();
     }

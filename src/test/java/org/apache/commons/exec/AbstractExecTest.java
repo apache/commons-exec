@@ -17,8 +17,9 @@
 
 package org.apache.commons.exec;
 
-import org.junit.Rule;
-import org.junit.rules.TestName;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 
 import java.io.File;
 
@@ -30,8 +31,6 @@ public abstract class AbstractExecTest {
     private static final String OS_NAME = System.getProperty("os.name");
 
     private final File testDir = new File("src/test/scripts");
-
-    @Rule public TestName name = new TestName();
 
     /**
      * Resolve the OS-specific test file to execute.
@@ -55,21 +54,23 @@ public abstract class AbstractExecTest {
         return result;
     }
 
-    /**
-     * Get the name of the currently executed test.
-     */
-    protected String getName() {
-        return name.getMethodName();
+    TestInfo testInfo;
+
+    @BeforeEach
+    void setUp(TestInfo testInfo) {
+        this.testInfo = testInfo;
     }
 
+
+
     protected String testNotSupportedForCurrentOperatingSystem() {
-        final String msg = String.format("The test '%s' is not possible for OS : %s", name.getMethodName(), OS_NAME);
+        final String msg = String.format("The test '%s' is not possible for OS : %s", testInfo.getDisplayName(), OS_NAME);
         System.out.println(msg);
         return msg;
     }
 
     protected String testIsBrokenForCurrentOperatingSystem() {
-        final String msg = String.format("The test '%s' is broken for OS : %s", name.getMethodName(), OS_NAME);
+        final String msg = String.format("The test '%s' is broken for OS : %s", testInfo.getDisplayName(), OS_NAME);
         System.err.println(msg);
         return msg;
     }
