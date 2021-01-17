@@ -675,7 +675,7 @@ public class DefaultExecutorTest {
     public void testEnvironmentVariables() throws Exception {
         exec.execute(new CommandLine(environmentSript));
         final String environment = baos.toString().trim();
-        assertTrue("Found no environment variables", environment.length() > 0);
+        assertFalse("Found no environment variables", environment.isEmpty());
         assertFalse(environment.indexOf("NEW_VAR") >= 0);
     }
 

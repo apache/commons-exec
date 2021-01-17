@@ -76,7 +76,7 @@ public class EnvironmentUtilsTest {
         final String[] envArgs = EnvironmentUtils.toStrings(procEnvironment);
         for (int i=0; i<envArgs.length; i++) {
             assertNotNull("Entry "+i+" should not be null",envArgs[i]);
-            assertTrue("Entry "+i+" should not be empty",envArgs[i].length() > 0);
+            assertFalse("Entry "+i+" should not be empty",envArgs[i].isEmpty());
             // System.out.println(envArgs[i]);
         }
     }
