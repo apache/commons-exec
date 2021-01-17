@@ -70,7 +70,7 @@ public class StringUtils {
 
         final StringBuffer argBuf = new StringBuffer();
 
-        if (argStr == null || argStr.length() == 0) {
+        if (argStr == null || argStr.isEmpty()) {
             return argBuf;
         }
 

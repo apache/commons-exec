@@ -78,7 +78,7 @@ public class CommandLine {
                 
         if (line == null) {
             throw new IllegalArgumentException("Command line can not be null");
-        } else if (line.trim().length() == 0) {
+        } else if (line.trim().isEmpty()) {
             throw new IllegalArgumentException("Command line can not be empty");
         } else {
             final String[] tmp = translateCommandline(line);
@@ -334,7 +334,7 @@ public class CommandLine {
      *         parameter results in a zero sized array
      */
     private static String[] translateCommandline(final String toProcess) {
-        if (toProcess == null || toProcess.length() == 0) {
+        if (toProcess == null || toProcess.isEmpty()) {
             // no command? no string
             return new String[0];
         }
@@ -410,7 +410,7 @@ public class CommandLine {
     private String toCleanExecutable(final String dirtyExecutable) {
         if (dirtyExecutable == null) {
             throw new IllegalArgumentException("Executable can not be null");
-        } else if (dirtyExecutable.trim().length() == 0) {
+        } else if (dirtyExecutable.trim().isEmpty()) {
             throw new IllegalArgumentException("Executable can not be empty");
         } else {
             return StringUtils.fixFileSeparatorChar(dirtyExecutable);
