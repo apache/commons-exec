@@ -19,6 +19,7 @@
 package org.apache.commons.exec.environment;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -71,7 +72,7 @@ public class EnvironmentUtilsTest {
         final Map<String, String> procEnvironment = EnvironmentUtils.getProcEnvironment();
         // we assume that there is at least one environment variable
         // for this process, i.e. $JAVA_HOME
-        assertTrue("Expecting non-zero environment size", procEnvironment.size() > 0);
+        assertFalse("Expecting non-zero environment size", procEnvironment.isEmpty());
         final String[] envArgs = EnvironmentUtils.toStrings(procEnvironment);
         for (int i=0; i<envArgs.length; i++) {
             assertNotNull("Entry "+i+" should not be null",envArgs[i]);
