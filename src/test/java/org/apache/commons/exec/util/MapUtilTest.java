@@ -45,7 +45,7 @@ public class MapUtilTest {
         assertEquals("/usr/opt/java", result.get("JAVA_HOME"));
 
         result.remove("JAVA_HOME");
-        assertTrue(result.size() == 0);
+        assertTrue(result.isEmpty());
         assertTrue(procEnvironment.size() == 1);
     }
 

@@ -74,7 +74,7 @@ public class StringUtils {
             return argBuf;
         }
 
-        if (vars == null || vars.size() == 0) {
+        if (vars == null || vars.isEmpty()) {
             return argBuf.append(argStr);
         }
 

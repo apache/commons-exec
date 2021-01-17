@@ -98,10 +98,10 @@ public class MapUtils
 
         Map<K, V> result = null;
 
-        if (lhs == null || lhs.size() == 0) {
+        if (lhs == null || lhs.isEmpty()) {
             result = copy(rhs);
         }
-        else if (rhs == null || rhs.size() == 0) {
+        else if (rhs == null || rhs.isEmpty()) {
             result = copy(lhs);
         }
         else {

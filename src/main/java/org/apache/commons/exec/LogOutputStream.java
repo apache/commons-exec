@@ -21,6 +21,7 @@ package org.apache.commons.exec;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 
 /**
  * Base class to connect a logging system to the output and/or
@@ -32,6 +33,16 @@ import java.io.OutputStream;
 public abstract class LogOutputStream
   extends OutputStream {
 
+    private static final class ByteArrayOutputStreamX extends ByteArrayOutputStream {
+        private ByteArrayOutputStreamX(final int size) {
+            super(size);
+        }
+
+        public synchronized String toString(final Charset charset) {
+            return new String(buf, 0, count, charset);
+        }
+    }
+
     /** Initial buffer size. */
     private static final int INTIAL_SIZE = 132;
 
@@ -42,12 +53,13 @@ public abstract class LogOutputStream
     private static final int LF = 0x0a;
 
     /** the internal buffer */
-    private final ByteArrayOutputStream buffer = new ByteArrayOutputStream(
-      INTIAL_SIZE);
+    private final ByteArrayOutputStreamX buffer = new ByteArrayOutputStreamX(INTIAL_SIZE);
 
     private boolean skip = false;
 
     private final int level;
+
+    private final Charset charset;
 
     /**
      * Creates a new instance of this class.
@@ -63,7 +75,19 @@ public abstract class LogOutputStream
      * @param level loglevel used to log data written to this stream.
      */
     public LogOutputStream(final int level) {
+        this(level, null);
+    }
+
+    /**
+     * Creates a new instance of this class, specifying the character set that should be used for
+     * outputting the string for each line
+     *
+     * @param level loglevel used to log data written to this stream
+     * @param charset Character Set to use when processing lines
+     */
+    public LogOutputStream(final int level, final Charset charset) {
         this.level = level;
+        this.charset = charset == null ? Charset.defaultCharset() : charset;
     }
 
     /**
@@ -157,7 +181,7 @@ public abstract class LogOutputStream
      * Converts the buffer to a string and sends it to {@code processLine}.
      */
     protected void processBuffer() {
-        processLine(buffer.toString());
+        processLine(buffer.toString(charset));
         buffer.reset();
     }
 

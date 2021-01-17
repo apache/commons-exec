@@ -472,14 +472,14 @@ public class DefaultExecutorTest {
       final ShutdownHookProcessDestroyer processDestroyer = new ShutdownHookProcessDestroyer();
       exec.setProcessDestroyer(processDestroyer);
 
-      assertTrue(processDestroyer.size() == 0);
+      assertTrue(processDestroyer.isEmpty());
       assertTrue(processDestroyer.isAddedAsShutdownHook() == false);
 
       final int exitValue = exec.execute(cl);
 
       assertEquals("FOO..", baos.toString().trim());
       assertFalse(exec.isFailure(exitValue));
-      assertTrue(processDestroyer.size() == 0);
+      assertTrue(processDestroyer.isEmpty());
       assertTrue(processDestroyer.isAddedAsShutdownHook() == false);
     }
 
@@ -499,7 +499,7 @@ public class DefaultExecutorTest {
       final ExecuteWatchdog watchdog = new ExecuteWatchdog(Integer.MAX_VALUE);
 
       assertTrue(exec.getProcessDestroyer() == null);
-      assertTrue(processDestroyer.size() == 0);
+      assertTrue(processDestroyer.isEmpty());
       assertTrue(processDestroyer.isAddedAsShutdownHook() == false);
 
       exec.setWatchdog(watchdog);
