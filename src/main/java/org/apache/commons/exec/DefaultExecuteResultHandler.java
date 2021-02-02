@@ -130,17 +130,17 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
      * not yet terminated, the calling thread will be blocked until the
      * process exits.
      *
-     * @param timeout the maximum time to wait in milliseconds
+     * @param timeoutMillis the maximum time to wait in milliseconds
      * @throws  InterruptedException if the current thread is
      *             {@linkplain Thread#interrupt() interrupted} by another
      *             thread while it is waiting, then the wait is ended and
      *             an {@link InterruptedException} is thrown.
      */
-    public void waitFor(final long timeout) throws InterruptedException {
+    public void waitFor(final long timeoutMillis) throws InterruptedException {
 
-        final long until = System.currentTimeMillis() + timeout;
+        final long untilMillis = System.currentTimeMillis() + timeoutMillis;
 
-        while (!hasResult() && System.currentTimeMillis() < until) {
+        while (!hasResult() && System.currentTimeMillis() < untilMillis) {
             Thread.sleep(SLEEP_TIME_MS);
         }
     }

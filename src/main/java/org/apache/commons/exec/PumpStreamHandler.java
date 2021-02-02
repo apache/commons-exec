@@ -33,7 +33,7 @@ import java.io.PipedOutputStream;
  */
 public class PumpStreamHandler implements ExecuteStreamHandler {
 
-    private static final long STOP_TIMEOUT_ADDITION = 2000L;
+    private static final long STOP_TIMEOUT_ADDITION_MILLIS = 2000L;
 
     private Thread outputThread;
 
@@ -282,20 +282,20 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * is created to be thrown to the caller.
      *
      * @param thread  the thread to be stopped
-     * @param timeout the time in ms to wait to join
+     * @param timeoutMillis the time in ms to wait to join
      */
-    protected void stopThread(final Thread thread, final long timeout) {
+    protected void stopThread(final Thread thread, final long timeoutMillis) {
 
         if (thread != null) {
             try {
-                if (timeout == 0) {
+                if (timeoutMillis == 0) {
                     thread.join();
                 } else {
-                    final long timeToWait = timeout + STOP_TIMEOUT_ADDITION;
-                    final long startTime = System.currentTimeMillis();
-                    thread.join(timeToWait);
-                    if (System.currentTimeMillis() > startTime + timeToWait) {
-                        final String msg = "The stop timeout of " + timeout + " ms was exceeded";
+                    final long timeToWaitMillis = timeoutMillis + STOP_TIMEOUT_ADDITION_MILLIS;
+                    final long startTimeMillis = System.currentTimeMillis();
+                    thread.join(timeToWaitMillis);
+                    if (System.currentTimeMillis() > startTimeMillis + timeToWaitMillis) {
+                        final String msg = "The stop timeout of " + timeoutMillis + " ms was exceeded";
                         caught = new ExecuteException(msg, Executor.INVALID_EXITVALUE);
                     }
                 }

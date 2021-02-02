@@ -31,15 +31,15 @@ public class Watchdog implements Runnable {
 
     private final Vector<TimeoutObserver> observers = new Vector<>(1);
 
-    private final long timeout;
+    private final long timeoutMillis;
 
-    private boolean stopped = false;
+    private boolean stopped;
 
-    public Watchdog(final long timeout) {
-        if (timeout < 1) {
+    public Watchdog(final long timeoutMillis) {
+        if (timeoutMillis < 1) {
             throw new IllegalArgumentException("timeout must not be less than 1.");
         }
-        this.timeout = timeout;
+        this.timeoutMillis = timeoutMillis;
     }
 
     public void addTimeoutObserver(final TimeoutObserver to) {
@@ -71,18 +71,18 @@ public class Watchdog implements Runnable {
 
     @Override
     public void run() {
-        final long startTime = System.currentTimeMillis();
+        final long startTimeMillis = System.currentTimeMillis();
         boolean isWaiting;
         synchronized (this) {
-            long timeLeft = timeout - (System.currentTimeMillis() - startTime);
-            isWaiting = timeLeft > 0;
+            long timeLeftMillis = timeoutMillis - (System.currentTimeMillis() - startTimeMillis);
+            isWaiting = timeLeftMillis > 0;
             while (!stopped && isWaiting) {
                 try {
-                    wait(timeLeft);
+                    wait(timeLeftMillis);
                 } catch (final InterruptedException e) {
                 }
-                timeLeft = timeout - (System.currentTimeMillis() - startTime);
-                isWaiting = timeLeft > 0;
+                timeLeftMillis = timeoutMillis - (System.currentTimeMillis() - startTimeMillis);
+                isWaiting = timeLeftMillis > 0;
             }
         }
 
