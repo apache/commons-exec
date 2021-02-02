@@ -68,7 +68,7 @@ public class Exec41Test {
         }
 
         final DefaultExecutor executor = new DefaultExecutor();
-        final ExecuteWatchdog watchdog = new ExecuteWatchdog(2 * 1000); // allow process no more than 2 secs
+        final ExecuteWatchdog watchdog = new ExecuteWatchdog(2 * 1000); // allow process no more than 2 seconds
         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(System.out, System.err);
         // this method was part of the patch I reverted
         // pumpStreamHandler.setAlwaysWaitForStreamThreads(false);
@@ -113,9 +113,9 @@ public class Exec41Test {
     public void testExec41WithoutStreams() throws Exception {
 
         final CommandLine cmdLine = new CommandLine(pingScript);
-        cmdLine.addArgument("10"); // sleep 10 secs
+        cmdLine.addArgument("10"); // sleep 10 seconds
         final DefaultExecutor executor = new DefaultExecutor();
-        final ExecuteWatchdog watchdog = new ExecuteWatchdog(2*1000); // allow process no more than 2 secs
+        final ExecuteWatchdog watchdog = new ExecuteWatchdog(2*1000); // allow process no more than 2 seconds
 
         // create a custom "PumpStreamHandler" doing no pumping at all
         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(null, null, null);
