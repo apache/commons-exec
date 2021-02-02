@@ -345,7 +345,7 @@ public class CommandLine {
         final int inQuote = 1;
         final int inDoubleQuote = 2;
         int state = normal;
-        final StringTokenizer tok = new StringTokenizer(toProcess, "\"\' ", true);
+        final StringTokenizer tok = new StringTokenizer(toProcess, "\"' ", true);
         final ArrayList<String> list = new ArrayList<>();
         StringBuilder current = new StringBuilder();
         boolean lastTokenHasBeenQuoted = false;
@@ -354,7 +354,7 @@ public class CommandLine {
             final String nextTok = tok.nextToken();
             switch (state) {
             case inQuote:
-                if ("\'".equals(nextTok)) {
+                if ("'".equals(nextTok)) {
                     lastTokenHasBeenQuoted = true;
                     state = normal;
                 } else {
@@ -370,7 +370,7 @@ public class CommandLine {
                 }
                 break;
             default:
-                if ("\'".equals(nextTok)) {
+                if ("'".equals(nextTok)) {
                     state = inQuote;
                 } else if ("\"".equals(nextTok)) {
                     state = inDoubleQuote;

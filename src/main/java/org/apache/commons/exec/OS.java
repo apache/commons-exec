@@ -247,7 +247,7 @@ public final class OS {
                     isFamily = OS_NAME.contains(FAMILY_VMS);
                 } else {
                     throw new RuntimeException(
-                            "Don\'t know how to detect os family \""
+                            "Don't know how to detect os family \""
                                     + family + "\"");
                 }
             }

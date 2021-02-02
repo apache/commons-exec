@@ -35,7 +35,7 @@ import java.util.StringTokenizer;
  */
 public class StringUtils {
 
-    private static final String SINGLE_QUOTE = "\'";
+    private static final String SINGLE_QUOTE = "'";
     private static final String DOUBLE_QUOTE = "\"";
     private static final char SLASH_CHAR = '/';
     private static final char BACKSLASH_CHAR = '\\';
@@ -113,7 +113,7 @@ public class StringUtils {
                                 value = fixFileSeparatorChar(((File) temp).getAbsolutePath());
                             }
                             else {
-                                value = temp != null ? temp.toString() : null;    
+                                value = temp != null ? temp.toString() : null;
                             }
 
                             if (value != null) {
@@ -168,7 +168,7 @@ public class StringUtils {
         while (tokens.hasMoreTokens()) {
             strList.add(tokens.nextToken());
         }
-        return strList.toArray(new String[strList.size()]);
+        return strList.toArray(new String[0]);
     }
 
     /**
@@ -232,15 +232,15 @@ public class StringUtils {
         }
 
         final StringBuilder buf = new StringBuilder();
-        if (cleanedArgument.indexOf(DOUBLE_QUOTE) > -1) {
-            if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1) {
+        if (cleanedArgument.contains(DOUBLE_QUOTE)) {
+            if (cleanedArgument.contains(SINGLE_QUOTE)) {
                 throw new IllegalArgumentException(
                         "Can't handle single and double quotes in same argument");
             }
             return buf.append(SINGLE_QUOTE).append(cleanedArgument).append(
                     SINGLE_QUOTE).toString();
-        } else if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1
-                || cleanedArgument.indexOf(" ") > -1) {
+        } else if (cleanedArgument.contains(SINGLE_QUOTE)
+                || cleanedArgument.contains(" ")) {
             return buf.append(DOUBLE_QUOTE).append(cleanedArgument).append(
                     DOUBLE_QUOTE).toString();
         } else {

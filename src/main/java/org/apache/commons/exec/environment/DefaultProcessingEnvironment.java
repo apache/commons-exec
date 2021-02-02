@@ -56,8 +56,8 @@ public class DefaultProcessingEnvironment {
         }
 
         // create a copy of the map just in case that
-        // anyone is going to modifiy it, e.g. removing
-        // or setting an evironment variable
+        // anyone is going to modify it, e.g. removing
+        // or setting an environment variable
         final Map<String, String> copy = createEnvironmentMap();
         copy.putAll(procEnvironment);
         return copy;
@@ -216,7 +216,7 @@ public class DefaultProcessingEnvironment {
      */
     private Map<String, String> createEnvironmentMap() {
         if (OS.isFamilyWindows()) {
-            return new TreeMap<>(new Comparator<String>() {
+            return new TreeMap<>(new Comparator<>() {
                 @Override
                 public int compare(final String key0, final String key1) {
                     return key0.compareToIgnoreCase(key1);

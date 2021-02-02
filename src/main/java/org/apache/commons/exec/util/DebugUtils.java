@@ -26,7 +26,7 @@ public class DebugUtils
 {
     /**
      * System property to determine how to handle exceptions. When
-     * set to "false" we rethrow the otherwise silently catched
+     * set to "false" we rethrow the otherwise silently caught
      * exceptions found in the original code. The default value
      * is "true"
      */
