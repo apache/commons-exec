@@ -216,7 +216,7 @@ public class DefaultProcessingEnvironment {
      */
     private Map<String, String> createEnvironmentMap() {
         if (OS.isFamilyWindows()) {
-            return new TreeMap<>(new Comparator<>() {
+            return new TreeMap<>(new Comparator<String>() {
                 @Override
                 public int compare(final String key0, final String key1) {
                     return key0.compareToIgnoreCase(key1);
