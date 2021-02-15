@@ -1,4 +1,4 @@
-/* 
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
  *  this work for additional information regarding copyright ownership.
@@ -23,7 +23,7 @@ import java.util.Vector;
 
 /**
  * Generalization of {@code ExecuteWatchdog}
- * 
+ *
  * @see org.apache.commons.exec.ExecuteWatchdog
  *
  */
@@ -91,5 +91,5 @@ public class Watchdog implements Runnable {
             fireTimeoutOccured();
         }
     }
-    
+
 }

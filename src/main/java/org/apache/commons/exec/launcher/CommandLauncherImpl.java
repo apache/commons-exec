@@ -1,4 +1,4 @@
-/* 
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
  *  this work for additional information regarding copyright ownership.
@@ -44,7 +44,7 @@ public abstract class CommandLauncherImpl implements CommandLauncher {
     public abstract Process exec(final CommandLine cmd, final Map<String, String> env,
             final File workingDir) throws IOException;
 
-    /** @see org.apache.commons.exec.launcher.CommandLauncher#isFailure(int) */    
+    /** @see org.apache.commons.exec.launcher.CommandLauncher#isFailure(int) */
     @Override
     public boolean isFailure(final int exitValue)
     {

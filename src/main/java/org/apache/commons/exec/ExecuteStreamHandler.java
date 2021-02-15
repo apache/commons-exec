@@ -1,4 +1,4 @@
-/* 
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
  *  this work for additional information regarding copyright ownership.
@@ -31,7 +31,7 @@ public interface ExecuteStreamHandler {
 
     /**
      * Install a handler for the input stream of the subprocess.
-     * 
+     *
      * @param os
      *            output stream to write to the standard input stream of the subprocess
      * @throws IOException
@@ -41,7 +41,7 @@ public interface ExecuteStreamHandler {
 
     /**
      * Install a handler for the error stream of the subprocess.
-     * 
+     *
      * @param is
      *            input stream to read from the error stream from the subprocess
      * @throws IOException
@@ -51,7 +51,7 @@ public interface ExecuteStreamHandler {
 
     /**
      * Install a handler for the output stream of the subprocess.
-     * 
+     *
      * @param is
      *            input stream to read from the error stream from the subprocess
      * @throws IOException
@@ -61,7 +61,7 @@ public interface ExecuteStreamHandler {
 
     /**
      * Start handling of the streams.
-     * 
+     *
      * @throws IOException
      *             thrown when an I/O exception occurs.
      */
@@ -69,7 +69,7 @@ public interface ExecuteStreamHandler {
 
     /**
      * Stop handling of the streams - will not be restarted. Will wait for pump threads to complete.
-     * 
+     *
      * @throws IOException
      *             thrown when an I/O exception occurs.
      */

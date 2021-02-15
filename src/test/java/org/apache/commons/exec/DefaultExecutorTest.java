@@ -1,4 +1,4 @@
-/* 
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
  *  this work for additional information regarding copyright ownership.
@@ -334,7 +334,7 @@ public class DefaultExecutorTest {
     /**
      * [EXEC-68] Synchronously starts a short script with a Watchdog attached with an extremely large timeout. Checks
      * to see if the script terminated naturally or if it was killed by the Watchdog. Fail if killed by Watchdog.
-     * 
+     *
      * @throws Exception
      *             the test failed
      */
@@ -589,7 +589,7 @@ public class DefaultExecutorTest {
 
     /**
      * Start a process and connect it to no stream.
-     * 
+     *
      * @throws Exception
      *             the test failed
      */

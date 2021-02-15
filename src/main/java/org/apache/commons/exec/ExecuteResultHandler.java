@@ -1,4 +1,4 @@
-/* 
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
  *  this work for additional information regarding copyright ownership.
@@ -21,7 +21,7 @@ package org.apache.commons.exec;
 /**
  * The callback handlers for the result of asynchronous process execution. When a
  * process is started asynchronously the callback provides you with the result of
- * the executed process, i.e. the exit value or an exception. 
+ * the executed process, i.e. the exit value or an exception.
  *
  * @see org.apache.commons.exec.Executor#execute(CommandLine, java.util.Map, ExecuteResultHandler)
  *

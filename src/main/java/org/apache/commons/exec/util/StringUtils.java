@@ -1,4 +1,4 @@
-/* 
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
  *  this work for additional information regarding copyright ownership.
@@ -113,7 +113,7 @@ public class StringUtils {
                                 value = fixFileSeparatorChar(((File) temp).getAbsolutePath());
                             }
                             else {
-                                value = temp != null ? temp.toString() : null;    
+                                value = temp != null ? temp.toString() : null;
                             }
 
                             if (value != null) {
@@ -174,14 +174,14 @@ public class StringUtils {
     /**
      * Fixes the file separator char for the target platform
      * using the following replacement.
-     * 
+     *
      * <ul>
      *  <li>'/' &#x2192; File.separatorChar</li>
      *  <li>'\\' &#x2192; File.separatorChar</li>
      * </ul>
      *
      * @param arg the argument to fix
-     * @return the transformed argument 
+     * @return the transformed argument
      */
     public static String fixFileSeparatorChar(final String arg) {
         return arg.replace(SLASH_CHAR, File.separatorChar).replace(
@@ -226,7 +226,7 @@ public class StringUtils {
         while (cleanedArgument.startsWith(SINGLE_QUOTE) || cleanedArgument.startsWith(DOUBLE_QUOTE)) {
             cleanedArgument = cleanedArgument.substring(1);
         }
-        
+
         while (cleanedArgument.endsWith(SINGLE_QUOTE) || cleanedArgument.endsWith(DOUBLE_QUOTE)) {
             cleanedArgument = cleanedArgument.substring(0, cleanedArgument.length() - 1);
         }

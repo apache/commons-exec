@@ -1,4 +1,4 @@
-/* 
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
  *  this work for additional information regarding copyright ownership.
@@ -57,7 +57,7 @@ public class CommandLine {
 
     /**
      * Create a command line from a string.
-     * 
+     *
      * @param line the first element becomes the executable, the rest the arguments
      * @return the parsed command line
      * @throws IllegalArgumentException If line is null or all whitespace
@@ -75,7 +75,7 @@ public class CommandLine {
      * @throws IllegalArgumentException If line is null or all whitespace
      */
     public static CommandLine parse(final String line, final Map<String, ?> substitutionMap) {
-                
+
         if (line == null) {
             throw new IllegalArgumentException("Command line can not be null");
         } else if (line.trim().isEmpty()) {
@@ -139,7 +139,7 @@ public class CommandLine {
 
     /**
      * Returns the executable.
-     * 
+     *
      * @return The executable
      */
     public String getExecutable() {
@@ -152,7 +152,7 @@ public class CommandLine {
     /**
      * Was a file being used to set the executable?
      *
-     * @return true if a file was used for setting the executable 
+     * @return true if a file was used for setting the executable
      */
     public boolean isFile() {
         return isFile;
@@ -160,7 +160,7 @@ public class CommandLine {
 
     /**
      * Add multiple arguments. Handles parsing of quotes and whitespace.
-     * 
+     *
      * @param addArguments An array of arguments
      * @return The command line itself
      */
@@ -189,8 +189,8 @@ public class CommandLine {
      * Add multiple arguments. Handles parsing of quotes and whitespace.
      * Please note that the parsing can have undesired side-effects therefore
      * it is recommended to build the command line incrementally.
-     * 
-     * @param addArguments An string containing multiple arguments. 
+     *
+     * @param addArguments An string containing multiple arguments.
      * @return The command line itself
      */
     public CommandLine addArguments(final String addArguments) {
@@ -253,7 +253,7 @@ public class CommandLine {
 
     /**
      * Returns the expanded and quoted command line arguments.
-     *  
+     *
      * @return The quoted arguments
      */
     public String[] getArguments() {
@@ -281,7 +281,7 @@ public class CommandLine {
     /**
      * Set the substitutionMap to expand variables in the
      * command line.
-     * 
+     *
      * @param substitutionMap the map
      */
     public void setSubstitutionMap(final Map<String, ?> substitutionMap) {
@@ -303,7 +303,7 @@ public class CommandLine {
     /**
      * Stringify operator returns the command line as a string.
      * Parameters are correctly quoted when containing a space or
-     * left untouched if the are already quoted. 
+     * left untouched if the are already quoted.
      *
      * @return the command line as single string
      */

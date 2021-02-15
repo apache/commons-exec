@@ -47,7 +47,7 @@ public class StringUtilTest {
      * are expanded.
      */
     @Test
-    public void testDefaultStringSubstitution() throws Exception 
+    public void testDefaultStringSubstitution() throws Exception
     {
         final Map<String, String> vars = new HashMap<>();
         vars.put("foo", "FOO");

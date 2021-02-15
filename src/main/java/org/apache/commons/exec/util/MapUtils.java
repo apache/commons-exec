@@ -30,7 +30,7 @@ public class MapUtils
 {
     /**
      * Clones a map.
-     * 
+     *
      * @param source
      *            the Map to clone
      * @param <K>
@@ -108,7 +108,7 @@ public class MapUtils
             result = copy(lhs);
             result.putAll(rhs);
         }
-        
+
         return result;
     }
 }

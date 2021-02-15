@@ -1,4 +1,4 @@
-/* 
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
  *  this work for additional information regarding copyright ownership.
@@ -40,10 +40,10 @@ public class ExecuteException extends IOException {
      * The exit value returned by the failed process
      */
     private final int exitValue;
-    
+
     /**
      * Construct a new exception with the specified detail message.
-     * 
+     *
      * @param message
      *            The detail message
      * @param exitValue The exit value
@@ -56,7 +56,7 @@ public class ExecuteException extends IOException {
 
     /**
      * Construct a new exception with the specified detail message and cause.
-     * 
+     *
      * @param message
      *            The detail message
      * @param exitValue The exit value

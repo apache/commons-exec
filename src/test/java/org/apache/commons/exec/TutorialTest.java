@@ -1,4 +1,4 @@
-/* 
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
  *  this work for additional information regarding copyright ownership.
@@ -54,7 +54,7 @@ public class TutorialTest {
         PrintResultHandler printResult;
 
         try {
-            // printing takes around 10 seconds            
+            // printing takes around 10 seconds
             System.out.println("[main] Preparing print job ...");
             printResult = print(pdfFile, printJobTimeout, printInBackground);
             System.out.println("[main] Successfully sent the print job ...");
@@ -99,7 +99,7 @@ public class TutorialTest {
         // create the executor and consider the exitValue '1' as success
         final Executor executor = new DefaultExecutor();
         executor.setExitValue(1);
-        
+
         // create a watchdog if requested
         if (printJobTimeout > 0) {
             watchdog = new ExecuteWatchdog(printJobTimeout);
@@ -133,7 +133,7 @@ public class TutorialTest {
         public PrintResultHandler(final int exitValue) {
             super.onProcessComplete(exitValue);
         }
-        
+
         @Override
         public void onProcessComplete(final int exitValue) {
             super.onProcessComplete(exitValue);

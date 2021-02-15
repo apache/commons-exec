@@ -1,4 +1,4 @@
-/* 
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
  *  this work for additional information regarding copyright ownership.
@@ -33,13 +33,13 @@ public interface CommandLauncher {
 
     /**
      * Launches the given command in a new process.
-     * 
+     *
      * @param cmd
      *            The command to execute
      * @param env
      *            The environment for the new process. If null, the environment
      *            of the current process is used.
-     * 
+     *
      * @return the newly created process
      * @throws IOException
      *             if attempting to run a command in a specific directory
@@ -50,7 +50,7 @@ public interface CommandLauncher {
     /**
      * Launches the given command in a new process, in the given working
      * directory.
-     * 
+     *
      * @param cmd
      *            The command to execute
      * @param env

@@ -1,4 +1,4 @@
-/* 
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
  *  this work for additional information regarding copyright ownership.
@@ -303,7 +303,7 @@ public class CommandLineTest {
         assertEquals("/C", args[0]);
         assertEquals("\"c:\\was51\\Web Sphere\\AppServer\\bin\\versionInfo.bat\"", args[1]);
     }
-        
+
    /**
     * Create a command line with pre-quoted strings to test SANDBOX-192,
     * e.g. "runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""
@@ -434,7 +434,7 @@ public class CommandLineTest {
         assertEquals("\"C:\\Document And Settings\\documents\\432431.pdf\"", arguments[2]);
 
         // build the second command line with updated parameters resulting in  a different command line
-        substitutionMap.put("file", "C:\\Document And Settings\\documents\\432432.pdf");        
+        substitutionMap.put("file", "C:\\Document And Settings\\documents\\432432.pdf");
         result = cmdl.toStrings();
         assertEquals(StringUtils.fixFileSeparatorChar("C:\\Programme\\jdk1.5.0_12\\bin\\java"), result[0]);
         assertEquals("-class", result[1]);

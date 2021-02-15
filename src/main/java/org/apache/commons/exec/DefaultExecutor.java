@@ -61,7 +61,7 @@ public class DefaultExecutor implements Executor {
     /** launches the command in a new process */
     private final CommandLauncher launcher;
 
-    /** optional cleanup of started processes */ 
+    /** optional cleanup of started processes */
     private ProcessDestroyer processDestroyer;
 
     /** worker thread for asynchronous execution */
@@ -171,7 +171,7 @@ public class DefaultExecutor implements Executor {
         if (workingDirectory != null && !workingDirectory.exists()) {
             throw new IOException(workingDirectory + " doesn't exist.");
         }
-        
+
         return executeInternal(command, environment, workingDirectory, streamHandler);
 
     }
@@ -302,7 +302,7 @@ public class DefaultExecutor implements Executor {
     protected Thread getExecutorThread() {
         return executorThread;
     }
-    
+
     /**
      * Close the streams belonging to the given Process.
      *
@@ -398,7 +398,7 @@ public class DefaultExecutor implements Executor {
                 // Process.waitFor should clear interrupt status when throwing InterruptedException
                 // but we have to do that manually
                 Thread.interrupted();
-            }            
+            }
 
             if (watchdog != null) {
                 watchdog.stop();

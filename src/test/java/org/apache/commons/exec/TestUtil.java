@@ -1,4 +1,4 @@
-/* 
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
  *  this work for additional information regarding copyright ownership.
@@ -40,7 +40,7 @@ public final class TestUtil {
             throw new AssertionFailedError("Test not supported for this OS");
         }
     }
-    
+
     /**
      * Get success and fail return codes used by the test scripts
      * @return int array[2] = {ok, success}

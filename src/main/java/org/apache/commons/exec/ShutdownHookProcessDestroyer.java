@@ -1,4 +1,4 @@
-/* 
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
  *  this work for additional information regarding copyright ownership.
@@ -112,7 +112,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
 
     /**
      * Tests emptiness (size == 0).
-     * 
+     *
      * @return Whether or not this is empty.
      * @since 1.4.0
      */
@@ -137,7 +137,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
             return processRemoved;
         }
     }
-    
+
     /**
      * Removes this {@code ProcessDestroyer} as a shutdown hook, uses reflection to ensure pre-JDK 1.3 compatibility
      */

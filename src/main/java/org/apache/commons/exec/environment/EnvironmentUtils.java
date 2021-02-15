@@ -1,4 +1,4 @@
-/* 
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
  *  this work for additional information regarding copyright ownership.
@@ -32,7 +32,7 @@ public class EnvironmentUtils
 {
 
     private static final DefaultProcessingEnvironment PROCESSING_ENVIRONMENT_IMPLEMENTATION;
-    
+
     static {
 //        if (OS.isFamilyOpenVms()) {
 //            PROCESSING_ENVIRONMENT_IMPLEMENTATION = new OpenVmsProcessingEnvironment();
@@ -40,7 +40,7 @@ public class EnvironmentUtils
             PROCESSING_ENVIRONMENT_IMPLEMENTATION = new DefaultProcessingEnvironment();
 //        }
     }
-    
+
     /**
      * Disable constructor.
      */
@@ -88,13 +88,13 @@ public class EnvironmentUtils
      * If the key matches an existing key, the previous setting is replaced.
      *
      * @param environment the current environment
-     * @param keyAndValue the key/value pair 
+     * @param keyAndValue the key/value pair
      */
     public static void addVariableToEnvironment(final Map<String, String> environment, final String keyAndValue) {
-        final String[] parsedVariable = parseEnvironmentVariable(keyAndValue);        
+        final String[] parsedVariable = parseEnvironmentVariable(keyAndValue);
         environment.put(parsedVariable[0], parsedVariable[1]);
     }
-    
+
     /**
      * Split a key/value pair into a String[]. It is assumed
      * that the ky/value pair contains a '=' character.
@@ -116,5 +116,5 @@ public class EnvironmentUtils
 
         return result;
     }
-    
+
 }

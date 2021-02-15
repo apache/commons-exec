@@ -1,4 +1,4 @@
-/* 
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
  *  this work for additional information regarding copyright ownership.
@@ -126,7 +126,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
                 out.print(parts[lastPart]);
             } else {
                 out.print("$ ");
-                out.print(command);                
+                out.print(command);
             }
             final String[] args = cmd.getArguments();
             for (final String arg : args) {

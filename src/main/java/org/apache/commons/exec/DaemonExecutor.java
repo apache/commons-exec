@@ -19,7 +19,7 @@ package org.apache.commons.exec;
 /**
  * Runs daemon processes asynchronously. Callers are expected to register a {@link ProcessDestroyer} before executing
  * any processes.
- * 
+ *
  * @since 1.3
  */
 public class DaemonExecutor extends DefaultExecutor {

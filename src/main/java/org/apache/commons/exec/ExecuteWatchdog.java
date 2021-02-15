@@ -1,4 +1,4 @@
-/* 
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
  *  this work for additional information regarding copyright ownership.
@@ -40,7 +40,7 @@ import org.apache.commons.exec.util.DebugUtils;
  * using 'destroyProcess()'.
  * <p>
  * Please note that ExecuteWatchdog is processed asynchronously, e.g. it might
- * be still attached to a process even after the DefaultExecutor.execute 
+ * be still attached to a process even after the DefaultExecutor.execute
  * has returned.
  *
  * @see org.apache.commons.exec.Executor
@@ -51,7 +51,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
 
     /** The marker for an infinite timeout */
     public static final long INFINITE_TIMEOUT = -1;
-    
+
     /** The process to execute and watch for duration. */
     private Process process;
 
@@ -75,7 +75,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
 
     /**
      * Creates a new watchdog with a given timeout.
-     * 
+     *
      * @param timeout
      *            the timeout for the process in milliseconds. It must be
      *            greater than 0 or 'INFINITE_TIMEOUT'
@@ -97,7 +97,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
     /**
      * Watches the given process and terminates it, if it runs for too long. All
      * information from the previous run are reset.
-     * 
+     *
      * @param processToMonitor
      *            the process to monitor. It cannot be {@code null}
      * @throws IllegalStateException
@@ -188,7 +188,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
      * the run of the process. It will only remains valid once the process has
      * been terminated either by 'error', timeout or manual intervention.
      * Information will be discarded once a new process is ran.
-     * 
+     *
      * @throws Exception
      *             a wrapped exception over the one that was silently swallowed
      *             and stored during the process run.
@@ -201,7 +201,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
 
     /**
      * Indicates whether or not the watchdog is still monitoring the process.
-     * 
+     *
      * @return {@code true} if the process is still running, otherwise
      *         {@code false}.
      */
@@ -212,7 +212,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
 
     /**
      * Indicates whether the last process run was killed.
-     * 
+     *
      * @return {@code true} if the process was killed
      *         {@code false}.
      */

@@ -1,4 +1,4 @@
-/* 
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
  *  this work for additional information regarding copyright ownership.
@@ -54,7 +54,7 @@ public interface Executor {
      * Define the {@code exitValue} of the process to be considered
      * successful. If a different exit value is returned by
      * the process then {@link org.apache.commons.exec.Executor#execute(CommandLine)}
-     * will throw an {@link org.apache.commons.exec.ExecuteException} 
+     * will throw an {@link org.apache.commons.exec.ExecuteException}
      *
      * @param value the exit code representing successful execution
      */
@@ -91,8 +91,8 @@ public interface Executor {
     /**
      * Get the StreamHandler used for providing input and
      * retrieving the output.
-     * 
-     * @return the StreamHandler 
+     *
+     * @return the StreamHandler
      */
     ExecuteStreamHandler getStreamHandler();
 
@@ -116,7 +116,7 @@ public interface Executor {
     ExecuteWatchdog getWatchdog();
 
     /**
-     * Set the watchdog used to kill of processes running, 
+     * Set the watchdog used to kill of processes running,
      * typically, too long time.
      *
      * @param watchDog the watchdog
@@ -180,7 +180,7 @@ public interface Executor {
      */
     int execute(CommandLine command, Map<String, String> environment)
         throws ExecuteException, IOException;
-    
+
     /**
      * Methods for starting asynchronous execution. The child process inherits
      * all environment variables of the parent process. Result provided to
@@ -201,8 +201,8 @@ public interface Executor {
      * @param command the command to execute
      * @param environment The environment for the new process. If null, the
      *          environment of the current process is used.
-     * @param handler capture process termination and exit code 
-     * @throws ExecuteException execution of subprocess failed     
+     * @param handler capture process termination and exit code
+     * @throws ExecuteException execution of subprocess failed
      */
     void execute(CommandLine command, Map<String, String> environment, ExecuteResultHandler handler)
         throws ExecuteException, IOException;
