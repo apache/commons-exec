@@ -39,15 +39,8 @@ public class MapUtils
      *            the map value type
      * @return the cloned map
      */
-   public static <K, V> Map<K, V> copy(final Map<K, V> source) {
-
-        if (source == null) {
-            return null;
-        }
-
-        final Map<K, V> result = new HashMap<>();
-        result.putAll(source);
-        return result;
+    public static <K, V> Map<K, V> copy(final Map<K, V> source) {
+        return source == null ? null : new HashMap<>(source);
     }
 
     /**

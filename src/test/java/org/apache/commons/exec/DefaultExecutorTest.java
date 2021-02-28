@@ -687,8 +687,7 @@ public class DefaultExecutorTest {
      */
     @Test
     public void testAddEnvironmentVariables() throws Exception {
-        final Map<String, String> myEnvVars = new HashMap<>();
-        myEnvVars.putAll(EnvironmentUtils.getProcEnvironment());
+        final Map<String, String> myEnvVars = new HashMap<>(EnvironmentUtils.getProcEnvironment());
         myEnvVars.put("NEW_VAR","NEW_VAL");
         exec.execute(new CommandLine(environmentSript), myEnvVars);
         final String environment = baos.toString().trim();
@@ -698,8 +697,7 @@ public class DefaultExecutorTest {
 
     @Test
     public void testAddEnvironmentVariableEmbeddedQuote() throws Exception {
-        final Map<String, String> myEnvVars = new HashMap<>();
-        myEnvVars.putAll(EnvironmentUtils.getProcEnvironment());
+        final Map<String, String> myEnvVars = new HashMap<>(EnvironmentUtils.getProcEnvironment());
         final String name = "NEW_VAR";
         final String value = "NEW_\"_VAL";
         myEnvVars.put(name,value);
