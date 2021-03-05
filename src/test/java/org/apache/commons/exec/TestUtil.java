@@ -32,13 +32,14 @@ public final class TestUtil {
     public static File resolveScriptForOS(final String script) {
         if (OS.isFamilyWindows()) {
             return new File(script + ".bat");
-        } else if (OS.isFamilyUnix()) {
-            return new File(script + ".sh");
-        } else if (OS.isFamilyOpenVms()) {
-            return new File(script + ".dcl");
-        } else {
-            throw new AssertionFailedError("Test not supported for this OS");
         }
+        if (OS.isFamilyUnix()) {
+            return new File(script + ".sh");
+        }
+        if (OS.isFamilyOpenVms()) {
+            return new File(script + ".dcl");
+        }
+        throw new AssertionFailedError("Test not supported for this OS");
     }
 
     /**
@@ -48,13 +49,14 @@ public final class TestUtil {
     public static int[] getTestScriptCodesForOS() {
         if (OS.isFamilyWindows()) {
             return new int[]{0,1};
-        } else if (OS.isFamilyUnix()) {
-            return new int[]{0,1};
-        } else if (OS.isFamilyOpenVms()) {
-            return new int[]{1,2};
-        } else {
-            throw new AssertionFailedError("Test not supported for this OS");
         }
+        if (OS.isFamilyUnix()) {
+            return new int[]{0,1};
+        }
+        if (OS.isFamilyOpenVms()) {
+            return new int[]{1,2};
+        }
+        throw new AssertionFailedError("Test not supported for this OS");
     }
 
 }

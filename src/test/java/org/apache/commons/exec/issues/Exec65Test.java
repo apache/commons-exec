@@ -41,18 +41,17 @@ public class Exec65Test extends AbstractExecTest {
     @Test(expected = ExecuteException.class, timeout = TEST_TIMEOUT)
     public void testExec65WitSleepUsingSleepCommandDirectly() throws Exception {
 
-        if (OS.isFamilyUnix()) {
-            final ExecuteWatchdog watchdog = new ExecuteWatchdog(WATCHDOG_TIMEOUT);
-            final DefaultExecutor executor = new DefaultExecutor();
-            final CommandLine command = new CommandLine("sleep");
-            command.addArgument("60");
-            executor.setStreamHandler(new PumpStreamHandler(System.out, System.err));
-            executor.setWatchdog(watchdog);
-
-            executor.execute(command);
-        } else {
+        if (!OS.isFamilyUnix()) {
             throw new ExecuteException(testNotSupportedForCurrentOperatingSystem(), 0);
         }
+        final ExecuteWatchdog watchdog = new ExecuteWatchdog(WATCHDOG_TIMEOUT);
+        final DefaultExecutor executor = new DefaultExecutor();
+        final CommandLine command = new CommandLine("sleep");
+        command.addArgument("60");
+        executor.setStreamHandler(new PumpStreamHandler(System.out, System.err));
+        executor.setWatchdog(watchdog);
+
+        executor.execute(command);
     }
 
     /**
@@ -67,16 +66,15 @@ public class Exec65Test extends AbstractExecTest {
     @Test(expected = ExecuteException.class, timeout = TEST_TIMEOUT)
     public void testExec65WithSleepUsingShellScript() throws Exception {
 
-        if (OS.isFamilyMac()) {
-            final DefaultExecutor executor = new DefaultExecutor();
-            executor.setStreamHandler(new PumpStreamHandler(System.out, System.err));
-            executor.setWatchdog(new ExecuteWatchdog(WATCHDOG_TIMEOUT));
-            final CommandLine command = new CommandLine(resolveTestScript("sleep"));
-
-            executor.execute(command);
-        } else {
+        if (!OS.isFamilyMac()) {
             throw new ExecuteException(testNotSupportedForCurrentOperatingSystem(), 0);
         }
+        final DefaultExecutor executor = new DefaultExecutor();
+        executor.setStreamHandler(new PumpStreamHandler(System.out, System.err));
+        executor.setWatchdog(new ExecuteWatchdog(WATCHDOG_TIMEOUT));
+        final CommandLine command = new CommandLine(resolveTestScript("sleep"));
+
+        executor.execute(command);
     }
 
     /**
@@ -106,15 +104,14 @@ public class Exec65Test extends AbstractExecTest {
     public void testExec65WithSudoUsingShellScript() throws Exception {
         Assume.assumeFalse("Test is skipped on travis, because we have to be a sudoer "
                 + "to make the other tests pass.", new File(".").getAbsolutePath().contains("travis"));
-        if (OS.isFamilyUnix()) {
-            final DefaultExecutor executor = new DefaultExecutor();
-            executor.setStreamHandler(new PumpStreamHandler(System.out, System.err, System.in));
-            executor.setWatchdog(new ExecuteWatchdog(WATCHDOG_TIMEOUT));
-            final CommandLine command = new CommandLine(resolveTestScript("issues", "exec-65"));
-
-            executor.execute(command);
-        } else {
+        if (!OS.isFamilyUnix()) {
             throw new ExecuteException(testNotSupportedForCurrentOperatingSystem(), 0);
         }
+        final DefaultExecutor executor = new DefaultExecutor();
+        executor.setStreamHandler(new PumpStreamHandler(System.out, System.err, System.in));
+        executor.setWatchdog(new ExecuteWatchdog(WATCHDOG_TIMEOUT));
+        final CommandLine command = new CommandLine(resolveTestScript("issues", "exec-65"));
+
+        executor.execute(command);
     }
 }

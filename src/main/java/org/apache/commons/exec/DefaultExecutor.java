@@ -243,14 +243,12 @@ public class DefaultExecutor implements Executor {
         if (this.exitValues == null) {
             return false;
         }
-        else if (this.exitValues.length == 0) {
+        if (this.exitValues.length == 0) {
             return this.launcher.isFailure(exitValue);
         }
-        else {
-            for (final int exitValue2 : this.exitValues) {
-                if (exitValue2 == exitValue) {
-                    return false;
-                }
+        for (final int exitValue2 : this.exitValues) {
+            if (exitValue2 == exitValue) {
+                return false;
             }
         }
         return true;

@@ -95,11 +95,10 @@ public class StringUtils {
 
                         for (++cIdx; cIdx < argStr.length(); ++cIdx) {
                             ch = argStr.charAt(cIdx);
-                            if (ch == '_' || ch == '.' || ch == '-' || ch == '+' || Character.isLetterOrDigit(ch)) {
-                                nameBuf.append(ch);
-                            } else {
+                            if ((ch != '_') && (ch != '.') && (ch != '-') && (ch != '+') && !Character.isLetterOrDigit(ch)) {
                                 break;
                             }
+                            nameBuf.append(ch);
                         }
 
                         if (nameBuf.length() >= 0) {
@@ -119,13 +118,12 @@ public class StringUtils {
                             if (value != null) {
                                 argBuf.append(value);
                             } else {
-                                if (isLenient) {
-                                    // just append the unresolved variable declaration
-                                    argBuf.append("${").append(nameBuf.toString()).append("}");
-                                } else {
+                                if (!isLenient) {
                                     // complain that no variable was found
                                     throw new RuntimeException("No value found for : " + nameBuf);
                                 }
+                                // just append the unresolved variable declaration
+                                argBuf.append("${").append(nameBuf.toString()).append("}");
                             }
 
                             del = argStr.charAt(cIdx);
@@ -239,13 +237,13 @@ public class StringUtils {
             }
             return buf.append(SINGLE_QUOTE).append(cleanedArgument).append(
                     SINGLE_QUOTE).toString();
-        } else if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1
+        }
+        if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1
                 || cleanedArgument.indexOf(" ") > -1) {
             return buf.append(DOUBLE_QUOTE).append(cleanedArgument).append(
                     DOUBLE_QUOTE).toString();
-        } else {
-            return cleanedArgument;
         }
+        return cleanedArgument;
     }
 
     /**

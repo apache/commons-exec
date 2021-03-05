@@ -78,19 +78,19 @@ public class CommandLine {
 
         if (line == null) {
             throw new IllegalArgumentException("Command line can not be null");
-        } else if (line.trim().isEmpty()) {
-            throw new IllegalArgumentException("Command line can not be empty");
-        } else {
-            final String[] tmp = translateCommandline(line);
-
-            final CommandLine cl = new CommandLine(tmp[0]);
-            cl.setSubstitutionMap(substitutionMap);
-            for (int i = 1; i < tmp.length; i++) {
-                cl.addArgument(tmp[i]);
-            }
-
-            return cl;
         }
+        if (line.trim().isEmpty()) {
+            throw new IllegalArgumentException("Command line can not be empty");
+        }
+        final String[] tmp = translateCommandline(line);
+
+        final CommandLine cl = new CommandLine(tmp[0]);
+        cl.setSubstitutionMap(substitutionMap);
+        for (int i = 1; i < tmp.length; i++) {
+            cl.addArgument(tmp[i]);
+        }
+
+        return cl;
     }
 
     /**
@@ -410,11 +410,11 @@ public class CommandLine {
     private String toCleanExecutable(final String dirtyExecutable) {
         if (dirtyExecutable == null) {
             throw new IllegalArgumentException("Executable can not be null");
-        } else if (dirtyExecutable.trim().isEmpty()) {
-            throw new IllegalArgumentException("Executable can not be empty");
-        } else {
-            return StringUtils.fixFileSeparatorChar(dirtyExecutable);
         }
+        if (dirtyExecutable.trim().isEmpty()) {
+            throw new IllegalArgumentException("Executable can not be empty");
+        }
+        return StringUtils.fixFileSeparatorChar(dirtyExecutable);
     }
 
     /**
