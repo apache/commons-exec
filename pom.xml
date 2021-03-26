@@ -143,6 +143,9 @@
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                             <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
                         </manifest>
+                        <manifestEntries>
+                            <utomatic-Module-Name>${commons.module.name}</utomatic-Module-Name>
+                        </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>
