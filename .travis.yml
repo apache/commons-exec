@@ -19,7 +19,7 @@ sudo: true
 jdk:
   - openjdk8
   - openjdk11
-  - openjdk15
+  - openjdk16
 
 script:
   - mvn -V --no-transfer-progress -Ddoclint=all
