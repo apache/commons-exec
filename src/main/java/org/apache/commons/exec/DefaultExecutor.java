@@ -156,7 +156,7 @@ public class DefaultExecutor implements Executor {
      * @see org.apache.commons.exec.Executor#execute(CommandLine)
      */
     @Override
-    public int execute(final CommandLine command) throws ExecuteException,
+    public int execute(final CommandLine command) throws
             IOException {
         return execute(command, (Map<String, String>) null);
     }
@@ -166,7 +166,7 @@ public class DefaultExecutor implements Executor {
      */
     @Override
     public int execute(final CommandLine command, final Map<String, String> environment)
-            throws ExecuteException, IOException {
+            throws IOException {
 
         if (workingDirectory != null && !workingDirectory.exists()) {
             throw new IOException(workingDirectory + " doesn't exist.");
@@ -182,7 +182,7 @@ public class DefaultExecutor implements Executor {
      */
     @Override
     public void execute(final CommandLine command, final ExecuteResultHandler handler)
-            throws ExecuteException, IOException {
+            throws IOException {
         execute(command, null, handler);
     }
 
@@ -192,7 +192,7 @@ public class DefaultExecutor implements Executor {
      */
     @Override
     public void execute(final CommandLine command, final Map<String, String> environment,
-            final ExecuteResultHandler handler) throws ExecuteException, IOException {
+            final ExecuteResultHandler handler) throws IOException {
 
         if (workingDirectory != null && !workingDirectory.exists()) {
             throw new IOException(workingDirectory + " doesn't exist.");

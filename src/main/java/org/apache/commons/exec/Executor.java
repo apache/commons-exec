@@ -165,7 +165,7 @@ public interface Executor {
      *          {@link Executor#setExitValue(int)}.
      */
     int execute(CommandLine command)
-        throws ExecuteException, IOException;
+        throws IOException;
 
     /**
      * Methods for starting synchronous execution.
@@ -179,7 +179,7 @@ public interface Executor {
      *          {@link Executor#setExitValue(int)}.
      */
     int execute(CommandLine command, Map<String, String> environment)
-        throws ExecuteException, IOException;
+        throws IOException;
 
     /**
      * Methods for starting asynchronous execution. The child process inherits
@@ -191,7 +191,7 @@ public interface Executor {
      * @throws ExecuteException execution of subprocess failed
      */
     void execute(CommandLine command, ExecuteResultHandler handler)
-        throws ExecuteException, IOException;
+        throws IOException;
 
     /**
      * Methods for starting asynchronous execution. The child process inherits
@@ -205,5 +205,5 @@ public interface Executor {
      * @throws ExecuteException execution of subprocess failed
      */
     void execute(CommandLine command, Map<String, String> environment, ExecuteResultHandler handler)
-        throws ExecuteException, IOException;
+        throws IOException;
 }
