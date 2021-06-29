@@ -52,7 +52,7 @@ public class Exec41Test {
     @Test
     public void testExec41WithStreams() throws Exception {
 
-        CommandLine cmdLine;
+        final CommandLine cmdLine;
 
         if (OS.isFamilyWindows()) {
             cmdLine = CommandLine.parse("ping.exe -n 10 -w 1000 127.0.0.1");

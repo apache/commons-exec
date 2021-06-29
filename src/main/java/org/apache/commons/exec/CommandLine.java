@@ -128,10 +128,7 @@ public class CommandLine {
         {
             final Map<String, Object> omap = new HashMap<>();
             this.substitutionMap = omap;
-            final Iterator<String> iterator = other.substitutionMap.keySet().iterator();
-            while (iterator.hasNext())
-            {
-                final String key = iterator.next();
+            for (final String key : other.substitutionMap.keySet()) {
                 omap.put(key, other.getSubstitutionMap().get(key));
             }
         }

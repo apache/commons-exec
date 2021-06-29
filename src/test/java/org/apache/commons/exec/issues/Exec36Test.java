@@ -72,11 +72,11 @@ public class Exec36Test {
 
         if (OS.isFamilyUnix()) {
 
-            CommandLine cmdl;
+            final CommandLine cmdl;
 
-            /**
-             * ./script/jrake cruise:publish_installers INSTALLER_VERSION=unstable_2_1 \
-             *     INSTALLER_PATH="/var/lib/ cruise-agent/installers" INSTALLER_DOWNLOAD_SERVER='something' WITHOUT_HELP_DOC=true
+            /*
+              ./script/jrake cruise:publish_installers INSTALLER_VERSION=unstable_2_1 \
+                  INSTALLER_PATH="/var/lib/ cruise-agent/installers" INSTALLER_DOWNLOAD_SERVER='something' WITHOUT_HELP_DOC=true
              */
 
             final String expected = "./script/jrake\n" +
@@ -115,7 +115,7 @@ public class Exec36Test {
     @Test
     public void testExec36_2() throws Exception {
 
-        String expected;
+        final String expected;
 
         // the original command line
         // dotnetfx.exe /q:a /c:"install.exe /l ""\Documents and Settings\myusername\Local Settings\Temp\netfx.log"" /q"
@@ -135,7 +135,7 @@ public class Exec36Test {
             return;
         }
 
-        CommandLine cmdl;
+        final CommandLine cmdl;
         final File file = new File("/Documents and Settings/myusername/Local Settings/Temp/netfx.log");
         final Map<String, File> map = new HashMap<>();
         map.put("FILE", file);
@@ -164,7 +164,7 @@ public class Exec36Test {
     @Ignore
     public void _testExec36_4() throws Exception {
 
-        CommandLine cmdl;
+        final CommandLine cmdl;
 
         final String line = "./script/jrake "
                 + "cruise:publish_installers "
@@ -191,7 +191,7 @@ public class Exec36Test {
     @Ignore
     public void _testExec36_5() {
 
-        CommandLine cmdl;
+        final CommandLine cmdl;
 
         final String line = "dotnetfx.exe"
                 + " /q:a "

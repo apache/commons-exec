@@ -36,7 +36,7 @@ public final class CommandLauncherFactory {
      */
     public static CommandLauncher createVMLauncher() {
         // Try using a JDK 1.3 launcher
-        CommandLauncher launcher;
+        final CommandLauncher launcher;
 
         if (OS.isFamilyOpenVms()) {
             launcher = new VmsCommandLauncher();

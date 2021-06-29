@@ -37,7 +37,7 @@ import org.apache.commons.exec.OS;
  */
 public class DefaultProcessingEnvironment {
 
-    /** the line separator of the system */
+    /* the line separator of the system */
 //    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     /** the environment variables of the process */

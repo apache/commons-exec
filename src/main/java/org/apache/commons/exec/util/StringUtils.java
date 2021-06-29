@@ -103,7 +103,7 @@ public class StringUtils {
 
                         if (nameBuf.length() >= 0) {
 
-                            String value;
+                            final String value;
                             final Object temp = vars.get(nameBuf.toString());
 
                             if (temp instanceof File) {
