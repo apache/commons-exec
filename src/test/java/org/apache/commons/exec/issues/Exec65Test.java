@@ -104,6 +104,8 @@ public class Exec65Test extends AbstractExecTest {
     public void testExec65WithSudoUsingShellScript() throws Exception {
         Assume.assumeFalse("Test is skipped on travis, because we have to be a sudoer "
                 + "to make the other tests pass.", new File(".").getAbsolutePath().contains("travis"));
+        // TODO Fails on GitHub
+        Assume.assumeTrue(System.getenv("GITHUB_WORKFLOW") == null);
         if (!OS.isFamilyUnix()) {
             throw new ExecuteException(testNotSupportedForCurrentOperatingSystem(), 0);
         }
