@@ -35,7 +35,7 @@
                 Update Java requirement from Java 5 to 6.
             </action>
            <action dev="ggregory" type="update" due-to="Dependabot">
-                Bump actions/checkout from v2.3.2 to v2.3.4 #24.
+                Bump actions/checkout from 2.3.2 to 3 #24, #46.
             </action>
            <action dev="ggregory" type="update" due-to="Dependabot, Gary Gregory">
                 Bump actions/setup-java from v1.4.0 to v2 #21.
