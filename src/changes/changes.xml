@@ -55,6 +55,9 @@
            <action dev="ggregory" type="update" due-to="Dependabot">
                 Bump maven-pmd-plugin from 2.7.1 to 3.16.0 #45.
             </action>
+           <action dev="ggregory" type="update" due-to="Dependabot">
+                Bump maven-checkstyle-plugin from 2.13 to 3.1.2 #29.
+            </action>
         </release>
         <release version="1.3" date="2014-11-02" description="Maintenance and feature Release">
             <action issue="EXEC-69" dev="ggregory" type="add" due-to="Richard Atkins, Michael Vorburger">
