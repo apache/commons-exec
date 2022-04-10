@@ -31,8 +31,18 @@
                 DefaultExecutor swallows IOException cause instead of propagating it
                 (work-round for Java 1.5)
             </action>
+            <action dev="ggregory" type="update" due-to="nullptr">
+                Java-style Array declaration and remove empty finally block #26.
+            </action>
+            <action dev="ggregory" type="add" due-to="Gary Gregory">
+                Add ShutdownHookProcessDestroyer.isEmpty().
+            </action>
+            <!-- UPDATE -->
             <action issue="EXEC-111" dev="ggregory" type="update" due-to="Gary Gregory">
-                Update Java requirement from Java 5 to 6.
+                Update from Java 5 to 6.
+            </action>
+            <action dev="ggregory" type="update" due-to="Gary Gregory">
+                Update from Java 7 to 8.
             </action>
             <action dev="ggregory" type="update" due-to="Dependabot">
                 Bump actions/checkout from 2.3.2 to 3 #24, #46.
@@ -45,15 +55,6 @@
             </action>
             <action dev="ggregory" type="update" due-to="Dependabot">
                 Bump junit from 4.13 to 4.13.2 #23, #33.
-            </action>
-            <action dev="ggregory" type="update" due-to="nullptr">
-                Java-style Array declaration and remove empty finally block #26.
-            </action>
-            <action dev="ggregory" type="add" due-to="Gary Gregory">
-                Add ShutdownHookProcessDestroyer.isEmpty().
-            </action>
-            <action dev="ggregory" type="update" due-to="Gary Gregory">
-                Update from Java 7 to 8.
             </action>
             <action dev="ggregory" type="update" due-to="Dependabot">
                 Bump maven-pmd-plugin from 2.7.1 to 3.16.0 #45.
