@@ -18,6 +18,8 @@
 
 package org.apache.commons.exec;
 
+import java.util.Objects;
+
 import org.apache.commons.exec.util.DebugUtils;
 
 /**
@@ -104,9 +106,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
      *             if a process is still being monitored.
      */
     public synchronized void start(final Process processToMonitor) {
-        if (processToMonitor == null) {
-            throw new NullPointerException("process is null.");
-        }
+        Objects.requireNonNull(processToMonitor, "processToMonitor");
         if (this.process != null) {
             throw new IllegalStateException("Already running.");
         }
