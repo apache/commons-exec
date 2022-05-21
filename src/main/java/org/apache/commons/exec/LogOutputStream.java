@@ -148,7 +148,7 @@ public abstract class LogOutputStream
      * @param b the array containing the data
      * @param off the offset into the array where data starts
      * @param len the length of block
-     * @throws java.io.IOException if the data cannot be written into the stream.
+     * @throws IOException if the data cannot be written into the stream.
      * @see java.io.OutputStream#write(byte[], int, int)
      */
     @Override
