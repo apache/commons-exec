@@ -34,6 +34,10 @@
             <action dev="ggregory" type="update" due-to="nullptr">
                 Java-style Array declaration and remove empty finally block #26.
             </action>
+            <!-- ADD -->
+            <action dev="ggregory" type="add" due-to="Gary Gregory, Dependabot">
+                Bump github/codeql-action from 1 to 2 #52.
+            </action>
             <action dev="ggregory" type="add" due-to="Gary Gregory">
                 Add ShutdownHookProcessDestroyer.isEmpty().
             </action>
