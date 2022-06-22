@@ -396,7 +396,7 @@ public class CommandLineTest {
     @Test
     public void testCommandLineParsingWithExpansion2() {
 
-        CommandLine cmdl;
+        final CommandLine cmdl;
         String[] result;
 
         // build the user supplied parameters
