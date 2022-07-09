@@ -21,7 +21,6 @@ package org.apache.commons.exec;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -126,14 +125,7 @@ public class CommandLine {
 
         if (other.getSubstitutionMap() != null)
         {
-            final Map<String, Object> omap = new HashMap<>();
-            this.substitutionMap = omap;
-            final Iterator<String> iterator = other.substitutionMap.keySet().iterator();
-            while (iterator.hasNext())
-            {
-                final String key = iterator.next();
-                omap.put(key, other.getSubstitutionMap().get(key));
-            }
+            this.substitutionMap = new HashMap<>(other.getSubstitutionMap());
         }
     }
 
