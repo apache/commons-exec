@@ -52,7 +52,7 @@ public class EnvironmentUtilsTest {
         env.put("foo2", "bar2");
         env.put("foo", "bar");
         final String[] envStrings = EnvironmentUtils.toStrings(env);
-        final String[] expected = new String[]{"foo2=bar2", "foo=bar"};
+        final String[] expected = {"foo2=bar2", "foo=bar"};
         // ensure the result does not depend on the hash ordering
         Arrays.sort(expected);
         Arrays.sort(envStrings);
