@@ -107,7 +107,7 @@ public class StreamPumper implements Runnable {
             while ((length = is.read(buf)) > 0) {
                 os.write(buf, 0, length);
             }
-        } catch (final Exception e) {
+        } catch (final Exception ignored) {
             // nothing to do - happens quite often with watchdog
         } finally {
             if (closeWhenExhausted) {
