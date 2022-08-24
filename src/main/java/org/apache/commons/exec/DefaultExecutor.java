@@ -202,20 +202,15 @@ public class DefaultExecutor implements Executor {
             watchdog.setProcessNotStarted();
         }
 
-        final Runnable runnable = new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                int exitValue = Executor.INVALID_EXITVALUE;
-                try {
-                    exitValue = executeInternal(command, environment, workingDirectory, streamHandler);
-                    handler.onProcessComplete(exitValue);
-                } catch (final ExecuteException e) {
-                    handler.onProcessFailed(e);
-                } catch (final Exception e) {
-                    handler.onProcessFailed(new ExecuteException("Execution failed", exitValue, e));
-                }
+        final Runnable runnable = () -> {
+            int exitValue = Executor.INVALID_EXITVALUE;
+            try {
+                exitValue = executeInternal(command, environment, workingDirectory, streamHandler);
+                handler.onProcessComplete(exitValue);
+            } catch (final ExecuteException e) {
+                handler.onProcessFailed(e);
+            } catch (final Exception e) {
+                handler.onProcessFailed(new ExecuteException("Execution failed", exitValue, e));
             }
         };
 
