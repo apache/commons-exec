@@ -16,6 +16,7 @@
  */
 package org.apache.commons.exec;
 
+import java.io.File;
 import java.util.Locale;
 
 /**
@@ -79,7 +80,7 @@ public final class OS {
     private static final String OS_NAME = System.getProperty("os.name").toLowerCase(Locale.ENGLISH);
     private static final String OS_ARCH = System.getProperty("os.arch").toLowerCase(Locale.ENGLISH);
     private static final String OS_VERSION = System.getProperty("os.version").toLowerCase(Locale.ENGLISH);
-    private static final String PATH_SEP = System.getProperty("path.separator");
+    private static final String PATH_SEP = File.pathSeparator;
 
     /**
      * Default constructor
@@ -208,12 +209,12 @@ public final class OS {
                 boolean isNT = false;
                 if (isWindows) {
                     //there are only four 9x platforms that we look for
-                    is9x = (OS_NAME.contains("95")
+                    is9x = OS_NAME.contains("95")
                             || OS_NAME.contains("98")
                             || OS_NAME.contains("me")
                             //wince isn't really 9x, but crippled enough to
                             //be a muchness. Ant doesn't run on CE, anyway.
-                            || OS_NAME.contains("ce"));
+                            || OS_NAME.contains("ce");
                     isNT = !is9x;
                 }
                 if (family.equals(FAMILY_WINDOWS)) {
