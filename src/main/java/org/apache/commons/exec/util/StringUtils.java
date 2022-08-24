@@ -87,65 +87,61 @@ public class StringUtils {
 
             switch (ch) {
 
-                case '$':
-                    final StringBuilder nameBuf = new StringBuilder();
-                    del = argStr.charAt(cIdx + 1);
-                    if (del == '{') {
-                        cIdx++;
+            case '$':
+                final StringBuilder nameBuf = new StringBuilder();
+                del = argStr.charAt(cIdx + 1);
+                if (del == '{') {
+                    cIdx++;
 
-                        for (++cIdx; cIdx < argStr.length(); ++cIdx) {
-                            ch = argStr.charAt(cIdx);
-                            if ((ch != '_') && (ch != '.') && (ch != '-') && (ch != '+') && !Character.isLetterOrDigit(ch)) {
-                                break;
-                            }
-                            nameBuf.append(ch);
+                    for (++cIdx; cIdx < argStr.length(); ++cIdx) {
+                        ch = argStr.charAt(cIdx);
+                        if (ch != '_' && ch != '.' && ch != '-' && ch != '+' && !Character.isLetterOrDigit(ch)) {
+                            break;
                         }
-
-                        if (nameBuf.length() >= 0) {
-
-                            String value;
-                            final Object temp = vars.get(nameBuf.toString());
-
-                            if (temp instanceof File) {
-                                // for a file we have to fix the separator chars to allow
-                                // cross-platform compatibility
-                                value = fixFileSeparatorChar(((File) temp).getAbsolutePath());
-                            }
-                            else {
-                                value = temp != null ? temp.toString() : null;
-                            }
-
-                            if (value != null) {
-                                argBuf.append(value);
-                            } else {
-                                if (!isLenient) {
-                                    // complain that no variable was found
-                                    throw new RuntimeException("No value found for : " + nameBuf);
-                                }
-                                // just append the unresolved variable declaration
-                                argBuf.append("${").append(nameBuf.toString()).append("}");
-                            }
-
-                            del = argStr.charAt(cIdx);
-
-                            if (del != '}') {
-                                throw new RuntimeException("Delimiter not found for : " + nameBuf);
-                            }
-                        }
-
-                        cIdx++;
-                    }
-                    else {
-                        argBuf.append(ch);
-                        ++cIdx;
+                        nameBuf.append(ch);
                     }
 
-                    break;
+                    if (nameBuf.length() >= 0) {
 
-                default:
+                        String value;
+                        final Object temp = vars.get(nameBuf.toString());
+
+                        if (temp instanceof File) {
+                            // for a file we have to fix the separator chars to allow
+                            // cross-platform compatibility
+                            value = fixFileSeparatorChar(((File) temp).getAbsolutePath());
+                        } else {
+                            value = temp != null ? temp.toString() : null;
+                        }
+
+                        if (value != null) {
+                            argBuf.append(value);
+                        } else {
+                            if (!isLenient) {
+                                // complain that no variable was found
+                                throw new RuntimeException("No value found for : " + nameBuf);
+                            }
+                            // just append the unresolved variable declaration
+                            argBuf.append("${").append(nameBuf.toString()).append("}");
+                        }
+
+                        del = argStr.charAt(cIdx);
+
+                        if (del != '}') {
+                            throw new RuntimeException("Delimiter not found for : " + nameBuf);
+                        }
+                    }
+                } else {
                     argBuf.append(ch);
-                    ++cIdx;
-                    break;
+                }
+                cIdx++;
+
+                break;
+
+            default:
+                argBuf.append(ch);
+                ++cIdx;
+                break;
             }
         }
 
