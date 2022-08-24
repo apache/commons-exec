@@ -561,12 +561,11 @@ public class DefaultExecutorTest {
             final String result = baos.toString().trim();
             assertTrue(result, result.indexOf("Finished reading from stdin") > 0);
             assertFalse("exitValue=" + exitValue, exec.isFailure(exitValue));
-        } else if (OS.isFamilyWindows()) {
-            System.err
-                    .println("The code samples to do that in windows look like a joke ... :-( .., no way I'm doing that");
-            System.err.println("The test 'testExecuteWithRedirectedStreams' does not support the following OS : "
-                    + System.getProperty("os.name"));
         } else {
+            if (OS.isFamilyWindows()) {
+                System.err
+                        .println("The code samples to do that in windows look like a joke ... :-( .., no way I'm doing that");
+            }
             System.err.println("The test 'testExecuteWithRedirectedStreams' does not support the following OS : "
                     + System.getProperty("os.name"));
         }
@@ -759,11 +758,8 @@ public class DefaultExecutorTest {
         final StringBuilder contents = new StringBuilder();
         final BufferedReader reader = new BufferedReader(new FileReader(file));
 
-        while ((text = reader.readLine()) != null)
-        {
-            contents.append(text)
-                .append(System.getProperty(
-                    "line.separator"));
+        while ((text = reader.readLine()) != null) {
+            contents.append(text).append(System.getProperty("line.separator"));
         }
         reader.close();
         return contents.toString();
