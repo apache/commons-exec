@@ -120,7 +120,7 @@
 
     <build>
         <!-- TODO Add checkstyle:check -->
-        <defaultGoal>clean verify apache-rat:check japicmp:cmp javadoc:javadoc</defaultGoal>     
+        <defaultGoal>clean verify apache-rat:check japicmp:cmp pmd:cpd-check javadoc:javadoc</defaultGoal>     
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
