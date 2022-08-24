@@ -19,7 +19,6 @@ package org.apache.commons.exec.environment;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -216,12 +215,7 @@ public class DefaultProcessingEnvironment {
      */
     private Map<String, String> createEnvironmentMap() {
         if (OS.isFamilyWindows()) {
-            return new TreeMap<>(new Comparator<String>() {
-                @Override
-                public int compare(final String key0, final String key1) {
-                    return key0.compareToIgnoreCase(key1);
-                }
-            });
+            return new TreeMap<>(String::compareToIgnoreCase);
         }
         return new HashMap<>();
     }
