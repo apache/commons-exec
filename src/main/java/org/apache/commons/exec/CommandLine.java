@@ -398,6 +398,7 @@ public class CommandLine {
      *
      * @param dirtyExecutable the executable
      * @return the platform-specific executable string
+     * @throws IllegalArgumentException If dirtyExecutable is null or empty
      */
     private String toCleanExecutable(final String dirtyExecutable) {
         if (dirtyExecutable == null) {
