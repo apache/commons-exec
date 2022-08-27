@@ -45,6 +45,7 @@ Apache Commons Exec
 
 [![Build Status](https://travis-ci.org/apache/commons-exec.svg?branch=trunk)](https://travis-ci.org/apache/commons-exec)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-exec/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-exec/)
+[![CodeQL](https://github.com/apache/commons-exec/workflows/CodeQL/badge.svg)](https://github.com/apache/commons-exec/actions/workflows/codeql-analysis.yml?query=workflow%3ACodeQL)
 
 Apache Commons Exec is a library to reliably execute external processes from within the JVM.
 
