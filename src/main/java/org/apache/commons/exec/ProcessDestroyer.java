@@ -28,7 +28,7 @@ public interface ProcessDestroyer {
 
     /**
      * Returns {@code true} if the specified
-     * {@link java.lang.Process} was
+     * {@link Process} was
      * successfully added to the list of processes to be destroy.
      *
      * @param process
@@ -41,7 +41,7 @@ public interface ProcessDestroyer {
 
     /**
      * Returns {@code true} if the specified
-     * {@link java.lang.Process} was
+     * {@link Process} was
      * successfully removed from the list of processes to be destroy.
      *
      * @param process

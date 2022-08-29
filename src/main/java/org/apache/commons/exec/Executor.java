@@ -101,7 +101,7 @@ public interface Executor {
      * input and retrieving the output. If you don't provide
      * a proper stream handler the executed process might block
      * when writing to stdout and/or stderr (see
-     * {@link java.lang.Process Process}).
+     * {@link Process Process}).
      *
      * @param streamHandler the stream handler
      */
