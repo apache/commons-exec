@@ -44,7 +44,8 @@ Apache Commons Exec
 ===================
 
 [![Build Status](https://travis-ci.org/apache/commons-exec.svg?branch=trunk)](https://travis-ci.org/apache/commons-exec)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-exec/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-exec/)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-exec/badge.svg?gav=true)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-exec/?gav=true)
+[![CodeQL](https://github.com/apache/commons-exec/workflows/CodeQL/badge.svg)](https://github.com/apache/commons-exec/actions/workflows/codeql-analysis.yml?query=workflow%3ACodeQL)
 
 Apache Commons Exec is a library to reliably execute external processes from within the JVM.
 
@@ -77,7 +78,7 @@ There are some guidelines which will make applying PRs easier for us:
 + No tabs! Please use spaces for indentation.
 + Respect the code style.
 + Create minimal diffs - disable on save actions like reformat source code or organize imports. If you feel the source code should be reformatted create a separate PR for this change.
-+ Provide JUnit tests for your changes and make sure your changes don't break any existing tests by running ```mvn clean test```.
++ Provide JUnit tests for your changes and make sure your changes don't break any existing tests by running ```mvn```.
 
 If you plan to contribute on a regular basis, please consider filing a [contributor license agreement](https://www.apache.org/licenses/#clas).
 You can learn more about contributing via GitHub in our [contribution guidelines](CONTRIBUTING.md).
