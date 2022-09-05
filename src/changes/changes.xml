@@ -61,7 +61,7 @@
                 Bump junit from 4.13 to 4.13.2 #23, #33.
             </action>
             <action dev="ggregory" type="update" due-to="Dependabot">
-                Bump maven-pmd-plugin from 2.7.1 to 3.17.0 #45.
+                Bump maven-pmd-plugin from 2.7.1 to 3.19.0 #45, #62.
             </action>
             <action dev="ggregory" type="update" due-to="Dependabot">
                 Bump maven-checkstyle-plugin from 2.13 to 3.1.2 #29.
