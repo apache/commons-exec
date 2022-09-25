@@ -285,7 +285,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
-        <commons.japicmp.version>0.15.6</commons.japicmp.version>
+        <commons.japicmp.version>0.16.0</commons.japicmp.version>
         <test>*Test</test>
     </properties>
 </project>
