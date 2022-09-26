@@ -95,6 +95,7 @@ public class CommandLine {
      * Create a command line without any arguments.
      *
      * @param executable the executable
+     * @throws IllegalArgumentException If executable is null or all whitespace
      */
     public CommandLine(final String executable) {
         this.isFile = false;
@@ -315,7 +316,7 @@ public class CommandLine {
      * @return the command line broken into strings. An empty or null toProcess parameter results in a zero sized array
      */
     private static String[] translateCommandline(final String toProcess) {
-        if (toProcess == null || toProcess.isEmpty()) {
+        if (toProcess == null || toProcess.trim().isEmpty()) {
             // no command? no string
             return new String[0];
         }
@@ -385,7 +386,7 @@ public class CommandLine {
      *
      * @param dirtyExecutable the executable
      * @return the platform-specific executable string
-     * @throws IllegalArgumentException If dirtyExecutable is null or empty
+     * @throws IllegalArgumentException If dirtyExecutable is null or all whitespace
      */
     private String toCleanExecutable(final String dirtyExecutable) {
         if (dirtyExecutable == null) {
