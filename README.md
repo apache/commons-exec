@@ -42,8 +42,7 @@
 --->
 Apache Commons Exec
 ===================
-
-[![Build Status](https://travis-ci.org/apache/commons-exec.svg?branch=trunk)](https://travis-ci.org/apache/commons-exec)
+[![GitHub Actions Status](https://github.com/apache/commons-exec/workflows/Java%20CI/badge.svg)](https://github.com/apache/commons-exec/actions)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-exec/badge.svg?gav=true)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-exec/?gav=true)
 [![CodeQL](https://github.com/apache/commons-exec/workflows/CodeQL/badge.svg)](https://github.com/apache/commons-exec/actions/workflows/codeql-analysis.yml?query=workflow%3ACodeQL)
 

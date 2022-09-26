@@ -19,9 +19,11 @@
 package org.apache.commons.exec.launcher;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -41,29 +43,17 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
      * Launches the given command in a new process.
      */
     @Override
-    public Process exec(final CommandLine cmd, final Map<String, String> env)
-            throws IOException {
-        final CommandLine vmsCmd = new CommandLine(
-                createCommandFile(cmd, env).getPath()
-        );
-
-        return super.exec(vmsCmd, env);
+    public Process exec(final CommandLine cmd, final Map<String, String> env) throws IOException {
+        return super.exec(new CommandLine(createCommandFile(cmd, env).getPath()), env);
     }
 
     /**
-     * Launches the given command in a new process, in the given working
-     * directory. Note that under Java 1.3.1, 1.4.0 and 1.4.1 on VMS this method
-     * only works if {@code workingDir} is null or the logical
-     * JAVA$FORK_SUPPORT_CHDIR needs to be set to TRUE.
+     * Launches the given command in a new process, in the given working directory. Note that under Java 1.3.1, 1.4.0 and 1.4.1 on VMS this method only works if
+     * {@code workingDir} is null or the logical JAVA$FORK_SUPPORT_CHDIR needs to be set to TRUE.
      */
     @Override
-    public Process exec(final CommandLine cmd, final Map<String, String> env,
-            final File workingDir) throws IOException {
-        final CommandLine vmsCmd = new CommandLine(
-                createCommandFile(cmd, env).getPath()
-        );
-
-        return super.exec(vmsCmd, env, workingDir);
+    public Process exec(final CommandLine cmd, final Map<String, String> env, final File workingDir) throws IOException {
+        return super.exec(new CommandLine(createCommandFile(cmd, env).getPath()), env, workingDir);
     }
 
     /** @see org.apache.commons.exec.launcher.CommandLauncher#isFailure(int) */
@@ -79,9 +69,10 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
      */
     private File createCommandFile(final CommandLine cmd, final Map<String, String> env)
             throws IOException {
-        final File script = File.createTempFile("EXEC", ".TMP");
+        final Path path = Files.createTempFile("EXEC", ".TMP");
+        final File script = path.toFile();
         script.deleteOnExit();
-        try (PrintWriter out = new PrintWriter(new FileWriter(script.getAbsolutePath(),true))) {
+        try (PrintWriter out = new PrintWriter(Files.newBufferedWriter(path, Charset.defaultCharset()))) {
             // add the environment as global symbols for the DCL script
             if (env != null) {
                 final Set<Entry<String, String>> entries = env.entrySet();
@@ -102,7 +93,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
                             }
                             sb.append(c);
                         }
-                        value=sb.toString();
+                        value = sb.toString();
                     }
                     out.print(value);
                     out.println('\"');
@@ -113,12 +104,12 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
             if (cmd.isFile()) {// We assume it is it a script file
                 out.print("$ @");
                 // This is a bit crude, but seems to work
-                final String[] parts = StringUtils.split(command,"/");
+                final String[] parts = StringUtils.split(command, "/");
                 out.print(parts[0]); // device
                 out.print(":[");
                 out.print(parts[1]); // top level directory
-                final int lastPart = parts.length-1;
-                for (int i=2; i< lastPart; i++) {
+                final int lastPart = parts.length - 1;
+                for (int i = 2; i < lastPart; i++) {
                     out.print(".");
                     out.print(parts[i]);
                 }
