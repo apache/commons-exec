@@ -55,7 +55,7 @@
                 Bump actions/checkout from 2.3.2 to 3.0.2 #24, #46.
             </action>
             <action dev="ggregory" type="update" due-to="Dependabot, Gary Gregory">
-                Bump actions/setup-java from 1.4.0 to 3 #21, #50.
+                Bump actions/setup-java from 1.4.0 to 3.5.1 #21, #50.
             </action>
             <action dev="ggregory" type="update" due-to="Dependabot">
                 Bump junit from 4.13 to 5.9.1 Vintage #23, #33.
