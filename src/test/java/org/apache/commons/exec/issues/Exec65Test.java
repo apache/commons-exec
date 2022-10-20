@@ -26,8 +26,10 @@ import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.junit.Assume;
 import org.junit.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.File;
 
@@ -38,7 +40,7 @@ import java.io.File;
  */
 public class Exec65Test extends AbstractExecTest {
 
-    @Test(expected = ExecuteException.class, timeout = TEST_TIMEOUT)
+    @Test(timeout = TEST_TIMEOUT)
     public void testExec65WitSleepUsingSleepCommandDirectly() throws Exception {
 
         if (!OS.isFamilyUnix()) {
@@ -51,7 +53,7 @@ public class Exec65Test extends AbstractExecTest {
         executor.setStreamHandler(new PumpStreamHandler(System.out, System.err));
         executor.setWatchdog(watchdog);
 
-        executor.execute(command);
+        assertThrows(ExecuteException.class, () -> executor.execute(command));
     }
 
     /**
@@ -63,7 +65,7 @@ public class Exec65Test extends AbstractExecTest {
      *
      * @TODO Fix tests for Windows & Linux
      */
-    @Test(expected = ExecuteException.class, timeout = TEST_TIMEOUT)
+    @Test(timeout = TEST_TIMEOUT)
     public void testExec65WithSleepUsingShellScript() throws Exception {
 
         if (!OS.isFamilyMac()) {
@@ -74,7 +76,7 @@ public class Exec65Test extends AbstractExecTest {
         executor.setWatchdog(new ExecuteWatchdog(WATCHDOG_TIMEOUT));
         final CommandLine command = new CommandLine(resolveTestScript("sleep"));
 
-        executor.execute(command);
+        assertThrows(ExecuteException.class, () -> executor.execute(command));
     }
 
     /**
@@ -100,7 +102,7 @@ public class Exec65Test extends AbstractExecTest {
      * that user "root" exists and that the current user is not a "sudoer" already
      * (thereby requiring a password).
      */
-    @Test(expected = ExecuteException.class, timeout = TEST_TIMEOUT)
+    @Test(timeout = TEST_TIMEOUT)
     public void testExec65WithSudoUsingShellScript() throws Exception {
         Assume.assumeFalse("Test is skipped on travis, because we have to be a sudoer "
                 + "to make the other tests pass.", new File(".").getAbsolutePath().contains("travis"));
@@ -114,6 +116,7 @@ public class Exec65Test extends AbstractExecTest {
         executor.setWatchdog(new ExecuteWatchdog(WATCHDOG_TIMEOUT));
         final CommandLine command = new CommandLine(resolveTestScript("issues", "exec-65"));
 
-        executor.execute(command);
+        assertThrows(ExecuteException.class, () -> executor.execute(command));
     }
+
 }
