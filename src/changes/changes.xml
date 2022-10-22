@@ -49,13 +49,13 @@
                 Update from Java 7 to 8.
             </action>
             <action dev="ggregory" type="update" due-to="Gary Gregory">
-                Bump actions/cache from 2 to 3.0.8 #48, #51, #55.
+                Bump actions/cache from 2 to 3.0.11 #48, #51, #55, #69.
             </action>
             <action dev="ggregory" type="update" due-to="Dependabot, Gary Gregory">
-                Bump actions/checkout from 2.3.2 to 3.0.2 #24, #46.
+                Bump actions/checkout from 2.3.2 to 3.1.0 #24, #46, #68.
             </action>
             <action dev="ggregory" type="update" due-to="Dependabot, Gary Gregory">
-                Bump actions/setup-java from 1.4.0 to 3.5.1 #21, #50.
+                Bump actions/setup-java from 1.4.0 to 3.6.0 #21, #50, #70.
             </action>
             <action dev="ggregory" type="update" due-to="Dependabot">
                 Bump junit from 4.13 to 5.9.1 Vintage #23, #33.
