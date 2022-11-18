@@ -22,6 +22,7 @@ import org.apache.commons.exec.environment.EnvironmentUtils;
 import org.junit.*;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -609,7 +610,7 @@ public class DefaultExecutorTest {
       */
      @Test
     public void testExecuteWithRedirectOutErr() throws Exception {
-        final File outfile = File.createTempFile("EXEC", ".test");
+        final File outfile = Files.createTempFile("EXEC", ".test").toFile();
         outfile.deleteOnExit();
         final CommandLine cl = new CommandLine(testScript);
         try (FileOutputStream outAndErr = new FileOutputStream(outfile)) {

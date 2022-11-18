@@ -25,6 +25,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.nio.file.Files;
 import java.util.concurrent.TimeoutException;
 
 /**
@@ -36,7 +37,7 @@ public class Exec62Test
 
     @Before
     public void setUp() throws Exception {
-        outputFile = File.createTempFile("foo", ".log");
+        outputFile = Files.createTempFile("foo", ".log").toFile();
     }
 
     @After
