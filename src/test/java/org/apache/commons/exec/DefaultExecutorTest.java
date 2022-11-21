@@ -20,11 +20,13 @@ package org.apache.commons.exec;
 
 import org.apache.commons.exec.environment.EnvironmentUtils;
 import org.junit.*;
+import org.junit.jupiter.api.function.Executable;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.Assert.*;
 
 /**
@@ -118,13 +120,13 @@ public class DefaultExecutorTest {
         assertEquals(exec.getWorkingDirectory(), workingDir);
     }
 
-    @Test(expected = IOException.class)
+    @Test
     public void testExecuteWithInvalidWorkingDirectory() throws Exception {
         final File workingDir = new File("/foo/bar");
         final CommandLine cl = new CommandLine(testScript);
         exec.setWorkingDirectory(workingDir);
 
-        exec.execute(cl);
+        assertThrows(IOException.class, () -> exec.execute(cl));
     }
 
     @Test
@@ -361,25 +363,25 @@ public class DefaultExecutorTest {
      * Try to start an non-existing application which should result
      * in an exception.
      */
-    @Test(expected = IOException.class)
+    @Test
     public void testExecuteNonExistingApplication() throws Exception {
         final CommandLine cl = new CommandLine(nonExistingTestScript);
         final DefaultExecutor executor = new DefaultExecutor();
 
-        executor.execute(cl);
+        assertThrows(IOException.class, () -> executor.execute(cl));
     }
 
     /**
      * Try to start an non-existing application which should result
      * in an exception.
      */
-    @Test(expected = IOException.class)
+    @Test
     public void testExecuteNonExistingApplicationWithWatchDog() throws Exception {
         final CommandLine cl = new CommandLine(nonExistingTestScript);
         final DefaultExecutor executor = new DefaultExecutor();
         executor.setWatchdog(new ExecuteWatchdog(ExecuteWatchdog.INFINITE_TIMEOUT));
 
-        executor.execute(cl);
+        assertThrows(IOException.class, () -> executor.execute(cl));
     }
 
     /**
