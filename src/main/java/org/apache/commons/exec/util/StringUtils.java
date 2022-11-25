@@ -35,6 +35,7 @@ import java.util.StringTokenizer;
  */
 public class StringUtils {
 
+    private static final String[] EMPTY_STRING_ARRAY = new String[0];
     private static final String SINGLE_QUOTE = "\'";
     private static final String DOUBLE_QUOTE = "\"";
     private static final char SLASH_CHAR = '/';
@@ -162,7 +163,7 @@ public class StringUtils {
         while (tokens.hasMoreTokens()) {
             strList.add(tokens.nextToken());
         }
-        return strList.toArray(new String[strList.size()]);
+        return strList.toArray(EMPTY_STRING_ARRAY);
     }
 
     /**
