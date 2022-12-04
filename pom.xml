@@ -259,17 +259,6 @@
                 </site>
             </distributionManagement>
         </profile>
-        <profile>
-            <!-- Use a profile to detect if we are running in a Java 1.8 environment.
-                 Use different versions of easymock/powermock, otherwise the test execution will fail -->
-            <id>test_java_8</id>
-            <activation>
-                <jdk>1.8</jdk>
-            </activation>
-            <properties>
-                <findbugs.version>3.0.5</findbugs.version>
-            </properties>
-        </profile>
     </profiles>
 
     <properties>
