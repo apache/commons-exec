@@ -18,11 +18,11 @@
 
 package org.apache.commons.exec.environment;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.exec.OS;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  */
@@ -71,11 +71,11 @@ public class EnvironmentUtilsTest {
         final Map<String, String> procEnvironment = EnvironmentUtils.getProcEnvironment();
         // we assume that there is at least one environment variable
         // for this process, i.e. $JAVA_HOME
-        assertFalse("Expecting non-zero environment size", procEnvironment.isEmpty());
+        assertFalse(procEnvironment.isEmpty(), "Expecting non-zero environment size");
         final String[] envArgs = EnvironmentUtils.toStrings(procEnvironment);
         for (int i=0; i<envArgs.length; i++) {
             assertNotNull("Entry "+i+" should not be null",envArgs[i]);
-            assertFalse("Entry "+i+" should not be empty",envArgs[i].isEmpty());
+            assertFalse(envArgs[i].isEmpty(),"Entry "+i+" should not be empty");
             // System.out.println(envArgs[i]);
         }
     }

@@ -75,7 +75,7 @@
             <email>ggregory at apache.org</email>
             <url>https://www.garygregory.com</url>
             <organization>The Apache Software Foundation</organization>
-            <organizationUrl>https://www.apache.org/</organizationUrl>      
+            <organizationUrl>https://www.apache.org/</organizationUrl>
             <roles>
               <role>PMC Member</role>
             </roles>
@@ -107,6 +107,9 @@
         <contributor>
             <name>Niall Pemberton</name>
         </contributor>
+        <contributor>
+            <name>Arturo Bernal</name>
+        </contributor>
     </contributors>
 
     <dependencies>
@@ -124,7 +127,7 @@
 
     <build>
         <!-- TODO Add checkstyle:check -->
-        <defaultGoal>clean verify apache-rat:check japicmp:cmp pmd:cpd-check pmd:check javadoc:javadoc</defaultGoal>     
+        <defaultGoal>clean verify apache-rat:check japicmp:cmp pmd:cpd-check pmd:check javadoc:javadoc</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
