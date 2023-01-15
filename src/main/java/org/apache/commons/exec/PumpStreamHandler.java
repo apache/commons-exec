@@ -171,7 +171,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Stop pumping the streams. When a timeout is specified it it is not guaranteed that the
+     * Stop pumping the streams. When a timeout is specified it is not guaranteed that the
      * pumper threads are cleanly terminated.
      */
     @Override

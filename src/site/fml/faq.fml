@@ -77,7 +77,7 @@ under the License.
         <p> Please check if the shell scripts under "./src/test/script" are executable - assuming 
           that they are not executable the "testExecute*" and "testExecuteAsync*" test will 
           fail. We try very hard to keep the executable bit but they have somehow the tendency 
-          to to be lost ... 
+          to be lost ... 
         </p>
       </answer>
     </faq>

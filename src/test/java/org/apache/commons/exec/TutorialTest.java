@@ -28,7 +28,7 @@ import java.util.Map;
 import org.junit.Test;
 
 /**
- * An example based on the tutorial where the user can can safely play with
+ * An example based on the tutorial where the user can safely play with
  * <ul>
  *  <li>blocking or non-blocking print jobs
  *  <li>with print job timeouts to trigger the {@code ExecuteWatchdog}

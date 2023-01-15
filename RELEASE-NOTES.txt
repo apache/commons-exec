@@ -55,7 +55,7 @@ o Issue: EXEC-68.
   
 o Issue: EXEC-57. 
   Applied the patch from Nickolay Martinov but the timeout disguises the fact that the process might be still running.
-  Therefore added a sanity check in order to throw an exception if the the timeout for join() was exceeded. 
+  Therefore added a sanity check in order to throw an exception if the timeout for join() was exceeded. 
   Thanks to Nickolay Martinov.
    
 o Issue: EXEC-60. 
