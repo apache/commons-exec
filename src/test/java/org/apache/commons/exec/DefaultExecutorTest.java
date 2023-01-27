@@ -18,16 +18,33 @@
 
 package org.apache.commons.exec;
 
-import org.apache.commons.exec.environment.EnvironmentUtils;
-import org.junit.*;
-import org.junit.jupiter.api.function.Executable;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.Assert.*;
+import org.apache.commons.exec.environment.EnvironmentUtils;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
  */
@@ -610,19 +627,20 @@ public class DefaultExecutorTest {
       * @throws Exception the test failed
       */
      @Test
-    public void testExecuteWithRedirectOutErr() throws Exception {
-        final File outfile = File.createTempFile("EXEC", ".test");
-        outfile.deleteOnExit();
-        final CommandLine cl = new CommandLine(testScript);
-        try (FileOutputStream outAndErr = new FileOutputStream(outfile)) {
-            final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(outAndErr);
-            final DefaultExecutor executor = new DefaultExecutor();
-            executor.setStreamHandler(pumpStreamHandler);
-            final int exitValue = executor.execute(cl);
-            assertFalse(exec.isFailure(exitValue));
-            assertTrue(outfile.exists());
-        }
-    }
+     public void testExecuteWithRedirectOutErr() throws Exception {
+         final Path outFile = Files.createTempFile("EXEC", ".test");
+         final CommandLine cl = new CommandLine(testScript);
+         try (OutputStream outAndErr = Files.newOutputStream(outFile)) {
+             final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(outAndErr);
+             final DefaultExecutor executor = new DefaultExecutor();
+             executor.setStreamHandler(pumpStreamHandler);
+             final int exitValue = executor.execute(cl);
+             assertFalse(exec.isFailure(exitValue));
+             assertTrue(Files.exists(outFile));
+         } finally {
+             Files.delete(outFile);
+         }
+     }
 
     /**
      * A generic test case to print the command line arguments to 'printargs' script to solve

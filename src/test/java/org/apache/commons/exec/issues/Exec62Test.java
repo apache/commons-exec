@@ -17,42 +17,48 @@
 
 package org.apache.commons.exec.issues;
 
-import org.apache.commons.exec.*;
+import java.io.File;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.concurrent.TimeoutException;
+
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.ExecuteWatchdog;
+import org.apache.commons.exec.OS;
+import org.apache.commons.exec.PumpStreamHandler;
+import org.apache.commons.exec.TestUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.concurrent.TimeoutException;
-
 /**
  * @see <a href="https://issues.apache.org/jira/browse/EXEC-62">EXEC-62</a>
  */
-public class Exec62Test
-{
-    private File outputFile;
+public class Exec62Test {
+    private Path outputFile;
 
     @Before
     public void setUp() throws Exception {
-        outputFile = File.createTempFile("foo", ".log");
+        outputFile = Files.createTempFile("foo", ".log");
     }
 
     @After
     public void tearDown() throws Exception {
-        outputFile.delete();
+        Files.delete(outputFile);
     }
 
     @Ignore("Test behaves differently between Mac OS X and Linux - don't know why")
-    @Test (expected = TimeoutException.class, timeout = 10000)
+    @Test(expected = TimeoutException.class, timeout = 10000)
     public void testMe() throws Exception {
-        if(OS.isFamilyUnix()) {
-            execute ("exec-62");
+        if (OS.isFamilyUnix()) {
+            execute("exec-62");
         }
     }
 
-    private void execute (final String scriptName) throws Exception {
+    private void execute(final String scriptName) throws Exception {
         final ExecuteWatchdog watchdog = new ExecuteWatchdog(4000);
         final CommandLine commandLine = new CommandLine("/bin/sh");
         final File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/issues/" + scriptName);
@@ -63,7 +69,7 @@ public class Exec62Test
         executor.setExitValues(null); // ignore exit values
         executor.setWatchdog(watchdog);
 
-        final FileOutputStream fos = new FileOutputStream(outputFile);
+        final OutputStream fos = Files.newOutputStream(outputFile);
         final PumpStreamHandler streamHandler = new PumpStreamHandler(fos);
         executor.setStreamHandler(streamHandler);
         executor.execute(commandLine);
@@ -73,5 +79,3 @@ public class Exec62Test
         }
     }
 }
-
-
