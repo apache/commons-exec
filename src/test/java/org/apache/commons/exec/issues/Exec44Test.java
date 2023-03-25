@@ -32,7 +32,6 @@ import org.junit.Test;
 
 /**
  * Test EXEC-44 (https://issues.apache.org/jira/browse/EXEC-44).
- *
  */
 public class Exec44Test {
 

@@ -13,7 +13,6 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- *
  */
 
 package org.apache.commons.exec.util;
@@ -24,7 +23,6 @@ import java.util.Map;
 /**
  * Helper classes to manipulate maps to pass substition map to the CommandLine. This class is not part of the public API
  * and could change without warning.
- *
  */
 public class MapUtils
 {

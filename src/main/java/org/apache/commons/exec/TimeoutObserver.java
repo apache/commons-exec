@@ -13,7 +13,6 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- *
  */
 
 package org.apache.commons.exec;
@@ -22,7 +21,6 @@ package org.apache.commons.exec;
  * Interface for classes that want to be notified by Watchdog.
  *
  * @see org.apache.commons.exec.Watchdog
- *
  */
 public interface TimeoutObserver {
 

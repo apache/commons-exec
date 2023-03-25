@@ -32,7 +32,6 @@ import org.apache.commons.exec.OS;
  * variables can be either retrieved directly from the
  * JVM or requires starting a process to get them running
  * an OS command line.
- *
  */
 public class DefaultProcessingEnvironment {
 

@@ -42,7 +42,6 @@ import java.util.Map;
  * CommandLine cl = new CommandLine("ls -l");
  * int exitvalue = exec.execute(cl);
  * </pre>
- *
  */
 public class DefaultExecutor implements Executor {
 

@@ -13,7 +13,6 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- *
  */
 
 package org.apache.commons.exec.launcher;
@@ -33,7 +32,6 @@ import org.apache.commons.exec.CommandLine;
  * </p>
  * Please not that this class is currently unused because the Java13CommandLauncher
  * is used for 0S/2
- *
  */
 public class OS2CommandLauncher extends CommandLauncherProxy {
 

@@ -32,7 +32,6 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * Test EXEC-60 (https://issues.apache.org/jira/browse/EXEC-60).
- *
  */
 public class Exec60Test extends AbstractExecTest {
 

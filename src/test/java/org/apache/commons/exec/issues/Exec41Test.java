@@ -32,7 +32,6 @@ import org.junit.Test;
 
 /**
  * Test the patch for EXEC-41 (https://issues.apache.org/jira/browse/EXEC-41).
- *
  */
 public class Exec41Test {
 

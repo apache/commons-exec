@@ -13,7 +13,6 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- *
  */
 
 package org.apache.commons.exec.launcher;
@@ -29,7 +28,6 @@ import org.apache.commons.exec.environment.EnvironmentUtils;
  * A command launcher for a particular JVM/OS platform. This class is a general
  * purpose command launcher which can only launch commands in the current
  * working directory.
- *
  */
 public abstract class CommandLauncherImpl implements CommandLauncher {
 

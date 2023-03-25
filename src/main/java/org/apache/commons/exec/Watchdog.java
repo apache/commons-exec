@@ -13,7 +13,6 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- *
  */
 
 package org.apache.commons.exec;
@@ -25,7 +24,6 @@ import java.util.Vector;
  * Generalization of {@code ExecuteWatchdog}
  *
  * @see org.apache.commons.exec.ExecuteWatchdog
- *
  */
 public class Watchdog implements Runnable {
 

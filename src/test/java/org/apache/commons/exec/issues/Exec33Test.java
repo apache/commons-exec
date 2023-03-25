@@ -32,7 +32,6 @@ import org.junit.Test;
  * Test the patch for EXEC-33 (https://issues.apache.org/jira/browse/EXEC-33)
  *
  * PumpStreamHandler hangs if System.in is redirect to process input stream .
- *
  */
 public class Exec33Test {
 

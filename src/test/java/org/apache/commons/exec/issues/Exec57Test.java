@@ -30,7 +30,6 @@ import java.io.IOException;
 
 /**
  * Test EXEC-57 (https://issues.apache.org/jira/browse/EXEC-57).
- *
  */
 public class Exec57Test extends AbstractExecTest {
 
