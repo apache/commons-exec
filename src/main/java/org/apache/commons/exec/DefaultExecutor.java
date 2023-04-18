@@ -342,7 +342,7 @@ public class DefaultExecutor implements Executor {
         try {
             process = this.launch(command, environment, dir);
         }
-        catch(final IOException e) {
+        catch (final IOException e) {
             if(watchdog != null) {
                 watchdog.failedToStart(e);
             }
