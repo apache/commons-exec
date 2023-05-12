@@ -19,6 +19,7 @@ package org.apache.commons.exec;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -40,7 +41,7 @@ public class CommandLineTest {
         assertEquals("[test]", cmdl.toString());
         assertArrayEquals(new String[]{"test"}, cmdl.toStrings());
         assertEquals("test", cmdl.getExecutable());
-        assertTrue(cmdl.getArguments().length == 0);
+        assertEquals(0, cmdl.getArguments().length);
     }
 
     @Test
@@ -362,12 +363,12 @@ public class CommandLineTest {
 
         // do not pass substitution map
         cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass}");
-        assertTrue(cmdl.getExecutable().indexOf("${JAVA_HOME}") == 0 );
+        assertEquals(0, cmdl.getExecutable().indexOf("${JAVA_HOME}"));
         assertArrayEquals(new String[]{"${appMainClass}"}, cmdl.getArguments());
 
         // pass arguments with an empty map
         cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass}", new HashMap<String, Object>());
-        assertTrue(cmdl.getExecutable().indexOf("${JAVA_HOME}") == 0 );
+        assertEquals(0, cmdl.getExecutable().indexOf("${JAVA_HOME}"));
         assertArrayEquals(new String[]{"${appMainClass}"}, cmdl.getArguments());
 
         // pass an complete substitution map
@@ -499,8 +500,7 @@ public class CommandLineTest {
                 .addArgument("echo").addArgument("1");
         System.out.println("cmd1: " + cmd1.toString());
         System.out.println("cmd2: " + cmd2.toString());
-        assertTrue("toString() is useful for troubleshooting",
-                !cmd1.toString().equals(cmd2.toString()));
+        assertFalse("toString() is useful for troubleshooting", cmd1.toString().equals(cmd2.toString()));
     }
 
     @Test
