@@ -118,7 +118,7 @@ public class StringUtils {
                         } else {
                             if (!isLenient) {
                                 // complain that no variable was found
-                                throw new RuntimeException("No value found for : " + nameBuf);
+                                throw new IllegalArgumentException("No value found for : " + nameBuf);
                             }
                             // just append the unresolved variable declaration
                             argBuf.append("${").append(nameBuf.toString()).append("}");
@@ -127,7 +127,7 @@ public class StringUtils {
                         del = argStr.charAt(cIdx);
 
                         if (del != '}') {
-                            throw new RuntimeException("Delimiter not found for : " + nameBuf);
+                            throw new IllegalArgumentException("Delimiter not found for : " + nameBuf);
                         }
                     }
                 } else {

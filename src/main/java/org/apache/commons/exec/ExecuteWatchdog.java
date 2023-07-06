@@ -240,7 +240,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
             try {
                 this.wait();
             } catch (final InterruptedException e) {
-                throw new RuntimeException(e.getMessage());
+                throw new IllegalStateException(e.getMessage(), e);
             }
         }
     }
