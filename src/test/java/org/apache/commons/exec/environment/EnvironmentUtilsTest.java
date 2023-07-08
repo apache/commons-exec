@@ -72,9 +72,9 @@ public class EnvironmentUtilsTest {
         // for this process, i.e. $JAVA_HOME
         assertFalse("Expecting non-zero environment size", procEnvironment.isEmpty());
         final String[] envArgs = EnvironmentUtils.toStrings(procEnvironment);
-        for (int i=0; i<envArgs.length; i++) {
-            assertNotNull("Entry "+i+" should not be null",envArgs[i]);
-            assertFalse("Entry "+i+" should not be empty",envArgs[i].isEmpty());
+        for (int i = 0; i < envArgs.length; i++) {
+            assertNotNull("Entry " + i + " should not be null", envArgs[i]);
+            assertFalse("Entry " + i + " should not be empty", envArgs[i].isEmpty());
             // System.out.println(envArgs[i]);
         }
     }

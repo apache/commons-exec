@@ -113,7 +113,7 @@ public class StreamPumper implements Runnable {
                     os.close();
                 } catch (final IOException e) {
                     final String msg = "Got exception while closing exhausted output stream";
-                    DebugUtils.handleException(msg ,e);
+                    DebugUtils.handleException(msg, e);
                 }
             }
             synchronized (this) {

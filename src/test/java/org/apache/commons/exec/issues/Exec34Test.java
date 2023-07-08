@@ -60,8 +60,8 @@ public class Exec34Test {
         exec.execute(cmdLine, handler);
         assertTrue(watchdog.isWatching());
         watchdog.destroyProcess();
-        assertTrue("Watchdog should have killed the process",watchdog.killedProcess());
-        assertFalse("Watchdog is no longer watching the process",watchdog.isWatching());
+        assertTrue("Watchdog should have killed the process", watchdog.killedProcess());
+        assertFalse("Watchdog is no longer watching the process", watchdog.isWatching());
     }
 
     /**

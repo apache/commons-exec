@@ -706,11 +706,11 @@ public class DefaultExecutorTest {
     @Test
     public void testAddEnvironmentVariables() throws Exception {
         final Map<String, String> myEnvVars = new HashMap<>(EnvironmentUtils.getProcEnvironment());
-        myEnvVars.put("NEW_VAR","NEW_VAL");
+        myEnvVars.put("NEW_VAR", "NEW_VAL");
         exec.execute(new CommandLine(environmentSript), myEnvVars);
         final String environment = baos.toString().trim();
-        assertTrue("Expecting NEW_VAR in "+environment,environment.indexOf("NEW_VAR") >= 0);
-        assertTrue("Expecting NEW_VAL in "+environment,environment.indexOf("NEW_VAL") >= 0);
+        assertTrue("Expecting NEW_VAR in " + environment, environment.indexOf("NEW_VAR") >= 0);
+        assertTrue("Expecting NEW_VAL in " + environment, environment.indexOf("NEW_VAL") >= 0);
     }
 
     @Test
@@ -718,11 +718,11 @@ public class DefaultExecutorTest {
         final Map<String, String> myEnvVars = new HashMap<>(EnvironmentUtils.getProcEnvironment());
         final String name = "NEW_VAR";
         final String value = "NEW_\"_VAL";
-        myEnvVars.put(name,value);
+        myEnvVars.put(name, value);
         exec.execute(new CommandLine(environmentSript), myEnvVars);
         final String environment = baos.toString().trim();
-        assertTrue("Expecting "+name+" in "+environment,environment.indexOf(name) >= 0);
-        assertTrue("Expecting "+value+" in "+environment,environment.indexOf(value) >= 0);
+        assertTrue("Expecting " + name + " in " + environment, environment.indexOf(name) >= 0);
+        assertTrue("Expecting " + value + " in " + environment, environment.indexOf(value) >= 0);
     }
 
     // ======================================================================
@@ -740,18 +740,18 @@ public class DefaultExecutorTest {
     public void _testExecuteStability() throws Exception {
 
         // make a plain-vanilla test
-        for (int i=0; i<100; i++) {
+        for (int i = 0; i < 100; i++) {
             final Map<String, String> env = new HashMap<>();
             env.put("TEST_ENV_VAR", Integer.toString(i));
             final CommandLine cl = new CommandLine(testScript);
-            final int exitValue = exec.execute(cl,env);
+            final int exitValue = exec.execute(cl, env);
             assertFalse(exec.isFailure(exitValue));
             assertEquals("FOO." + i + ".", baos.toString().trim());
             baos.reset();
         }
 
         // now be nasty and use the watchdog to kill out sub-processes
-        for (int i=0; i<100; i++) {
+        for (int i = 0; i < 100; i++) {
             final Map<String, String> env = new HashMap<>();
             env.put("TEST_ENV_VAR", Integer.toString(i));
             final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
