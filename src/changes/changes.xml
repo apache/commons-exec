@@ -27,8 +27,8 @@
     <body>
         <release version="1.4.0" date="20YY-MM-DD" description="Maintenance and feature Release (Java 8)">
             <!-- ADD -->
-            <action issue="EXEC-105" dev="dimitrios.efthymiou" type="fix" date="2023-07-16">
-                Fixed code snippet in tutorial page
+            <action issue="EXEC-105" type="fix" date="2023-07-16" due-to="Dimitrios Efthymiou">
+                Fix code snippet in tutorial page.
             </action>
             <action dev="ggregory" type="add" due-to="Gary Gregory">
                 Add ShutdownHookProcessDestroyer.isEmpty().
