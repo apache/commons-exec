@@ -169,7 +169,8 @@ executor.execute(cmdLine, resultHandler);
 
 // some time later the result handler callback was invoked so we
 // can safely request the exit value
-int exitValue = resultHandler.waitFor();
+resultHandler.waitFor();
+int exitValue = resultHandler.getExitValue();
 +----------------------------------------------------------------------------
   
 * Get Your Hands Dirty
