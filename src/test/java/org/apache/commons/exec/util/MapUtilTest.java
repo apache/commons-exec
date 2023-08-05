@@ -39,13 +39,13 @@ public class MapUtilTest {
         procEnvironment.put("JAVA_HOME", "/usr/opt/java");
 
         final Map<String, String> result = MapUtils.copy(procEnvironment);
-        assertTrue(result.size() == 1);
-        assertTrue(procEnvironment.size() == 1);
+        assertEquals(1, result.size());
+        assertEquals(1, procEnvironment.size());
         assertEquals("/usr/opt/java", result.get("JAVA_HOME"));
 
         result.remove("JAVA_HOME");
         assertTrue(result.isEmpty());
-        assertTrue(procEnvironment.size() == 1);
+        assertEquals(1, procEnvironment.size());
     }
 
     /**
@@ -59,7 +59,7 @@ public class MapUtilTest {
 
         applicationEnvironment.put("appMainClass", "foo.bar.Main");
         final Map<String, String> result = MapUtils.merge(procEnvironment, applicationEnvironment);
-        assertTrue(procEnvironment.size() + applicationEnvironment.size() == result.size());
+        assertEquals(procEnvironment.size() + applicationEnvironment.size(), result.size());
         assertEquals("foo.bar.Main", result.get("appMainClass"));
     }
 
@@ -74,7 +74,7 @@ public class MapUtilTest {
 
         final Map<String, String> result =
           MapUtils.prefix(procEnvironment, "env");
-        assertTrue(procEnvironment.size() == result.size());
+        assertEquals(procEnvironment.size(), result.size());
         assertEquals("/usr/opt/java", result.get("env.JAVA_HOME"));
     }
 }
