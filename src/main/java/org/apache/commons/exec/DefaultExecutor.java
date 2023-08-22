@@ -343,7 +343,7 @@ public class DefaultExecutor implements Executor {
             process = this.launch(command, environment, dir);
         }
         catch (final IOException e) {
-            if(watchdog != null) {
+            if (watchdog != null) {
                 watchdog.failedToStart(e);
             }
             throw e;
@@ -355,7 +355,7 @@ public class DefaultExecutor implements Executor {
             streams.setProcessErrorStream(process.getErrorStream());
         } catch (final IOException e) {
             process.destroy();
-            if(watchdog != null) {
+            if (watchdog != null) {
                 watchdog.failedToStart(e);
             }
             throw e;
