@@ -76,7 +76,7 @@ public class DefaultExecutorTest {
     @BeforeClass
     public static void classSetUp() {
 
-        final int statuses[] = TestUtil.getTestScriptCodesForOS();
+        final int[] statuses = TestUtil.getTestScriptCodesForOS();
         SUCCESS_STATUS=statuses[0];
         ERROR_STATUS=statuses[1];
 
