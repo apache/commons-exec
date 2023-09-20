@@ -22,6 +22,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.StringTokenizer;
 
 /**
@@ -110,7 +111,7 @@ public class StringUtils {
                             // cross-platform compatibility
                             value = fixFileSeparatorChar(((File) temp).getAbsolutePath());
                         } else {
-                            value = temp != null ? temp.toString() : null;
+                            value = Objects.toString(temp, null);
                         }
 
                         if (value != null) {
