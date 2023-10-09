@@ -205,9 +205,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <configuration>
-                    <configLocation>${basedir}/conf/checkstyle.xml</configLocation>
+                    <configLocation>${basedir}/src/conf/checkstyle.xml</configLocation>
                     <enableRulesSummary>false</enableRulesSummary>
-                    <headerFile>${basedir}/conf/HEADER.txt</headerFile>
+                    <headerFile>${basedir}/src/conf/HEADER.txt</headerFile>
                 </configuration>
             </plugin>
             <plugin>
@@ -224,7 +224,7 @@
                 <configuration>
                     <threshold>Normal</threshold>
                     <effort>Default</effort>
-                    <excludeFilterFile>${basedir}/conf/findbugs-exclude-filter.xml</excludeFilterFile>
+                    <excludeFilterFile>${basedir}/src/conf/findbugs-exclude-filter.xml</excludeFilterFile>
                 </configuration>
             </plugin>
             <plugin>
