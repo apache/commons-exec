@@ -79,7 +79,7 @@
                 Bump maven-checkstyle-plugin from 2.13 to 3.2.0 #29, #60.
             </action>
             <action dev="ggregory" type="update" due-to="Dependabot, Gary Gregory">
-                Bump commons-parent from 52 to 62 #49, #64, #79, #88, #105.
+                Bump commons-parent from 52 to 64, #49, #64, #79, #88, #105.
             </action>
             <action dev="ggregory" type="update" due-to="Gary Gregory">
                 Bump japicmp-maven-plugin from 0.15.6 to 0.16.0.
