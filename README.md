@@ -42,9 +42,9 @@
 --->
 Apache Commons Exec
 ===================
-[![GitHub Actions Status](https://github.com/apache/commons-exec/workflows/Java%20CI/badge.svg)](https://github.com/apache/commons-exec/actions)
+[![Java CI](https://github.com/apache/commons-exec/actions/workflows/maven.yml/badge.svg)](https://github.com/apache/commons-exec/actions/workflows/maven.yml)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-exec/badge.svg?gav=true)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-exec/?gav=true)
-[![CodeQL](https://github.com/apache/commons-exec/workflows/CodeQL/badge.svg)](https://github.com/apache/commons-exec/actions/workflows/codeql-analysis.yml?query=workflow%3ACodeQL)
+[![CodeQL](https://github.com/apache/commons-exec/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/apache/commons-exec/actions/workflows/codeql-analysis.yml)
 
 Apache Commons Exec is a library to reliably execute external processes from within the JVM.
 
