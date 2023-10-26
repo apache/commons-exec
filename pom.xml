@@ -207,7 +207,6 @@
                 <configuration>
                     <configLocation>${basedir}/src/conf/checkstyle.xml</configLocation>
                     <enableRulesSummary>false</enableRulesSummary>
-                    <headerFile>${basedir}/src/conf/HEADER.txt</headerFile>
                 </configuration>
             </plugin>
             <plugin>
