@@ -51,7 +51,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     private long stopTimeout;
 
     /** the last exception being caught */
-    private IOException caught = null;
+    private IOException caught;
 
     /**
      * Construct a new <CODE>PumpStreamHandler</CODE>.

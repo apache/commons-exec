@@ -55,6 +55,7 @@
 
     <module name="TreeWalker">
 
+        <module name="ExplicitInitializationCheck" />
         <property name="cacheFile" value="${checkstyle.cache.file}"/>
 
         <!-- Checks for Javadoc comments.                     -->

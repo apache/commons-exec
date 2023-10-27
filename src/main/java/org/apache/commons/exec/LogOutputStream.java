@@ -53,7 +53,7 @@ public abstract class LogOutputStream
     /** the internal buffer */
     private final ByteArrayOutputStreamX buffer = new ByteArrayOutputStreamX(INTIAL_SIZE);
 
-    private boolean skip = false;
+    private boolean skip;
 
     private final int level;
 
