@@ -262,7 +262,7 @@ public class CommandLine {
     }
 
     /**
-     * Set the substitutionMap to expand variables in the command line.
+     * Sets the substitutionMap to expand variables in the command line.
      *
      * @param substitutionMap the map
      */

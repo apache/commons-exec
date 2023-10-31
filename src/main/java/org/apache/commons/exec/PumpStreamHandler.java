@@ -93,7 +93,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Set maximum time to wait until output streams are exchausted
+     * Sets maximum time to wait until output streams are exchausted
      * when {@link #stop()} was called.
      *
      * @param timeout timeout in milliseconds or zero to wait forever (default)
@@ -103,7 +103,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Set the <CODE>InputStream</CODE> from which to read the standard output
+     * Sets the <CODE>InputStream</CODE> from which to read the standard output
      * of the process.
      *
      * @param is the <CODE>InputStream</CODE>.
@@ -116,7 +116,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Set the <CODE>InputStream</CODE> from which to read the standard error
+     * Sets the <CODE>InputStream</CODE> from which to read the standard error
      * of the process.
      *
      * @param is the <CODE>InputStream</CODE>.
@@ -129,7 +129,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Set the <CODE>OutputStream</CODE> by means of which input can be sent
+     * Sets the <CODE>OutputStream</CODE> by means of which input can be sent
      * to the process.
      *
      * @param os the <CODE>OutputStream</CODE>.

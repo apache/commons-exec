@@ -95,7 +95,7 @@ public interface Executor {
     ExecuteStreamHandler getStreamHandler();
 
     /**
-     * Set a custom the StreamHandler used for providing
+     * Sets a custom the StreamHandler used for providing
      * input and retrieving the output. If you don't provide
      * a proper stream handler the executed process might block
      * when writing to stdout and/or stderr (see
@@ -114,7 +114,7 @@ public interface Executor {
     ExecuteWatchdog getWatchdog();
 
     /**
-     * Set the watchdog used to kill of processes running,
+     * Sets the watchdog used to kill of processes running,
      * typically, too long time.
      *
      * @param watchDog the watchdog
@@ -122,7 +122,7 @@ public interface Executor {
     void setWatchdog(ExecuteWatchdog watchDog);
 
     /**
-     * Set the handler for cleanup of started processes if the main process
+     * Sets the handler for cleanup of started processes if the main process
      * is going to terminate.
      *
      * @return the ProcessDestroyer
@@ -145,7 +145,7 @@ public interface Executor {
     File getWorkingDirectory();
 
     /**
-     * Set the working directory of the created process. The
+     * Sets the working directory of the created process. The
      * working directory must exist when you start the process.
      *
      * @param dir the working directory
