@@ -207,7 +207,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Get the error stream.
+     * Gets the error stream.
      *
      * @return <CODE>OutputStream</CODE>.
      */
@@ -216,7 +216,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Get the output stream.
+     * Gets the output stream.
      *
      * @return <CODE>OutputStream</CODE>.
      */

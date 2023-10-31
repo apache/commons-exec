@@ -64,7 +64,7 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
     }
 
     /**
-     * Get the {@code exception} causing the process execution to fail.
+     * Gets the {@code exception} causing the process execution to fail.
      *
      * @return Returns the exception.
      * @throws IllegalStateException if the process has not exited yet
@@ -79,7 +79,7 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
     }
 
     /**
-     * Get the {@code exitValue} of the process.
+     * Gets the {@code exitValue} of the process.
      *
      * @return Returns the exitValue.
      * @throws IllegalStateException if the process has not exited yet

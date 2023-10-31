@@ -56,7 +56,7 @@ public abstract class AbstractExecTest {
     }
 
     /**
-     * Get the name of the currently executed test.
+     * Gets the name of the currently executed test.
      */
     protected String getName() {
         return name.getMethodName();

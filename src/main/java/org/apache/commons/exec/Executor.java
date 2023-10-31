@@ -87,7 +87,7 @@ public interface Executor {
     boolean isFailure(final int exitValue);
 
     /**
-     * Get the StreamHandler used for providing input and
+     * Gets the StreamHandler used for providing input and
      * retrieving the output.
      *
      * @return the StreamHandler
@@ -106,7 +106,7 @@ public interface Executor {
     void setStreamHandler(ExecuteStreamHandler streamHandler);
 
     /**
-     * Get the watchdog used to kill of processes running,
+     * Gets the watchdog used to kill of processes running,
      * typically, too long time.
      *
      * @return the watchdog
@@ -130,7 +130,7 @@ public interface Executor {
     ProcessDestroyer getProcessDestroyer();
 
     /**
-     * Get the handler for cleanup of started processes if the main process
+     * Gets the handler for cleanup of started processes if the main process
      * is going to terminate.
      *
      * @param processDestroyer the ProcessDestroyer
@@ -138,7 +138,7 @@ public interface Executor {
     void setProcessDestroyer(ProcessDestroyer processDestroyer);
 
     /**
-     * Get the working directory of the created process.
+     * Gets the working directory of the created process.
      *
      * @return the working directory
      */

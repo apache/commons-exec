@@ -47,7 +47,7 @@ public class EnvironmentUtils
     }
 
     /**
-     * Get the variable list as an array.
+     * Gets the variable list as an array.
      *
      * @param environment the environment to use, may be {@code null}
      * @return array of key=value assignment strings or {@code null} if and only if

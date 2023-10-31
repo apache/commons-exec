@@ -285,7 +285,7 @@ public class DefaultExecutor implements Executor {
     }
 
     /**
-     * Get the worker thread being used for asynchronous execution.
+     * Gets the worker thread being used for asynchronous execution.
      *
      * @return the worker thread
      */
@@ -445,7 +445,7 @@ public class DefaultExecutor implements Executor {
     }
 
     /**
-     * Get the first IOException being thrown.
+     * Gets the first IOException being thrown.
      *
      * @return the first IOException being caught
      */

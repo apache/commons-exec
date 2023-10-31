@@ -42,7 +42,7 @@ public final class TestUtil {
     }
 
     /**
-     * Get success and fail return codes used by the test scripts
+     * Gets success and fail return codes used by the test scripts
      * @return int array[2] = {ok, success}
      */
     public static int[] getTestScriptCodesForOS() {
