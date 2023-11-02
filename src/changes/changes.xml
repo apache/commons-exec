@@ -25,7 +25,7 @@
         <author email="sgoeschl@apache.org">Siegfried Goeschl</author>
     </properties>
     <body>
-        <release version="1.4.0" date="20YY-MM-DD" description="Maintenance and feature Release (Java 8)">
+        <release version="1.4.0" date="20YY-MM-DD" description="Maintenance and feature Release (Java 8 or above)">
             <!-- ADD -->
             <action issue="EXEC-105" type="fix" date="2023-07-16" due-to="Dimitrios Efthymiou">
                 Fix code snippet in tutorial page.
