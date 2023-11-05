@@ -89,7 +89,7 @@ public class LogOutputStreamTest {
     // Helper classes
     // ======================================================================
 
-    private class SystemLogOutputStream extends LogOutputStream {
+    private final class SystemLogOutputStream extends LogOutputStream {
 
         StringBuffer output = new StringBuffer();
 

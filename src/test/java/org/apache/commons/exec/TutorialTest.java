@@ -119,7 +119,7 @@ public class TutorialTest {
         return resultHandler;
     }
 
-    private class PrintResultHandler extends DefaultExecuteResultHandler {
+    private final class PrintResultHandler extends DefaultExecuteResultHandler {
 
         private ExecuteWatchdog watchdog;
 

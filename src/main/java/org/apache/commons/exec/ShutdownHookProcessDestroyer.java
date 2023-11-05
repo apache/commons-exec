@@ -25,7 +25,7 @@ import java.util.Vector;
  */
 public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable {
 
-    private class ProcessDestroyerImpl extends Thread {
+    private final class ProcessDestroyerImpl extends Thread {
 
         private boolean shouldDestroy = true;
 
