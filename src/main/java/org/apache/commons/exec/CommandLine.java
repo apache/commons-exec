@@ -397,7 +397,7 @@ public class CommandLine {
     /**
      * Encapsulates a command line argument.
      */
-    class Argument {
+    final class Argument {
 
         private final String value;
         private final boolean handleQuoting;
