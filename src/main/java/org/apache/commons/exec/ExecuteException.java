@@ -40,7 +40,7 @@ public class ExecuteException extends IOException {
     private final int exitValue;
 
     /**
-     * Construct a new exception with the specified detail message.
+     * Constructs a new exception with the specified detail message.
      *
      * @param message
      *            The detail message
@@ -53,7 +53,7 @@ public class ExecuteException extends IOException {
     }
 
     /**
-     * Construct a new exception with the specified detail message and cause.
+     * Constructs a new exception with the specified detail message and cause.
      *
      * @param message
      *            The detail message

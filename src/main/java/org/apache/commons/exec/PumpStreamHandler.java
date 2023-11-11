@@ -54,14 +54,14 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     private IOException caught;
 
     /**
-     * Construct a new <CODE>PumpStreamHandler</CODE>.
+     * Constructs a new <CODE>PumpStreamHandler</CODE>.
      */
     public PumpStreamHandler() {
         this(System.out, System.err);
     }
 
     /**
-     * Construct a new <CODE>PumpStreamHandler</CODE>.
+     * Constructs a new <CODE>PumpStreamHandler</CODE>.
      *
      * @param outAndErr the output/error <CODE>OutputStream</CODE>.
      */
@@ -70,7 +70,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Construct a new <CODE>PumpStreamHandler</CODE>.
+     * Constructs a new <CODE>PumpStreamHandler</CODE>.
      *
      * @param out the output <CODE>OutputStream</CODE>.
      * @param err the error <CODE>OutputStream</CODE>.
@@ -80,7 +80,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Construct a new <CODE>PumpStreamHandler</CODE>.
+     * Constructs a new <CODE>PumpStreamHandler</CODE>.
      *
      * @param out   the output <CODE>OutputStream</CODE>.
      * @param err   the error <CODE>OutputStream</CODE>.
