@@ -180,7 +180,6 @@ public class ExecuteWatchdog implements TimeoutObserver {
         }
     }
 
-
     /**
      * This method will rethrow the exception that was possibly caught during
      * the run of the process. It will only remains valid once the process has

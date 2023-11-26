@@ -41,7 +41,6 @@ import org.junit.Test;
  */
 public class Exec36Test {
 
-
     private final Executor exec = new DefaultExecutor();
     private final File testDir = new File("src/test/scripts");
     private final File printArgsScript = TestUtil.resolveScriptForOS(testDir + "/printargs");

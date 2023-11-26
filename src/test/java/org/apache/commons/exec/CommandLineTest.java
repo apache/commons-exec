@@ -33,7 +33,6 @@ import org.junit.Test;
  */
 public class CommandLineTest {
 
-
     @Test
     public void testExecutable() {
         final CommandLine cmdl = new CommandLine("test");
@@ -247,7 +246,6 @@ public class CommandLineTest {
             // Expected
         }
     }
-
 
     /**
      * A command line parsing puzzle from Tino Schoellhorn - ImageMagix expects

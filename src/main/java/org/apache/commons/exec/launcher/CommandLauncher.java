@@ -65,7 +65,6 @@ public interface CommandLauncher {
     Process exec(final CommandLine cmd, final Map<String, String> env,
             final File workingDir) throws IOException;
 
-
     /**
      * Checks whether {@code exitValue} signals a failure on the current
      * system (OS specific).

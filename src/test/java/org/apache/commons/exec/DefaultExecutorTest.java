@@ -68,7 +68,6 @@ public class DefaultExecutorTest {
     private final File environmentSript = TestUtil.resolveScriptForOS(testDir + "/environment");
 //    private final File wrapperScript = TestUtil.resolveScriptForOS(testDir + "/wrapper");
 
-
     // Get suitable exit codes for the OS
     private static int SUCCESS_STATUS; // test script successful exit code
     private static int ERROR_STATUS;   // test script error exit code
@@ -657,7 +656,6 @@ public class DefaultExecutorTest {
         assertFalse(exec.isFailure(exitValue));
      }
 
-
     /**
      * The test script reads an argument from {@code stdin} and prints
      * the result to stdout. To make things slightly more interesting
@@ -765,7 +763,6 @@ public class DefaultExecutorTest {
             baos.reset();
         }
     }
-
 
     // ======================================================================
     // === Helper methods

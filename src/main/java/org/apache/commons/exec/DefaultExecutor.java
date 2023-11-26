@@ -221,7 +221,6 @@ public class DefaultExecutor implements Executor {
         this.setExitValues(new int[] {value});
     }
 
-
     /** @see org.apache.commons.exec.Executor#setExitValues(int[]) */
     @Override
     public void setExitValues(final int[] values) {

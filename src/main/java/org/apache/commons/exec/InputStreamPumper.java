@@ -38,7 +38,6 @@ public class InputStreamPumper implements Runnable {
     /** flag to stop the stream pumping */
     private volatile boolean stop;
 
-
     /**
      * Create a new stream pumper.
      *
@@ -50,7 +49,6 @@ public class InputStreamPumper implements Runnable {
         this.os = os;
         this.stop = false;
     }
-
 
     /**
      * Copies data from the input stream to the output stream. Terminates as
@@ -71,7 +69,6 @@ public class InputStreamPumper implements Runnable {
             DebugUtils.handleException(msg, e);
         }
     }
-
 
     public void stopProcessing() {
         stop = true;

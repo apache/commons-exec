@@ -17,7 +17,6 @@
 
 package org.apache.commons.exec.issues;
 
-
 import org.apache.commons.exec.AbstractExecTest;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
