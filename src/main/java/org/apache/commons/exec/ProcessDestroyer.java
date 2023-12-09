@@ -18,7 +18,7 @@
 package org.apache.commons.exec;
 
 /**
- * Destroys all registered {@link java.lang.Process} after a certain event,
+ * Destroys all registered {@link Process} after a certain event,
  * typically when the VM exits
  * @see org.apache.commons.exec.ShutdownHookProcessDestroyer
  */
@@ -32,7 +32,7 @@ public interface ProcessDestroyer {
      * @param process
      *      the process to add
      * @return {@code true} if the specified
-     *      {@link java.lang.Process} was
+     *      {@link Process} was
      *      successfully added
      */
     boolean add(Process process);
@@ -45,7 +45,7 @@ public interface ProcessDestroyer {
      * @param process
      *            the process to remove
      * @return {@code true} if the specified
-     *      {@link java.lang.Process} was
+     *      {@link Process} was
      *      successfully removed
      */
     boolean remove(Process process);

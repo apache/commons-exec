@@ -77,7 +77,7 @@ public class DefaultExecutor implements Executor {
      * The {@code PumpStreamHandler} pumps the output of the subprocess
      * into our {@code System.out} and {@code System.err} to avoid
      * into our {@code System.out} and {@code System.err} to avoid
-     * a blocked or deadlocked subprocess (see{@link java.lang.Process Process}).
+     * a blocked or deadlocked subprocess (see {@link Process Process}).
      */
     public DefaultExecutor() {
         this.streamHandler = new PumpStreamHandler();
