@@ -22,6 +22,7 @@ import static org.junit.Assert.assertFalse;
 import java.io.File;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import org.junit.After;
 import org.junit.Before;
@@ -76,7 +77,7 @@ public class LogOutputStreamTest {
     @Test
     @Ignore("The file utf8CharacterScript is missing from the repository and is not in its history")
     public void testStdoutWithUTF8Characters() throws Exception {
-        this.systemOut = new SystemLogOutputStream(1, Charset.forName("UTF-8"));
+        this.systemOut = new SystemLogOutputStream(1, StandardCharsets.UTF_8);
         this.exec.setStreamHandler(new PumpStreamHandler(systemOut, systemOut));
 
         final CommandLine cl = new CommandLine(utf8CharacterScript);
