@@ -93,26 +93,84 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Sets maximum time to wait until output streams are exchausted
-     * when {@link #stop()} was called.
+     * Create the pump to handle error output.
      *
-     * @param timeout timeout in milliseconds or zero to wait forever (default)
+     * @param is the <CODE>InputStream</CODE>.
+     * @param os the <CODE>OutputStream</CODE>.
      */
-    public void setStopTimeout(final long timeout) {
-        this.stopTimeout = timeout;
+    protected void createProcessErrorPump(final InputStream is, final OutputStream os) {
+        errorThread = createPump(is, os);
     }
 
     /**
-     * Sets the <CODE>InputStream</CODE> from which to read the standard output
-     * of the process.
+     * Create the pump to handle process output.
      *
      * @param is the <CODE>InputStream</CODE>.
+     * @param os the <CODE>OutputStream</CODE>.
      */
-    @Override
-    public void setProcessOutputStream(final InputStream is) {
-        if (out != null) {
-            createProcessOutputPump(is, out);
-        }
+    protected void createProcessOutputPump(final InputStream is, final OutputStream os) {
+        outputThread = createPump(is, os);
+    }
+
+    /**
+     * Creates a stream pumper to copy the given input stream to the given
+     * output stream. When the 'os' is an PipedOutputStream we are closing
+     * 'os' afterwards to avoid an IOException ("Write end dead").
+     *
+     * @param is the input stream to copy from
+     * @param os the output stream to copy into
+     * @return the stream pumper thread
+     */
+    protected Thread createPump(final InputStream is, final OutputStream os) {
+        return createPump(is, os, os instanceof PipedOutputStream);
+    }
+
+    /**
+     * Creates a stream pumper to copy the given input stream to the given
+     * output stream.
+     *
+     * @param is                 the input stream to copy from
+     * @param os                 the output stream to copy into
+     * @param closeWhenExhausted close the output stream when the input stream is exhausted
+     * @return the stream pumper thread
+     */
+    protected Thread createPump(final InputStream is, final OutputStream os, final boolean closeWhenExhausted) {
+        final Thread result = new Thread(new StreamPumper(is, os, closeWhenExhausted), "Exec Stream Pumper");
+        result.setDaemon(true);
+        return result;
+    }
+
+    /**
+     * Creates a stream pumper to copy the given input stream to the given
+     * output stream.
+     *
+     * @param is the System.in input stream to copy from
+     * @param os the output stream to copy into
+     * @return the stream pumper thread
+     */
+    private Thread createSystemInPump(final InputStream is, final OutputStream os) {
+        inputStreamPumper = new InputStreamPumper(is, os);
+        final Thread result = new Thread(inputStreamPumper, "Exec Input Stream Pumper");
+        result.setDaemon(true);
+        return result;
+    }
+
+    /**
+     * Gets the error stream.
+     *
+     * @return <CODE>OutputStream</CODE>.
+     */
+    protected OutputStream getErr() {
+        return err;
+    }
+
+    /**
+     * Gets the output stream.
+     *
+     * @return <CODE>OutputStream</CODE>.
+     */
+    protected OutputStream getOut() {
+        return out;
     }
 
     /**
@@ -150,6 +208,29 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
                 DebugUtils.handleException(msg, e);
             }
         }
+    }
+
+    /**
+     * Sets the <CODE>InputStream</CODE> from which to read the standard output
+     * of the process.
+     *
+     * @param is the <CODE>InputStream</CODE>.
+     */
+    @Override
+    public void setProcessOutputStream(final InputStream is) {
+        if (out != null) {
+            createProcessOutputPump(is, out);
+        }
+    }
+
+    /**
+     * Sets maximum time to wait until output streams are exchausted
+     * when {@link #stop()} was called.
+     *
+     * @param timeout timeout in milliseconds or zero to wait forever (default)
+     */
+    public void setStopTimeout(final long timeout) {
+        this.stopTimeout = timeout;
     }
 
     /**
@@ -207,72 +288,6 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Gets the error stream.
-     *
-     * @return <CODE>OutputStream</CODE>.
-     */
-    protected OutputStream getErr() {
-        return err;
-    }
-
-    /**
-     * Gets the output stream.
-     *
-     * @return <CODE>OutputStream</CODE>.
-     */
-    protected OutputStream getOut() {
-        return out;
-    }
-
-    /**
-     * Create the pump to handle process output.
-     *
-     * @param is the <CODE>InputStream</CODE>.
-     * @param os the <CODE>OutputStream</CODE>.
-     */
-    protected void createProcessOutputPump(final InputStream is, final OutputStream os) {
-        outputThread = createPump(is, os);
-    }
-
-    /**
-     * Create the pump to handle error output.
-     *
-     * @param is the <CODE>InputStream</CODE>.
-     * @param os the <CODE>OutputStream</CODE>.
-     */
-    protected void createProcessErrorPump(final InputStream is, final OutputStream os) {
-        errorThread = createPump(is, os);
-    }
-
-    /**
-     * Creates a stream pumper to copy the given input stream to the given
-     * output stream. When the 'os' is an PipedOutputStream we are closing
-     * 'os' afterwards to avoid an IOException ("Write end dead").
-     *
-     * @param is the input stream to copy from
-     * @param os the output stream to copy into
-     * @return the stream pumper thread
-     */
-    protected Thread createPump(final InputStream is, final OutputStream os) {
-        return createPump(is, os, os instanceof PipedOutputStream);
-    }
-
-    /**
-     * Creates a stream pumper to copy the given input stream to the given
-     * output stream.
-     *
-     * @param is                 the input stream to copy from
-     * @param os                 the output stream to copy into
-     * @param closeWhenExhausted close the output stream when the input stream is exhausted
-     * @return the stream pumper thread
-     */
-    protected Thread createPump(final InputStream is, final OutputStream os, final boolean closeWhenExhausted) {
-        final Thread result = new Thread(new StreamPumper(is, os, closeWhenExhausted), "Exec Stream Pumper");
-        result.setDaemon(true);
-        return result;
-    }
-
-    /**
      * Stopping a pumper thread. The implementation actually waits
      * longer than specified in 'timeout' to detect if the timeout
      * was indeed exceeded. If the timeout was exceeded an IOException
@@ -300,20 +315,5 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
                 thread.interrupt();
             }
         }
-    }
-
-    /**
-     * Creates a stream pumper to copy the given input stream to the given
-     * output stream.
-     *
-     * @param is the System.in input stream to copy from
-     * @param os the output stream to copy into
-     * @return the stream pumper thread
-     */
-    private Thread createSystemInPump(final InputStream is, final OutputStream os) {
-        inputStreamPumper = new InputStreamPumper(is, os);
-        final Thread result = new Thread(inputStreamPumper, "Exec Input Stream Pumper");
-        result.setDaemon(true);
-        return result;
     }
 }

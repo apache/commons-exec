@@ -28,16 +28,6 @@ import java.io.OutputStream;
 public interface ExecuteStreamHandler {
 
     /**
-     * Install a handler for the input stream of the subprocess.
-     *
-     * @param os
-     *            output stream to write to the standard input stream of the subprocess
-     * @throws IOException
-     *             thrown when an I/O exception occurs.
-     */
-    void setProcessInputStream(OutputStream os) throws IOException;
-
-    /**
      * Install a handler for the error stream of the subprocess.
      *
      * @param is
@@ -46,6 +36,16 @@ public interface ExecuteStreamHandler {
      *             thrown when an I/O exception occurs.
      */
     void setProcessErrorStream(InputStream is) throws IOException;
+
+    /**
+     * Install a handler for the input stream of the subprocess.
+     *
+     * @param os
+     *            output stream to write to the standard input stream of the subprocess
+     * @throws IOException
+     *             thrown when an I/O exception occurs.
+     */
+    void setProcessInputStream(OutputStream os) throws IOException;
 
     /**
      * Install a handler for the output stream of the subprocess.

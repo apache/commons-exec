@@ -38,22 +38,6 @@ import java.io.File;
  */
 public class Exec65Test extends AbstractExecTest {
 
-    @Test(expected = ExecuteException.class, timeout = TEST_TIMEOUT)
-    public void testExec65WitSleepUsingSleepCommandDirectly() throws Exception {
-
-        if (!OS.isFamilyUnix()) {
-            throw new ExecuteException(testNotSupportedForCurrentOperatingSystem(), 0);
-        }
-        final ExecuteWatchdog watchdog = new ExecuteWatchdog(WATCHDOG_TIMEOUT);
-        final DefaultExecutor executor = new DefaultExecutor();
-        final CommandLine command = new CommandLine("sleep");
-        command.addArgument("60");
-        executor.setStreamHandler(new PumpStreamHandler(System.out, System.err));
-        executor.setWatchdog(watchdog);
-
-        executor.execute(command);
-    }
-
     /**
      * This test currently only works for Mac OS X
      * <ul>
@@ -113,6 +97,22 @@ public class Exec65Test extends AbstractExecTest {
         executor.setStreamHandler(new PumpStreamHandler(System.out, System.err, System.in));
         executor.setWatchdog(new ExecuteWatchdog(WATCHDOG_TIMEOUT));
         final CommandLine command = new CommandLine(resolveTestScript("issues", "exec-65"));
+
+        executor.execute(command);
+    }
+
+    @Test(expected = ExecuteException.class, timeout = TEST_TIMEOUT)
+    public void testExec65WitSleepUsingSleepCommandDirectly() throws Exception {
+
+        if (!OS.isFamilyUnix()) {
+            throw new ExecuteException(testNotSupportedForCurrentOperatingSystem(), 0);
+        }
+        final ExecuteWatchdog watchdog = new ExecuteWatchdog(WATCHDOG_TIMEOUT);
+        final DefaultExecutor executor = new DefaultExecutor();
+        final CommandLine command = new CommandLine("sleep");
+        command.addArgument("60");
+        executor.setStreamHandler(new PumpStreamHandler(System.out, System.err));
+        executor.setWatchdog(watchdog);
 
         executor.execute(command);
     }

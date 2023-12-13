@@ -28,11 +28,11 @@ import org.apache.commons.exec.CommandLine;
  */
 public abstract class CommandLauncherProxy extends CommandLauncherImpl {
 
+    private final CommandLauncher myLauncher;
+
     public CommandLauncherProxy(final CommandLauncher launcher) {
         myLauncher = launcher;
     }
-
-    private final CommandLauncher myLauncher;
 
     /**
      * Launches the given command in a new process. Delegates this method to the

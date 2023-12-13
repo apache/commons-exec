@@ -52,26 +52,9 @@ public class DefaultExecutorTest {
     /** Maximum time to wait (15s) */
     private static final int WAITFOR_TIMEOUT = 15000;
 
-    private final Executor exec = new DefaultExecutor();
-    private final File testDir = new File("src/test/scripts");
-    private final File foreverOutputFile = new File("./target/forever.txt");
-    private ByteArrayOutputStream baos;
-
-    private final File testScript = TestUtil.resolveScriptForOS(testDir + "/test");
-    private final File errorTestScript = TestUtil.resolveScriptForOS(testDir + "/error");
-    private final File foreverTestScript = TestUtil.resolveScriptForOS(testDir + "/forever");
-    private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir + "/grmpffffff");
-    private final File redirectScript = TestUtil.resolveScriptForOS(testDir + "/redirect");
-    private final File printArgsScript = TestUtil.resolveScriptForOS(testDir + "/printargs");
-//    private final File acroRd32Script = TestUtil.resolveScriptForOS(testDir + "/acrord32");
-    private final File stdinSript = TestUtil.resolveScriptForOS(testDir + "/stdin");
-    private final File environmentSript = TestUtil.resolveScriptForOS(testDir + "/environment");
-//    private final File wrapperScript = TestUtil.resolveScriptForOS(testDir + "/wrapper");
-
     // Get suitable exit codes for the OS
     private static int SUCCESS_STATUS; // test script successful exit code
     private static int ERROR_STATUS;   // test script error exit code
-
     @BeforeClass
     public static void classSetUp() {
 
@@ -82,6 +65,90 @@ public class DefaultExecutorTest {
         // turn on debug mode and throw an exception for each encountered problem
         System.setProperty("org.apache.commons.exec.lenient", "false");
         System.setProperty("org.apache.commons.exec.debug", "true");
+    }
+    private final Executor exec = new DefaultExecutor();
+
+    private final File testDir = new File("src/test/scripts");
+    private final File foreverOutputFile = new File("./target/forever.txt");
+    private ByteArrayOutputStream baos;
+    private final File testScript = TestUtil.resolveScriptForOS(testDir + "/test");
+    private final File errorTestScript = TestUtil.resolveScriptForOS(testDir + "/error");
+    private final File foreverTestScript = TestUtil.resolveScriptForOS(testDir + "/forever");
+private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir + "/grmpffffff");
+    private final File redirectScript = TestUtil.resolveScriptForOS(testDir + "/redirect");
+
+    private final File printArgsScript = TestUtil.resolveScriptForOS(testDir + "/printargs");
+    //    private final File acroRd32Script = TestUtil.resolveScriptForOS(testDir + "/acrord32");
+    private final File stdinSript = TestUtil.resolveScriptForOS(testDir + "/stdin");
+
+    private final File environmentSript = TestUtil.resolveScriptForOS(testDir + "/environment");
+//    private final File wrapperScript = TestUtil.resolveScriptForOS(testDir + "/wrapper");
+
+    /**
+     * Start any processes in a loop to make sure that we do
+     * not leave any handles/resources open.
+     *
+     * @throws Exception the test failed
+     */
+    @Test
+    @Ignore
+    public void _testExecuteStability() throws Exception {
+
+        // make a plain-vanilla test
+        for (int i = 0; i < 100; i++) {
+            final Map<String, String> env = new HashMap<>();
+            env.put("TEST_ENV_VAR", Integer.toString(i));
+            final CommandLine cl = new CommandLine(testScript);
+            final int exitValue = exec.execute(cl, env);
+            assertFalse(exec.isFailure(exitValue));
+            assertEquals("FOO." + i + ".", baos.toString().trim());
+            baos.reset();
+        }
+
+        // now be nasty and use the watchdog to kill out sub-processes
+        for (int i = 0; i < 100; i++) {
+            final Map<String, String> env = new HashMap<>();
+            env.put("TEST_ENV_VAR", Integer.toString(i));
+            final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
+            final CommandLine cl = new CommandLine(foreverTestScript);
+            final ExecuteWatchdog watchdog = new ExecuteWatchdog(500);
+            exec.setWatchdog(watchdog);
+            exec.execute(cl, env, resultHandler);
+            resultHandler.waitFor(WAITFOR_TIMEOUT);
+            assertTrue("ResultHandler received a result", resultHandler.hasResult());
+            assertNotNull(resultHandler.getException());
+            baos.reset();
+        }
+    }
+
+    private int getOccurrences(final String data, final char c) {
+
+        int result = 0;
+
+        for (int i=0; i<data.length(); i++) {
+            if (data.charAt(i) == c) {
+                result++;
+            }
+        }
+
+        return result;
+    }
+
+    // ======================================================================
+    // Start of regression tests
+    // ======================================================================
+
+    private String readFile(final File file) throws Exception {
+
+        String text;
+        final StringBuilder contents = new StringBuilder();
+        final BufferedReader reader = new BufferedReader(new FileReader(file));
+
+        while ((text = reader.readLine()) != null) {
+            contents.append(text).append(System.getProperty("line.separator"));
+        }
+        reader.close();
+        return contents.toString();
     }
 
     @Before
@@ -104,9 +171,46 @@ public class DefaultExecutorTest {
         foreverOutputFile.delete();
     }
 
-    // ======================================================================
-    // Start of regression tests
-    // ======================================================================
+    @Test
+    public void testAddEnvironmentVariableEmbeddedQuote() throws Exception {
+        final Map<String, String> myEnvVars = new HashMap<>(EnvironmentUtils.getProcEnvironment());
+        final String name = "NEW_VAR";
+        final String value = "NEW_\"_VAL";
+        myEnvVars.put(name, value);
+        exec.execute(new CommandLine(environmentSript), myEnvVars);
+        final String environment = baos.toString().trim();
+        assertTrue("Expecting " + name + " in " + environment, environment.indexOf(name) >= 0);
+        assertTrue("Expecting " + value + " in " + environment, environment.indexOf(value) >= 0);
+    }
+
+    /**
+     * Call a script to dump the environment variables of the subprocess
+     * after adding a custom environment variable.
+     *
+     * @throws Exception the test failed
+     */
+    @Test
+    public void testAddEnvironmentVariables() throws Exception {
+        final Map<String, String> myEnvVars = new HashMap<>(EnvironmentUtils.getProcEnvironment());
+        myEnvVars.put("NEW_VAR", "NEW_VAL");
+        exec.execute(new CommandLine(environmentSript), myEnvVars);
+        final String environment = baos.toString().trim();
+        assertTrue("Expecting NEW_VAR in " + environment, environment.indexOf("NEW_VAR") >= 0);
+        assertTrue("Expecting NEW_VAL in " + environment, environment.indexOf("NEW_VAL") >= 0);
+    }
+
+    /**
+     * Call a script to dump the environment variables of the subprocess.
+     *
+     * @throws Exception the test failed
+     */
+    @Test
+    public void testEnvironmentVariables() throws Exception {
+        exec.execute(new CommandLine(environmentSript));
+        final String environment = baos.toString().trim();
+        assertFalse("Found no environment variables", environment.isEmpty());
+        assertFalse(environment.indexOf("NEW_VAR") >= 0);
+    }
 
     /**
      * The simplest possible test - start a script and
@@ -122,65 +226,6 @@ public class DefaultExecutorTest {
         assertEquals("FOO..", baos.toString().trim());
         assertFalse(exec.isFailure(exitValue));
         assertEquals(new File("."), exec.getWorkingDirectory());
-    }
-
-    @Test
-    public void testExecuteWithWorkingDirectory() throws Exception {
-        final File workingDir = new File("./target");
-        final CommandLine cl = new CommandLine(testScript);
-        exec.setWorkingDirectory(workingDir);
-        final int exitValue = exec.execute(cl);
-        assertEquals("FOO..", baos.toString().trim());
-        assertFalse(exec.isFailure(exitValue));
-        assertEquals(exec.getWorkingDirectory(), workingDir);
-    }
-
-    @Test
-    public void testExecuteWithInvalidWorkingDirectory() throws Exception {
-        final File workingDir = new File("/foo/bar");
-        final CommandLine cl = new CommandLine(testScript);
-        exec.setWorkingDirectory(workingDir);
-
-        assertThrows(IOException.class, () -> exec.execute(cl));
-    }
-
-    @Test
-    public void testExecuteWithError() throws Exception {
-        final CommandLine cl = new CommandLine(errorTestScript);
-
-        try{
-            exec.execute(cl);
-            fail("Must throw ExecuteException");
-        } catch (final ExecuteException e) {
-            assertTrue(exec.isFailure(e.getExitValue()));
-        }
-    }
-
-    @Test
-    public void testExecuteWithArg() throws Exception {
-        final CommandLine cl = new CommandLine(testScript);
-        cl.addArgument("BAR");
-        final int exitValue = exec.execute(cl);
-
-        assertEquals("FOO..BAR", baos.toString().trim());
-        assertFalse(exec.isFailure(exitValue));
-    }
-
-    /**
-     * Execute the test script and pass a environment containing
-     * 'TEST_ENV_VAR'.
-     */
-    @Test
-    public void testExecuteWithSingleEnvironmentVariable() throws Exception {
-        final Map<String, String> env = new HashMap<>();
-        env.put("TEST_ENV_VAR", "XYZ");
-
-        final CommandLine cl = new CommandLine(testScript);
-
-        final int exitValue = exec.execute(cl, env);
-
-        assertEquals("FOO.XYZ.", baos.toString().trim());
-        assertFalse(exec.isFailure(exitValue));
     }
 
     /**
@@ -202,6 +247,53 @@ public class DefaultExecutorTest {
     }
 
     /**
+     * Try to start an non-existing application where the exception is caught/processed
+     * by the result handler.
+     */
+    @Test
+    public void testExecuteAsyncNonExistingApplication() throws Exception {
+        final CommandLine cl = new CommandLine(nonExistingTestScript);
+        final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
+        final DefaultExecutor executor = new DefaultExecutor();
+
+        executor.execute(cl, resultHandler);
+        resultHandler.waitFor();
+
+        assertTrue(executor.isFailure(resultHandler.getExitValue()));
+        assertNotNull(resultHandler.getException());
+    }
+
+    /**
+     * Try to start an non-existing application where the exception is caught/processed
+     * by the result handler. The watchdog in notified to avoid waiting for the
+     * process infinitely.
+     *
+     * @see <a href="https://issues.apache.org/jira/browse/EXEC-71">EXEC-71</a>
+     */
+    @Test
+    public void testExecuteAsyncNonExistingApplicationWithWatchdog() throws Exception {
+        final CommandLine cl = new CommandLine(nonExistingTestScript);
+        final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler() {
+            @Override
+            public void onProcessFailed(final ExecuteException e) {
+                System.out.println("Process did not stop gracefully, had exception '" + e.getMessage() + "' while executing process");
+                super.onProcessFailed(e);
+            }
+        };
+        final DefaultExecutor executor = new DefaultExecutor();
+        executor.setWatchdog(new ExecuteWatchdog(ExecuteWatchdog.INFINITE_TIMEOUT));
+
+        executor.execute(cl, resultHandler);
+        resultHandler.waitFor();
+
+        assertTrue(executor.isFailure(resultHandler.getExitValue()));
+        assertNotNull(resultHandler.getException());
+        assertFalse(executor.getWatchdog().isWatching());
+        assertFalse(executor.getWatchdog().killedProcess());
+        executor.getWatchdog().destroyProcess();
+    }
+
+    /**
      * Start a asynchronous process which returns an error
      * exit value.
      *
@@ -217,6 +309,47 @@ public class DefaultExecutorTest {
         assertTrue(exec.isFailure(resultHandler.getExitValue()));
         assertNotNull(resultHandler.getException());
         assertEquals("FOO..", baos.toString().trim());
+    }
+
+    /**
+     * Test the proper handling of ProcessDestroyer for an asynchronous process.
+     * Since we do not terminate the process it will be terminated in the
+     * ShutdownHookProcessDestroyer implementation.
+     *
+     * @throws Exception the test failed
+     */
+    @Test
+    public void testExecuteAsyncWithProcessDestroyer() throws Exception {
+
+      final CommandLine cl = new CommandLine(foreverTestScript);
+      final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
+      final ShutdownHookProcessDestroyer processDestroyer = new ShutdownHookProcessDestroyer();
+      final ExecuteWatchdog watchdog = new ExecuteWatchdog(Integer.MAX_VALUE);
+
+      assertNull(exec.getProcessDestroyer());
+      assertTrue(processDestroyer.isEmpty());
+      assertFalse(processDestroyer.isAddedAsShutdownHook());
+
+      exec.setWatchdog(watchdog);
+      exec.setProcessDestroyer(processDestroyer);
+      exec.execute(cl, handler);
+
+      // wait for script to start
+      Thread.sleep(2000);
+
+      // our process destroyer should be initialized now
+      assertNotNull("Process destroyer should exist", exec.getProcessDestroyer());
+      assertEquals("Process destroyer size should be 1", 1, processDestroyer.size());
+      assertTrue("Process destroyer should exist as shutdown hook", processDestroyer.isAddedAsShutdownHook());
+
+      // terminate it and the process destroyer is detached
+      watchdog.destroyProcess();
+      assertTrue(watchdog.killedProcess());
+      handler.waitFor(WAITFOR_TIMEOUT);
+      assertTrue("ResultHandler received a result", handler.hasResult());
+      assertNotNull(handler.getException());
+      assertEquals("Processor Destroyer size should be 0", 0, processDestroyer.size());
+      assertFalse("Process destroyer should not exist as shutdown hook", processDestroyer.isAddedAsShutdownHook());
     }
 
     /**
@@ -273,6 +406,62 @@ public class DefaultExecutorTest {
     }
 
     /**
+     * Try to start an non-existing application which should result
+     * in an exception.
+     */
+    @Test
+    public void testExecuteNonExistingApplication() throws Exception {
+        final CommandLine cl = new CommandLine(nonExistingTestScript);
+        final DefaultExecutor executor = new DefaultExecutor();
+
+        assertThrows(IOException.class, () -> executor.execute(cl));
+    }
+
+    /**
+     * Try to start an non-existing application which should result
+     * in an exception.
+     */
+    @Test
+    public void testExecuteNonExistingApplicationWithWatchDog() throws Exception {
+        final CommandLine cl = new CommandLine(nonExistingTestScript);
+        final DefaultExecutor executor = new DefaultExecutor();
+        executor.setWatchdog(new ExecuteWatchdog(ExecuteWatchdog.INFINITE_TIMEOUT));
+
+        assertThrows(IOException.class, () -> executor.execute(cl));
+    }
+
+    /**
+     * Start a script looping forever (asynchronously) and check if the
+     * ExecuteWatchdog kicks in killing the run away process. To make killing
+     * a process more testable the "forever" scripts write each second a '.'
+     * into "./target/forever.txt" (a marker file). After a test run
+     * we should have a few dots in there.
+     *
+     * @throws Exception the test failed
+     */
+    @Test
+    public void testExecuteWatchdogAsync() throws Exception {
+
+        final long timeout = 10000;
+
+        final CommandLine cl = new CommandLine(foreverTestScript);
+        final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
+        final DefaultExecutor executor = new DefaultExecutor();
+        executor.setWorkingDirectory(new File("."));
+        executor.setWatchdog(new ExecuteWatchdog(timeout));
+
+        executor.execute(cl, handler);
+        handler.waitFor(WAITFOR_TIMEOUT);
+
+        assertTrue("Killed process should be true", executor.getWatchdog().killedProcess() );
+        assertTrue("ResultHandler received a result", handler.hasResult());
+        assertNotNull("ResultHandler received an exception as result", handler.getException());
+
+        final int nrOfInvocations = getOccurrences(readFile(this.foreverOutputFile), '.');
+        assertTrue("Killing the process did not work : " + nrOfInvocations, nrOfInvocations > 5 && nrOfInvocations <= 11);
+    }
+
+    /**
      * Start a script looping forever (synchronously) and check if the ExecuteWatchdog
      * kicks in killing the run away process. To make killing a process
      * more testable the "forever" scripts write each second a '.'
@@ -318,37 +507,6 @@ public class DefaultExecutorTest {
     }
 
     /**
-     * Start a script looping forever (asynchronously) and check if the
-     * ExecuteWatchdog kicks in killing the run away process. To make killing
-     * a process more testable the "forever" scripts write each second a '.'
-     * into "./target/forever.txt" (a marker file). After a test run
-     * we should have a few dots in there.
-     *
-     * @throws Exception the test failed
-     */
-    @Test
-    public void testExecuteWatchdogAsync() throws Exception {
-
-        final long timeout = 10000;
-
-        final CommandLine cl = new CommandLine(foreverTestScript);
-        final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
-        final DefaultExecutor executor = new DefaultExecutor();
-        executor.setWorkingDirectory(new File("."));
-        executor.setWatchdog(new ExecuteWatchdog(timeout));
-
-        executor.execute(cl, handler);
-        handler.waitFor(WAITFOR_TIMEOUT);
-
-        assertTrue("Killed process should be true", executor.getWatchdog().killedProcess() );
-        assertTrue("ResultHandler received a result", handler.hasResult());
-        assertNotNull("ResultHandler received an exception as result", handler.getException());
-
-        final int nrOfInvocations = getOccurrences(readFile(this.foreverOutputFile), '.');
-        assertTrue("Killing the process did not work : " + nrOfInvocations, nrOfInvocations > 5 && nrOfInvocations <= 11);
-    }
-
-    /**
      * [EXEC-68] Synchronously starts a short script with a Watchdog attached with an extremely large timeout. Checks
      * to see if the script terminated naturally or if it was killed by the Watchdog. Fail if killed by Watchdog.
      *
@@ -374,77 +532,31 @@ public class DefaultExecutorTest {
         }
     }
 
-    /**
-     * Try to start an non-existing application which should result
-     * in an exception.
-     */
     @Test
-    public void testExecuteNonExistingApplication() throws Exception {
-        final CommandLine cl = new CommandLine(nonExistingTestScript);
-        final DefaultExecutor executor = new DefaultExecutor();
+    public void testExecuteWithArg() throws Exception {
+        final CommandLine cl = new CommandLine(testScript);
+        cl.addArgument("BAR");
+        final int exitValue = exec.execute(cl);
 
-        assertThrows(IOException.class, () -> executor.execute(cl));
+        assertEquals("FOO..BAR", baos.toString().trim());
+        assertFalse(exec.isFailure(exitValue));
     }
 
     /**
-     * Try to start an non-existing application which should result
-     * in an exception.
-     */
-    @Test
-    public void testExecuteNonExistingApplicationWithWatchDog() throws Exception {
-        final CommandLine cl = new CommandLine(nonExistingTestScript);
-        final DefaultExecutor executor = new DefaultExecutor();
-        executor.setWatchdog(new ExecuteWatchdog(ExecuteWatchdog.INFINITE_TIMEOUT));
-
-        assertThrows(IOException.class, () -> executor.execute(cl));
-    }
-
-    /**
-     * Try to start an non-existing application where the exception is caught/processed
-     * by the result handler.
-     */
-    @Test
-    public void testExecuteAsyncNonExistingApplication() throws Exception {
-        final CommandLine cl = new CommandLine(nonExistingTestScript);
-        final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
-        final DefaultExecutor executor = new DefaultExecutor();
-
-        executor.execute(cl, resultHandler);
-        resultHandler.waitFor();
-
-        assertTrue(executor.isFailure(resultHandler.getExitValue()));
-        assertNotNull(resultHandler.getException());
-    }
-
-    /**
-     * Try to start an non-existing application where the exception is caught/processed
-     * by the result handler. The watchdog in notified to avoid waiting for the
-     * process infinitely.
+     * A generic test case to print the command line arguments to 'printargs' script to solve
+     * even more command line puzzles.
      *
-     * @see <a href="https://issues.apache.org/jira/browse/EXEC-71">EXEC-71</a>
+     * @throws Exception the test failed
      */
     @Test
-    public void testExecuteAsyncNonExistingApplicationWithWatchdog() throws Exception {
-        final CommandLine cl = new CommandLine(nonExistingTestScript);
-        final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler() {
-            @Override
-            public void onProcessFailed(final ExecuteException e) {
-                System.out.println("Process did not stop gracefully, had exception '" + e.getMessage() + "' while executing process");
-                super.onProcessFailed(e);
-            }
-        };
+    public void testExecuteWithComplexArguments() throws Exception {
+        final CommandLine cl = new CommandLine(printArgsScript);
+        cl.addArgument("gdal_translate");
+        cl.addArgument("HDF5:\"/home/kk/grass/data/4404.he5\"://HDFEOS/GRIDS/OMI_Column_Amount_O3/Data_Fields/ColumnAmountO3/home/kk/4.tif", false);
         final DefaultExecutor executor = new DefaultExecutor();
-        executor.setWatchdog(new ExecuteWatchdog(ExecuteWatchdog.INFINITE_TIMEOUT));
-
-        executor.execute(cl, resultHandler);
-        resultHandler.waitFor();
-
-        assertTrue(executor.isFailure(resultHandler.getExitValue()));
-        assertNotNull(resultHandler.getException());
-        assertFalse(executor.getWatchdog().isWatching());
-        assertFalse(executor.getWatchdog().killedProcess());
-        executor.getWatchdog().destroyProcess();
-    }
+        final int exitValue = executor.execute(cl);
+        assertFalse(exec.isFailure(exitValue));
+     }
 
     /**
      * Invoke the error script but define that the ERROR_STATUS is a good
@@ -477,6 +589,57 @@ public class DefaultExecutorTest {
         }
     }
 
+     @Test
+    public void testExecuteWithError() throws Exception {
+        final CommandLine cl = new CommandLine(errorTestScript);
+
+        try{
+            exec.execute(cl);
+            fail("Must throw ExecuteException");
+        } catch (final ExecuteException e) {
+            assertTrue(exec.isFailure(e.getExitValue()));
+        }
+    }
+
+    /**
+     * Invoke the test using some fancy arguments.
+     *
+     * @throws Exception the test failed
+     */
+    @Test
+    public void testExecuteWithFancyArg() throws Exception {
+        final CommandLine cl = new CommandLine(testScript);
+        cl.addArgument("test $;`(0)[1]{2}");
+        final int exitValue = exec.execute(cl);
+        assertTrue(baos.toString().trim().indexOf("test $;`(0)[1]{2}") > 0);
+        assertFalse(exec.isFailure(exitValue));
+    }
+
+     @Test
+    public void testExecuteWithInvalidWorkingDirectory() throws Exception {
+        final File workingDir = new File("/foo/bar");
+        final CommandLine cl = new CommandLine(testScript);
+        exec.setWorkingDirectory(workingDir);
+
+        assertThrows(IOException.class, () -> exec.execute(cl));
+    }
+
+    /**
+     * Start a process and connect it to no stream.
+     *
+     * @throws Exception
+     *             the test failed
+     */
+    @Test
+    public void testExecuteWithNullOutErr() throws Exception {
+        final CommandLine cl = new CommandLine(testScript);
+        final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(null, null);
+        final DefaultExecutor executor = new DefaultExecutor();
+        executor.setStreamHandler(pumpStreamHandler);
+        final int exitValue = executor.execute(cl);
+        assertFalse(exec.isFailure(exitValue));
+    }
+
     /**
      * Test the proper handling of ProcessDestroyer for an synchronous process.
      *
@@ -498,61 +661,6 @@ public class DefaultExecutorTest {
       assertFalse(exec.isFailure(exitValue));
       assertTrue(processDestroyer.isEmpty());
       assertFalse(processDestroyer.isAddedAsShutdownHook());
-    }
-
-    /**
-     * Test the proper handling of ProcessDestroyer for an asynchronous process.
-     * Since we do not terminate the process it will be terminated in the
-     * ShutdownHookProcessDestroyer implementation.
-     *
-     * @throws Exception the test failed
-     */
-    @Test
-    public void testExecuteAsyncWithProcessDestroyer() throws Exception {
-
-      final CommandLine cl = new CommandLine(foreverTestScript);
-      final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
-      final ShutdownHookProcessDestroyer processDestroyer = new ShutdownHookProcessDestroyer();
-      final ExecuteWatchdog watchdog = new ExecuteWatchdog(Integer.MAX_VALUE);
-
-      assertNull(exec.getProcessDestroyer());
-      assertTrue(processDestroyer.isEmpty());
-      assertFalse(processDestroyer.isAddedAsShutdownHook());
-
-      exec.setWatchdog(watchdog);
-      exec.setProcessDestroyer(processDestroyer);
-      exec.execute(cl, handler);
-
-      // wait for script to start
-      Thread.sleep(2000);
-
-      // our process destroyer should be initialized now
-      assertNotNull("Process destroyer should exist", exec.getProcessDestroyer());
-      assertEquals("Process destroyer size should be 1", 1, processDestroyer.size());
-      assertTrue("Process destroyer should exist as shutdown hook", processDestroyer.isAddedAsShutdownHook());
-
-      // terminate it and the process destroyer is detached
-      watchdog.destroyProcess();
-      assertTrue(watchdog.killedProcess());
-      handler.waitFor(WAITFOR_TIMEOUT);
-      assertTrue("ResultHandler received a result", handler.hasResult());
-      assertNotNull(handler.getException());
-      assertEquals("Processor Destroyer size should be 0", 0, processDestroyer.size());
-      assertFalse("Process destroyer should not exist as shutdown hook", processDestroyer.isAddedAsShutdownHook());
-    }
-
-    /**
-     * Invoke the test using some fancy arguments.
-     *
-     * @throws Exception the test failed
-     */
-    @Test
-    public void testExecuteWithFancyArg() throws Exception {
-        final CommandLine cl = new CommandLine(testScript);
-        cl.addArgument("test $;`(0)[1]{2}");
-        final int exitValue = exec.execute(cl);
-        assertTrue(baos.toString().trim().indexOf("test $;`(0)[1]{2}") > 0);
-        assertFalse(exec.isFailure(exitValue));
     }
 
     /**
@@ -588,38 +696,7 @@ public class DefaultExecutorTest {
         }
     }
 
-     /**
-      * Start a process and connect stdout and stderr.
-      *
-      * @throws Exception the test failed
-      */
-     @Test
-    public void testExecuteWithStdOutErr() throws Exception {
-        final CommandLine cl = new CommandLine(testScript);
-        final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(System.out, System.err);
-        final DefaultExecutor executor = new DefaultExecutor();
-        executor.setStreamHandler(pumpStreamHandler);
-        final int exitValue = executor.execute(cl);
-        assertFalse(exec.isFailure(exitValue));
-    }
-
     /**
-     * Start a process and connect it to no stream.
-     *
-     * @throws Exception
-     *             the test failed
-     */
-    @Test
-    public void testExecuteWithNullOutErr() throws Exception {
-        final CommandLine cl = new CommandLine(testScript);
-        final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(null, null);
-        final DefaultExecutor executor = new DefaultExecutor();
-        executor.setStreamHandler(pumpStreamHandler);
-        final int exitValue = executor.execute(cl);
-        assertFalse(exec.isFailure(exitValue));
-    }
-
-     /**
       * Start a process and connect out and err to a file.
       *
       * @throws Exception the test failed
@@ -641,20 +718,55 @@ public class DefaultExecutorTest {
      }
 
     /**
-     * A generic test case to print the command line arguments to 'printargs' script to solve
-     * even more command line puzzles.
-     *
-     * @throws Exception the test failed
+     * Execute the test script and pass a environment containing
+     * 'TEST_ENV_VAR'.
      */
     @Test
-    public void testExecuteWithComplexArguments() throws Exception {
-        final CommandLine cl = new CommandLine(printArgsScript);
-        cl.addArgument("gdal_translate");
-        cl.addArgument("HDF5:\"/home/kk/grass/data/4404.he5\"://HDFEOS/GRIDS/OMI_Column_Amount_O3/Data_Fields/ColumnAmountO3/home/kk/4.tif", false);
+    public void testExecuteWithSingleEnvironmentVariable() throws Exception {
+        final Map<String, String> env = new HashMap<>();
+        env.put("TEST_ENV_VAR", "XYZ");
+
+        final CommandLine cl = new CommandLine(testScript);
+
+        final int exitValue = exec.execute(cl, env);
+
+        assertEquals("FOO.XYZ.", baos.toString().trim());
+        assertFalse(exec.isFailure(exitValue));
+    }
+
+    // ======================================================================
+    // === Long running tests
+    // ======================================================================
+
+    /**
+      * Start a process and connect stdout and stderr.
+      *
+      * @throws Exception the test failed
+      */
+     @Test
+    public void testExecuteWithStdOutErr() throws Exception {
+        final CommandLine cl = new CommandLine(testScript);
+        final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(System.out, System.err);
         final DefaultExecutor executor = new DefaultExecutor();
+        executor.setStreamHandler(pumpStreamHandler);
         final int exitValue = executor.execute(cl);
         assertFalse(exec.isFailure(exitValue));
-     }
+    }
+
+    // ======================================================================
+    // === Helper methods
+    // ======================================================================
+
+    @Test
+    public void testExecuteWithWorkingDirectory() throws Exception {
+        final File workingDir = new File("./target");
+        final CommandLine cl = new CommandLine(testScript);
+        exec.setWorkingDirectory(workingDir);
+        final int exitValue = exec.execute(cl);
+        assertEquals("FOO..", baos.toString().trim());
+        assertFalse(exec.isFailure(exitValue));
+        assertEquals(exec.getWorkingDirectory(), workingDir);
+    }
 
     /**
      * The test script reads an argument from {@code stdin} and prints
@@ -680,117 +792,5 @@ public class DefaultExecutorTest {
         assertFalse(exec.isFailure(resultHandler.getExitValue()));
         final String result = baos.toString();
         assertTrue("Result '" + result + "' should contain 'Hello Foo!'", result.indexOf("Hello Foo!") >= 0);
-    }
-
-    /**
-     * Call a script to dump the environment variables of the subprocess.
-     *
-     * @throws Exception the test failed
-     */
-    @Test
-    public void testEnvironmentVariables() throws Exception {
-        exec.execute(new CommandLine(environmentSript));
-        final String environment = baos.toString().trim();
-        assertFalse("Found no environment variables", environment.isEmpty());
-        assertFalse(environment.indexOf("NEW_VAR") >= 0);
-    }
-
-    /**
-     * Call a script to dump the environment variables of the subprocess
-     * after adding a custom environment variable.
-     *
-     * @throws Exception the test failed
-     */
-    @Test
-    public void testAddEnvironmentVariables() throws Exception {
-        final Map<String, String> myEnvVars = new HashMap<>(EnvironmentUtils.getProcEnvironment());
-        myEnvVars.put("NEW_VAR", "NEW_VAL");
-        exec.execute(new CommandLine(environmentSript), myEnvVars);
-        final String environment = baos.toString().trim();
-        assertTrue("Expecting NEW_VAR in " + environment, environment.indexOf("NEW_VAR") >= 0);
-        assertTrue("Expecting NEW_VAL in " + environment, environment.indexOf("NEW_VAL") >= 0);
-    }
-
-    @Test
-    public void testAddEnvironmentVariableEmbeddedQuote() throws Exception {
-        final Map<String, String> myEnvVars = new HashMap<>(EnvironmentUtils.getProcEnvironment());
-        final String name = "NEW_VAR";
-        final String value = "NEW_\"_VAL";
-        myEnvVars.put(name, value);
-        exec.execute(new CommandLine(environmentSript), myEnvVars);
-        final String environment = baos.toString().trim();
-        assertTrue("Expecting " + name + " in " + environment, environment.indexOf(name) >= 0);
-        assertTrue("Expecting " + value + " in " + environment, environment.indexOf(value) >= 0);
-    }
-
-    // ======================================================================
-    // === Long running tests
-    // ======================================================================
-
-    /**
-     * Start any processes in a loop to make sure that we do
-     * not leave any handles/resources open.
-     *
-     * @throws Exception the test failed
-     */
-    @Test
-    @Ignore
-    public void _testExecuteStability() throws Exception {
-
-        // make a plain-vanilla test
-        for (int i = 0; i < 100; i++) {
-            final Map<String, String> env = new HashMap<>();
-            env.put("TEST_ENV_VAR", Integer.toString(i));
-            final CommandLine cl = new CommandLine(testScript);
-            final int exitValue = exec.execute(cl, env);
-            assertFalse(exec.isFailure(exitValue));
-            assertEquals("FOO." + i + ".", baos.toString().trim());
-            baos.reset();
-        }
-
-        // now be nasty and use the watchdog to kill out sub-processes
-        for (int i = 0; i < 100; i++) {
-            final Map<String, String> env = new HashMap<>();
-            env.put("TEST_ENV_VAR", Integer.toString(i));
-            final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
-            final CommandLine cl = new CommandLine(foreverTestScript);
-            final ExecuteWatchdog watchdog = new ExecuteWatchdog(500);
-            exec.setWatchdog(watchdog);
-            exec.execute(cl, env, resultHandler);
-            resultHandler.waitFor(WAITFOR_TIMEOUT);
-            assertTrue("ResultHandler received a result", resultHandler.hasResult());
-            assertNotNull(resultHandler.getException());
-            baos.reset();
-        }
-    }
-
-    // ======================================================================
-    // === Helper methods
-    // ======================================================================
-
-    private String readFile(final File file) throws Exception {
-
-        String text;
-        final StringBuilder contents = new StringBuilder();
-        final BufferedReader reader = new BufferedReader(new FileReader(file));
-
-        while ((text = reader.readLine()) != null) {
-            contents.append(text).append(System.getProperty("line.separator"));
-        }
-        reader.close();
-        return contents.toString();
-    }
-
-    private int getOccurrences(final String data, final char c) {
-
-        int result = 0;
-
-        for (int i=0; i<data.length(); i++) {
-            if (data.charAt(i) == c) {
-                result++;
-            }
-        }
-
-        return result;
     }
 }

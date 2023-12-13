@@ -40,6 +40,94 @@ public class StringUtils {
     private static final char BACKSLASH_CHAR = '\\';
 
     /**
+     * Fixes the file separator char for the target platform
+     * using the following replacement.
+     *
+     * <ul>
+     *  <li>'/' &#x2192; File.separatorChar</li>
+     *  <li>'\\' &#x2192; File.separatorChar</li>
+     * </ul>
+     *
+     * @param arg the argument to fix
+     * @return the transformed argument
+     */
+    public static String fixFileSeparatorChar(final String arg) {
+        return arg.replace(SLASH_CHAR, File.separatorChar).replace(
+                BACKSLASH_CHAR, File.separatorChar);
+    }
+
+    /**
+     * Determines if this is a quoted argument - either single or
+     * double quoted.
+     *
+     * @param argument the argument to check
+     * @return true when the argument is quoted
+     */
+    public static boolean isQuoted(final String argument) {
+        return argument.startsWith(SINGLE_QUOTE) && argument.endsWith(SINGLE_QUOTE)
+                || argument.startsWith(DOUBLE_QUOTE) && argument.endsWith(DOUBLE_QUOTE);
+    }
+
+    /**
+     * Put quotes around the given String if necessary.
+     * <p>
+     * If the argument doesn't include spaces or quotes, return it as is. If it
+     * contains double quotes, use single quotes - else surround the argument by
+     * double quotes.
+     * </p>
+     *
+     * @param argument the argument to be quoted
+     * @return the quoted argument
+     * @throws IllegalArgumentException If argument contains both types of quotes
+     */
+    public static String quoteArgument(final String argument) {
+
+        String cleanedArgument = argument.trim();
+
+        // strip the quotes from both ends
+        while (cleanedArgument.startsWith(SINGLE_QUOTE) || cleanedArgument.startsWith(DOUBLE_QUOTE)) {
+            cleanedArgument = cleanedArgument.substring(1);
+        }
+
+        while (cleanedArgument.endsWith(SINGLE_QUOTE) || cleanedArgument.endsWith(DOUBLE_QUOTE)) {
+            cleanedArgument = cleanedArgument.substring(0, cleanedArgument.length() - 1);
+        }
+
+        final StringBuilder buf = new StringBuilder();
+        if (cleanedArgument.indexOf(DOUBLE_QUOTE) > -1) {
+            if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1) {
+                throw new IllegalArgumentException(
+                        "Can't handle single and double quotes in same argument");
+            }
+            return buf.append(SINGLE_QUOTE).append(cleanedArgument).append(
+                    SINGLE_QUOTE).toString();
+        }
+        if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1
+                || cleanedArgument.indexOf(" ") > -1) {
+            return buf.append(DOUBLE_QUOTE).append(cleanedArgument).append(
+                    DOUBLE_QUOTE).toString();
+        }
+        return cleanedArgument;
+    }
+
+    /**
+     * Split a string into an array of strings based
+     * on a separator.
+     *
+     * @param input     what to split
+     * @param splitChar what to split on
+     * @return the array of strings
+     */
+    public static String[] split(final String input, final String splitChar) {
+        final StringTokenizer tokens = new StringTokenizer(input, splitChar);
+        final List<String> strList = new ArrayList<>();
+        while (tokens.hasMoreTokens()) {
+            strList.add(tokens.nextToken());
+        }
+        return strList.toArray(EMPTY_STRING_ARRAY);
+    }
+
+    /**
      * Perform a series of substitutions.
      * <p>
      * The substitutions are performed by replacing ${variable} in the target string with the value of provided by the
@@ -148,40 +236,6 @@ public class StringUtils {
     }
 
     /**
-     * Split a string into an array of strings based
-     * on a separator.
-     *
-     * @param input     what to split
-     * @param splitChar what to split on
-     * @return the array of strings
-     */
-    public static String[] split(final String input, final String splitChar) {
-        final StringTokenizer tokens = new StringTokenizer(input, splitChar);
-        final List<String> strList = new ArrayList<>();
-        while (tokens.hasMoreTokens()) {
-            strList.add(tokens.nextToken());
-        }
-        return strList.toArray(EMPTY_STRING_ARRAY);
-    }
-
-    /**
-     * Fixes the file separator char for the target platform
-     * using the following replacement.
-     *
-     * <ul>
-     *  <li>'/' &#x2192; File.separatorChar</li>
-     *  <li>'\\' &#x2192; File.separatorChar</li>
-     * </ul>
-     *
-     * @param arg the argument to fix
-     * @return the transformed argument
-     */
-    public static String fixFileSeparatorChar(final String arg) {
-        return arg.replace(SLASH_CHAR, File.separatorChar).replace(
-                BACKSLASH_CHAR, File.separatorChar);
-    }
-
-    /**
      * Concatenates an array of string using a separator.
      *
      * @param strings the strings to concatenate
@@ -197,59 +251,5 @@ public class StringUtils {
             sb.append(strings[i]);
         }
         return sb.toString();
-    }
-
-    /**
-     * Put quotes around the given String if necessary.
-     * <p>
-     * If the argument doesn't include spaces or quotes, return it as is. If it
-     * contains double quotes, use single quotes - else surround the argument by
-     * double quotes.
-     * </p>
-     *
-     * @param argument the argument to be quoted
-     * @return the quoted argument
-     * @throws IllegalArgumentException If argument contains both types of quotes
-     */
-    public static String quoteArgument(final String argument) {
-
-        String cleanedArgument = argument.trim();
-
-        // strip the quotes from both ends
-        while (cleanedArgument.startsWith(SINGLE_QUOTE) || cleanedArgument.startsWith(DOUBLE_QUOTE)) {
-            cleanedArgument = cleanedArgument.substring(1);
-        }
-
-        while (cleanedArgument.endsWith(SINGLE_QUOTE) || cleanedArgument.endsWith(DOUBLE_QUOTE)) {
-            cleanedArgument = cleanedArgument.substring(0, cleanedArgument.length() - 1);
-        }
-
-        final StringBuilder buf = new StringBuilder();
-        if (cleanedArgument.indexOf(DOUBLE_QUOTE) > -1) {
-            if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1) {
-                throw new IllegalArgumentException(
-                        "Can't handle single and double quotes in same argument");
-            }
-            return buf.append(SINGLE_QUOTE).append(cleanedArgument).append(
-                    SINGLE_QUOTE).toString();
-        }
-        if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1
-                || cleanedArgument.indexOf(" ") > -1) {
-            return buf.append(DOUBLE_QUOTE).append(cleanedArgument).append(
-                    DOUBLE_QUOTE).toString();
-        }
-        return cleanedArgument;
-    }
-
-    /**
-     * Determines if this is a quoted argument - either single or
-     * double quoted.
-     *
-     * @param argument the argument to check
-     * @return true when the argument is quoted
-     */
-    public static boolean isQuoted(final String argument) {
-        return argument.startsWith(SINGLE_QUOTE) && argument.endsWith(SINGLE_QUOTE)
-                || argument.startsWith(DOUBLE_QUOTE) && argument.endsWith(DOUBLE_QUOTE);
     }
 }

@@ -35,61 +35,6 @@ import org.junit.Test;
  */
 public class LogOutputStreamTest {
 
-    private final Executor exec = new DefaultExecutor();
-    private final File testDir = new File("src/test/scripts");
-    private OutputStream systemOut;
-    private final File environmentScript = TestUtil.resolveScriptForOS(testDir + "/environment");
-    private final File utf8CharacterScript = TestUtil.resolveScriptForOS(testDir + "/utf8Characters");
-
-    @BeforeClass
-    public static void classSetUp() {
-        // turn on debug mode and throw an exception for each encountered problem
-        System.setProperty("org.apache.commons.exec.lenient", "false");
-        System.setProperty("org.apache.commons.exec.debug", "true");
-    }
-
-    @Before
-    public void setUp() throws Exception {
-
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        if (this.systemOut != null) {
-            this.systemOut.close();
-        }
-    }
-
-    // ======================================================================
-    // Start of regression tests
-    // ======================================================================
-
-    @Test
-    public void testStdout() throws Exception {
-        this.systemOut = new SystemLogOutputStream(1);
-        this.exec.setStreamHandler(new PumpStreamHandler(systemOut, systemOut));
-
-        final CommandLine cl = new CommandLine(environmentScript);
-        final int exitValue = exec.execute(cl);
-        assertFalse(exec.isFailure(exitValue));
-    }
-
-    @Test
-    @Ignore("The file utf8CharacterScript is missing from the repository and is not in its history")
-    public void testStdoutWithUTF8Characters() throws Exception {
-        this.systemOut = new SystemLogOutputStream(1, StandardCharsets.UTF_8);
-        this.exec.setStreamHandler(new PumpStreamHandler(systemOut, systemOut));
-
-        final CommandLine cl = new CommandLine(utf8CharacterScript);
-        final int exitValue = exec.execute(cl);
-        assertFalse(exec.isFailure(exitValue));
-        assertEquals("This string contains UTF-8 characters like the see no evil monkey \uD83D\uDE48 and the right single quotation mark \u2019", ((SystemLogOutputStream) systemOut).getOutput());
-    }
-
-    // ======================================================================
-    // Helper classes
-    // ======================================================================
-
     private final class SystemLogOutputStream extends LogOutputStream {
 
         StringBuffer output = new StringBuffer();
@@ -102,15 +47,70 @@ public class LogOutputStreamTest {
             super(level, charset);
         }
 
+        private String getOutput() {
+            return output.toString();
+        }
+
         @Override
         protected void processLine(final String line, final int level) {
             System.out.println(line);
             output.append(line);
         }
+    }
+    @BeforeClass
+    public static void classSetUp() {
+        // turn on debug mode and throw an exception for each encountered problem
+        System.setProperty("org.apache.commons.exec.lenient", "false");
+        System.setProperty("org.apache.commons.exec.debug", "true");
+    }
+    private final Executor exec = new DefaultExecutor();
+    private final File testDir = new File("src/test/scripts");
+    private OutputStream systemOut;
 
-        private String getOutput() {
-            return output.toString();
+    private final File environmentScript = TestUtil.resolveScriptForOS(testDir + "/environment");
+
+    private final File utf8CharacterScript = TestUtil.resolveScriptForOS(testDir + "/utf8Characters");
+
+    @Before
+    public void setUp() throws Exception {
+
+    }
+
+    // ======================================================================
+    // Start of regression tests
+    // ======================================================================
+
+    @After
+    public void tearDown() throws Exception {
+        if (this.systemOut != null) {
+            this.systemOut.close();
         }
+    }
+
+    @Test
+    public void testStdout() throws Exception {
+        this.systemOut = new SystemLogOutputStream(1);
+        this.exec.setStreamHandler(new PumpStreamHandler(systemOut, systemOut));
+
+        final CommandLine cl = new CommandLine(environmentScript);
+        final int exitValue = exec.execute(cl);
+        assertFalse(exec.isFailure(exitValue));
+    }
+
+    // ======================================================================
+    // Helper classes
+    // ======================================================================
+
+    @Test
+    @Ignore("The file utf8CharacterScript is missing from the repository and is not in its history")
+    public void testStdoutWithUTF8Characters() throws Exception {
+        this.systemOut = new SystemLogOutputStream(1, StandardCharsets.UTF_8);
+        this.exec.setStreamHandler(new PumpStreamHandler(systemOut, systemOut));
+
+        final CommandLine cl = new CommandLine(utf8CharacterScript);
+        final int exitValue = exec.execute(cl);
+        assertFalse(exec.isFailure(exitValue));
+        assertEquals("This string contains UTF-8 characters like the see no evil monkey \uD83D\uDE48 and the right single quotation mark \u2019", ((SystemLogOutputStream) systemOut).getOutput());
     }
 
 }

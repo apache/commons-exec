@@ -89,23 +89,16 @@ public abstract class LogOutputStream
     }
 
     /**
-     * Write the data to the buffer and flush the buffer, if a line separator is
-     * detected.
+     * Writes all remaining data from the buffer.
      *
-     * @param cc data to log (byte).
-     * @see java.io.OutputStream#write(int)
+     * @see java.io.OutputStream#close()
      */
     @Override
-    public void write(final int cc) throws IOException {
-        final byte c = (byte) cc;
-        if (c == '\n' || c == '\r') {
-            if (!skip) {
-                processBuffer();
-            }
-        } else {
-            buffer.write(cc);
+    public void close() throws IOException {
+        if (buffer.size() > 0) {
+            processBuffer();
         }
-        skip = c == '\r';
+        super.close();
     }
 
     /**
@@ -121,24 +114,37 @@ public abstract class LogOutputStream
     }
 
     /**
-     * Writes all remaining data from the buffer.
-     *
-     * @see java.io.OutputStream#close()
-     */
-    @Override
-    public void close() throws IOException {
-        if (buffer.size() > 0) {
-            processBuffer();
-        }
-        super.close();
-    }
-
-    /**
      * @return the trace level of the log system
      */
     public int getMessageLevel() {
         return level;
     }
+
+    /**
+     * Converts the buffer to a string and sends it to {@code processLine}.
+     */
+    protected void processBuffer() {
+        processLine(buffer.toString(charset));
+        buffer.reset();
+    }
+
+    /**
+     * Logs a line to the log system of the user.
+     *
+     * @param line
+     *            the line to log.
+     */
+    protected void processLine(final String line) {
+        processLine(line, level);
+    }
+
+    /**
+     * Logs a line to the log system of the user.
+     *
+     * @param line the line to log.
+     * @param logLevel the log level to use
+     */
+    protected abstract void processLine(final String line, final int logLevel);
 
     /**
      * Write a block of characters to the output stream
@@ -176,28 +182,22 @@ public abstract class LogOutputStream
     }
 
     /**
-     * Converts the buffer to a string and sends it to {@code processLine}.
-     */
-    protected void processBuffer() {
-        processLine(buffer.toString(charset));
-        buffer.reset();
-    }
-
-    /**
-     * Logs a line to the log system of the user.
+     * Write the data to the buffer and flush the buffer, if a line separator is
+     * detected.
      *
-     * @param line
-     *            the line to log.
+     * @param cc data to log (byte).
+     * @see java.io.OutputStream#write(int)
      */
-    protected void processLine(final String line) {
-        processLine(line, level);
+    @Override
+    public void write(final int cc) throws IOException {
+        final byte c = (byte) cc;
+        if (c == '\n' || c == '\r') {
+            if (!skip) {
+                processBuffer();
+            }
+        } else {
+            buffer.write(cc);
+        }
+        skip = c == '\r';
     }
-
-    /**
-     * Logs a line to the log system of the user.
-     *
-     * @param line the line to log.
-     * @param logLevel the log level to use
-     */
-    protected abstract void processLine(final String line, final int logLevel);
 }

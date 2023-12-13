@@ -40,24 +40,6 @@ import org.junit.Test;
 public class Exec62Test {
     private Path outputFile;
 
-    @Before
-    public void setUp() throws Exception {
-        outputFile = Files.createTempFile("foo", ".log");
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        Files.delete(outputFile);
-    }
-
-    @Ignore("Test behaves differently between Mac OS X and Linux - don't know why")
-    @Test(expected = TimeoutException.class, timeout = 10000)
-    public void testMe() throws Exception {
-        if (OS.isFamilyUnix()) {
-            execute("exec-62");
-        }
-    }
-
     private void execute(final String scriptName) throws Exception {
         final ExecuteWatchdog watchdog = new ExecuteWatchdog(4000);
         final CommandLine commandLine = new CommandLine("/bin/sh");
@@ -76,6 +58,24 @@ public class Exec62Test {
 
         if (watchdog.killedProcess()) {
             throw new TimeoutException(String.format("Transcode process was killed on timeout %1$s ms, command line %2$s", 4000, commandLine.toString()));
+        }
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        outputFile = Files.createTempFile("foo", ".log");
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        Files.delete(outputFile);
+    }
+
+    @Ignore("Test behaves differently between Mac OS X and Linux - don't know why")
+    @Test(expected = TimeoutException.class, timeout = 10000)
+    public void testMe() throws Exception {
+        if (OS.isFamilyUnix()) {
+            execute("exec-62");
         }
     }
 }

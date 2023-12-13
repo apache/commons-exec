@@ -88,67 +88,44 @@ public class DefaultExecutor implements Executor {
     }
 
     /**
-     * @see org.apache.commons.exec.Executor#getStreamHandler()
+     * Close the streams belonging to the given Process.
+     *
+     * @param process the <CODE>Process</CODE>.
      */
-    @Override
-    public ExecuteStreamHandler getStreamHandler() {
-        return streamHandler;
+    private void closeProcessStreams(final Process process) {
+
+        try {
+            process.getInputStream().close();
+        }
+        catch (final IOException e) {
+            setExceptionCaught(e);
+        }
+
+        try {
+            process.getOutputStream().close();
+        }
+        catch (final IOException e) {
+            setExceptionCaught(e);
+        }
+
+        try {
+            process.getErrorStream().close();
+        }
+        catch (final IOException e) {
+            setExceptionCaught(e);
+        }
     }
 
     /**
-     * @see org.apache.commons.exec.Executor#setStreamHandler(org.apache.commons.exec.ExecuteStreamHandler)
+     * Factory method to create a thread waiting for the result of an
+     * asynchronous execution.
+     *
+     * @param runnable the runnable passed to the thread
+     * @param name the name of the thread
+     * @return the thread
      */
-    @Override
-    public void setStreamHandler(final ExecuteStreamHandler streamHandler) {
-        this.streamHandler = streamHandler;
-    }
-
-    /**
-     * @see org.apache.commons.exec.Executor#getWatchdog()
-     */
-    @Override
-    public ExecuteWatchdog getWatchdog() {
-        return watchdog;
-    }
-
-    /**
-     * @see org.apache.commons.exec.Executor#setWatchdog(org.apache.commons.exec.ExecuteWatchdog)
-     */
-    @Override
-    public void setWatchdog(final ExecuteWatchdog watchDog) {
-        this.watchdog = watchDog;
-    }
-
-    /**
-     * @see org.apache.commons.exec.Executor#getProcessDestroyer()
-     */
-    @Override
-    public ProcessDestroyer getProcessDestroyer() {
-      return this.processDestroyer;
-    }
-
-    /**
-     * @see org.apache.commons.exec.Executor#setProcessDestroyer(ProcessDestroyer)
-     */
-    @Override
-    public void setProcessDestroyer(final ProcessDestroyer processDestroyer) {
-      this.processDestroyer = processDestroyer;
-    }
-
-    /**
-     * @see org.apache.commons.exec.Executor#getWorkingDirectory()
-     */
-    @Override
-    public File getWorkingDirectory() {
-        return workingDirectory;
-    }
-
-    /**
-     * @see org.apache.commons.exec.Executor#setWorkingDirectory(java.io.File)
-     */
-    @Override
-    public void setWorkingDirectory(final File dir) {
-        this.workingDirectory = dir;
+    protected Thread createThread(final Runnable runnable, final String name) {
+        return new Thread(runnable, name);
     }
 
     /**
@@ -158,6 +135,16 @@ public class DefaultExecutor implements Executor {
     public int execute(final CommandLine command) throws ExecuteException,
             IOException {
         return execute(command, (Map<String, String>) null);
+    }
+
+    /**
+     * @see org.apache.commons.exec.Executor#execute(CommandLine,
+     *      org.apache.commons.exec.ExecuteResultHandler)
+     */
+    @Override
+    public void execute(final CommandLine command, final ExecuteResultHandler handler)
+            throws ExecuteException, IOException {
+        execute(command, null, handler);
     }
 
     /**
@@ -173,16 +160,6 @@ public class DefaultExecutor implements Executor {
 
         return executeInternal(command, environment, workingDirectory, streamHandler);
 
-    }
-
-    /**
-     * @see org.apache.commons.exec.Executor#execute(CommandLine,
-     *      org.apache.commons.exec.ExecuteResultHandler)
-     */
-    @Override
-    public void execute(final CommandLine command, final ExecuteResultHandler handler)
-            throws ExecuteException, IOException {
-        execute(command, null, handler);
     }
 
     /**
@@ -213,112 +190,6 @@ public class DefaultExecutor implements Executor {
             }
         }, "Exec Default Executor");
         getExecutorThread().start();
-    }
-
-    /** @see org.apache.commons.exec.Executor#setExitValue(int) */
-    @Override
-    public void setExitValue(final int value) {
-        this.setExitValues(new int[] {value});
-    }
-
-    /** @see org.apache.commons.exec.Executor#setExitValues(int[]) */
-    @Override
-    public void setExitValues(final int[] values) {
-        this.exitValues = values == null ? null : (int[]) values.clone();
-    }
-
-    /** @see org.apache.commons.exec.Executor#isFailure(int) */
-    @Override
-    public boolean isFailure(final int exitValue) {
-
-        if (this.exitValues == null) {
-            return false;
-        }
-        if (this.exitValues.length == 0) {
-            return this.launcher.isFailure(exitValue);
-        }
-        for (final int exitValue2 : this.exitValues) {
-            if (exitValue2 == exitValue) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Factory method to create a thread waiting for the result of an
-     * asynchronous execution.
-     *
-     * @param runnable the runnable passed to the thread
-     * @param name the name of the thread
-     * @return the thread
-     */
-    protected Thread createThread(final Runnable runnable, final String name) {
-        return new Thread(runnable, name);
-    }
-
-    /**
-     * Creates a process that runs a command.
-     *
-     * @param command
-     *            the command to run
-     * @param env
-     *            the environment for the command
-     * @param dir
-     *            the working directory for the command
-     * @return the process started
-     * @throws IOException
-     *             forwarded from the particular launcher used
-     */
-    protected Process launch(final CommandLine command, final Map<String, String> env,
-            final File dir) throws IOException {
-
-        if (this.launcher == null) {
-            throw new IllegalStateException("CommandLauncher can not be null");
-        }
-
-        if (dir != null && !dir.exists()) {
-            throw new IOException(dir + " doesn't exist.");
-        }
-        return this.launcher.exec(command, env, dir);
-    }
-
-    /**
-     * Gets the worker thread being used for asynchronous execution.
-     *
-     * @return the worker thread
-     */
-    protected Thread getExecutorThread() {
-        return executorThread;
-    }
-
-    /**
-     * Close the streams belonging to the given Process.
-     *
-     * @param process the <CODE>Process</CODE>.
-     */
-    private void closeProcessStreams(final Process process) {
-
-        try {
-            process.getInputStream().close();
-        }
-        catch (final IOException e) {
-            setExceptionCaught(e);
-        }
-
-        try {
-            process.getOutputStream().close();
-        }
-        catch (final IOException e) {
-            setExceptionCaught(e);
-        }
-
-        try {
-            process.getErrorStream().close();
-        }
-        catch (final IOException e) {
-            setExceptionCaught(e);
-        }
     }
 
     /**
@@ -433,6 +304,100 @@ public class DefaultExecutor implements Executor {
     }
 
     /**
+     * Gets the first IOException being thrown.
+     *
+     * @return the first IOException being caught
+     */
+    private IOException getExceptionCaught() {
+        return this.exceptionCaught;
+    }
+
+    /**
+     * Gets the worker thread being used for asynchronous execution.
+     *
+     * @return the worker thread
+     */
+    protected Thread getExecutorThread() {
+        return executorThread;
+    }
+
+    /**
+     * @see org.apache.commons.exec.Executor#getProcessDestroyer()
+     */
+    @Override
+    public ProcessDestroyer getProcessDestroyer() {
+      return this.processDestroyer;
+    }
+
+    /**
+     * @see org.apache.commons.exec.Executor#getStreamHandler()
+     */
+    @Override
+    public ExecuteStreamHandler getStreamHandler() {
+        return streamHandler;
+    }
+
+    /**
+     * @see org.apache.commons.exec.Executor#getWatchdog()
+     */
+    @Override
+    public ExecuteWatchdog getWatchdog() {
+        return watchdog;
+    }
+
+    /**
+     * @see org.apache.commons.exec.Executor#getWorkingDirectory()
+     */
+    @Override
+    public File getWorkingDirectory() {
+        return workingDirectory;
+    }
+
+    /** @see org.apache.commons.exec.Executor#isFailure(int) */
+    @Override
+    public boolean isFailure(final int exitValue) {
+
+        if (this.exitValues == null) {
+            return false;
+        }
+        if (this.exitValues.length == 0) {
+            return this.launcher.isFailure(exitValue);
+        }
+        for (final int exitValue2 : this.exitValues) {
+            if (exitValue2 == exitValue) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Creates a process that runs a command.
+     *
+     * @param command
+     *            the command to run
+     * @param env
+     *            the environment for the command
+     * @param dir
+     *            the working directory for the command
+     * @return the process started
+     * @throws IOException
+     *             forwarded from the particular launcher used
+     */
+    protected Process launch(final CommandLine command, final Map<String, String> env,
+            final File dir) throws IOException {
+
+        if (this.launcher == null) {
+            throw new IllegalStateException("CommandLauncher can not be null");
+        }
+
+        if (dir != null && !dir.exists()) {
+            throw new IOException(dir + " doesn't exist.");
+        }
+        return this.launcher.exec(command, env, dir);
+    }
+
+    /**
      * Keep track of the first IOException being thrown.
      *
      * @param e the IOException
@@ -443,13 +408,48 @@ public class DefaultExecutor implements Executor {
         }
     }
 
+    /** @see org.apache.commons.exec.Executor#setExitValue(int) */
+    @Override
+    public void setExitValue(final int value) {
+        this.setExitValues(new int[] {value});
+    }
+
+    /** @see org.apache.commons.exec.Executor#setExitValues(int[]) */
+    @Override
+    public void setExitValues(final int[] values) {
+        this.exitValues = values == null ? null : (int[]) values.clone();
+    }
+
     /**
-     * Gets the first IOException being thrown.
-     *
-     * @return the first IOException being caught
+     * @see org.apache.commons.exec.Executor#setProcessDestroyer(ProcessDestroyer)
      */
-    private IOException getExceptionCaught() {
-        return this.exceptionCaught;
+    @Override
+    public void setProcessDestroyer(final ProcessDestroyer processDestroyer) {
+      this.processDestroyer = processDestroyer;
+    }
+
+    /**
+     * @see org.apache.commons.exec.Executor#setStreamHandler(org.apache.commons.exec.ExecuteStreamHandler)
+     */
+    @Override
+    public void setStreamHandler(final ExecuteStreamHandler streamHandler) {
+        this.streamHandler = streamHandler;
+    }
+
+    /**
+     * @see org.apache.commons.exec.Executor#setWatchdog(org.apache.commons.exec.ExecuteWatchdog)
+     */
+    @Override
+    public void setWatchdog(final ExecuteWatchdog watchDog) {
+        this.watchdog = watchDog;
+    }
+
+    /**
+     * @see org.apache.commons.exec.Executor#setWorkingDirectory(java.io.File)
+     */
+    @Override
+    public void setWorkingDirectory(final File dir) {
+        this.workingDirectory = dir;
     }
 
 }

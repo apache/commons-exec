@@ -32,24 +32,26 @@ import org.apache.commons.exec.util.StringUtils;
 public class CommandLine {
 
     /**
-     * The arguments of the command.
+     * Encapsulates a command line argument.
      */
-    private final Vector<Argument> arguments = new Vector<>();
+    final class Argument {
 
-    /**
-     * The program to execute.
-     */
-    private final String executable;
+        private final String value;
+        private final boolean handleQuoting;
 
-    /**
-     * A map of name value pairs used to expand command line arguments
-     */
-    private Map<String, ?> substitutionMap; // N.B. This can contain values other than Strings
+        private Argument(final String value, final boolean handleQuoting) {
+            this.value = value.trim();
+            this.handleQuoting = handleQuoting;
+        }
 
-    /**
-     * Was a file being used to set the executable?
-     */
-    private final boolean isFile;
+        private String getValue() {
+            return value;
+        }
+
+        private boolean isHandleQuoting() {
+            return handleQuoting;
+        }
+    }
 
     /**
      * Create a command line from a string.
@@ -87,223 +89,6 @@ public class CommandLine {
         }
 
         return cl;
-    }
-
-    /**
-     * Create a command line without any arguments.
-     *
-     * @param executable the executable
-     */
-    public CommandLine(final String executable) {
-        this.isFile = false;
-        this.executable = toCleanExecutable(executable);
-    }
-
-    /**
-     * Create a command line without any arguments.
-     *
-     * @param executable the executable file
-     */
-    public CommandLine(final File executable) {
-        this.isFile = true;
-        this.executable = toCleanExecutable(executable.getAbsolutePath());
-    }
-
-    /**
-     * Copy constructor.
-     *
-     * @param other the instance to copy
-     */
-    public CommandLine(final CommandLine other) {
-        this.executable = other.getExecutable();
-        this.isFile = other.isFile();
-        this.arguments.addAll(other.arguments);
-
-        if (other.getSubstitutionMap() != null) {
-            this.substitutionMap = new HashMap<>(other.getSubstitutionMap());
-        }
-    }
-
-    /**
-     * Returns the executable.
-     *
-     * @return The executable
-     */
-    public String getExecutable() {
-        // Expand the executable and replace '/' and '\\' with the platform
-        // specific file separator char. This is safe here since we know
-        // that this is a platform specific command.
-        return StringUtils.fixFileSeparatorChar(expandArgument(executable));
-    }
-
-    /**
-     * Was a file being used to set the executable?
-     *
-     * @return true if a file was used for setting the executable
-     */
-    public boolean isFile() {
-        return isFile;
-    }
-
-    /**
-     * Add multiple arguments. Handles parsing of quotes and whitespace.
-     *
-     * @param addArguments An array of arguments
-     * @return The command line itself
-     */
-    public CommandLine addArguments(final String[] addArguments) {
-        return this.addArguments(addArguments, true);
-    }
-
-    /**
-     * Add multiple arguments.
-     *
-     * @param addArguments An array of arguments
-     * @param handleQuoting Add the argument with/without handling quoting
-     * @return The command line itself
-     */
-    public CommandLine addArguments(final String[] addArguments, final boolean handleQuoting) {
-        if (addArguments != null) {
-            for (final String addArgument : addArguments) {
-                addArgument(addArgument, handleQuoting);
-            }
-        }
-
-        return this;
-    }
-
-    /**
-     * Add multiple arguments. Handles parsing of quotes and whitespace. Please note that the parsing can have undesired side-effects therefore it is
-     * recommended to build the command line incrementally.
-     *
-     * @param addArguments An string containing multiple arguments.
-     * @return The command line itself
-     */
-    public CommandLine addArguments(final String addArguments) {
-        return this.addArguments(addArguments, true);
-    }
-
-    /**
-     * Add multiple arguments. Handles parsing of quotes and whitespace. Please note that the parsing can have undesired side-effects therefore it is
-     * recommended to build the command line incrementally.
-     *
-     * @param addArguments An string containing multiple arguments.
-     * @param handleQuoting Add the argument with/without handling quoting
-     * @return The command line itself
-     */
-    public CommandLine addArguments(final String addArguments, final boolean handleQuoting) {
-        if (addArguments != null) {
-            final String[] argumentsArray = translateCommandline(addArguments);
-            addArguments(argumentsArray, handleQuoting);
-        }
-
-        return this;
-    }
-
-    /**
-     * Add a single argument. Handles quoting.
-     *
-     * @param argument The argument to add
-     * @return The command line itself
-     * @throws IllegalArgumentException If argument contains both single and double quotes
-     */
-    public CommandLine addArgument(final String argument) {
-        return this.addArgument(argument, true);
-    }
-
-    /**
-     * Add a single argument.
-     *
-     * @param argument The argument to add
-     * @param handleQuoting Add the argument with/without handling quoting
-     * @return The command line itself
-     */
-    public CommandLine addArgument(final String argument, final boolean handleQuoting) {
-
-        if (argument == null) {
-            return this;
-        }
-
-        // check if we can really quote the argument - if not throw an
-        // IllegalArgumentException
-        if (handleQuoting) {
-            StringUtils.quoteArgument(argument);
-        }
-
-        arguments.add(new Argument(argument, handleQuoting));
-        return this;
-    }
-
-    /**
-     * Returns the expanded and quoted command line arguments.
-     *
-     * @return The quoted arguments
-     */
-    public String[] getArguments() {
-
-        Argument currArgument;
-        String expandedArgument;
-        final String[] result = new String[arguments.size()];
-
-        for (int i = 0; i < result.length; i++) {
-            currArgument = arguments.get(i);
-            expandedArgument = expandArgument(currArgument.getValue());
-            result[i] = currArgument.isHandleQuoting() ? StringUtils.quoteArgument(expandedArgument) : expandedArgument;
-        }
-
-        return result;
-    }
-
-    /**
-     * @return the substitution map
-     */
-    public Map<String, ?> getSubstitutionMap() {
-        return substitutionMap;
-    }
-
-    /**
-     * Sets the substitutionMap to expand variables in the command line.
-     *
-     * @param substitutionMap the map
-     */
-    public void setSubstitutionMap(final Map<String, ?> substitutionMap) {
-        this.substitutionMap = substitutionMap;
-    }
-
-    /**
-     * Returns the command line as an array of strings.
-     *
-     * @return The command line as an string array
-     */
-    public String[] toStrings() {
-        final String[] result = new String[arguments.size() + 1];
-        result[0] = this.getExecutable();
-        System.arraycopy(getArguments(), 0, result, 1, result.length - 1);
-        return result;
-    }
-
-    /**
-     * Stringify operator returns the command line as a string. Parameters are correctly quoted when containing a space or left untouched if the are already
-     * quoted.
-     *
-     * @return the command line as single string
-     */
-    @Override
-    public String toString() {
-        return "[" + StringUtils.toString(toStrings(), ", ") + "]";
-    }
-
-    // --- Implementation ---------------------------------------------------
-
-    /**
-     * Expand variables in a command line argument.
-     *
-     * @param argument the argument
-     * @return the expanded string
-     */
-    private String expandArgument(final String argument) {
-        final StringBuffer stringBuffer = StringUtils.stringSubstitution(argument, this.getSubstitutionMap(), true);
-        return stringBuffer.toString();
     }
 
     /**
@@ -379,6 +164,220 @@ public class CommandLine {
     }
 
     /**
+     * The arguments of the command.
+     */
+    private final Vector<Argument> arguments = new Vector<>();
+
+    /**
+     * The program to execute.
+     */
+    private final String executable;
+
+    /**
+     * A map of name value pairs used to expand command line arguments
+     */
+    private Map<String, ?> substitutionMap; // N.B. This can contain values other than Strings
+
+    /**
+     * Was a file being used to set the executable?
+     */
+    private final boolean isFile;
+
+    /**
+     * Copy constructor.
+     *
+     * @param other the instance to copy
+     */
+    public CommandLine(final CommandLine other) {
+        this.executable = other.getExecutable();
+        this.isFile = other.isFile();
+        this.arguments.addAll(other.arguments);
+
+        if (other.getSubstitutionMap() != null) {
+            this.substitutionMap = new HashMap<>(other.getSubstitutionMap());
+        }
+    }
+
+    /**
+     * Create a command line without any arguments.
+     *
+     * @param executable the executable file
+     */
+    public CommandLine(final File executable) {
+        this.isFile = true;
+        this.executable = toCleanExecutable(executable.getAbsolutePath());
+    }
+
+    /**
+     * Create a command line without any arguments.
+     *
+     * @param executable the executable
+     */
+    public CommandLine(final String executable) {
+        this.isFile = false;
+        this.executable = toCleanExecutable(executable);
+    }
+
+    /**
+     * Add a single argument. Handles quoting.
+     *
+     * @param argument The argument to add
+     * @return The command line itself
+     * @throws IllegalArgumentException If argument contains both single and double quotes
+     */
+    public CommandLine addArgument(final String argument) {
+        return this.addArgument(argument, true);
+    }
+
+    /**
+     * Add a single argument.
+     *
+     * @param argument The argument to add
+     * @param handleQuoting Add the argument with/without handling quoting
+     * @return The command line itself
+     */
+    public CommandLine addArgument(final String argument, final boolean handleQuoting) {
+
+        if (argument == null) {
+            return this;
+        }
+
+        // check if we can really quote the argument - if not throw an
+        // IllegalArgumentException
+        if (handleQuoting) {
+            StringUtils.quoteArgument(argument);
+        }
+
+        arguments.add(new Argument(argument, handleQuoting));
+        return this;
+    }
+
+    /**
+     * Add multiple arguments. Handles parsing of quotes and whitespace. Please note that the parsing can have undesired side-effects therefore it is
+     * recommended to build the command line incrementally.
+     *
+     * @param addArguments An string containing multiple arguments.
+     * @return The command line itself
+     */
+    public CommandLine addArguments(final String addArguments) {
+        return this.addArguments(addArguments, true);
+    }
+
+    /**
+     * Add multiple arguments. Handles parsing of quotes and whitespace. Please note that the parsing can have undesired side-effects therefore it is
+     * recommended to build the command line incrementally.
+     *
+     * @param addArguments An string containing multiple arguments.
+     * @param handleQuoting Add the argument with/without handling quoting
+     * @return The command line itself
+     */
+    public CommandLine addArguments(final String addArguments, final boolean handleQuoting) {
+        if (addArguments != null) {
+            final String[] argumentsArray = translateCommandline(addArguments);
+            addArguments(argumentsArray, handleQuoting);
+        }
+
+        return this;
+    }
+
+    /**
+     * Add multiple arguments. Handles parsing of quotes and whitespace.
+     *
+     * @param addArguments An array of arguments
+     * @return The command line itself
+     */
+    public CommandLine addArguments(final String[] addArguments) {
+        return this.addArguments(addArguments, true);
+    }
+
+    /**
+     * Add multiple arguments.
+     *
+     * @param addArguments An array of arguments
+     * @param handleQuoting Add the argument with/without handling quoting
+     * @return The command line itself
+     */
+    public CommandLine addArguments(final String[] addArguments, final boolean handleQuoting) {
+        if (addArguments != null) {
+            for (final String addArgument : addArguments) {
+                addArgument(addArgument, handleQuoting);
+            }
+        }
+
+        return this;
+    }
+
+    /**
+     * Expand variables in a command line argument.
+     *
+     * @param argument the argument
+     * @return the expanded string
+     */
+    private String expandArgument(final String argument) {
+        final StringBuffer stringBuffer = StringUtils.stringSubstitution(argument, this.getSubstitutionMap(), true);
+        return stringBuffer.toString();
+    }
+
+    /**
+     * Returns the expanded and quoted command line arguments.
+     *
+     * @return The quoted arguments
+     */
+    public String[] getArguments() {
+
+        Argument currArgument;
+        String expandedArgument;
+        final String[] result = new String[arguments.size()];
+
+        for (int i = 0; i < result.length; i++) {
+            currArgument = arguments.get(i);
+            expandedArgument = expandArgument(currArgument.getValue());
+            result[i] = currArgument.isHandleQuoting() ? StringUtils.quoteArgument(expandedArgument) : expandedArgument;
+        }
+
+        return result;
+    }
+
+    /**
+     * Returns the executable.
+     *
+     * @return The executable
+     */
+    public String getExecutable() {
+        // Expand the executable and replace '/' and '\\' with the platform
+        // specific file separator char. This is safe here since we know
+        // that this is a platform specific command.
+        return StringUtils.fixFileSeparatorChar(expandArgument(executable));
+    }
+
+    /**
+     * @return the substitution map
+     */
+    public Map<String, ?> getSubstitutionMap() {
+        return substitutionMap;
+    }
+
+    /**
+     * Was a file being used to set the executable?
+     *
+     * @return true if a file was used for setting the executable
+     */
+    public boolean isFile() {
+        return isFile;
+    }
+
+    // --- Implementation ---------------------------------------------------
+
+    /**
+     * Sets the substitutionMap to expand variables in the command line.
+     *
+     * @param substitutionMap the map
+     */
+    public void setSubstitutionMap(final Map<String, ?> substitutionMap) {
+        this.substitutionMap = substitutionMap;
+    }
+
+    /**
      * Cleans the executable string. The argument is trimmed and '/' and '\\' are replaced with the platform specific file separator char
      *
      * @param dirtyExecutable the executable
@@ -395,24 +394,25 @@ public class CommandLine {
     }
 
     /**
-     * Encapsulates a command line argument.
+     * Stringify operator returns the command line as a string. Parameters are correctly quoted when containing a space or left untouched if the are already
+     * quoted.
+     *
+     * @return the command line as single string
      */
-    final class Argument {
+    @Override
+    public String toString() {
+        return "[" + StringUtils.toString(toStrings(), ", ") + "]";
+    }
 
-        private final String value;
-        private final boolean handleQuoting;
-
-        private Argument(final String value, final boolean handleQuoting) {
-            this.value = value.trim();
-            this.handleQuoting = handleQuoting;
-        }
-
-        private String getValue() {
-            return value;
-        }
-
-        private boolean isHandleQuoting() {
-            return handleQuoting;
-        }
+    /**
+     * Returns the command line as an array of strings.
+     *
+     * @return The command line as an string array
+     */
+    public String[] toStrings() {
+        final String[] result = new String[arguments.size() + 1];
+        result[0] = this.getExecutable();
+        System.arraycopy(getArguments(), 0, result, 1, result.length - 1);
+        return result;
     }
 }

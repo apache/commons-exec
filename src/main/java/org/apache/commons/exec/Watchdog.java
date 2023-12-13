@@ -44,10 +44,6 @@ public class Watchdog implements Runnable {
         observers.addElement(to);
     }
 
-    public void removeTimeoutObserver(final TimeoutObserver to) {
-        observers.removeElement(to);
-    }
-
     protected final void fireTimeoutOccured() {
         final Enumeration<TimeoutObserver> e = observers.elements();
         while (e.hasMoreElements()) {
@@ -55,16 +51,8 @@ public class Watchdog implements Runnable {
         }
     }
 
-    public synchronized void start() {
-        stopped = false;
-        final Thread t = new Thread(this, "WATCHDOG");
-        t.setDaemon(true);
-        t.start();
-    }
-
-    public synchronized void stop() {
-        stopped = true;
-        notifyAll();
+    public void removeTimeoutObserver(final TimeoutObserver to) {
+        observers.removeElement(to);
     }
 
     @Override
@@ -88,6 +76,18 @@ public class Watchdog implements Runnable {
         if (!isWaiting) {
             fireTimeoutOccured();
         }
+    }
+
+    public synchronized void start() {
+        stopped = false;
+        final Thread t = new Thread(this, "WATCHDOG");
+        t.setDaemon(true);
+        t.start();
+    }
+
+    public synchronized void stop() {
+        stopped = true;
+        notifyAll();
     }
 
 }

@@ -34,6 +34,13 @@ public abstract class AbstractExecTest {
     @Rule public TestName name = new TestName();
 
     /**
+     * Gets the name of the currently executed test.
+     */
+    protected String getName() {
+        return name.getMethodName();
+    }
+
+    /**
      * Resolve the OS-specific test file to execute.
      */
     protected File resolveTestScript(final String baseName) {
@@ -55,22 +62,15 @@ public abstract class AbstractExecTest {
         return result;
     }
 
-    /**
-     * Gets the name of the currently executed test.
-     */
-    protected String getName() {
-        return name.getMethodName();
+    protected String testIsBrokenForCurrentOperatingSystem() {
+        final String msg = String.format("The test '%s' is broken for OS : %s", name.getMethodName(), OS_NAME);
+        System.err.println(msg);
+        return msg;
     }
 
     protected String testNotSupportedForCurrentOperatingSystem() {
         final String msg = String.format("The test '%s' is not possible for OS : %s", name.getMethodName(), OS_NAME);
         System.out.println(msg);
-        return msg;
-    }
-
-    protected String testIsBrokenForCurrentOperatingSystem() {
-        final String msg = String.format("The test '%s' is broken for OS : %s", name.getMethodName(), OS_NAME);
-        System.err.println(msg);
         return msg;
     }
 

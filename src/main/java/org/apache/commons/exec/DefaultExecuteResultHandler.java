@@ -44,26 +44,6 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
     }
 
     /**
-     * @see org.apache.commons.exec.ExecuteResultHandler#onProcessComplete(int)
-     */
-    @Override
-    public void onProcessComplete(final int exitValue) {
-        this.exitValue = exitValue;
-        this.exception = null;
-        this.hasResult = true;
-    }
-
-    /**
-     * @see org.apache.commons.exec.ExecuteResultHandler#onProcessFailed(org.apache.commons.exec.ExecuteException)
-     */
-    @Override
-    public void onProcessFailed(final ExecuteException e) {
-        this.exitValue = e.getExitValue();
-        this.exception = e;
-        this.hasResult = true;
-    }
-
-    /**
      * Gets the {@code exception} causing the process execution to fail.
      *
      * @return Returns the exception.
@@ -100,6 +80,26 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
      */
     public boolean hasResult() {
         return hasResult;
+    }
+
+    /**
+     * @see org.apache.commons.exec.ExecuteResultHandler#onProcessComplete(int)
+     */
+    @Override
+    public void onProcessComplete(final int exitValue) {
+        this.exitValue = exitValue;
+        this.exception = null;
+        this.hasResult = true;
+    }
+
+    /**
+     * @see org.apache.commons.exec.ExecuteResultHandler#onProcessFailed(org.apache.commons.exec.ExecuteException)
+     */
+    @Override
+    public void onProcessFailed(final ExecuteException e) {
+        this.exitValue = e.getExitValue();
+        this.exception = e;
+        this.hasResult = true;
     }
 
     /**

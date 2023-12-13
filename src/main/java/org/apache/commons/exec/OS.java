@@ -83,9 +83,14 @@ public final class OS {
     private static final String PATH_SEP = File.pathSeparator;
 
     /**
-     * Default constructor
+     * Determines if the OS on which commons-exec is executing matches
+     * the given OS architecture.
+     *
+     * @param arch the OS architecture to check for
+     * @return true if the OS matches
      */
-    private OS() {
+    public static boolean isArch(final String arch) {
+        return isOs(null, null, arch, null);
     }
 
     /**
@@ -111,8 +116,16 @@ public final class OS {
         return isFamily(FAMILY_NETWARE);
     }
 
+    public static boolean isFamilyOpenVms() {
+        return isFamily(FAMILY_VMS);
+    }
+
     public static boolean isFamilyOS2() {
         return isFamily(FAMILY_OS2);
+    }
+
+    public static boolean isFamilyOS400() {
+        return isFamily(FAMILY_OS400);
     }
 
     public static boolean isFamilyTandem() {
@@ -123,12 +136,12 @@ public final class OS {
         return isFamily(FAMILY_UNIX);
     }
 
-    public static boolean isFamilyWindows() {
-        return isFamily(FAMILY_WINDOWS);
-    }
-
     public static boolean isFamilyWin9x() {
         return isFamily(FAMILY_9X);
+    }
+
+    public static boolean isFamilyWindows() {
+        return isFamily(FAMILY_WINDOWS);
     }
 
     public static boolean isFamilyWinNT() {
@@ -137,14 +150,6 @@ public final class OS {
 
     public static boolean isFamilyZOS() {
         return isFamily(FAMILY_ZOS);
-    }
-
-    public static boolean isFamilyOS400() {
-        return isFamily(FAMILY_OS400);
-    }
-
-    public static boolean isFamilyOpenVms() {
-        return isFamily(FAMILY_VMS);
     }
 
     /**
@@ -156,28 +161,6 @@ public final class OS {
      */
     public static boolean isName(final String name) {
         return isOs(null, name, null, null);
-    }
-
-    /**
-     * Determines if the OS on which commons-exec is executing matches
-     * the given OS architecture.
-     *
-     * @param arch the OS architecture to check for
-     * @return true if the OS matches
-     */
-    public static boolean isArch(final String arch) {
-        return isOs(null, null, arch, null);
-    }
-
-    /**
-     * Determines if the OS on which commonss-exec is executing matches
-     * the given OS version.
-     *
-     * @param version the OS version to check for
-     * @return true if the OS matches
-     */
-    public static boolean isVersion(final String version) {
-        return isOs(null, null, null, version);
     }
 
     /**
@@ -264,5 +247,22 @@ public final class OS {
             retValue = isFamily && isName && isArch && isVersion;
         }
         return retValue;
+    }
+
+    /**
+     * Determines if the OS on which commonss-exec is executing matches
+     * the given OS version.
+     *
+     * @param version the OS version to check for
+     * @return true if the OS matches
+     */
+    public static boolean isVersion(final String version) {
+        return isOs(null, null, null, version);
+    }
+
+    /**
+     * Default constructor
+     */
+    private OS() {
     }
 }

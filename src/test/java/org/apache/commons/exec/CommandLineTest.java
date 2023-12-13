@@ -34,45 +34,6 @@ import org.junit.Test;
 public class CommandLineTest {
 
     @Test
-    public void testExecutable() {
-        final CommandLine cmdl = new CommandLine("test");
-        assertEquals("[test]", cmdl.toString());
-        assertArrayEquals(new String[]{"test"}, cmdl.toStrings());
-        assertEquals("test", cmdl.getExecutable());
-        assertTrue(cmdl.getArguments().length == 0);
-    }
-
-    @Test
-    public void testExecutableZeroLengthString() {
-        try {
-            new CommandLine("");
-            fail("Must throw IllegalArgumentException");
-        } catch (final IllegalArgumentException e) {
-            // Expected
-        }
-    }
-
-    @Test
-    public void testExecutableWhitespaceString() {
-        try {
-            new CommandLine("   ");
-            fail("Must throw IllegalArgumentException");
-        } catch (final IllegalArgumentException e) {
-            // Expected
-        }
-    }
-
-    @Test
-    public void testNullExecutable() {
-        try {
-            new CommandLine((String)null);
-            fail("Must throw IllegalArgumentException");
-        } catch (final IllegalArgumentException e) {
-            // Expected
-        }
-    }
-
-    @Test
     public void testAddArgument() {
         final CommandLine cmdl = new CommandLine("test");
 
@@ -83,21 +44,56 @@ public class CommandLineTest {
     }
 
     @Test
-    public void testAddNullArgument() {
+    public void testAddArguments() {
         final CommandLine cmdl = new CommandLine("test");
+        cmdl.addArguments("foo bar");
+        assertEquals("[test, foo, bar]", cmdl.toString());
+        assertArrayEquals(new String[]{"test", "foo", "bar"}, cmdl.toStrings());
+    }
 
-        cmdl.addArgument(null);
+    @Test
+    public void testAddArgumentsArray() {
+        final CommandLine cmdl = new CommandLine("test");
+        cmdl.addArguments(new String[] {"foo", "bar"});
+        assertEquals("[test, foo, bar]", cmdl.toString());
+        assertArrayEquals(new String[]{"test", "foo", "bar"}, cmdl.toStrings());
+    }
+
+    @Test
+    public void testAddArgumentsArrayNull() {
+        final CommandLine cmdl = new CommandLine("test");
+        cmdl.addArguments((String[]) null);
         assertEquals("[test]", cmdl.toString());
         assertArrayEquals(new String[]{"test"}, cmdl.toStrings());
     }
 
     @Test
-    public void testAddArgumentWithSpace() {
+    public void testAddArgumentsWithQuotes() {
         final CommandLine cmdl = new CommandLine("test");
-        cmdl.addArgument("foo");
-        cmdl.addArgument("ba r");
-        assertEquals("[test, foo, \"ba r\"]", cmdl.toString());
-        assertArrayEquals(new String[]{"test", "foo", "\"ba r\""}, cmdl.toStrings());
+        cmdl.addArguments("'foo' \"bar\"");
+        assertEquals("[test, foo, bar]", cmdl.toString());
+        assertArrayEquals(new String[]{"test", "foo", "bar"}, cmdl.toStrings());
+    }
+
+    @Test
+    public void testAddArgumentsWithQuotesAndSpaces() {
+        final CommandLine cmdl = new CommandLine("test");
+        cmdl.addArguments("'fo o' \"ba r\"");
+        assertEquals("[test, \"fo o\", \"ba r\"]", cmdl.toString());
+        assertArrayEquals(new String[]{"test", "\"fo o\"", "\"ba r\""}, cmdl
+                .toStrings());
+    }
+
+    @Test
+    public void testAddArgumentWithBothQuotes() {
+        final CommandLine cmdl = new CommandLine("test");
+
+        try {
+            cmdl.addArgument("b\"a'r");
+            fail("IllegalArgumentException should be thrown");
+        } catch (final IllegalArgumentException e) {
+            // OK, expected
+        }
     }
 
     @Test
@@ -131,54 +127,19 @@ public class CommandLineTest {
     }
 
     @Test
-    public void testAddArgumentWithBothQuotes() {
+    public void testAddArgumentWithSpace() {
         final CommandLine cmdl = new CommandLine("test");
-
-        try {
-            cmdl.addArgument("b\"a'r");
-            fail("IllegalArgumentException should be thrown");
-        } catch (final IllegalArgumentException e) {
-            // OK, expected
-        }
+        cmdl.addArgument("foo");
+        cmdl.addArgument("ba r");
+        assertEquals("[test, foo, \"ba r\"]", cmdl.toString());
+        assertArrayEquals(new String[]{"test", "foo", "\"ba r\""}, cmdl.toStrings());
     }
 
     @Test
-    public void testAddArguments() {
+    public void testAddNullArgument() {
         final CommandLine cmdl = new CommandLine("test");
-        cmdl.addArguments("foo bar");
-        assertEquals("[test, foo, bar]", cmdl.toString());
-        assertArrayEquals(new String[]{"test", "foo", "bar"}, cmdl.toStrings());
-    }
 
-    @Test
-    public void testAddArgumentsWithQuotes() {
-        final CommandLine cmdl = new CommandLine("test");
-        cmdl.addArguments("'foo' \"bar\"");
-        assertEquals("[test, foo, bar]", cmdl.toString());
-        assertArrayEquals(new String[]{"test", "foo", "bar"}, cmdl.toStrings());
-    }
-
-    @Test
-    public void testAddArgumentsWithQuotesAndSpaces() {
-        final CommandLine cmdl = new CommandLine("test");
-        cmdl.addArguments("'fo o' \"ba r\"");
-        assertEquals("[test, \"fo o\", \"ba r\"]", cmdl.toString());
-        assertArrayEquals(new String[]{"test", "\"fo o\"", "\"ba r\""}, cmdl
-                .toStrings());
-    }
-
-    @Test
-    public void testAddArgumentsArray() {
-        final CommandLine cmdl = new CommandLine("test");
-        cmdl.addArguments(new String[] {"foo", "bar"});
-        assertEquals("[test, foo, bar]", cmdl.toString());
-        assertArrayEquals(new String[]{"test", "foo", "bar"}, cmdl.toStrings());
-    }
-
-    @Test
-    public void testAddArgumentsArrayNull() {
-        final CommandLine cmdl = new CommandLine("test");
-        cmdl.addArguments((String[]) null);
+        cmdl.addArgument(null);
         assertEquals("[test]", cmdl.toString());
         assertArrayEquals(new String[]{"test"}, cmdl.toStrings());
     }
@@ -202,142 +163,6 @@ public class CommandLineTest {
 
         assertEquals(userAddCL1.toString(), userAddCL2.toString());
     }
-
-    @Test
-    public void testParseCommandLine() {
-        final CommandLine cmdl = CommandLine.parse("test foo bar");
-        assertEquals("[test, foo, bar]", cmdl.toString());
-        assertArrayEquals(new String[]{"test", "foo", "bar"}, cmdl.toStrings());
-    }
-
-    @Test
-    public void testParseCommandLineWithQuotes() {
-        final CommandLine cmdl = CommandLine.parse("test \"foo\" \'ba r\'");
-        assertEquals("[test, foo, \"ba r\"]", cmdl.toString());
-        assertArrayEquals(new String[]{"test", "foo", "\"ba r\""}, cmdl.toStrings());
-    }
-
-    @Test
-    public void testParseCommandLineWithUnevenQuotes() {
-        try {
-            CommandLine.parse("test \"foo bar");
-            fail("IllegalArgumentException must be thrown due to uneven quotes");
-        } catch (final IllegalArgumentException e) {
-            // Expected
-        }
-    }
-
-    @Test
-    public void testParseCommandLineWithNull() {
-        try {
-            CommandLine.parse(null);
-            fail("IllegalArgumentException must be thrown due to incorrect command line");
-        } catch (final IllegalArgumentException e) {
-            // Expected
-        }
-    }
-
-    @Test
-    public void testParseCommandLineWithOnlyWhitespace() {
-        try {
-            CommandLine.parse("  ");
-            fail("IllegalArgumentException must be thrown due to incorrect command line");
-        } catch (final IllegalArgumentException e) {
-            // Expected
-        }
-    }
-
-    /**
-     * A command line parsing puzzle from Tino Schoellhorn - ImageMagix expects
-     * a "500x>" parameter (including quotes) and it is simply not possible to
-     * do that without adding a space, e.g. "500x> ".
-     */
-    @Test
-    public void testParseComplexCommandLine1() {
-        final HashMap<String, String> substitutionMap =
-            new HashMap<>();
-        substitutionMap.put("in", "source.jpg");
-        substitutionMap.put("out", "target.jpg");
-        final CommandLine cmdl = CommandLine.parse("cmd /C convert ${in} -resize \"\'500x> \'\" ${out}", substitutionMap);
-        assertEquals("[cmd, /C, convert, source.jpg, -resize, \"500x> \", target.jpg]", cmdl.toString());
-    }
-
-    /**
-     * Another  command line parsing puzzle from Kai Hu - as
-     * far as I understand it there is no way to express that
-     * in a one-line command string.
-     */
-    @Test
-    public void testParseComplexCommandLine2() {
-
-        final String commandline = "./script/jrake cruise:publish_installers "
-            + "INSTALLER_VERSION=unstable_2_1 "
-            + "INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\" "
-            + "INSTALLER_DOWNLOAD_SERVER=\'something\' "
-            + "WITHOUT_HELP_DOC=true";
-
-        final CommandLine cmdl = CommandLine.parse(commandline);
-        final String[] args = cmdl.getArguments();
-        assertEquals(args[0], "cruise:publish_installers");
-        assertEquals(args[1], "INSTALLER_VERSION=unstable_2_1");
-        // assertEquals(args[2], "INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\"");
-        // assertEquals(args[3], "INSTALLER_DOWNLOAD_SERVER='something'");
-        assertEquals(args[4], "WITHOUT_HELP_DOC=true");
-    }
-
-    /**
-     * Test the following command line
-     *
-     * cmd.exe /C c:\was51\Web Sphere\AppServer\bin\versionInfo.bat
-     */
-    @Test
-    public void testParseRealLifeCommandLine_1() {
-
-        final String commandline = "cmd.exe /C \"c:\\was51\\Web Sphere\\AppServer\\bin\\versionInfo.bat\"";
-
-        final CommandLine cmdl = CommandLine.parse(commandline);
-        final String[] args = cmdl.getArguments();
-        assertEquals("/C", args[0]);
-        assertEquals("\"c:\\was51\\Web Sphere\\AppServer\\bin\\versionInfo.bat\"", args[1]);
-    }
-
-   /**
-    * Create a command line with pre-quoted strings to test SANDBOX-192,
-    * e.g. "runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""
-    */
-   @Test
-    public void testComplexAddArgument() {
-        final CommandLine cmdl = new CommandLine("runMemorySud.cmd");
-        cmdl.addArgument("10", false);
-        cmdl.addArgument("30", false);
-        cmdl.addArgument("-XX:+UseParallelGC", false);
-        cmdl.addArgument("\"-XX:ParallelGCThreads=2\"", false);
-        assertArrayEquals(new String[]{"runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""}, cmdl.toStrings());
-    }
-
-    /**
-     * Create a command line with pre-quoted strings to test SANDBOX-192,
-     * e.g. "runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""
-     */
-    @Test
-     public void testComplexAddArguments1() {
-         final CommandLine cmdl = new CommandLine("runMemorySud.cmd");
-         cmdl.addArguments(new String[] {"10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""}, false);
-         assertArrayEquals(new String[]{"runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""}, cmdl.toStrings());
-     }
-
-    /**
-     * Create a command line with pre-quoted strings to test SANDBOX-192,
-     * e.g. "runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""
-     * Please not that we re forced to add additional single quotes to get the test working -
-     * don't know if this is a bug or a feature.
-     */
-    @Test
-     public void testComplexAddArguments2() {
-         final CommandLine cmdl = new CommandLine("runMemorySud.cmd");
-         cmdl.addArguments("10 30 -XX:+UseParallelGC '\"-XX:ParallelGCThreads=2\"'", false);
-         assertArrayEquals(new String[]{"runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""}, cmdl.toStrings());
-     }
 
     /**
      * Test expanding the command line based on a user-supplied map.
@@ -455,6 +280,198 @@ public class CommandLineTest {
         assertEquals("C:\\Document And Settings\\documents\\432432.pdf", result[3]);
 
     }
+
+    /**
+        * Create a command line with pre-quoted strings to test SANDBOX-192,
+        * e.g. "runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""
+        */
+       @Test
+        public void testComplexAddArgument() {
+            final CommandLine cmdl = new CommandLine("runMemorySud.cmd");
+            cmdl.addArgument("10", false);
+            cmdl.addArgument("30", false);
+            cmdl.addArgument("-XX:+UseParallelGC", false);
+            cmdl.addArgument("\"-XX:ParallelGCThreads=2\"", false);
+            assertArrayEquals(new String[]{"runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""}, cmdl.toStrings());
+        }
+
+    /**
+     * Create a command line with pre-quoted strings to test SANDBOX-192,
+     * e.g. "runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""
+     */
+    @Test
+     public void testComplexAddArguments1() {
+         final CommandLine cmdl = new CommandLine("runMemorySud.cmd");
+         cmdl.addArguments(new String[] {"10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""}, false);
+         assertArrayEquals(new String[]{"runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""}, cmdl.toStrings());
+     }
+
+    /**
+     * Create a command line with pre-quoted strings to test SANDBOX-192,
+     * e.g. "runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""
+     * Please not that we re forced to add additional single quotes to get the test working -
+     * don't know if this is a bug or a feature.
+     */
+    @Test
+     public void testComplexAddArguments2() {
+         final CommandLine cmdl = new CommandLine("runMemorySud.cmd");
+         cmdl.addArguments("10 30 -XX:+UseParallelGC '\"-XX:ParallelGCThreads=2\"'", false);
+         assertArrayEquals(new String[]{"runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC", "\"-XX:ParallelGCThreads=2\""}, cmdl.toStrings());
+     }
+
+    @Test
+    public void testCopyConstructor()
+    {
+        final Map<String, String> map = new HashMap<>();
+        map.put("bar", "bar");
+        final CommandLine other = new CommandLine("test");
+        other.addArgument("foo");
+        other.setSubstitutionMap(map);
+
+        final CommandLine cmdl = new CommandLine(other);
+        assertEquals(other.getExecutable(), cmdl.getExecutable());
+        assertArrayEquals(other.getArguments(), cmdl.getArguments());
+        assertEquals(other.isFile(), cmdl.isFile());
+        assertEquals(other.getSubstitutionMap(), cmdl.getSubstitutionMap());
+
+    }
+
+    @Test
+    public void testExecutable() {
+        final CommandLine cmdl = new CommandLine("test");
+        assertEquals("[test]", cmdl.toString());
+        assertArrayEquals(new String[]{"test"}, cmdl.toStrings());
+        assertEquals("test", cmdl.getExecutable());
+        assertTrue(cmdl.getArguments().length == 0);
+    }
+
+    @Test
+    public void testExecutableWhitespaceString() {
+        try {
+            new CommandLine("   ");
+            fail("Must throw IllegalArgumentException");
+        } catch (final IllegalArgumentException e) {
+            // Expected
+        }
+    }
+
+    @Test
+    public void testExecutableZeroLengthString() {
+        try {
+            new CommandLine("");
+            fail("Must throw IllegalArgumentException");
+        } catch (final IllegalArgumentException e) {
+            // Expected
+        }
+    }
+
+    @Test
+    public void testNullExecutable() {
+        try {
+            new CommandLine((String)null);
+            fail("Must throw IllegalArgumentException");
+        } catch (final IllegalArgumentException e) {
+            // Expected
+        }
+    }
+
+    @Test
+    public void testParseCommandLine() {
+        final CommandLine cmdl = CommandLine.parse("test foo bar");
+        assertEquals("[test, foo, bar]", cmdl.toString());
+        assertArrayEquals(new String[]{"test", "foo", "bar"}, cmdl.toStrings());
+    }
+
+   @Test
+public void testParseCommandLineWithNull() {
+    try {
+        CommandLine.parse(null);
+        fail("IllegalArgumentException must be thrown due to incorrect command line");
+    } catch (final IllegalArgumentException e) {
+        // Expected
+    }
+}
+
+    @Test
+    public void testParseCommandLineWithOnlyWhitespace() {
+        try {
+            CommandLine.parse("  ");
+            fail("IllegalArgumentException must be thrown due to incorrect command line");
+        } catch (final IllegalArgumentException e) {
+            // Expected
+        }
+    }
+
+    @Test
+    public void testParseCommandLineWithQuotes() {
+        final CommandLine cmdl = CommandLine.parse("test \"foo\" \'ba r\'");
+        assertEquals("[test, foo, \"ba r\"]", cmdl.toString());
+        assertArrayEquals(new String[]{"test", "foo", "\"ba r\""}, cmdl.toStrings());
+    }
+
+    @Test
+    public void testParseCommandLineWithUnevenQuotes() {
+        try {
+            CommandLine.parse("test \"foo bar");
+            fail("IllegalArgumentException must be thrown due to uneven quotes");
+        } catch (final IllegalArgumentException e) {
+            // Expected
+        }
+    }
+
+    /**
+     * A command line parsing puzzle from Tino Schoellhorn - ImageMagix expects
+     * a "500x>" parameter (including quotes) and it is simply not possible to
+     * do that without adding a space, e.g. "500x> ".
+     */
+    @Test
+    public void testParseComplexCommandLine1() {
+        final HashMap<String, String> substitutionMap =
+            new HashMap<>();
+        substitutionMap.put("in", "source.jpg");
+        substitutionMap.put("out", "target.jpg");
+        final CommandLine cmdl = CommandLine.parse("cmd /C convert ${in} -resize \"\'500x> \'\" ${out}", substitutionMap);
+        assertEquals("[cmd, /C, convert, source.jpg, -resize, \"500x> \", target.jpg]", cmdl.toString());
+    }
+
+    /**
+     * Another  command line parsing puzzle from Kai Hu - as
+     * far as I understand it there is no way to express that
+     * in a one-line command string.
+     */
+    @Test
+    public void testParseComplexCommandLine2() {
+
+        final String commandline = "./script/jrake cruise:publish_installers "
+            + "INSTALLER_VERSION=unstable_2_1 "
+            + "INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\" "
+            + "INSTALLER_DOWNLOAD_SERVER=\'something\' "
+            + "WITHOUT_HELP_DOC=true";
+
+        final CommandLine cmdl = CommandLine.parse(commandline);
+        final String[] args = cmdl.getArguments();
+        assertEquals(args[0], "cruise:publish_installers");
+        assertEquals(args[1], "INSTALLER_VERSION=unstable_2_1");
+        // assertEquals(args[2], "INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\"");
+        // assertEquals(args[3], "INSTALLER_DOWNLOAD_SERVER='something'");
+        assertEquals(args[4], "WITHOUT_HELP_DOC=true");
+    }
+    /**
+     * Test the following command line
+     *
+     * cmd.exe /C c:\was51\Web Sphere\AppServer\bin\versionInfo.bat
+     */
+    @Test
+    public void testParseRealLifeCommandLine_1() {
+
+        final String commandline = "cmd.exe /C \"c:\\was51\\Web Sphere\\AppServer\\bin\\versionInfo.bat\"";
+
+        final CommandLine cmdl = CommandLine.parse(commandline);
+        final String[] args = cmdl.getArguments();
+        assertEquals("/C", args[0]);
+        assertEquals("\"c:\\was51\\Web Sphere\\AppServer\\bin\\versionInfo.bat\"", args[1]);
+    }
+
     /**
      * Test the toString() method.
      *
@@ -499,23 +516,6 @@ public class CommandLineTest {
         System.out.println("cmd2: " + cmd2.toString());
         assertTrue("toString() is useful for troubleshooting",
                 !cmd1.toString().equals(cmd2.toString()));
-    }
-
-    @Test
-    public void testCopyConstructor()
-    {
-        final Map<String, String> map = new HashMap<>();
-        map.put("bar", "bar");
-        final CommandLine other = new CommandLine("test");
-        other.addArgument("foo");
-        other.setSubstitutionMap(map);
-
-        final CommandLine cmdl = new CommandLine(other);
-        assertEquals(other.getExecutable(), cmdl.getExecutable());
-        assertArrayEquals(other.getArguments(), cmdl.getArguments());
-        assertEquals(other.isFile(), cmdl.isFile());
-        assertEquals(other.getSubstitutionMap(), cmdl.getSubstitutionMap());
-
     }
 
 }

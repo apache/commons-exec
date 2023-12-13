@@ -24,9 +24,6 @@ import org.apache.commons.exec.OS;
  */
 public final class CommandLauncherFactory {
 
-    private CommandLauncherFactory() {
-    }
-
     /**
      * Factory method to create an appropriate launcher.
      *
@@ -43,5 +40,8 @@ public final class CommandLauncherFactory {
         }
 
         return launcher;
+    }
+
+    private CommandLauncherFactory() {
     }
 }

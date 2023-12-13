@@ -37,30 +37,6 @@ import org.apache.commons.exec.util.StringUtils;
  */
 public class VmsCommandLauncher extends Java13CommandLauncher {
 
-    /**
-     * Launches the given command in a new process.
-     */
-    @Override
-    public Process exec(final CommandLine cmd, final Map<String, String> env) throws IOException {
-        return super.exec(new CommandLine(createCommandFile(cmd, env).getPath()), env);
-    }
-
-    /**
-     * Launches the given command in a new process, in the given working directory. Note that under Java 1.3.1, 1.4.0 and 1.4.1 on VMS this method only works if
-     * {@code workingDir} is null or the logical JAVA$FORK_SUPPORT_CHDIR needs to be set to TRUE.
-     */
-    @Override
-    public Process exec(final CommandLine cmd, final Map<String, String> env, final File workingDir) throws IOException {
-        return super.exec(new CommandLine(createCommandFile(cmd, env).getPath()), env, workingDir);
-    }
-
-    /** @see org.apache.commons.exec.launcher.CommandLauncher#isFailure(int) */
-    @Override
-    public boolean isFailure(final int exitValue) {
-        // even exit value signals failure
-        return exitValue % 2 == 0;
-    }
-
     /*
      * Writes the command into a temporary DCL script and returns the
      * corresponding File object. The script will be deleted on exit.
@@ -125,5 +101,29 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
             out.println();
         }
         return script;
+    }
+
+    /**
+     * Launches the given command in a new process.
+     */
+    @Override
+    public Process exec(final CommandLine cmd, final Map<String, String> env) throws IOException {
+        return super.exec(new CommandLine(createCommandFile(cmd, env).getPath()), env);
+    }
+
+    /**
+     * Launches the given command in a new process, in the given working directory. Note that under Java 1.3.1, 1.4.0 and 1.4.1 on VMS this method only works if
+     * {@code workingDir} is null or the logical JAVA$FORK_SUPPORT_CHDIR needs to be set to TRUE.
+     */
+    @Override
+    public Process exec(final CommandLine cmd, final Map<String, String> env, final File workingDir) throws IOException {
+        return super.exec(new CommandLine(createCommandFile(cmd, env).getPath()), env, workingDir);
+    }
+
+    /** @see org.apache.commons.exec.launcher.CommandLauncher#isFailure(int) */
+    @Override
+    public boolean isFailure(final int exitValue) {
+        // even exit value signals failure
+        return exitValue % 2 == 0;
     }
 }

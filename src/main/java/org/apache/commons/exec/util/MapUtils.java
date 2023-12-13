@@ -42,37 +42,6 @@ public class MapUtils
     }
 
     /**
-     * Clones a map and prefixes the keys in the clone, e.g. for mapping "JAVA_HOME" to "env.JAVA_HOME" to simulate the
-     * behavior of Ant.
-     *
-     * @param source
-     *            the source map
-     * @param prefix
-     *            the prefix used for all names
-     * @param <K>
-     *            the map key type
-     * @param <V>
-     *            the map value type
-     * @return the clone of the source map
-     */
-    public static <K, V> Map<String, V> prefix(final Map<K, V> source, final String prefix) {
-
-        if (source == null) {
-            return null;
-        }
-
-        final Map<String, V> result = new HashMap<>();
-
-        for (final Map.Entry<K, V> entry : source.entrySet()) {
-            final K key = entry.getKey();
-            final V value = entry.getValue();
-            result.put(prefix + '.' + key.toString(), value);
-        }
-
-        return result;
-    }
-
-    /**
      * Clones the lhs map and add all things from the rhs map.
      *
      * @param lhs
@@ -98,6 +67,37 @@ public class MapUtils
         else {
             result = copy(lhs);
             result.putAll(rhs);
+        }
+
+        return result;
+    }
+
+    /**
+     * Clones a map and prefixes the keys in the clone, e.g. for mapping "JAVA_HOME" to "env.JAVA_HOME" to simulate the
+     * behavior of Ant.
+     *
+     * @param source
+     *            the source map
+     * @param prefix
+     *            the prefix used for all names
+     * @param <K>
+     *            the map key type
+     * @param <V>
+     *            the map value type
+     * @return the clone of the source map
+     */
+    public static <K, V> Map<String, V> prefix(final Map<K, V> source, final String prefix) {
+
+        if (source == null) {
+            return null;
+        }
+
+        final Map<String, V> result = new HashMap<>();
+
+        for (final Map.Entry<K, V> entry : source.entrySet()) {
+            final K key = entry.getKey();
+            final V value = entry.getValue();
+            result.put(prefix + '.' + key.toString(), value);
         }
 
         return result;

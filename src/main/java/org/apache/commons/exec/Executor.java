@@ -49,6 +49,101 @@ public interface Executor {
     int INVALID_EXITVALUE = 0xdeadbeef;
 
     /**
+     * Methods for starting synchronous execution. The child process inherits
+     * all environment variables of the parent process.
+     *
+     * @param command the command to execute
+     * @return process exit value
+     * @throws ExecuteException execution of subprocess failed or the
+     *          subprocess returned a exit value indicating a failure
+     *          {@link Executor#setExitValue(int)}.
+     */
+    int execute(CommandLine command)
+        throws ExecuteException, IOException;
+
+    /**
+     * Methods for starting asynchronous execution. The child process inherits
+     * all environment variables of the parent process. Result provided to
+     * callback handler.
+     *
+     * @param command the command to execute
+     * @param handler capture process termination and exit code
+     * @throws ExecuteException execution of subprocess failed
+     */
+    void execute(CommandLine command, ExecuteResultHandler handler)
+        throws ExecuteException, IOException;
+
+    /**
+     * Methods for starting synchronous execution.
+     *
+     * @param command the command to execute
+     * @param environment The environment for the new process. If null, the
+     *          environment of the current process is used.
+     * @return process exit value
+     * @throws ExecuteException execution of subprocess failed or the
+     *          subprocess returned a exit value indicating a failure
+     *          {@link Executor#setExitValue(int)}.
+     */
+    int execute(CommandLine command, Map<String, String> environment)
+        throws ExecuteException, IOException;
+
+    /**
+     * Methods for starting asynchronous execution. The child process inherits
+     * all environment variables of the parent process. Result provided to
+     * callback handler.
+     *
+     * @param command the command to execute
+     * @param environment The environment for the new process. If null, the
+     *          environment of the current process is used.
+     * @param handler capture process termination and exit code
+     * @throws ExecuteException execution of subprocess failed
+     */
+    void execute(CommandLine command, Map<String, String> environment, ExecuteResultHandler handler)
+        throws ExecuteException, IOException;
+
+    /**
+     * Sets the handler for cleanup of started processes if the main process
+     * is going to terminate.
+     *
+     * @return the ProcessDestroyer
+     */
+    ProcessDestroyer getProcessDestroyer();
+
+    /**
+     * Gets the StreamHandler used for providing input and
+     * retrieving the output.
+     *
+     * @return the StreamHandler
+     */
+    ExecuteStreamHandler getStreamHandler();
+
+    /**
+     * Gets the watchdog used to kill of processes running,
+     * typically, too long time.
+     *
+     * @return the watchdog
+     */
+    ExecuteWatchdog getWatchdog();
+
+    /**
+     * Gets the working directory of the created process.
+     *
+     * @return the working directory
+     */
+    File getWorkingDirectory();
+
+    /**
+     * Checks whether {@code exitValue} signals a failure. If no
+     * exit values are set than the default conventions of the OS is
+     * used. e.g. most OS regard an exit code of '0' as successful
+     * execution and everything else as failure.
+     *
+     * @param exitValue the exit value (return code) to be checked
+     * @return {@code true} if {@code exitValue} signals a failure
+     */
+    boolean isFailure(final int exitValue);
+
+    /**
      * Define the {@code exitValue} of the process to be considered
      * successful. If a different exit value is returned by
      * the process then {@link org.apache.commons.exec.Executor#execute(CommandLine)}
@@ -76,23 +171,12 @@ public interface Executor {
     void setExitValues(final int[] values);
 
     /**
-     * Checks whether {@code exitValue} signals a failure. If no
-     * exit values are set than the default conventions of the OS is
-     * used. e.g. most OS regard an exit code of '0' as successful
-     * execution and everything else as failure.
+     * Gets the handler for cleanup of started processes if the main process
+     * is going to terminate.
      *
-     * @param exitValue the exit value (return code) to be checked
-     * @return {@code true} if {@code exitValue} signals a failure
+     * @param processDestroyer the ProcessDestroyer
      */
-    boolean isFailure(final int exitValue);
-
-    /**
-     * Gets the StreamHandler used for providing input and
-     * retrieving the output.
-     *
-     * @return the StreamHandler
-     */
-    ExecuteStreamHandler getStreamHandler();
+    void setProcessDestroyer(ProcessDestroyer processDestroyer);
 
     /**
      * Sets a custom the StreamHandler used for providing
@@ -106,14 +190,6 @@ public interface Executor {
     void setStreamHandler(ExecuteStreamHandler streamHandler);
 
     /**
-     * Gets the watchdog used to kill of processes running,
-     * typically, too long time.
-     *
-     * @return the watchdog
-     */
-    ExecuteWatchdog getWatchdog();
-
-    /**
      * Sets the watchdog used to kill of processes running,
      * typically, too long time.
      *
@@ -122,86 +198,10 @@ public interface Executor {
     void setWatchdog(ExecuteWatchdog watchDog);
 
     /**
-     * Sets the handler for cleanup of started processes if the main process
-     * is going to terminate.
-     *
-     * @return the ProcessDestroyer
-     */
-    ProcessDestroyer getProcessDestroyer();
-
-    /**
-     * Gets the handler for cleanup of started processes if the main process
-     * is going to terminate.
-     *
-     * @param processDestroyer the ProcessDestroyer
-     */
-    void setProcessDestroyer(ProcessDestroyer processDestroyer);
-
-    /**
-     * Gets the working directory of the created process.
-     *
-     * @return the working directory
-     */
-    File getWorkingDirectory();
-
-    /**
      * Sets the working directory of the created process. The
      * working directory must exist when you start the process.
      *
      * @param dir the working directory
      */
     void setWorkingDirectory(File dir);
-
-    /**
-     * Methods for starting synchronous execution. The child process inherits
-     * all environment variables of the parent process.
-     *
-     * @param command the command to execute
-     * @return process exit value
-     * @throws ExecuteException execution of subprocess failed or the
-     *          subprocess returned a exit value indicating a failure
-     *          {@link Executor#setExitValue(int)}.
-     */
-    int execute(CommandLine command)
-        throws ExecuteException, IOException;
-
-    /**
-     * Methods for starting synchronous execution.
-     *
-     * @param command the command to execute
-     * @param environment The environment for the new process. If null, the
-     *          environment of the current process is used.
-     * @return process exit value
-     * @throws ExecuteException execution of subprocess failed or the
-     *          subprocess returned a exit value indicating a failure
-     *          {@link Executor#setExitValue(int)}.
-     */
-    int execute(CommandLine command, Map<String, String> environment)
-        throws ExecuteException, IOException;
-
-    /**
-     * Methods for starting asynchronous execution. The child process inherits
-     * all environment variables of the parent process. Result provided to
-     * callback handler.
-     *
-     * @param command the command to execute
-     * @param handler capture process termination and exit code
-     * @throws ExecuteException execution of subprocess failed
-     */
-    void execute(CommandLine command, ExecuteResultHandler handler)
-        throws ExecuteException, IOException;
-
-    /**
-     * Methods for starting asynchronous execution. The child process inherits
-     * all environment variables of the parent process. Result provided to
-     * callback handler.
-     *
-     * @param command the command to execute
-     * @param environment The environment for the new process. If null, the
-     *          environment of the current process is used.
-     * @param handler capture process termination and exit code
-     * @throws ExecuteException execution of subprocess failed
-     */
-    void execute(CommandLine command, Map<String, String> environment, ExecuteResultHandler handler)
-        throws ExecuteException, IOException;
 }

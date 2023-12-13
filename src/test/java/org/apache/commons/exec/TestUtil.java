@@ -25,22 +25,6 @@ import junit.framework.AssertionFailedError;
  */
 public final class TestUtil {
 
-    private TestUtil() {
-    }
-
-    public static File resolveScriptForOS(final String script) {
-        if (OS.isFamilyWindows()) {
-            return new File(script + ".bat");
-        }
-        if (OS.isFamilyUnix()) {
-            return new File(script + ".sh");
-        }
-        if (OS.isFamilyOpenVms()) {
-            return new File(script + ".dcl");
-        }
-        throw new AssertionFailedError("Test not supported for this OS");
-    }
-
     /**
      * Gets success and fail return codes used by the test scripts
      * @return int array[2] = {ok, success}
@@ -56,6 +40,22 @@ public final class TestUtil {
             return new int[]{1,2};
         }
         throw new AssertionFailedError("Test not supported for this OS");
+    }
+
+    public static File resolveScriptForOS(final String script) {
+        if (OS.isFamilyWindows()) {
+            return new File(script + ".bat");
+        }
+        if (OS.isFamilyUnix()) {
+            return new File(script + ".sh");
+        }
+        if (OS.isFamilyOpenVms()) {
+            return new File(script + ".dcl");
+        }
+        throw new AssertionFailedError("Test not supported for this OS");
+    }
+
+    private TestUtil() {
     }
 
 }

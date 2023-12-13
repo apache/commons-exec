@@ -42,23 +42,18 @@ public class DefaultProcessingEnvironment {
     protected Map<String, String> procEnvironment;
 
     /**
-     * Find the list of environment variables for this process.
+     * Creates a map that obeys the casing rules of the current platform for key
+     * lookup. E.g. on a Windows platform, the map keys will be
+     * case-insensitive.
      *
-     * @return a map containing the environment variables
-     * @throws IOException obtaining the environment variables failed
+     * @return The map for storage of environment variables, never
+     *         {@code null}.
      */
-    public synchronized Map<String, String> getProcEnvironment() throws IOException {
-
-        if (procEnvironment == null) {
-            procEnvironment = this.createProcEnvironment();
+    private Map<String, String> createEnvironmentMap() {
+        if (OS.isFamilyWindows()) {
+            return new TreeMap<>(String::compareToIgnoreCase);
         }
-
-        // create a copy of the map just in case that
-        // anyone is going to modifiy it, e.g. removing
-        // or setting an evironment variable
-        final Map<String, String> copy = createEnvironmentMap();
-        copy.putAll(procEnvironment);
-        return copy;
+        return new HashMap<>();
     }
 
     /**
@@ -104,24 +99,6 @@ public class DefaultProcessingEnvironment {
 //            }
 //        }
         return procEnvironment;
-    }
-
-    /**
-     * Start a process to list the environment variables.
-     *
-     * @return a reader containing the output of the process
-     * @throws IOException starting the process failed
-     * @deprecated No longer needed
-     */
-    @Deprecated
-    protected BufferedReader runProcEnvCommand() throws IOException {
-//        final ByteArrayOutputStream out = new ByteArrayOutputStream();
-//        final Executor exe = new DefaultExecutor();
-//        exe.setStreamHandler(new PumpStreamHandler(out));
-//        // ignore the exit value - Just try to use what we got
-//        exe.execute(getProcEnvCommand());
-//        return new BufferedReader(new StringReader(toString(out)));
-        return null;
     }
 
     /**
@@ -178,6 +155,26 @@ public class DefaultProcessingEnvironment {
         return commandLine;
     }
 
+    /**
+     * Find the list of environment variables for this process.
+     *
+     * @return a map containing the environment variables
+     * @throws IOException obtaining the environment variables failed
+     */
+    public synchronized Map<String, String> getProcEnvironment() throws IOException {
+
+        if (procEnvironment == null) {
+            procEnvironment = this.createProcEnvironment();
+        }
+
+        // create a copy of the map just in case that
+        // anyone is going to modifiy it, e.g. removing
+        // or setting an evironment variable
+        final Map<String, String> copy = createEnvironmentMap();
+        copy.putAll(procEnvironment);
+        return copy;
+    }
+
 //    /**
 //     * ByteArrayOutputStream#toString doesn't seem to work reliably on OS/390,
 //     * at least not the way we use it in the execution context.
@@ -205,18 +202,21 @@ public class DefaultProcessingEnvironment {
 //    }
 
     /**
-     * Creates a map that obeys the casing rules of the current platform for key
-     * lookup. E.g. on a Windows platform, the map keys will be
-     * case-insensitive.
+     * Start a process to list the environment variables.
      *
-     * @return The map for storage of environment variables, never
-     *         {@code null}.
+     * @return a reader containing the output of the process
+     * @throws IOException starting the process failed
+     * @deprecated No longer needed
      */
-    private Map<String, String> createEnvironmentMap() {
-        if (OS.isFamilyWindows()) {
-            return new TreeMap<>(String::compareToIgnoreCase);
-        }
-        return new HashMap<>();
+    @Deprecated
+    protected BufferedReader runProcEnvCommand() throws IOException {
+//        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+//        final Executor exe = new DefaultExecutor();
+//        exe.setStreamHandler(new PumpStreamHandler(out));
+//        // ignore the exit value - Just try to use what we got
+//        exe.execute(getProcEnvCommand());
+//        return new BufferedReader(new StringReader(toString(out)));
+        return null;
     }
 
 }

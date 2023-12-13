@@ -95,6 +95,91 @@ public class ExecuteWatchdog implements TimeoutObserver {
     }
 
     /**
+     * This method will rethrow the exception that was possibly caught during
+     * the run of the process. It will only remains valid once the process has
+     * been terminated either by 'error', timeout or manual intervention.
+     * Information will be discarded once a new process is ran.
+     *
+     * @throws Exception
+     *             a wrapped exception over the one that was silently swallowed
+     *             and stored during the process run.
+     */
+    public synchronized void checkException() throws Exception {
+        if (caught != null) {
+            throw caught;
+        }
+    }
+
+    /**
+     * reset the monitor flag and the process.
+     */
+    protected synchronized void cleanUp() {
+        watch = false;
+        process = null;
+    }
+
+    /**
+     * Destroys the running process manually.
+     */
+    public synchronized void destroyProcess() {
+        ensureStarted();
+        this.timeoutOccured(null);
+        this.stop();
+    }
+
+    /**
+     * Ensures that the process is started or not already terminated
+     * so we do not race with asynch executionor hang forever. The
+     * caller of this method must be holding the lock on this
+     */
+    private void ensureStarted() {
+        while (!processStarted && caught == null) {
+            try {
+                this.wait();
+            } catch (final InterruptedException e) {
+                throw new IllegalStateException(e.getMessage(), e);
+            }
+        }
+    }
+
+    /**
+     * Notification that starting the process failed.
+     *
+     * @param e the offending exception
+     *
+     */
+    public synchronized void failedToStart(final Exception e) {
+        this.processStarted = true;
+        this.caught = e;
+        this.notifyAll();
+    }
+
+    /**
+     * Indicates whether or not the watchdog is still monitoring the process.
+     *
+     * @return {@code true} if the process is still running, otherwise
+     *         {@code false}.
+     */
+    public synchronized boolean isWatching() {
+        ensureStarted();
+        return watch;
+    }
+
+    /**
+     * Indicates whether the last process run was killed.
+     *
+     * @return {@code true} if the process was killed
+     *         {@code false}.
+     */
+    public synchronized boolean killedProcess() {
+        return killedProcess;
+    }
+
+    void setProcessNotStarted() {
+        processStarted = false;
+    }
+
+    /**
      * Watches the given process and terminates it, if it runs for too long. All
      * information from the previous run are reset.
      *
@@ -120,18 +205,6 @@ public class ExecuteWatchdog implements TimeoutObserver {
     }
 
     /**
-     * Notification that starting the process failed.
-     *
-     * @param e the offending exception
-     *
-     */
-    public synchronized void failedToStart(final Exception e) {
-        this.processStarted = true;
-        this.caught = e;
-        this.notifyAll();
-    }
-
-    /**
      * Stops the watcher. It will notify all threads possibly waiting on this
      * object.
      */
@@ -141,15 +214,6 @@ public class ExecuteWatchdog implements TimeoutObserver {
         }
         watch = false;
         process = null;
-    }
-
-    /**
-     * Destroys the running process manually.
-     */
-    public synchronized void destroyProcess() {
-        ensureStarted();
-        this.timeoutOccured(null);
-        this.stop();
     }
 
     /**
@@ -177,70 +241,6 @@ public class ExecuteWatchdog implements TimeoutObserver {
             DebugUtils.handleException("Getting the exit value of the process failed", e);
         } finally {
             cleanUp();
-        }
-    }
-
-    /**
-     * This method will rethrow the exception that was possibly caught during
-     * the run of the process. It will only remains valid once the process has
-     * been terminated either by 'error', timeout or manual intervention.
-     * Information will be discarded once a new process is ran.
-     *
-     * @throws Exception
-     *             a wrapped exception over the one that was silently swallowed
-     *             and stored during the process run.
-     */
-    public synchronized void checkException() throws Exception {
-        if (caught != null) {
-            throw caught;
-        }
-    }
-
-    /**
-     * Indicates whether or not the watchdog is still monitoring the process.
-     *
-     * @return {@code true} if the process is still running, otherwise
-     *         {@code false}.
-     */
-    public synchronized boolean isWatching() {
-        ensureStarted();
-        return watch;
-    }
-
-    /**
-     * Indicates whether the last process run was killed.
-     *
-     * @return {@code true} if the process was killed
-     *         {@code false}.
-     */
-    public synchronized boolean killedProcess() {
-        return killedProcess;
-    }
-
-    /**
-     * reset the monitor flag and the process.
-     */
-    protected synchronized void cleanUp() {
-        watch = false;
-        process = null;
-    }
-
-    void setProcessNotStarted() {
-        processStarted = false;
-    }
-
-    /**
-     * Ensures that the process is started or not already terminated
-     * so we do not race with asynch executionor hang forever. The
-     * caller of this method must be holding the lock on this
-     */
-    private void ensureStarted() {
-        while (!processStarted && caught == null) {
-            try {
-                this.wait();
-            } catch (final InterruptedException e) {
-                throw new IllegalStateException(e.getMessage(), e);
-            }
         }
     }
 }

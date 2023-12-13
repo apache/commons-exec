@@ -38,24 +38,19 @@ import org.junit.Test;
 public class EnvironmentUtilsTest {
 
     /**
-     * Tests the behavior of the EnvironmentUtils.toStrings()
-     * when using a {@code null} environment.
+     * Accessing environment variables is case-sensitive or not depending
+     * on the operating system but the values of the environment variable
+     * are always case-sensitive. So make sure that this assumption holds
+     * on all operating systems.
+     *
+     * @throws Exception the test failed
      */
     @Test
-    public void testToStrings() {
-        // check for a non-existing environment when passing null
-        assertNull(EnvironmentUtils.toStrings(null));
-        // check for an environment when filling in two variables
-        final Map<String, String> env = new HashMap<>();
-        assertArrayEquals(new String[0], EnvironmentUtils.toStrings(env));
-        env.put("foo2", "bar2");
-        env.put("foo", "bar");
-        final String[] envStrings = EnvironmentUtils.toStrings(env);
-        final String[] expected = {"foo2=bar2", "foo=bar"};
-        // ensure the result does not depend on the hash ordering
-        Arrays.sort(expected);
-        Arrays.sort(envStrings);
-        assertArrayEquals(expected, envStrings);
+    public void testCaseInsensitiveVariableLookup() throws Exception {
+        final Map<String, String> procEnvironment = EnvironmentUtils.getProcEnvironment();
+        // Check that case is preserved for values
+        EnvironmentUtils.addVariableToEnvironment(procEnvironment, "foo=bAr");
+        assertEquals("bAr", procEnvironment.get("foo"));
     }
 
     /**
@@ -110,19 +105,24 @@ public class EnvironmentUtilsTest {
     }
 
     /**
-     * Accessing environment variables is case-sensitive or not depending
-     * on the operating system but the values of the environment variable
-     * are always case-sensitive. So make sure that this assumption holds
-     * on all operating systems.
-     *
-     * @throws Exception the test failed
+     * Tests the behavior of the EnvironmentUtils.toStrings()
+     * when using a {@code null} environment.
      */
     @Test
-    public void testCaseInsensitiveVariableLookup() throws Exception {
-        final Map<String, String> procEnvironment = EnvironmentUtils.getProcEnvironment();
-        // Check that case is preserved for values
-        EnvironmentUtils.addVariableToEnvironment(procEnvironment, "foo=bAr");
-        assertEquals("bAr", procEnvironment.get("foo"));
+    public void testToStrings() {
+        // check for a non-existing environment when passing null
+        assertNull(EnvironmentUtils.toStrings(null));
+        // check for an environment when filling in two variables
+        final Map<String, String> env = new HashMap<>();
+        assertArrayEquals(new String[0], EnvironmentUtils.toStrings(env));
+        env.put("foo2", "bar2");
+        env.put("foo", "bar");
+        final String[] envStrings = EnvironmentUtils.toStrings(env);
+        final String[] expected = {"foo2=bar2", "foo=bar"};
+        // ensure the result does not depend on the hash ordering
+        Arrays.sort(expected);
+        Arrays.sort(envStrings);
+        assertArrayEquals(expected, envStrings);
     }
 
     /**

@@ -51,6 +51,16 @@ public class StreamPumper implements Runnable {
      *
      * @param is input stream to read data from
      * @param os output stream to write data to.
+     */
+    public StreamPumper(final InputStream is, final OutputStream os) {
+        this(is, os, false);
+    }
+
+    /**
+     * Create a new stream pumper.
+     *
+     * @param is input stream to read data from
+     * @param os output stream to write data to.
      * @param closeWhenExhausted if true, the output stream will be closed when the input is exhausted.
      */
     public StreamPumper(final InputStream is, final OutputStream os,
@@ -78,13 +88,12 @@ public class StreamPumper implements Runnable {
     }
 
     /**
-     * Create a new stream pumper.
+     * Tells whether the end of the stream has been reached.
      *
-     * @param is input stream to read data from
-     * @param os output stream to write data to.
+     * @return true is the stream has been exhausted.
      */
-    public StreamPumper(final InputStream is, final OutputStream os) {
-        this(is, os, false);
+    public synchronized boolean isFinished() {
+        return finished;
     }
 
     /**
@@ -121,15 +130,6 @@ public class StreamPumper implements Runnable {
                 notifyAll();
             }
         }
-    }
-
-    /**
-     * Tells whether the end of the stream has been reached.
-     *
-     * @return true is the stream has been exhausted.
-     */
-    public synchronized boolean isFinished() {
-        return finished;
     }
 
     /**
