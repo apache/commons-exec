@@ -54,6 +54,7 @@ public interface Executor {
      * @param command the command to execute
      * @return process exit value
      * @throws ExecuteException execution of subprocess failed or the subprocess returned a exit value indicating a failure {@link Executor#setExitValue(int)}.
+     * @throws IOException If an I/O error occurs.
      */
     int execute(CommandLine command) throws ExecuteException, IOException;
 
@@ -64,6 +65,7 @@ public interface Executor {
      * @param command the command to execute
      * @param handler capture process termination and exit code
      * @throws ExecuteException execution of subprocess failed
+     * @throws IOException If an I/O error occurs.
      */
     void execute(CommandLine command, ExecuteResultHandler handler) throws ExecuteException, IOException;
 
@@ -74,6 +76,7 @@ public interface Executor {
      * @param environment The environment for the new process. If null, the environment of the current process is used.
      * @return process exit value
      * @throws ExecuteException execution of subprocess failed or the subprocess returned a exit value indicating a failure {@link Executor#setExitValue(int)}.
+     * @throws IOException If an I/O error occurs.
      */
     int execute(CommandLine command, Map<String, String> environment) throws ExecuteException, IOException;
 
@@ -85,6 +88,7 @@ public interface Executor {
      * @param environment The environment for the new process. If null, the environment of the current process is used.
      * @param handler     capture process termination and exit code
      * @throws ExecuteException execution of subprocess failed
+     * @throws IOException If an I/O error occurs.
      */
     void execute(CommandLine command, Map<String, String> environment, ExecuteResultHandler handler) throws ExecuteException, IOException;
 
