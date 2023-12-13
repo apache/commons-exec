@@ -26,8 +26,7 @@ import java.util.Map.Entry;
 /**
  * Wrapper for environment variables.
  */
-public class EnvironmentUtils
-{
+public class EnvironmentUtils {
 
     private static final DefaultProcessingEnvironment PROCESSING_ENVIRONMENT_IMPLEMENTATION;
 
@@ -35,13 +34,12 @@ public class EnvironmentUtils
 //        if (OS.isFamilyOpenVms()) {
 //            PROCESSING_ENVIRONMENT_IMPLEMENTATION = new OpenVmsProcessingEnvironment();
 //        } else {
-            PROCESSING_ENVIRONMENT_IMPLEMENTATION = new DefaultProcessingEnvironment();
+        PROCESSING_ENVIRONMENT_IMPLEMENTATION = new DefaultProcessingEnvironment();
 //        }
     }
 
     /**
-     * Add a key/value pair to the given environment.
-     * If the key matches an existing key, the previous setting is replaced.
+     * Add a key/value pair to the given environment. If the key matches an existing key, the previous setting is replaced.
      *
      * @param environment the current environment
      * @param keyAndValue the key/value pair
@@ -52,10 +50,8 @@ public class EnvironmentUtils
     }
 
     /**
-     * Find the list of environment variables for this process. The returned map preserves
-     * the casing of a variable's name on all platforms but obeys the casing rules of the
-     * current platform during lookup, e.g. key names will be case-insensitive on Windows
-     * platforms.
+     * Find the list of environment variables for this process. The returned map preserves the casing of a variable's name on all platforms but obeys the casing
+     * rules of the current platform during lookup, e.g. key names will be case-insensitive on Windows platforms.
      *
      * @return a map containing the environment variables, may be empty but never {@code null}
      * @throws IOException the operation failed
@@ -65,8 +61,7 @@ public class EnvironmentUtils
     }
 
     /**
-     * Split a key/value pair into a String[]. It is assumed
-     * that the ky/value pair contains a '=' character.
+     * Split a key/value pair into a String[]. It is assumed that the ky/value pair contains a '=' character.
      *
      * @param keyAndValue the key/value pair
      * @return a String[] containing the key and value
@@ -74,9 +69,7 @@ public class EnvironmentUtils
     private static String[] parseEnvironmentVariable(final String keyAndValue) {
         final int index = keyAndValue.indexOf('=');
         if (index == -1) {
-            throw new IllegalArgumentException(
-                    "Environment variable for this platform "
-                            + "must contain an equals sign ('=')");
+            throw new IllegalArgumentException("Environment variable for this platform " + "must contain an equals sign ('=')");
         }
 
         final String[] result = new String[2];
@@ -90,8 +83,7 @@ public class EnvironmentUtils
      * Gets the variable list as an array.
      *
      * @param environment the environment to use, may be {@code null}
-     * @return array of key=value assignment strings or {@code null} if and only if
-     *     the input map was {@code null}
+     * @return array of key=value assignment strings or {@code null} if and only if the input map was {@code null}
      */
     public static String[] toStrings(final Map<String, String> environment) {
         if (environment == null) {
@@ -100,7 +92,7 @@ public class EnvironmentUtils
         final String[] result = new String[environment.size()];
         int i = 0;
         for (final Entry<String, String> entry : environment.entrySet()) {
-            final String key  = entry.getKey() == null ? "" : entry.getKey().toString();
+            final String key = entry.getKey() == null ? "" : entry.getKey().toString();
             final String value = entry.getValue() == null ? "" : entry.getValue().toString();
             result[i] = key + "=" + value;
             i++;

@@ -27,11 +27,8 @@ import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.OS;
 
 /**
- * Helper class to determine the environment variable
- * for the OS. Depending on the JDK the environment
- * variables can be either retrieved directly from the
- * JVM or requires starting a process to get them running
- * an OS command line.
+ * Helper class to determine the environment variable for the OS. Depending on the JDK the environment variables can be either retrieved directly from the JVM
+ * or requires starting a process to get them running an OS command line.
  */
 public class DefaultProcessingEnvironment {
 
@@ -42,12 +39,9 @@ public class DefaultProcessingEnvironment {
     protected Map<String, String> procEnvironment;
 
     /**
-     * Creates a map that obeys the casing rules of the current platform for key
-     * lookup. E.g. on a Windows platform, the map keys will be
-     * case-insensitive.
+     * Creates a map that obeys the casing rules of the current platform for key lookup. E.g. on a Windows platform, the map keys will be case-insensitive.
      *
-     * @return The map for storage of environment variables, never
-     *         {@code null}.
+     * @return The map for storage of environment variables, never {@code null}.
      */
     private Map<String, String> createEnvironmentMap() {
         if (OS.isFamilyWindows()) {
@@ -102,8 +96,7 @@ public class DefaultProcessingEnvironment {
     }
 
     /**
-     * Determine the OS specific command line to get a list of environment
-     * variables.
+     * Determine the OS specific command line to get a list of environment variables.
      *
      * @return the command line
      * @deprecated No longer needed

@@ -39,15 +39,11 @@ public class Exec41Test {
     private final File pingScript = TestUtil.resolveScriptForOS(testDir + "/ping");
 
     /**
-     * Test EXEC-41 with a disabled PumpStreamHandler to check if we could return
-     * immediately after killing the process (no streams implies no blocking
-     * stream pumper threads). But you have to be 100% sure that the subprocess
-     * is not writing to 'stdout' and 'stderr'.
+     * Test EXEC-41 with a disabled PumpStreamHandler to check if we could return immediately after killing the process (no streams implies no blocking stream
+     * pumper threads). But you have to be 100% sure that the subprocess is not writing to 'stdout' and 'stderr'.
      *
-     * For this test we are using the batch file - under Windows the 'ping'
-     * process can't be killed (not supported by Win32) and will happily
-     * run the given time (e.g. 10 seconds) even hwen the batch file is already
-     * killed.
+     * For this test we are using the batch file - under Windows the 'ping' process can't be killed (not supported by Win32) and will happily run the given time
+     * (e.g. 10 seconds) even hwen the batch file is already killed.
      *
      * @throws Exception the test failed
      */
@@ -57,7 +53,7 @@ public class Exec41Test {
         final CommandLine cmdLine = new CommandLine(pingScript);
         cmdLine.addArgument("10"); // sleep 10 seconds
         final DefaultExecutor executor = new DefaultExecutor();
-        final ExecuteWatchdog watchdog = new ExecuteWatchdog(2*1000); // allow process no more than 2 seconds
+        final ExecuteWatchdog watchdog = new ExecuteWatchdog(2 * 1000); // allow process no more than 2 seconds
 
         // create a custom "PumpStreamHandler" doing no pumping at all
         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(null, null, null);
@@ -75,23 +71,21 @@ public class Exec41Test {
 
         final long duration = System.currentTimeMillis() - startTime;
 
-        System.out.println("Process completed in " + duration +" millis; below is its output");
+        System.out.println("Process completed in " + duration + " millis; below is its output");
 
         if (watchdog.killedProcess()) {
             System.out.println("Process timed out and was killed.");
         }
 
         assertTrue("The process was killed by the watchdog", watchdog.killedProcess());
-        assertTrue("Skipping the Thread.join() did not work, duration="+duration, duration < 9000);
+        assertTrue("Skipping the Thread.join() did not work, duration=" + duration, duration < 9000);
     }
 
     /**
      *
-     * When a process runs longer than allowed by a configured watchdog's
-     * timeout, the watchdog tries to destroy it and then DefaultExecutor
-     * tries to clean up by joining with all installed pump stream threads.
-     * Problem is, that sometimes the native process doesn't die and thus
-     * streams aren't closed and the stream threads do not complete.
+     * When a process runs longer than allowed by a configured watchdog's timeout, the watchdog tries to destroy it and then DefaultExecutor tries to clean up
+     * by joining with all installed pump stream threads. Problem is, that sometimes the native process doesn't die and thus streams aren't closed and the
+     * stream threads do not complete.
      *
      * @throws Exception the test failed
      */
@@ -108,8 +102,7 @@ public class Exec41Test {
         } else if (OS.isFamilyUnix()) {
             cmdLine = CommandLine.parse("ping -c 10 127.0.0.1");
         } else {
-            System.err.println("The test 'testExec41WithStreams' does not support the following OS : "
-                    + System.getProperty("os.name"));
+            System.err.println("The test 'testExec41WithStreams' does not support the following OS : " + System.getProperty("os.name"));
             return;
         }
 

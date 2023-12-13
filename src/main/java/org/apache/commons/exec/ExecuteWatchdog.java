@@ -35,14 +35,11 @@ import org.apache.commons.exec.util.DebugUtils;
  * }
  * </pre>
  *
- * When starting an asynchronous process than 'ExecuteWatchdog' is the
- * keeper of the process handle. In some cases it is useful not to define
- * a timeout (and pass 'INFINITE_TIMEOUT') and to kill the process explicitly
- * using 'destroyProcess()'.
+ * When starting an asynchronous process than 'ExecuteWatchdog' is the keeper of the process handle. In some cases it is useful not to define a timeout (and
+ * pass 'INFINITE_TIMEOUT') and to kill the process explicitly using 'destroyProcess()'.
  * <p>
- * Please note that ExecuteWatchdog is processed asynchronously, e.g. it might
- * be still attached to a process even after the DefaultExecutor.execute
- * has returned.
+ * Please note that ExecuteWatchdog is processed asynchronously, e.g. it might be still attached to a process even after the DefaultExecutor.execute has
+ * returned.
  *
  * @see org.apache.commons.exec.Executor
  * @see org.apache.commons.exec.Watchdog
@@ -76,9 +73,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
     /**
      * Creates a new watchdog with a given timeout.
      *
-     * @param timeout
-     *            the timeout for the process in milliseconds. It must be
-     *            greater than 0 or 'INFINITE_TIMEOUT'
+     * @param timeout the timeout for the process in milliseconds. It must be greater than 0 or 'INFINITE_TIMEOUT'
      */
     public ExecuteWatchdog(final long timeout) {
         this.killedProcess = false;
@@ -88,21 +83,16 @@ public class ExecuteWatchdog implements TimeoutObserver {
         if (this.hasWatchdog) {
             this.watchdog = new Watchdog(timeout);
             this.watchdog.addTimeoutObserver(this);
-        }
-        else {
+        } else {
             this.watchdog = null;
         }
     }
 
     /**
-     * This method will rethrow the exception that was possibly caught during
-     * the run of the process. It will only remains valid once the process has
-     * been terminated either by 'error', timeout or manual intervention.
-     * Information will be discarded once a new process is ran.
+     * This method will rethrow the exception that was possibly caught during the run of the process. It will only remains valid once the process has been
+     * terminated either by 'error', timeout or manual intervention. Information will be discarded once a new process is ran.
      *
-     * @throws Exception
-     *             a wrapped exception over the one that was silently swallowed
-     *             and stored during the process run.
+     * @throws Exception a wrapped exception over the one that was silently swallowed and stored during the process run.
      */
     public synchronized void checkException() throws Exception {
         if (caught != null) {
@@ -128,9 +118,8 @@ public class ExecuteWatchdog implements TimeoutObserver {
     }
 
     /**
-     * Ensures that the process is started or not already terminated
-     * so we do not race with asynch executionor hang forever. The
-     * caller of this method must be holding the lock on this
+     * Ensures that the process is started or not already terminated so we do not race with asynch executionor hang forever. The caller of this method must be
+     * holding the lock on this
      */
     private void ensureStarted() {
         while (!processStarted && caught == null) {
@@ -157,8 +146,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
     /**
      * Indicates whether or not the watchdog is still monitoring the process.
      *
-     * @return {@code true} if the process is still running, otherwise
-     *         {@code false}.
+     * @return {@code true} if the process is still running, otherwise {@code false}.
      */
     public synchronized boolean isWatching() {
         ensureStarted();
@@ -168,8 +156,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
     /**
      * Indicates whether the last process run was killed.
      *
-     * @return {@code true} if the process was killed
-     *         {@code false}.
+     * @return {@code true} if the process was killed {@code false}.
      */
     public synchronized boolean killedProcess() {
         return killedProcess;
@@ -180,13 +167,10 @@ public class ExecuteWatchdog implements TimeoutObserver {
     }
 
     /**
-     * Watches the given process and terminates it, if it runs for too long. All
-     * information from the previous run are reset.
+     * Watches the given process and terminates it, if it runs for too long. All information from the previous run are reset.
      *
-     * @param processToMonitor
-     *            the process to monitor. It cannot be {@code null}
-     * @throws IllegalStateException
-     *             if a process is still being monitored.
+     * @param processToMonitor the process to monitor. It cannot be {@code null}
+     * @throws IllegalStateException if a process is still being monitored.
      */
     public synchronized void start(final Process processToMonitor) {
         Objects.requireNonNull(processToMonitor, "processToMonitor");
@@ -205,8 +189,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
     }
 
     /**
-     * Stops the watcher. It will notify all threads possibly waiting on this
-     * object.
+     * Stops the watcher. It will notify all threads possibly waiting on this object.
      */
     public synchronized void stop() {
         if (hasWatchdog) {

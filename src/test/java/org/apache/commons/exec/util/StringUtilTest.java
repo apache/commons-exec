@@ -29,12 +29,10 @@ import org.junit.Test;
  */
 public class StringUtilTest {
     /**
-     * Test a default string substitution, e.g. all placeholders
-     * are expanded.
+     * Test a default string substitution, e.g. all placeholders are expanded.
      */
     @Test
-    public void testDefaultStringSubstitution() throws Exception
-    {
+    public void testDefaultStringSubstitution() throws Exception {
         final Map<String, String> vars = new HashMap<>();
         vars.put("foo", "FOO");
         vars.put("bar", "BAR");
@@ -47,17 +45,15 @@ public class StringUtilTest {
      * Test a erroneous template.
      */
     @Test
-    public void testErroneousTemplate() throws Exception
-    {
+    public void testErroneousTemplate() throws Exception {
         final Map<String, String> vars = new HashMap<>();
         vars.put("foo", "FOO");
 
-        assertEquals("This is a FOO & ${}} test",  StringUtils.stringSubstitution("This is a ${foo} & ${}} test", vars, true).toString());
+        assertEquals("This is a FOO & ${}} test", StringUtils.stringSubstitution("This is a ${foo} & ${}} test", vars, true).toString());
     }
 
     /**
-     * Test an incomplete string substitution where not all placeholders
-     * are expanded.
+     * Test an incomplete string substitution where not all placeholders are expanded.
      */
     @Test
     public void testIncompleteSubstitution() throws Exception {
@@ -65,15 +61,12 @@ public class StringUtilTest {
         final Map<String, String> vars = new HashMap<>();
         vars.put("foo", "FOO");
 
-        assertEquals("This is a FOO & ${bar} test",  StringUtils.stringSubstitution("This is a ${foo} & ${bar} test", vars, true).toString());
+        assertEquals("This is a FOO & ${bar} test", StringUtils.stringSubstitution("This is a ${foo} & ${bar} test", vars, true).toString());
 
-        try
-        {
+        try {
             StringUtils.stringSubstitution("This is a ${foo} & ${bar} test", vars, false).toString();
             fail();
-        }
-        catch (final RuntimeException e)
-        {
+        } catch (final RuntimeException e) {
             // nothing to do
         }
     }
@@ -82,8 +75,7 @@ public class StringUtilTest {
      * Test no string substitution
      */
     @Test
-    public void testNoStringSubstitution() throws Exception
-    {
+    public void testNoStringSubstitution() throws Exception {
         final Map<String, String> vars = new HashMap<>();
         vars.put("foo", "FOO");
         vars.put("bar", "BAR");

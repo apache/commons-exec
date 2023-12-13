@@ -42,8 +42,7 @@ public class ExecuteException extends IOException {
     /**
      * Constructs a new exception with the specified detail message.
      *
-     * @param message
-     *            The detail message
+     * @param message   The detail message
      * @param exitValue The exit value
      */
     public ExecuteException(final String message, final int exitValue) {
@@ -55,11 +54,9 @@ public class ExecuteException extends IOException {
     /**
      * Constructs a new exception with the specified detail message and cause.
      *
-     * @param message
-     *            The detail message
+     * @param message   The detail message
      * @param exitValue The exit value
-     * @param cause
-     *            The underlying cause
+     * @param cause     The underlying cause
      */
     public ExecuteException(final String message, final int exitValue, final Throwable cause) {
         super(message + " (Exit value: " + exitValue + ". Caused by " + cause + ")");
@@ -77,6 +74,7 @@ public class ExecuteException extends IOException {
 
     /**
      * Gets the exit value returned by the failed process
+     * 
      * @return The exit value
      */
     public int getExitValue() {

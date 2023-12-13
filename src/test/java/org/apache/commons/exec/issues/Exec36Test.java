@@ -48,8 +48,7 @@ public class Exec36Test {
     private ByteArrayOutputStream baos;
 
     /**
-     * Some complex real-life command line from
-     * http://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
+     * Some complex real-life command line from http://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
      */
     @Test
     @Ignore
@@ -57,12 +56,8 @@ public class Exec36Test {
 
         CommandLine cmdl;
 
-        final String line = "./script/jrake "
-                + "cruise:publish_installers "
-                + "INSTALLER_VERSION=unstable_2_1 "
-                + "INSTALLER_PATH=\"/var/lib/cruise-agent/installers\" "
-                + "INSTALLER_DOWNLOAD_SERVER='something'"
-                + "WITHOUT_HELP_DOC=true";
+        final String line = "./script/jrake " + "cruise:publish_installers " + "INSTALLER_VERSION=unstable_2_1 "
+                + "INSTALLER_PATH=\"/var/lib/cruise-agent/installers\" " + "INSTALLER_DOWNLOAD_SERVER='something'" + "WITHOUT_HELP_DOC=true";
 
         cmdl = CommandLine.parse(line);
         final String[] args = cmdl.toStrings();
@@ -75,8 +70,7 @@ public class Exec36Test {
     }
 
     /**
-     * Some complex real-life command line from
-     * http://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
+     * Some complex real-life command line from http://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
      */
     @Test
     @Ignore
@@ -84,15 +78,14 @@ public class Exec36Test {
 
         CommandLine cmdl;
 
-        final String line = "dotnetfx.exe"
-                + " /q:a "
+        final String line = "dotnetfx.exe" + " /q:a "
                 + "/c:\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"";
 
         cmdl = CommandLine.parse(line);
         final String[] args = cmdl.toStrings();
         assertEquals("dotnetfx.exe", args[0]);
         assertEquals("/q:a", args[1]);
-        assertEquals("/c:\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"", args[2] );
+        assertEquals("/c:\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"", args[2]);
     }
 
     /**
@@ -139,16 +132,12 @@ public class Exec36Test {
             CommandLine cmdl;
 
             /**
-             * ./script/jrake cruise:publish_installers INSTALLER_VERSION=unstable_2_1 \
-             *     INSTALLER_PATH="/var/lib/ cruise-agent/installers" INSTALLER_DOWNLOAD_SERVER='something' WITHOUT_HELP_DOC=true
+             * ./script/jrake cruise:publish_installers INSTALLER_VERSION=unstable_2_1 \ INSTALLER_PATH="/var/lib/ cruise-agent/installers"
+             * INSTALLER_DOWNLOAD_SERVER='something' WITHOUT_HELP_DOC=true
              */
 
-            final String expected = "./script/jrake\n" +
-                    "cruise:publish_installers\n" +
-                    "INSTALLER_VERSION=unstable_2_1\n" +
-                    "INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\"\n" +
-                    "INSTALLER_DOWNLOAD_SERVER='something'\n" +
-                    "WITHOUT_HELP_DOC=true";
+            final String expected = "./script/jrake\n" + "cruise:publish_installers\n" + "INSTALLER_VERSION=unstable_2_1\n"
+                    + "INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\"\n" + "INSTALLER_DOWNLOAD_SERVER='something'\n" + "WITHOUT_HELP_DOC=true";
 
             cmdl = new CommandLine(printArgsScript);
             cmdl.addArgument("./script/jrake", false);
@@ -162,15 +151,13 @@ public class Exec36Test {
             final String result = baos.toString().trim();
             assertFalse(exec.isFailure(exitValue));
             assertEquals(expected, result);
-        }
-        else {
+        } else {
             System.err.println("The test 'testExec36_1' does not support the following OS : " + System.getProperty("os.name"));
         }
     }
 
     /**
-     * Test a complex real example found at
-     * http://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
+     * Test a complex real example found at http://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
      *
      * The command line is so weird that it even falls apart under Windows
      *
@@ -185,16 +172,10 @@ public class Exec36Test {
         // dotnetfx.exe /q:a /c:"install.exe /l ""\Documents and Settings\myusername\Local Settings\Temp\netfx.log"" /q"
 
         if (OS.isFamilyWindows()) {
-            expected = "dotnetfx.exe\n" +
-                    "/q:a\n" +
-                    "/c:\"install.exe /l \"\"\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"";
-        }
-        else if (OS.isFamilyUnix()) {
-            expected = "dotnetfx.exe\n" +
-                    "/q:a\n" +
-                    "/c:\"install.exe /l \"\"/Documents and Settings/myusername/Local Settings/Temp/netfx.log\"\" /q\"";
-        }
-        else {
+            expected = "dotnetfx.exe\n" + "/q:a\n" + "/c:\"install.exe /l \"\"\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"";
+        } else if (OS.isFamilyUnix()) {
+            expected = "dotnetfx.exe\n" + "/q:a\n" + "/c:\"install.exe /l \"\"/Documents and Settings/myusername/Local Settings/Temp/netfx.log\"\" /q\"";
+        } else {
             System.err.println("The test 'testExec36_3' does not support the following OS : " + System.getProperty("os.name"));
             return;
         }

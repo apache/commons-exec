@@ -29,9 +29,9 @@ import org.junit.Test;
 /**
  * An example based on the tutorial where the user can safely play with
  * <ul>
- *  <li>blocking or non-blocking print jobs
- *  <li>with print job timeouts to trigger the {@code ExecuteWatchdog}
- *  <li>with the {@code exitValue} returned from the print script
+ * <li>blocking or non-blocking print jobs
+ * <li>with print job timeouts to trigger the {@code ExecuteWatchdog}
+ * <li>with the {@code exitValue} returned from the print script
  * </ul>
  */
 public class TutorialTest {
@@ -40,8 +40,7 @@ public class TutorialTest {
 
         private ExecuteWatchdog watchdog;
 
-        public PrintResultHandler(final ExecuteWatchdog watchdog)
-        {
+        public PrintResultHandler(final ExecuteWatchdog watchdog) {
             this.watchdog = watchdog;
         }
 
@@ -60,8 +59,7 @@ public class TutorialTest {
             super.onProcessFailed(e);
             if (watchdog != null && watchdog.killedProcess()) {
                 System.err.println("[resultHandler] The print process timed out");
-            }
-            else {
+            } else {
                 System.err.println("[resultHandler] The print process failed to do : " + e.getMessage());
             }
         }
@@ -76,14 +74,13 @@ public class TutorialTest {
     /**
      * Simulate printing a PDF document.
      *
-     * @param file the file to print
-     * @param printJobTimeout the printJobTimeout (ms) before the watchdog terminates the print process
+     * @param file              the file to print
+     * @param printJobTimeout   the printJobTimeout (ms) before the watchdog terminates the print process
      * @param printInBackground printing done in the background or blocking
      * @return a print result handler (implementing a future)
      * @throws IOException the test failed
      */
-    public PrintResultHandler print(final File file, final long printJobTimeout, final boolean printInBackground)
-            throws IOException {
+    public PrintResultHandler print(final File file, final long printJobTimeout, final boolean printInBackground) throws IOException {
 
         int exitValue;
         ExecuteWatchdog watchdog = null;
@@ -113,8 +110,7 @@ public class TutorialTest {
             System.out.println("[print] Executing non-blocking print job  ...");
             resultHandler = new PrintResultHandler(watchdog);
             executor.execute(commandLine, resultHandler);
-        }
-        else {
+        } else {
             System.out.println("[print] Executing blocking print job  ...");
             exitValue = executor.execute(commandLine);
             resultHandler = new PrintResultHandler(exitValue);
@@ -137,8 +133,7 @@ public class TutorialTest {
             System.out.println("[main] Preparing print job ...");
             printResult = print(pdfFile, printJobTimeout, printInBackground);
             System.out.println("[main] Successfully sent the print job ...");
-        }
-        catch (final Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
             fail("[main] Printing of the following document failed : " + pdfFile.getAbsolutePath());
             throw e;

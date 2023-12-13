@@ -83,8 +83,7 @@ public final class OS {
     private static final String PATH_SEP = File.pathSeparator;
 
     /**
-     * Determines if the OS on which commons-exec is executing matches
-     * the given OS architecture.
+     * Determines if the OS on which commons-exec is executing matches the given OS architecture.
      *
      * @param arch the OS architecture to check for
      * @return true if the OS matches
@@ -94,8 +93,7 @@ public final class OS {
     }
 
     /**
-     * Determines if the OS on which commons-exec is executing matches the
-     * given OS family.
+     * Determines if the OS on which commons-exec is executing matches the given OS family.
      *
      * @param family the family to check for
      * @return true if the OS matches
@@ -153,8 +151,7 @@ public final class OS {
     }
 
     /**
-     * Determines if the OS on which commons-exec is executing matches
-     * the given OS name.
+     * Determines if the OS on which commons-exec is executing matches the given OS name.
      *
      * @param name the OS name to check for
      * @return true if the OS matches
@@ -164,8 +161,7 @@ public final class OS {
     }
 
     /**
-     * Determines if the OS on which commons-exec is executing matches the
-     * given OS family, name, architecture and version.
+     * Determines if the OS on which commons-exec is executing matches the given OS family, name, architecture and version.
      *
      * @param family  The OS family
      * @param name    The OS name
@@ -173,8 +169,7 @@ public final class OS {
      * @param version The OS version
      * @return true if the OS matches
      */
-    public static boolean isOs(final String family, final String name,
-                               final String arch, final String version) {
+    public static boolean isOs(final String family, final String name, final String arch, final String version) {
         boolean retValue = false;
 
         if (family != null || name != null || arch != null || version != null) {
@@ -185,18 +180,16 @@ public final class OS {
             boolean isVersion = true;
 
             if (family != null) {
-                //windows probing logic relies on the word 'windows' in
-                //the OS
+                // windows probing logic relies on the word 'windows' in
+                // the OS
                 final boolean isWindows = OS_NAME.contains(FAMILY_WINDOWS);
                 boolean is9x = false;
                 boolean isNT = false;
                 if (isWindows) {
-                    //there are only four 9x platforms that we look for
-                    is9x = OS_NAME.contains("95")
-                            || OS_NAME.contains("98")
-                            || OS_NAME.contains("me")
-                            //wince isn't really 9x, but crippled enough to
-                            //be a muchness. Ant doesn't run on CE, anyway.
+                    // there are only four 9x platforms that we look for
+                    is9x = OS_NAME.contains("95") || OS_NAME.contains("98") || OS_NAME.contains("me")
+                    // wince isn't really 9x, but crippled enough to
+                    // be a muchness. Ant doesn't run on CE, anyway.
                             || OS_NAME.contains("ce");
                     isNT = !is9x;
                 }
@@ -213,26 +206,19 @@ public final class OS {
                 } else if (family.equals(FAMILY_DOS)) {
                     isFamily = PATH_SEP.equals(";") && !isFamily(FAMILY_NETWARE);
                 } else if (family.equals(FAMILY_MAC)) {
-                    isFamily = OS_NAME.contains(FAMILY_MAC)
-                            || OS_NAME.contains(DARWIN);
+                    isFamily = OS_NAME.contains(FAMILY_MAC) || OS_NAME.contains(DARWIN);
                 } else if (family.equals(FAMILY_TANDEM)) {
                     isFamily = OS_NAME.contains("nonstop_kernel");
                 } else if (family.equals(FAMILY_UNIX)) {
-                    isFamily = PATH_SEP.equals(":")
-                            && !isFamily(FAMILY_VMS)
-                            && (!isFamily(FAMILY_MAC) || OS_NAME.endsWith("x")
-                            || OS_NAME.contains(DARWIN));
+                    isFamily = PATH_SEP.equals(":") && !isFamily(FAMILY_VMS) && (!isFamily(FAMILY_MAC) || OS_NAME.endsWith("x") || OS_NAME.contains(DARWIN));
                 } else if (family.equals(FAMILY_ZOS)) {
-                    isFamily = OS_NAME.contains(FAMILY_ZOS)
-                            || OS_NAME.contains("os/390");
+                    isFamily = OS_NAME.contains(FAMILY_ZOS) || OS_NAME.contains("os/390");
                 } else if (family.equals(FAMILY_OS400)) {
                     isFamily = OS_NAME.contains(FAMILY_OS400);
                 } else if (family.equals(FAMILY_VMS)) {
                     isFamily = OS_NAME.contains(FAMILY_VMS);
                 } else {
-                    throw new IllegalArgumentException(
-                            "Don\'t know how to detect os family \""
-                                    + family + "\"");
+                    throw new IllegalArgumentException("Don\'t know how to detect os family \"" + family + "\"");
                 }
             }
             if (name != null) {
@@ -250,8 +236,7 @@ public final class OS {
     }
 
     /**
-     * Determines if the OS on which commonss-exec is executing matches
-     * the given OS version.
+     * Determines if the OS on which commonss-exec is executing matches the given OS version.
      *
      * @param version the OS version to check for
      * @return true if the OS matches

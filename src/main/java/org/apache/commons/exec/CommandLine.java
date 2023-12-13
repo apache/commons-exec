@@ -67,7 +67,7 @@ public class CommandLine {
     /**
      * Create a command line from a string.
      *
-     * @param line the first element becomes the executable, the rest the arguments
+     * @param line            the first element becomes the executable, the rest the arguments
      * @param substitutionMap the name/value pairs used for substitution
      * @return the parsed command line
      * @throws IllegalArgumentException If line is null or all whitespace
@@ -232,7 +232,7 @@ public class CommandLine {
     /**
      * Add a single argument.
      *
-     * @param argument The argument to add
+     * @param argument      The argument to add
      * @param handleQuoting Add the argument with/without handling quoting
      * @return The command line itself
      */
@@ -267,7 +267,7 @@ public class CommandLine {
      * Add multiple arguments. Handles parsing of quotes and whitespace. Please note that the parsing can have undesired side-effects therefore it is
      * recommended to build the command line incrementally.
      *
-     * @param addArguments An string containing multiple arguments.
+     * @param addArguments  An string containing multiple arguments.
      * @param handleQuoting Add the argument with/without handling quoting
      * @return The command line itself
      */
@@ -293,7 +293,7 @@ public class CommandLine {
     /**
      * Add multiple arguments.
      *
-     * @param addArguments An array of arguments
+     * @param addArguments  An array of arguments
      * @param handleQuoting Add the argument with/without handling quoting
      * @return The command line itself
      */

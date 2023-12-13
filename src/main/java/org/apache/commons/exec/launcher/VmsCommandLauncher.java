@@ -31,18 +31,15 @@ import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.util.StringUtils;
 
 /**
- * A command launcher for VMS that writes the command to a temporary DCL script
- * before launching commands. This is due to limitations of both the DCL
+ * A command launcher for VMS that writes the command to a temporary DCL script before launching commands. This is due to limitations of both the DCL
  * interpreter and the Java VM implementation.
  */
 public class VmsCommandLauncher extends Java13CommandLauncher {
 
     /*
-     * Writes the command into a temporary DCL script and returns the
-     * corresponding File object. The script will be deleted on exit.
+     * Writes the command into a temporary DCL script and returns the corresponding File object. The script will be deleted on exit.
      */
-    private File createCommandFile(final CommandLine cmd, final Map<String, String> env)
-            throws IOException {
+    private File createCommandFile(final CommandLine cmd, final Map<String, String> env) throws IOException {
         final Path path = Files.createTempFile("EXEC", ".TMP");
         final File script = path.toFile();
         script.deleteOnExit();

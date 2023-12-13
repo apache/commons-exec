@@ -24,15 +24,14 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * The default class to start a subprocess. The implementation
- * allows to
+ * The default class to start a subprocess. The implementation allows to
  * <ul>
- *  <li>set a current working directory for the subprocess</li>
- *  <li>provide a set of environment variables passed to the subprocess</li>
- *  <li>capture the subprocess output of stdout and stderr using an ExecuteStreamHandler</li>
- *  <li>kill long-running processes using an ExecuteWatchdog</li>
- *  <li>define a set of expected exit values</li>
- *  <li>terminate any started processes when the main process is terminating using a ProcessDestroyer</li>
+ * <li>set a current working directory for the subprocess</li>
+ * <li>provide a set of environment variables passed to the subprocess</li>
+ * <li>capture the subprocess output of stdout and stderr using an ExecuteStreamHandler</li>
+ * <li>kill long-running processes using an ExecuteWatchdog</li>
+ * <li>define a set of expected exit values</li>
+ * <li>terminate any started processes when the main process is terminating using a ProcessDestroyer</li>
  * </ul>
  *
  * The following example shows the basic usage:
@@ -70,14 +69,10 @@ public class DefaultExecutor implements Executor {
     private IOException exceptionCaught;
 
     /**
-     * Default constructor creating a default {@code PumpStreamHandler}
-     * and sets the working directory of the subprocess to the current
-     * working directory.
+     * Default constructor creating a default {@code PumpStreamHandler} and sets the working directory of the subprocess to the current working directory.
      *
-     * The {@code PumpStreamHandler} pumps the output of the subprocess
-     * into our {@code System.out} and {@code System.err} to avoid
-     * into our {@code System.out} and {@code System.err} to avoid
-     * a blocked or deadlocked subprocess (see {@link Process Process}).
+     * The {@code PumpStreamHandler} pumps the output of the subprocess into our {@code System.out} and {@code System.err} to avoid into our {@code System.out}
+     * and {@code System.err} to avoid a blocked or deadlocked subprocess (see {@link Process Process}).
      */
     public DefaultExecutor() {
         this.streamHandler = new PumpStreamHandler();
@@ -96,32 +91,28 @@ public class DefaultExecutor implements Executor {
 
         try {
             process.getInputStream().close();
-        }
-        catch (final IOException e) {
+        } catch (final IOException e) {
             setExceptionCaught(e);
         }
 
         try {
             process.getOutputStream().close();
-        }
-        catch (final IOException e) {
+        } catch (final IOException e) {
             setExceptionCaught(e);
         }
 
         try {
             process.getErrorStream().close();
-        }
-        catch (final IOException e) {
+        } catch (final IOException e) {
             setExceptionCaught(e);
         }
     }
 
     /**
-     * Factory method to create a thread waiting for the result of an
-     * asynchronous execution.
+     * Factory method to create a thread waiting for the result of an asynchronous execution.
      *
      * @param runnable the runnable passed to the thread
-     * @param name the name of the thread
+     * @param name     the name of the thread
      * @return the thread
      */
     protected Thread createThread(final Runnable runnable, final String name) {
@@ -132,18 +123,15 @@ public class DefaultExecutor implements Executor {
      * @see org.apache.commons.exec.Executor#execute(CommandLine)
      */
     @Override
-    public int execute(final CommandLine command) throws ExecuteException,
-            IOException {
+    public int execute(final CommandLine command) throws ExecuteException, IOException {
         return execute(command, (Map<String, String>) null);
     }
 
     /**
-     * @see org.apache.commons.exec.Executor#execute(CommandLine,
-     *      org.apache.commons.exec.ExecuteResultHandler)
+     * @see org.apache.commons.exec.Executor#execute(CommandLine, org.apache.commons.exec.ExecuteResultHandler)
      */
     @Override
-    public void execute(final CommandLine command, final ExecuteResultHandler handler)
-            throws ExecuteException, IOException {
+    public void execute(final CommandLine command, final ExecuteResultHandler handler) throws ExecuteException, IOException {
         execute(command, null, handler);
     }
 
@@ -151,8 +139,7 @@ public class DefaultExecutor implements Executor {
      * @see org.apache.commons.exec.Executor#execute(CommandLine, java.util.Map)
      */
     @Override
-    public int execute(final CommandLine command, final Map<String, String> environment)
-            throws ExecuteException, IOException {
+    public int execute(final CommandLine command, final Map<String, String> environment) throws ExecuteException, IOException {
 
         if (workingDirectory != null && !workingDirectory.exists()) {
             throw new IOException(workingDirectory + " doesn't exist.");
@@ -163,12 +150,11 @@ public class DefaultExecutor implements Executor {
     }
 
     /**
-     * @see org.apache.commons.exec.Executor#execute(CommandLine,
-     *      java.util.Map, org.apache.commons.exec.ExecuteResultHandler)
+     * @see org.apache.commons.exec.Executor#execute(CommandLine, java.util.Map, org.apache.commons.exec.ExecuteResultHandler)
      */
     @Override
-    public void execute(final CommandLine command, final Map<String, String> environment,
-            final ExecuteResultHandler handler) throws ExecuteException, IOException {
+    public void execute(final CommandLine command, final Map<String, String> environment, final ExecuteResultHandler handler)
+            throws ExecuteException, IOException {
 
         if (workingDirectory != null && !workingDirectory.exists()) {
             throw new IOException(workingDirectory + " doesn't exist.");
@@ -193,26 +179,24 @@ public class DefaultExecutor implements Executor {
     }
 
     /**
-     * Execute an internal process. If the executing thread is interrupted while waiting for the
-     * child process to return the child process will be killed.
+     * Execute an internal process. If the executing thread is interrupted while waiting for the child process to return the child process will be killed.
      *
-     * @param command the command to execute
+     * @param command     the command to execute
      * @param environment the execution environment
-     * @param dir the working directory
-     * @param streams process the streams (in, out, err) of the process
+     * @param dir         the working directory
+     * @param streams     process the streams (in, out, err) of the process
      * @return the exit code of the process
      * @throws IOException executing the process failed
      */
-    private int executeInternal(final CommandLine command, final Map<String, String> environment,
-            final File dir, final ExecuteStreamHandler streams) throws IOException {
+    private int executeInternal(final CommandLine command, final Map<String, String> environment, final File dir, final ExecuteStreamHandler streams)
+            throws IOException {
 
         final Process process;
         exceptionCaught = null;
 
         try {
             process = this.launch(command, environment, dir);
-        }
-        catch (final IOException e) {
+        } catch (final IOException e) {
             if (watchdog != null) {
                 watchdog.failedToStart(e);
             }
@@ -237,7 +221,7 @@ public class DefaultExecutor implements Executor {
 
             // add the process to the list of those to destroy if the VM exits
             if (this.getProcessDestroyer() != null) {
-              this.getProcessDestroyer().add(process);
+                this.getProcessDestroyer().add(process);
             }
 
             // associate the watchdog with the newly created process
@@ -251,8 +235,7 @@ public class DefaultExecutor implements Executor {
                 exitValue = process.waitFor();
             } catch (final InterruptedException e) {
                 process.destroy();
-            }
-            finally {
+            } finally {
                 // see http://bugs.sun.com/view_bug.do?bug_id=6420270
                 // see https://issues.apache.org/jira/browse/EXEC-46
                 // Process.waitFor should clear interrupt status when throwing InterruptedException
@@ -266,8 +249,7 @@ public class DefaultExecutor implements Executor {
 
             try {
                 streams.stop();
-            }
-            catch (final IOException e) {
+            } catch (final IOException e) {
                 setExceptionCaught(e);
             }
 
@@ -298,7 +280,7 @@ public class DefaultExecutor implements Executor {
         } finally {
             // remove the process to the list of those to destroy if the VM exits
             if (this.getProcessDestroyer() != null) {
-              this.getProcessDestroyer().remove(process);
+                this.getProcessDestroyer().remove(process);
             }
         }
     }
@@ -326,7 +308,7 @@ public class DefaultExecutor implements Executor {
      */
     @Override
     public ProcessDestroyer getProcessDestroyer() {
-      return this.processDestroyer;
+        return this.processDestroyer;
     }
 
     /**
@@ -374,18 +356,13 @@ public class DefaultExecutor implements Executor {
     /**
      * Creates a process that runs a command.
      *
-     * @param command
-     *            the command to run
-     * @param env
-     *            the environment for the command
-     * @param dir
-     *            the working directory for the command
+     * @param command the command to run
+     * @param env     the environment for the command
+     * @param dir     the working directory for the command
      * @return the process started
-     * @throws IOException
-     *             forwarded from the particular launcher used
+     * @throws IOException forwarded from the particular launcher used
      */
-    protected Process launch(final CommandLine command, final Map<String, String> env,
-            final File dir) throws IOException {
+    protected Process launch(final CommandLine command, final Map<String, String> env, final File dir) throws IOException {
 
         if (this.launcher == null) {
             throw new IllegalStateException("CommandLauncher can not be null");
@@ -411,7 +388,7 @@ public class DefaultExecutor implements Executor {
     /** @see org.apache.commons.exec.Executor#setExitValue(int) */
     @Override
     public void setExitValue(final int value) {
-        this.setExitValues(new int[] {value});
+        this.setExitValues(new int[] { value });
     }
 
     /** @see org.apache.commons.exec.Executor#setExitValues(int[]) */
@@ -425,7 +402,7 @@ public class DefaultExecutor implements Executor {
      */
     @Override
     public void setProcessDestroyer(final ProcessDestroyer processDestroyer) {
-      this.processDestroyer = processDestroyer;
+        this.processDestroyer = processDestroyer;
     }
 
     /**

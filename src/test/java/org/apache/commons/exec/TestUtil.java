@@ -27,17 +27,18 @@ public final class TestUtil {
 
     /**
      * Gets success and fail return codes used by the test scripts
+     * 
      * @return int array[2] = {ok, success}
      */
     public static int[] getTestScriptCodesForOS() {
         if (OS.isFamilyWindows()) {
-            return new int[]{0,1};
+            return new int[] { 0, 1 };
         }
         if (OS.isFamilyUnix()) {
-            return new int[]{0,1};
+            return new int[] { 0, 1 };
         }
         if (OS.isFamilyOpenVms()) {
-            return new int[]{1,2};
+            return new int[] { 1, 2 };
         }
         throw new AssertionFailedError("Test not supported for this OS");
     }

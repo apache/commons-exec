@@ -25,8 +25,7 @@ import java.io.OutputStream;
 import java.io.PipedOutputStream;
 
 /**
- * Copies standard output and error of sub-processes to standard output and error
- * of the parent process. If output or error stream are set to null, any feedback
+ * Copies standard output and error of sub-processes to standard output and error of the parent process. If output or error stream are set to null, any feedback
  * from that stream will be lost.
  */
 public class PumpStreamHandler implements ExecuteStreamHandler {
@@ -113,9 +112,8 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Creates a stream pumper to copy the given input stream to the given
-     * output stream. When the 'os' is an PipedOutputStream we are closing
-     * 'os' afterwards to avoid an IOException ("Write end dead").
+     * Creates a stream pumper to copy the given input stream to the given output stream. When the 'os' is an PipedOutputStream we are closing 'os' afterwards
+     * to avoid an IOException ("Write end dead").
      *
      * @param is the input stream to copy from
      * @param os the output stream to copy into
@@ -126,8 +124,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Creates a stream pumper to copy the given input stream to the given
-     * output stream.
+     * Creates a stream pumper to copy the given input stream to the given output stream.
      *
      * @param is                 the input stream to copy from
      * @param os                 the output stream to copy into
@@ -141,8 +138,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Creates a stream pumper to copy the given input stream to the given
-     * output stream.
+     * Creates a stream pumper to copy the given input stream to the given output stream.
      *
      * @param is the System.in input stream to copy from
      * @param os the output stream to copy into
@@ -174,8 +170,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Sets the <CODE>InputStream</CODE> from which to read the standard error
-     * of the process.
+     * Sets the <CODE>InputStream</CODE> from which to read the standard error of the process.
      *
      * @param is the <CODE>InputStream</CODE>.
      */
@@ -187,8 +182,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Sets the <CODE>OutputStream</CODE> by means of which input can be sent
-     * to the process.
+     * Sets the <CODE>OutputStream</CODE> by means of which input can be sent to the process.
      *
      * @param os the <CODE>OutputStream</CODE>.
      */
@@ -211,8 +205,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Sets the <CODE>InputStream</CODE> from which to read the standard output
-     * of the process.
+     * Sets the <CODE>InputStream</CODE> from which to read the standard output of the process.
      *
      * @param is the <CODE>InputStream</CODE>.
      */
@@ -224,8 +217,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Sets maximum time to wait until output streams are exchausted
-     * when {@link #stop()} was called.
+     * Sets maximum time to wait until output streams are exchausted when {@link #stop()} was called.
      *
      * @param timeout timeout in milliseconds or zero to wait forever (default)
      */
@@ -250,8 +242,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Stop pumping the streams. When a timeout is specified it is not guaranteed that the
-     * pumper threads are cleanly terminated.
+     * Stop pumping the streams. When a timeout is specified it is not guaranteed that the pumper threads are cleanly terminated.
      */
     @Override
     public void stop() throws IOException {
@@ -288,12 +279,10 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Stopping a pumper thread. The implementation actually waits
-     * longer than specified in 'timeout' to detect if the timeout
-     * was indeed exceeded. If the timeout was exceeded an IOException
-     * is created to be thrown to the caller.
+     * Stopping a pumper thread. The implementation actually waits longer than specified in 'timeout' to detect if the timeout was indeed exceeded. If the
+     * timeout was exceeded an IOException is created to be thrown to the caller.
      *
-     * @param thread  the thread to be stopped
+     * @param thread        the thread to be stopped
      * @param timeoutMillis the time in ms to wait to join
      */
     protected void stopThread(final Thread thread, final long timeoutMillis) {

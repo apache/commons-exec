@@ -20,20 +20,15 @@ package org.apache.commons.exec.util;
 /**
  * Provides debugging support.
  */
-public class DebugUtils
-{
+public class DebugUtils {
     /**
-     * System property to determine how to handle exceptions. When
-     * set to "false" we rethrow the otherwise silently catched
-     * exceptions found in the original code. The default value
-     * is "true"
+     * System property to determine how to handle exceptions. When set to "false" we rethrow the otherwise silently catched exceptions found in the original
+     * code. The default value is "true"
      */
     public static final String COMMONS_EXEC_LENIENT = "org.apache.commons.exec.lenient";
 
     /**
-     * System property to determine how to dump an exception. When
-     * set to "true" we print any exception to stderr. The default
-     * value is "false"
+     * System property to determine how to dump an exception. When set to "true" we print any exception to stderr. The default value is "false"
      */
     public static final String COMMONS_EXEC_DEBUG = "org.apache.commons.exec.debug";
 
@@ -41,7 +36,7 @@ public class DebugUtils
      * Handles an exception based on the system properties.
      *
      * @param msg message describing the problem
-     * @param e an exception being handled
+     * @param e   an exception being handled
      */
     public static void handleException(final String msg, final Exception e) {
 
@@ -60,8 +55,7 @@ public class DebugUtils
     }
 
     /**
-     * Determines if debugging is enabled based on the
-     * system property "COMMONS_EXEC_DEBUG".
+     * Determines if debugging is enabled based on the system property "COMMONS_EXEC_DEBUG".
      *
      * @return true if debug mode is enabled
      */

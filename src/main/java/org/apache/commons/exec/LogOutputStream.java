@@ -23,13 +23,10 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 
 /**
- * Base class to connect a logging system to the output and/or
- * error stream of then external process. The implementation
- * parses the incoming data to construct a line and passes
- * the complete line to an user-defined implementation.
+ * Base class to connect a logging system to the output and/or error stream of then external process. The implementation parses the incoming data to construct a
+ * line and passes the complete line to an user-defined implementation.
  */
-public abstract class LogOutputStream
-  extends OutputStream {
+public abstract class LogOutputStream extends OutputStream {
 
     private static final class ByteArrayOutputStreamX extends ByteArrayOutputStream {
         private ByteArrayOutputStreamX(final int size) {
@@ -60,8 +57,7 @@ public abstract class LogOutputStream
     private final Charset charset;
 
     /**
-     * Creates a new instance of this class.
-     * Uses the default level of 999.
+     * Creates a new instance of this class. Uses the default level of 999.
      */
     public LogOutputStream() {
         this(999);
@@ -77,10 +73,9 @@ public abstract class LogOutputStream
     }
 
     /**
-     * Creates a new instance of this class, specifying the character set that should be used for
-     * outputting the string for each line
+     * Creates a new instance of this class, specifying the character set that should be used for outputting the string for each line
      *
-     * @param level loglevel used to log data written to this stream
+     * @param level   loglevel used to log data written to this stream
      * @param charset Character Set to use when processing lines
      */
     public LogOutputStream(final int level, final Charset charset) {
@@ -131,8 +126,7 @@ public abstract class LogOutputStream
     /**
      * Logs a line to the log system of the user.
      *
-     * @param line
-     *            the line to log.
+     * @param line the line to log.
      */
     protected void processLine(final String line) {
         processLine(line, level);
@@ -141,7 +135,7 @@ public abstract class LogOutputStream
     /**
      * Logs a line to the log system of the user.
      *
-     * @param line the line to log.
+     * @param line     the line to log.
      * @param logLevel the log level to use
      */
     protected abstract void processLine(final String line, final int logLevel);
@@ -149,15 +143,14 @@ public abstract class LogOutputStream
     /**
      * Write a block of characters to the output stream
      *
-     * @param b the array containing the data
+     * @param b   the array containing the data
      * @param off the offset into the array where data starts
      * @param len the length of block
      * @throws IOException if the data cannot be written into the stream.
      * @see java.io.OutputStream#write(byte[], int, int)
      */
     @Override
-    public void write(final byte[] b, final int off, final int len)
-            throws IOException {
+    public void write(final byte[] b, final int off, final int len) throws IOException {
         // find the line breaks and pass other chars through in blocks
         int offset = off;
         int blockStartOffset = offset;
@@ -182,8 +175,7 @@ public abstract class LogOutputStream
     }
 
     /**
-     * Write the data to the buffer and flush the buffer, if a line separator is
-     * detected.
+     * Write the data to the buffer and flush the buffer, if a line separator is detected.
      *
      * @param cc data to log (byte).
      * @see java.io.OutputStream#write(int)

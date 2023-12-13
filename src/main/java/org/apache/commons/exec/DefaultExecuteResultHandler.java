@@ -18,8 +18,7 @@
 package org.apache.commons.exec;
 
 /**
- * A default implementation of 'ExecuteResultHandler' used for asynchronous
- * process handling.
+ * A default implementation of 'ExecuteResultHandler' used for asynchronous process handling.
  */
 public class DefaultExecuteResultHandler implements ExecuteResultHandler {
 
@@ -50,11 +49,9 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
      * @throws IllegalStateException if the process has not exited yet
      */
     public ExecuteException getException() {
-
         if (!hasResult) {
             throw new IllegalStateException("The process has not exited yet therefore no result is available ...");
         }
-
         return exception;
     }
 
@@ -65,11 +62,9 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
      * @throws IllegalStateException if the process has not exited yet
      */
     public int getExitValue() {
-
         if (!hasResult) {
             throw new IllegalStateException("The process has not exited yet therefore no result is available ...");
         }
-
         return exitValue;
     }
 
@@ -103,41 +98,28 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
     }
 
     /**
-     * Causes the current thread to wait, if necessary, until the
-     * process has terminated. This method returns immediately if
-     * the process has already terminated. If the process has
-     * not yet terminated, the calling thread will be blocked until the
-     * process exits.
+     * Causes the current thread to wait, if necessary, until the process has terminated. This method returns immediately if the process has already terminated.
+     * If the process has not yet terminated, the calling thread will be blocked until the process exits.
      *
-     * @throws  InterruptedException if the current thread is
-     *             {@linkplain Thread#interrupt() interrupted} by another
-     *             thread while it is waiting, then the wait is ended and
-     *             an {@link InterruptedException} is thrown.
+     * @throws InterruptedException if the current thread is {@linkplain Thread#interrupt() interrupted} by another thread while it is waiting, then the wait is
+     *                              ended and an {@link InterruptedException} is thrown.
      */
     public void waitFor() throws InterruptedException {
-
         while (!hasResult()) {
             Thread.sleep(SLEEP_TIME_MS);
         }
     }
 
     /**
-     * Causes the current thread to wait, if necessary, until the
-     * process has terminated. This method returns immediately if
-     * the process has already terminated. If the process has
-     * not yet terminated, the calling thread will be blocked until the
-     * process exits.
+     * Causes the current thread to wait, if necessary, until the process has terminated. This method returns immediately if the process has already terminated.
+     * If the process has not yet terminated, the calling thread will be blocked until the process exits.
      *
      * @param timeoutMillis the maximum time to wait in milliseconds
-     * @throws  InterruptedException if the current thread is
-     *             {@linkplain Thread#interrupt() interrupted} by another
-     *             thread while it is waiting, then the wait is ended and
-     *             an {@link InterruptedException} is thrown.
+     * @throws InterruptedException if the current thread is {@linkplain Thread#interrupt() interrupted} by another thread while it is waiting, then the wait is
+     *                              ended and an {@link InterruptedException} is thrown.
      */
     public void waitFor(final long timeoutMillis) throws InterruptedException {
-
         final long untilMillis = System.currentTimeMillis() + timeoutMillis;
-
         while (!hasResult() && System.currentTimeMillis() < untilMillis) {
             Thread.sleep(SLEEP_TIME_MS);
         }

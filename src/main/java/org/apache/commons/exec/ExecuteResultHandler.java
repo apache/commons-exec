@@ -18,25 +18,24 @@
 package org.apache.commons.exec;
 
 /**
- * The callback handlers for the result of asynchronous process execution. When a
- * process is started asynchronously the callback provides you with the result of
+ * The callback handlers for the result of asynchronous process execution. When a process is started asynchronously the callback provides you with the result of
  * the executed process, i.e. the exit value or an exception.
  *
  * @see org.apache.commons.exec.Executor#execute(CommandLine, java.util.Map, ExecuteResultHandler)
  */
 public interface ExecuteResultHandler {
 
-  /**
-   * The asynchronous execution completed.
-   *
-   * @param exitValue the exit value of the sub-process
-   */
+    /**
+     * The asynchronous execution completed.
+     *
+     * @param exitValue the exit value of the sub-process
+     */
     void onProcessComplete(int exitValue);
 
-  /**
-   * The asynchronous execution failed.
-   *
-   * @param e the {@code ExecuteException} containing the root cause
-   */
+    /**
+     * The asynchronous execution failed.
+     *
+     * @param e the {@code ExecuteException} containing the root cause
+     */
     void onProcessFailed(ExecuteException e);
 }

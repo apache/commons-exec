@@ -33,12 +33,10 @@ import java.io.IOException;
 public class Exec57Test extends AbstractExecTest {
 
     /**
-     * DefaultExecutor.execute() does not return even if child process terminated - in this
-     * case the child process hangs because the grand children is connected to stdout & stderr
-     * and is still running. As work-around a stop timeout is used for the PumpStreamHandler
-     * to ensure that the caller does not block forever but if the stop timeout is exceeded
-     * an ExecuteException is thrown to notify the caller. But this case the threads are still
-     * around causing a resource leak.
+     * DefaultExecutor.execute() does not return even if child process terminated - in this case the child process hangs because the grand children is connected
+     * to stdout & stderr and is still running. As work-around a stop timeout is used for the PumpStreamHandler to ensure that the caller does not block forever
+     * but if the stop timeout is exceeded an ExecuteException is thrown to notify the caller. But this case the threads are still around causing a resource
+     * leak.
      *
      * @TODO [EXEC-57] Broken for Mac OS X & Linux
      */

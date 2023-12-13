@@ -42,9 +42,8 @@ public class Exec34Test {
 
     /**
      *
-     * Race condition prevent watchdog working using ExecuteStreamHandler.
-     * The test fails because when watchdog.destroyProcess() is invoked the
-     * external process is not bound to the watchdog yet.
+     * Race condition prevent watchdog working using ExecuteStreamHandler. The test fails because when watchdog.destroyProcess() is invoked the external process
+     * is not bound to the watchdog yet.
      *
      * @throws Exception the test failed
      */
@@ -65,8 +64,7 @@ public class Exec34Test {
     }
 
     /**
-     * Some user waited for an asynchronous process using watchdog.isWatching() which
-     * is now properly implemented  using {@code DefaultExecuteResultHandler}.
+     * Some user waited for an asynchronous process using watchdog.isWatching() which is now properly implemented using {@code DefaultExecuteResultHandler}.
      *
      * @throws Exception the test failed
      */

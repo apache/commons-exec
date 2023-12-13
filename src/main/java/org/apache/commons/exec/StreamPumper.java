@@ -59,12 +59,11 @@ public class StreamPumper implements Runnable {
     /**
      * Create a new stream pumper.
      *
-     * @param is input stream to read data from
-     * @param os output stream to write data to.
+     * @param is                 input stream to read data from
+     * @param os                 output stream to write data to.
      * @param closeWhenExhausted if true, the output stream will be closed when the input is exhausted.
      */
-    public StreamPumper(final InputStream is, final OutputStream os,
-            final boolean closeWhenExhausted) {
+    public StreamPumper(final InputStream is, final OutputStream os, final boolean closeWhenExhausted) {
         this.is = is;
         this.os = os;
         this.size = DEFAULT_SIZE;
@@ -74,13 +73,12 @@ public class StreamPumper implements Runnable {
     /**
      * Create a new stream pumper.
      *
-     * @param is input stream to read data from
-     * @param os output stream to write data to.
+     * @param is                 input stream to read data from
+     * @param os                 output stream to write data to.
      * @param closeWhenExhausted if true, the output stream will be closed when the input is exhausted.
-     * @param size the size of the internal buffer for copying the streams
+     * @param size               the size of the internal buffer for copying the streams
      */
-    public StreamPumper(final InputStream is, final OutputStream os,
-            final boolean closeWhenExhausted, final int size) {
+    public StreamPumper(final InputStream is, final OutputStream os, final boolean closeWhenExhausted, final int size) {
         this.is = is;
         this.os = os;
         this.size = size > 0 ? size : DEFAULT_SIZE;
@@ -97,8 +95,7 @@ public class StreamPumper implements Runnable {
     }
 
     /**
-     * Copies data from the input stream to the output stream. Terminates as
-     * soon as the input stream is closed or an error occurs.
+     * Copies data from the input stream to the output stream. Terminates as soon as the input stream is closed or an error occurs.
      */
     @Override
     public void run() {
@@ -135,9 +132,7 @@ public class StreamPumper implements Runnable {
     /**
      * This method blocks until the stream pumper finishes.
      *
-     * @throws InterruptedException
-     *                if any thread interrupted the current thread before or while the current thread was waiting for a
-     *                notification.
+     * @throws InterruptedException if any thread interrupted the current thread before or while the current thread was waiting for a notification.
      * @see #isFinished()
      */
     public synchronized void waitFor() throws InterruptedException {

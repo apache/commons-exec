@@ -39,8 +39,8 @@ public class Exec60Test extends AbstractExecTest {
     private final File pingScript = resolveTestScript("ping");
 
     /**
-     * Possible deadlock when a process is terminating at the same time its timing out. Please
-     * note that a successful test is no proof that the issues was indeed fixed.
+     * Possible deadlock when a process is terminating at the same time its timing out. Please note that a successful test is no proof that the issues was
+     * indeed fixed.
      */
     @Ignore("The test is fragile and might fail out of the blue")
     @Test
@@ -66,21 +66,20 @@ public class Exec60Test extends AbstractExecTest {
             try {
                 exec.execute(cmdLine);
                 processTerminatedCounter++;
-                //                System.out.println(offset + ": process has terminated: " + watchdog.killedProcess());
+                // System.out.println(offset + ": process has terminated: " + watchdog.killedProcess());
                 if (processTerminatedCounter > 5) {
                     break;
                 }
             } catch (final ExecuteException ex) {
-                //                System.out.println(offset + ": process was killed: " + watchdog.killedProcess());
+                // System.out.println(offset + ": process was killed: " + watchdog.killedProcess());
                 assertTrue("Watchdog killed the process", watchdog.killedProcess());
                 watchdogKilledProcessCounter++;
             }
         }
 
-        final long avg = (System.currentTimeMillis() - startTime) /
-                (watchdogKilledProcessCounter + processTerminatedCounter);
-        System.out.println("Processes terminated: " + processTerminatedCounter + " killed: " + watchdogKilledProcessCounter
-                + " Multiplier: " + offsetMultiplier + " MaxRetries: " + maxRetries + " Elapsed (avg ms): " + avg);
+        final long avg = (System.currentTimeMillis() - startTime) / (watchdogKilledProcessCounter + processTerminatedCounter);
+        System.out.println("Processes terminated: " + processTerminatedCounter + " killed: " + watchdogKilledProcessCounter + " Multiplier: " + offsetMultiplier
+                + " MaxRetries: " + maxRetries + " Elapsed (avg ms): " + avg);
         assertTrue("Not a single process terminated on its own", processTerminatedCounter > 0);
         assertTrue("Not a single process was killed by the watch dog", watchdogKilledProcessCounter > 0);
     }

@@ -25,11 +25,9 @@ import java.util.Objects;
 import java.util.StringTokenizer;
 
 /**
- * Supplement of commons-lang, the stringSubstitution() was in a simpler
- * implementation available in an older commons-lang implementation.
+ * Supplement of commons-lang, the stringSubstitution() was in a simpler implementation available in an older commons-lang implementation.
  *
- * This class is not part of the public API and could change without
- * warning.
+ * This class is not part of the public API and could change without warning.
  */
 public class StringUtils {
 
@@ -40,40 +38,35 @@ public class StringUtils {
     private static final char BACKSLASH_CHAR = '\\';
 
     /**
-     * Fixes the file separator char for the target platform
-     * using the following replacement.
+     * Fixes the file separator char for the target platform using the following replacement.
      *
      * <ul>
-     *  <li>'/' &#x2192; File.separatorChar</li>
-     *  <li>'\\' &#x2192; File.separatorChar</li>
+     * <li>'/' &#x2192; File.separatorChar</li>
+     * <li>'\\' &#x2192; File.separatorChar</li>
      * </ul>
      *
      * @param arg the argument to fix
      * @return the transformed argument
      */
     public static String fixFileSeparatorChar(final String arg) {
-        return arg.replace(SLASH_CHAR, File.separatorChar).replace(
-                BACKSLASH_CHAR, File.separatorChar);
+        return arg.replace(SLASH_CHAR, File.separatorChar).replace(BACKSLASH_CHAR, File.separatorChar);
     }
 
     /**
-     * Determines if this is a quoted argument - either single or
-     * double quoted.
+     * Determines if this is a quoted argument - either single or double quoted.
      *
      * @param argument the argument to check
      * @return true when the argument is quoted
      */
     public static boolean isQuoted(final String argument) {
-        return argument.startsWith(SINGLE_QUOTE) && argument.endsWith(SINGLE_QUOTE)
-                || argument.startsWith(DOUBLE_QUOTE) && argument.endsWith(DOUBLE_QUOTE);
+        return argument.startsWith(SINGLE_QUOTE) && argument.endsWith(SINGLE_QUOTE) || argument.startsWith(DOUBLE_QUOTE) && argument.endsWith(DOUBLE_QUOTE);
     }
 
     /**
      * Put quotes around the given String if necessary.
      * <p>
-     * If the argument doesn't include spaces or quotes, return it as is. If it
-     * contains double quotes, use single quotes - else surround the argument by
-     * double quotes.
+     * If the argument doesn't include spaces or quotes, return it as is. If it contains double quotes, use single quotes - else surround the argument by double
+     * quotes.
      * </p>
      *
      * @param argument the argument to be quoted
@@ -96,23 +89,18 @@ public class StringUtils {
         final StringBuilder buf = new StringBuilder();
         if (cleanedArgument.indexOf(DOUBLE_QUOTE) > -1) {
             if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1) {
-                throw new IllegalArgumentException(
-                        "Can't handle single and double quotes in same argument");
+                throw new IllegalArgumentException("Can't handle single and double quotes in same argument");
             }
-            return buf.append(SINGLE_QUOTE).append(cleanedArgument).append(
-                    SINGLE_QUOTE).toString();
+            return buf.append(SINGLE_QUOTE).append(cleanedArgument).append(SINGLE_QUOTE).toString();
         }
-        if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1
-                || cleanedArgument.indexOf(" ") > -1) {
-            return buf.append(DOUBLE_QUOTE).append(cleanedArgument).append(
-                    DOUBLE_QUOTE).toString();
+        if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1 || cleanedArgument.indexOf(" ") > -1) {
+            return buf.append(DOUBLE_QUOTE).append(cleanedArgument).append(DOUBLE_QUOTE).toString();
         }
         return cleanedArgument;
     }
 
     /**
-     * Split a string into an array of strings based
-     * on a separator.
+     * Split a string into an array of strings based on a separator.
      *
      * @param input     what to split
      * @param splitChar what to split on
@@ -130,8 +118,8 @@ public class StringUtils {
     /**
      * Perform a series of substitutions.
      * <p>
-     * The substitutions are performed by replacing ${variable} in the target string with the value of provided by the
-     * key "variable" in the provided hash table.
+     * The substitutions are performed by replacing ${variable} in the target string with the value of provided by the key "variable" in the provided hash
+     * table.
      * </p>
      * <p>
      * A key consists of the following characters:
@@ -145,12 +133,9 @@ public class StringUtils {
      * <li>underscore character
      * </ul>
      *
-     * @param argStr
-     *            the argument string to be processed
-     * @param vars
-     *            name/value pairs used for substitution
-     * @param isLenient
-     *            ignore a key not found in vars or throw a RuntimeException?
+     * @param argStr    the argument string to be processed
+     * @param vars      name/value pairs used for substitution
+     * @param isLenient ignore a key not found in vars or throw a RuntimeException?
      * @return String target string with replacements.
      */
     public static StringBuffer stringSubstitution(final String argStr, final Map<? super String, ?> vars, final boolean isLenient) {
@@ -238,7 +223,7 @@ public class StringUtils {
     /**
      * Concatenates an array of string using a separator.
      *
-     * @param strings the strings to concatenate
+     * @param strings   the strings to concatenate
      * @param separator the separator between two strings
      * @return the concatenated strings
      */

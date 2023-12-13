@@ -38,10 +38,8 @@ import org.junit.Test;
 public class EnvironmentUtilsTest {
 
     /**
-     * Accessing environment variables is case-sensitive or not depending
-     * on the operating system but the values of the environment variable
-     * are always case-sensitive. So make sure that this assumption holds
-     * on all operating systems.
+     * Accessing environment variables is case-sensitive or not depending on the operating system but the values of the environment variable are always
+     * case-sensitive. So make sure that this assumption holds on all operating systems.
      *
      * @throws Exception the test failed
      */
@@ -54,9 +52,7 @@ public class EnvironmentUtilsTest {
     }
 
     /**
-     * Test to access the environment variables of the current
-     * process. Please note that this test does not run on
-     * java-gjc.
+     * Test to access the environment variables of the current process. Please note that this test does not run on java-gjc.
      *
      * @throws IOException the test failed
      */
@@ -75,9 +71,8 @@ public class EnvironmentUtilsTest {
     }
 
     /**
-     * On Windows platforms test that accessing environment variables
-     * can be done in a case-insensitive way, e.g. "PATH", "Path" and
-     * "path" would reference the same environment variable.
+     * On Windows platforms test that accessing environment variables can be done in a case-insensitive way, e.g. "PATH", "Path" and "path" would reference the
+     * same environment variable.
      *
      * @throws IOException the test failed
      */
@@ -105,8 +100,7 @@ public class EnvironmentUtilsTest {
     }
 
     /**
-     * Tests the behavior of the EnvironmentUtils.toStrings()
-     * when using a {@code null} environment.
+     * Tests the behavior of the EnvironmentUtils.toStrings() when using a {@code null} environment.
      */
     @Test
     public void testToStrings() {
@@ -118,7 +112,7 @@ public class EnvironmentUtilsTest {
         env.put("foo2", "bar2");
         env.put("foo", "bar");
         final String[] envStrings = EnvironmentUtils.toStrings(env);
-        final String[] expected = {"foo2=bar2", "foo=bar"};
+        final String[] expected = { "foo2=bar2", "foo=bar" };
         // ensure the result does not depend on the hash ordering
         Arrays.sort(expected);
         Arrays.sort(envStrings);
@@ -126,8 +120,7 @@ public class EnvironmentUtilsTest {
     }
 
     /**
-     * Tests the behavior of the EnvironmentUtils.toStrings()
-     * when using a {@code null} key given to the map.
+     * Tests the behavior of the EnvironmentUtils.toStrings() when using a {@code null} key given to the map.
      */
     @Test
     public void testToStringWithNullKey() {
@@ -139,8 +132,7 @@ public class EnvironmentUtilsTest {
     }
 
     /**
-     * Tests the behavior of the EnvironmentUtils.toStrings()
-     * when using a {@code null} value given to the map.
+     * Tests the behavior of the EnvironmentUtils.toStrings() when using a {@code null} value given to the map.
      */
     @Test
     public void testToStringWithNullValue() {

@@ -23,8 +23,7 @@ import java.util.Map;
 import org.apache.commons.exec.CommandLine;
 
 /**
- * A command launcher that proxies another command launcher. Sub-classes
- * override exec(args, env, workdir)
+ * A command launcher that proxies another command launcher. Sub-classes override exec(args, env, workdir)
  */
 public abstract class CommandLauncherProxy extends CommandLauncherImpl {
 
@@ -35,19 +34,14 @@ public abstract class CommandLauncherProxy extends CommandLauncherImpl {
     }
 
     /**
-     * Launches the given command in a new process. Delegates this method to the
-     * proxied launcher
+     * Launches the given command in a new process. Delegates this method to the proxied launcher
      *
-     * @param cmd
-     *            the command line to execute as an array of strings
-     * @param env
-     *            the environment to set as an array of strings
-     * @throws IOException
-     *             forwarded from the exec method of the command launcher
+     * @param cmd the command line to execute as an array of strings
+     * @param env the environment to set as an array of strings
+     * @throws IOException forwarded from the exec method of the command launcher
      */
     @Override
-    public Process exec(final CommandLine cmd, final Map<String, String> env)
-            throws IOException {
+    public Process exec(final CommandLine cmd, final Map<String, String> env) throws IOException {
         return myLauncher.exec(cmd, env);
     }
 }

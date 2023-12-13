@@ -57,12 +57,14 @@ public class LogOutputStreamTest {
             output.append(line);
         }
     }
+
     @BeforeClass
     public static void classSetUp() {
         // turn on debug mode and throw an exception for each encountered problem
         System.setProperty("org.apache.commons.exec.lenient", "false");
         System.setProperty("org.apache.commons.exec.debug", "true");
     }
+
     private final Executor exec = new DefaultExecutor();
     private final File testDir = new File("src/test/scripts");
     private OutputStream systemOut;
@@ -110,7 +112,8 @@ public class LogOutputStreamTest {
         final CommandLine cl = new CommandLine(utf8CharacterScript);
         final int exitValue = exec.execute(cl);
         assertFalse(exec.isFailure(exitValue));
-        assertEquals("This string contains UTF-8 characters like the see no evil monkey \uD83D\uDE48 and the right single quotation mark \u2019", ((SystemLogOutputStream) systemOut).getOutput());
+        assertEquals("This string contains UTF-8 characters like the see no evil monkey \uD83D\uDE48 and the right single quotation mark \u2019",
+                ((SystemLogOutputStream) systemOut).getOutput());
     }
 
 }

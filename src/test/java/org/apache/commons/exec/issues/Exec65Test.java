@@ -62,9 +62,7 @@ public class Exec65Test extends AbstractExecTest {
     }
 
     /**
-     * This is the original code snippet from the JIRA to show that
-     * killing the process actually works with JDK only but it does
-     * not re-direct any streams.
+     * This is the original code snippet from the JIRA to show that killing the process actually works with JDK only but it does not re-direct any streams.
      */
     @Test(timeout = TEST_TIMEOUT)
     public void testExec65WithSleepUsingShellScriptAndJDKOnly() throws Exception {
@@ -80,14 +78,13 @@ public class Exec65Test extends AbstractExecTest {
     }
 
     /**
-     * Please note that this tests make assumptions about the environment. It assumes
-     * that user "root" exists and that the current user is not a "sudoer" already
-     * (thereby requiring a password).
+     * Please note that this tests make assumptions about the environment. It assumes that user "root" exists and that the current user is not a "sudoer"
+     * already (thereby requiring a password).
      */
     @Test(expected = ExecuteException.class, timeout = TEST_TIMEOUT)
     public void testExec65WithSudoUsingShellScript() throws Exception {
-        Assume.assumeFalse("Test is skipped on travis, because we have to be a sudoer "
-                + "to make the other tests pass.", new File(".").getAbsolutePath().contains("travis"));
+        Assume.assumeFalse("Test is skipped on travis, because we have to be a sudoer " + "to make the other tests pass.",
+                new File(".").getAbsolutePath().contains("travis"));
         // TODO Fails on GitHub
         Assume.assumeTrue(System.getenv("GITHUB_WORKFLOW") == null);
         if (!OS.isFamilyUnix()) {

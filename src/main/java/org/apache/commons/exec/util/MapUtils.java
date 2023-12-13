@@ -21,20 +21,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Helper classes to manipulate maps to pass substition map to the CommandLine. This class is not part of the public API
- * and could change without warning.
+ * Helper classes to manipulate maps to pass substition map to the CommandLine. This class is not part of the public API and could change without warning.
  */
-public class MapUtils
-{
+public class MapUtils {
     /**
      * Clones a map.
      *
-     * @param source
-     *            the Map to clone
-     * @param <K>
-     *            the map key type
-     * @param <V>
-     *            the map value type
+     * @param source the Map to clone
+     * @param <K>    the map key type
+     * @param <V>    the map value type
      * @return the cloned map
      */
     public static <K, V> Map<K, V> copy(final Map<K, V> source) {
@@ -44,14 +39,10 @@ public class MapUtils
     /**
      * Clones the lhs map and add all things from the rhs map.
      *
-     * @param lhs
-     *            the first map
-     * @param rhs
-     *            the second map
-     * @param <K>
-     *            the map key type
-     * @param <V>
-     *            the map value type
+     * @param lhs the first map
+     * @param rhs the second map
+     * @param <K> the map key type
+     * @param <V> the map value type
      * @return the merged map
      */
     public static <K, V> Map<K, V> merge(final Map<K, V> lhs, final Map<K, V> rhs) {
@@ -60,11 +51,9 @@ public class MapUtils
 
         if (lhs == null || lhs.isEmpty()) {
             result = copy(rhs);
-        }
-        else if (rhs == null || rhs.isEmpty()) {
+        } else if (rhs == null || rhs.isEmpty()) {
             result = copy(lhs);
-        }
-        else {
+        } else {
             result = copy(lhs);
             result.putAll(rhs);
         }
@@ -73,17 +62,12 @@ public class MapUtils
     }
 
     /**
-     * Clones a map and prefixes the keys in the clone, e.g. for mapping "JAVA_HOME" to "env.JAVA_HOME" to simulate the
-     * behavior of Ant.
+     * Clones a map and prefixes the keys in the clone, e.g. for mapping "JAVA_HOME" to "env.JAVA_HOME" to simulate the behavior of Ant.
      *
-     * @param source
-     *            the source map
-     * @param prefix
-     *            the prefix used for all names
-     * @param <K>
-     *            the map key type
-     * @param <V>
-     *            the map value type
+     * @param source the source map
+     * @param prefix the prefix used for all names
+     * @param <K>    the map key type
+     * @param <V>    the map value type
      * @return the clone of the source map
      */
     public static <K, V> Map<String, V> prefix(final Map<K, V> source, final String prefix) {

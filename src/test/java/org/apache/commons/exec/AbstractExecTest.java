@@ -31,7 +31,8 @@ public abstract class AbstractExecTest {
 
     private final File testDir = new File("src/test/scripts");
 
-    @Rule public TestName name = new TestName();
+    @Rule
+    public TestName name = new TestName();
 
     /**
      * Gets the name of the currently executed test.

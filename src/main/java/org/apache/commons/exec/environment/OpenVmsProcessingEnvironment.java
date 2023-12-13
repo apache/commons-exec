@@ -25,8 +25,7 @@ package org.apache.commons.exec.environment;
 //import org.apache.commons.exec.CommandLine;
 
 /**
- * Helper class to determine the environment variable
- * for VMS.
+ * Helper class to determine the environment variable for VMS.
  *
  * @deprecated No longer needed
  */
@@ -34,8 +33,7 @@ package org.apache.commons.exec.environment;
 public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
 
     /*
-     * Hopefully removing super-class overrides won't cause Clirr error.
-     * If necessary can just delegate to super-class.
+     * Hopefully removing super-class overrides won't cause Clirr error. If necessary can just delegate to super-class.
      */
 
 //    /**

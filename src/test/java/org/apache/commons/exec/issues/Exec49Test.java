@@ -37,10 +37,8 @@ public class Exec49Test {
     private final Executor exec = new DefaultExecutor();
 
     /**
-     * The issue was detected when trying to capture stdout/stderr with a PipedOutputStream and
-     * then pass that to a PipedInputStream. The following code will produce the error.
-     * The reason for the error is the PipedOutputStream is not being closed correctly,
-     * causing the PipedInputStream to break.
+     * The issue was detected when trying to capture stdout/stderr with a PipedOutputStream and then pass that to a PipedInputStream. The following code will
+     * produce the error. The reason for the error is the PipedOutputStream is not being closed correctly, causing the PipedInputStream to break.
      *
      * @throws Exception the test failed
      */
@@ -77,10 +75,8 @@ public class Exec49Test {
     }
 
     /**
-     * The issue was detected when trying to capture stdout with a PipedOutputStream and
-     * then pass that to a PipedInputStream. The following code will produce the error.
-     * The reason for the error is the PipedOutputStream is not being closed correctly,
-     * causing the PipedInputStream to break.
+     * The issue was detected when trying to capture stdout with a PipedOutputStream and then pass that to a PipedInputStream. The following code will produce
+     * the error. The reason for the error is the PipedOutputStream is not being closed correctly, causing the PipedInputStream to break.
      *
      * @throws Exception the test failed
      */

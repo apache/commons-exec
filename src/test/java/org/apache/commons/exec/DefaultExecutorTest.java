@@ -54,18 +54,20 @@ public class DefaultExecutorTest {
 
     // Get suitable exit codes for the OS
     private static int SUCCESS_STATUS; // test script successful exit code
-    private static int ERROR_STATUS;   // test script error exit code
+    private static int ERROR_STATUS; // test script error exit code
+
     @BeforeClass
     public static void classSetUp() {
 
         final int[] statuses = TestUtil.getTestScriptCodesForOS();
-        SUCCESS_STATUS=statuses[0];
-        ERROR_STATUS=statuses[1];
+        SUCCESS_STATUS = statuses[0];
+        ERROR_STATUS = statuses[1];
 
         // turn on debug mode and throw an exception for each encountered problem
         System.setProperty("org.apache.commons.exec.lenient", "false");
         System.setProperty("org.apache.commons.exec.debug", "true");
     }
+
     private final Executor exec = new DefaultExecutor();
 
     private final File testDir = new File("src/test/scripts");
@@ -74,19 +76,18 @@ public class DefaultExecutorTest {
     private final File testScript = TestUtil.resolveScriptForOS(testDir + "/test");
     private final File errorTestScript = TestUtil.resolveScriptForOS(testDir + "/error");
     private final File foreverTestScript = TestUtil.resolveScriptForOS(testDir + "/forever");
-private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir + "/grmpffffff");
+    private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir + "/grmpffffff");
     private final File redirectScript = TestUtil.resolveScriptForOS(testDir + "/redirect");
 
     private final File printArgsScript = TestUtil.resolveScriptForOS(testDir + "/printargs");
-    //    private final File acroRd32Script = TestUtil.resolveScriptForOS(testDir + "/acrord32");
+    // private final File acroRd32Script = TestUtil.resolveScriptForOS(testDir + "/acrord32");
     private final File stdinSript = TestUtil.resolveScriptForOS(testDir + "/stdin");
 
     private final File environmentSript = TestUtil.resolveScriptForOS(testDir + "/environment");
 //    private final File wrapperScript = TestUtil.resolveScriptForOS(testDir + "/wrapper");
 
     /**
-     * Start any processes in a loop to make sure that we do
-     * not leave any handles/resources open.
+     * Start any processes in a loop to make sure that we do not leave any handles/resources open.
      *
      * @throws Exception the test failed
      */
@@ -125,7 +126,7 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
 
         int result = 0;
 
-        for (int i=0; i<data.length(); i++) {
+        for (int i = 0; i < data.length(); i++) {
             if (data.charAt(i) == c) {
                 result++;
             }
@@ -184,8 +185,7 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
     }
 
     /**
-     * Call a script to dump the environment variables of the subprocess
-     * after adding a custom environment variable.
+     * Call a script to dump the environment variables of the subprocess after adding a custom environment variable.
      *
      * @throws Exception the test failed
      */
@@ -213,9 +213,7 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
     }
 
     /**
-     * The simplest possible test - start a script and
-     * check that the output was pumped into our
-     * {@code ByteArrayOutputStream}.
+     * The simplest possible test - start a script and check that the output was pumped into our {@code ByteArrayOutputStream}.
      *
      * @throws Exception the test failed
      */
@@ -229,8 +227,7 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
     }
 
     /**
-     * Start a asynchronous process which returns an success
-     * exit value.
+     * Start a asynchronous process which returns an success exit value.
      *
      * @throws Exception the test failed
      */
@@ -247,8 +244,7 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
     }
 
     /**
-     * Try to start an non-existing application where the exception is caught/processed
-     * by the result handler.
+     * Try to start an non-existing application where the exception is caught/processed by the result handler.
      */
     @Test
     public void testExecuteAsyncNonExistingApplication() throws Exception {
@@ -264,8 +260,7 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
     }
 
     /**
-     * Try to start an non-existing application where the exception is caught/processed
-     * by the result handler. The watchdog in notified to avoid waiting for the
+     * Try to start an non-existing application where the exception is caught/processed by the result handler. The watchdog in notified to avoid waiting for the
      * process infinitely.
      *
      * @see <a href="https://issues.apache.org/jira/browse/EXEC-71">EXEC-71</a>
@@ -294,8 +289,7 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
     }
 
     /**
-     * Start a asynchronous process which returns an error
-     * exit value.
+     * Start a asynchronous process which returns an error exit value.
      *
      * @throws Exception the test failed
      */
@@ -312,8 +306,7 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
     }
 
     /**
-     * Test the proper handling of ProcessDestroyer for an asynchronous process.
-     * Since we do not terminate the process it will be terminated in the
+     * Test the proper handling of ProcessDestroyer for an asynchronous process. Since we do not terminate the process it will be terminated in the
      * ShutdownHookProcessDestroyer implementation.
      *
      * @throws Exception the test failed
@@ -321,40 +314,39 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
     @Test
     public void testExecuteAsyncWithProcessDestroyer() throws Exception {
 
-      final CommandLine cl = new CommandLine(foreverTestScript);
-      final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
-      final ShutdownHookProcessDestroyer processDestroyer = new ShutdownHookProcessDestroyer();
-      final ExecuteWatchdog watchdog = new ExecuteWatchdog(Integer.MAX_VALUE);
+        final CommandLine cl = new CommandLine(foreverTestScript);
+        final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
+        final ShutdownHookProcessDestroyer processDestroyer = new ShutdownHookProcessDestroyer();
+        final ExecuteWatchdog watchdog = new ExecuteWatchdog(Integer.MAX_VALUE);
 
-      assertNull(exec.getProcessDestroyer());
-      assertTrue(processDestroyer.isEmpty());
-      assertFalse(processDestroyer.isAddedAsShutdownHook());
+        assertNull(exec.getProcessDestroyer());
+        assertTrue(processDestroyer.isEmpty());
+        assertFalse(processDestroyer.isAddedAsShutdownHook());
 
-      exec.setWatchdog(watchdog);
-      exec.setProcessDestroyer(processDestroyer);
-      exec.execute(cl, handler);
+        exec.setWatchdog(watchdog);
+        exec.setProcessDestroyer(processDestroyer);
+        exec.execute(cl, handler);
 
-      // wait for script to start
-      Thread.sleep(2000);
+        // wait for script to start
+        Thread.sleep(2000);
 
-      // our process destroyer should be initialized now
-      assertNotNull("Process destroyer should exist", exec.getProcessDestroyer());
-      assertEquals("Process destroyer size should be 1", 1, processDestroyer.size());
-      assertTrue("Process destroyer should exist as shutdown hook", processDestroyer.isAddedAsShutdownHook());
+        // our process destroyer should be initialized now
+        assertNotNull("Process destroyer should exist", exec.getProcessDestroyer());
+        assertEquals("Process destroyer size should be 1", 1, processDestroyer.size());
+        assertTrue("Process destroyer should exist as shutdown hook", processDestroyer.isAddedAsShutdownHook());
 
-      // terminate it and the process destroyer is detached
-      watchdog.destroyProcess();
-      assertTrue(watchdog.killedProcess());
-      handler.waitFor(WAITFOR_TIMEOUT);
-      assertTrue("ResultHandler received a result", handler.hasResult());
-      assertNotNull(handler.getException());
-      assertEquals("Processor Destroyer size should be 0", 0, processDestroyer.size());
-      assertFalse("Process destroyer should not exist as shutdown hook", processDestroyer.isAddedAsShutdownHook());
+        // terminate it and the process destroyer is detached
+        watchdog.destroyProcess();
+        assertTrue(watchdog.killedProcess());
+        handler.waitFor(WAITFOR_TIMEOUT);
+        assertTrue("ResultHandler received a result", handler.hasResult());
+        assertNotNull(handler.getException());
+        assertEquals("Processor Destroyer size should be 0", 0, processDestroyer.size());
+        assertFalse("Process destroyer should not exist as shutdown hook", processDestroyer.isAddedAsShutdownHook());
     }
 
     /**
-     * Start a asynchronous process and terminate it manually before the
-     * watchdog timeout occurs.
+     * Start a asynchronous process and terminate it manually before the watchdog timeout occurs.
      *
      * @throws Exception the test failed
      */
@@ -379,10 +371,8 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
     }
 
     /**
-     * Start a asynchronous process and try to terminate it manually but
-     * the process was already terminated by the watchdog. This is
-     * basically a race condition between infrastructure and user
-     * code.
+     * Start a asynchronous process and try to terminate it manually but the process was already terminated by the watchdog. This is basically a race condition
+     * between infrastructure and user code.
      *
      * @throws Exception the test failed
      */
@@ -406,8 +396,7 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
     }
 
     /**
-     * Try to start an non-existing application which should result
-     * in an exception.
+     * Try to start an non-existing application which should result in an exception.
      */
     @Test
     public void testExecuteNonExistingApplication() throws Exception {
@@ -418,8 +407,7 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
     }
 
     /**
-     * Try to start an non-existing application which should result
-     * in an exception.
+     * Try to start an non-existing application which should result in an exception.
      */
     @Test
     public void testExecuteNonExistingApplicationWithWatchDog() throws Exception {
@@ -431,11 +419,8 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
     }
 
     /**
-     * Start a script looping forever (asynchronously) and check if the
-     * ExecuteWatchdog kicks in killing the run away process. To make killing
-     * a process more testable the "forever" scripts write each second a '.'
-     * into "./target/forever.txt" (a marker file). After a test run
-     * we should have a few dots in there.
+     * Start a script looping forever (asynchronously) and check if the ExecuteWatchdog kicks in killing the run away process. To make killing a process more
+     * testable the "forever" scripts write each second a '.' into "./target/forever.txt" (a marker file). After a test run we should have a few dots in there.
      *
      * @throws Exception the test failed
      */
@@ -453,7 +438,7 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
         executor.execute(cl, handler);
         handler.waitFor(WAITFOR_TIMEOUT);
 
-        assertTrue("Killed process should be true", executor.getWatchdog().killedProcess() );
+        assertTrue("Killed process should be true", executor.getWatchdog().killedProcess());
         assertTrue("ResultHandler received a result", handler.hasResult());
         assertNotNull("ResultHandler received an exception as result", handler.getException());
 
@@ -462,11 +447,8 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
     }
 
     /**
-     * Start a script looping forever (synchronously) and check if the ExecuteWatchdog
-     * kicks in killing the run away process. To make killing a process
-     * more testable the "forever" scripts write each second a '.'
-     * into "./target/forever.txt" (a marker file). After a test run
-     * we should have a few dots in there.
+     * Start a script looping forever (synchronously) and check if the ExecuteWatchdog kicks in killing the run away process. To make killing a process more
+     * testable the "forever" scripts write each second a '.' into "./target/forever.txt" (a marker file). After a test run we should have a few dots in there.
      *
      * @throws Exception the test failed
      */
@@ -474,8 +456,7 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
     public void testExecuteWatchdogSync() throws Exception {
 
         if (OS.isFamilyOpenVms()) {
-            System.out.println("The test 'testExecuteWatchdogSync' currently hangs on the following OS : "
-                    + System.getProperty("os.name"));
+            System.out.println("The test 'testExecuteWatchdogSync' currently hangs on the following OS : " + System.getProperty("os.name"));
             return;
         }
 
@@ -489,29 +470,25 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
 
         try {
             executor.execute(cl);
-        }
-        catch (final ExecuteException e) {
+        } catch (final ExecuteException e) {
             Thread.sleep(timeout);
             final int nrOfInvocations = getOccurrences(readFile(this.foreverOutputFile), '.');
             assertTrue(executor.getWatchdog().killedProcess());
-            assertTrue("killing the subprocess did not work : " + nrOfInvocations, nrOfInvocations > 5
-                    && nrOfInvocations <= 11);
+            assertTrue("killing the subprocess did not work : " + nrOfInvocations, nrOfInvocations > 5 && nrOfInvocations <= 11);
             return;
-        }
-        catch (final Throwable t) {
+        } catch (final Throwable t) {
             fail(t.getMessage());
         }
 
-        assertTrue("Killed process should be true", executor.getWatchdog().killedProcess() );
+        assertTrue("Killed process should be true", executor.getWatchdog().killedProcess());
         fail("Process did not create ExecuteException when killed");
     }
 
     /**
-     * [EXEC-68] Synchronously starts a short script with a Watchdog attached with an extremely large timeout. Checks
-     * to see if the script terminated naturally or if it was killed by the Watchdog. Fail if killed by Watchdog.
+     * [EXEC-68] Synchronously starts a short script with a Watchdog attached with an extremely large timeout. Checks to see if the script terminated naturally
+     * or if it was killed by the Watchdog. Fail if killed by Watchdog.
      *
-     * @throws Exception
-     *             the test failed
+     * @throws Exception the test failed
      */
     @Test
     public void testExecuteWatchdogVeryLongTimeout() throws Exception {
@@ -543,8 +520,7 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
     }
 
     /**
-     * A generic test case to print the command line arguments to 'printargs' script to solve
-     * even more command line puzzles.
+     * A generic test case to print the command line arguments to 'printargs' script to solve even more command line puzzles.
      *
      * @throws Exception the test failed
      */
@@ -556,11 +532,10 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
         final DefaultExecutor executor = new DefaultExecutor();
         final int exitValue = executor.execute(cl);
         assertFalse(exec.isFailure(exitValue));
-     }
+    }
 
     /**
-     * Invoke the error script but define that the ERROR_STATUS is a good
-     * exit value and therefore no exception should be thrown.
+     * Invoke the error script but define that the ERROR_STATUS is a good exit value and therefore no exception should be thrown.
      *
      * @throws Exception the test failed
      */
@@ -572,8 +547,7 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
     }
 
     /**
-     * Invoke the error script but define that SUCCESS_STATUS is a bad
-     * exit value and therefore an exception should be thrown.
+     * Invoke the error script but define that SUCCESS_STATUS is a bad exit value and therefore an exception should be thrown.
      *
      * @throws Exception the test failed
      */
@@ -581,7 +555,7 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
     public void testExecuteWithCustomExitValue2() throws Exception {
         final CommandLine cl = new CommandLine(errorTestScript);
         exec.setExitValue(SUCCESS_STATUS);
-        try{
+        try {
             exec.execute(cl);
             fail("Must throw ExecuteException");
         } catch (final ExecuteException e) {
@@ -589,11 +563,11 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
         }
     }
 
-     @Test
+    @Test
     public void testExecuteWithError() throws Exception {
         final CommandLine cl = new CommandLine(errorTestScript);
 
-        try{
+        try {
             exec.execute(cl);
             fail("Must throw ExecuteException");
         } catch (final ExecuteException e) {
@@ -615,7 +589,7 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
         assertFalse(exec.isFailure(exitValue));
     }
 
-     @Test
+    @Test
     public void testExecuteWithInvalidWorkingDirectory() throws Exception {
         final File workingDir = new File("/foo/bar");
         final CommandLine cl = new CommandLine(testScript);
@@ -627,8 +601,7 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
     /**
      * Start a process and connect it to no stream.
      *
-     * @throws Exception
-     *             the test failed
+     * @throws Exception the test failed
      */
     @Test
     public void testExecuteWithNullOutErr() throws Exception {
@@ -648,27 +621,24 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
     @Test
     public void testExecuteWithProcessDestroyer() throws Exception {
 
-      final CommandLine cl = new CommandLine(testScript);
-      final ShutdownHookProcessDestroyer processDestroyer = new ShutdownHookProcessDestroyer();
-      exec.setProcessDestroyer(processDestroyer);
+        final CommandLine cl = new CommandLine(testScript);
+        final ShutdownHookProcessDestroyer processDestroyer = new ShutdownHookProcessDestroyer();
+        exec.setProcessDestroyer(processDestroyer);
 
-      assertTrue(processDestroyer.isEmpty());
-      assertFalse(processDestroyer.isAddedAsShutdownHook());
+        assertTrue(processDestroyer.isEmpty());
+        assertFalse(processDestroyer.isAddedAsShutdownHook());
 
-      final int exitValue = exec.execute(cl);
+        final int exitValue = exec.execute(cl);
 
-      assertEquals("FOO..", baos.toString().trim());
-      assertFalse(exec.isFailure(exitValue));
-      assertTrue(processDestroyer.isEmpty());
-      assertFalse(processDestroyer.isAddedAsShutdownHook());
+        assertEquals("FOO..", baos.toString().trim());
+        assertFalse(exec.isFailure(exitValue));
+        assertTrue(processDestroyer.isEmpty());
+        assertFalse(processDestroyer.isAddedAsShutdownHook());
     }
 
     /**
-     * Start a process with redirected streams - stdin of the newly
-     * created process is connected to a FileInputStream whereas
-     * the "redirect" script reads all lines from stdin and prints
-     * them on stdout. Furthermore the script prints a status
-     * message on stderr.
+     * Start a process with redirected streams - stdin of the newly created process is connected to a FileInputStream whereas the "redirect" script reads all
+     * lines from stdin and prints them on stdout. Furthermore the script prints a status message on stderr.
      *
      * @throws Exception the test failed
      */
@@ -688,38 +658,35 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
             assertFalse("exitValue=" + exitValue, exec.isFailure(exitValue));
         } else {
             if (OS.isFamilyWindows()) {
-                System.err
-                        .println("The code samples to do that in windows look like a joke ... :-( .., no way I'm doing that");
+                System.err.println("The code samples to do that in windows look like a joke ... :-( .., no way I'm doing that");
             }
-            System.err.println("The test 'testExecuteWithRedirectedStreams' does not support the following OS : "
-                    + System.getProperty("os.name"));
+            System.err.println("The test 'testExecuteWithRedirectedStreams' does not support the following OS : " + System.getProperty("os.name"));
         }
     }
 
     /**
-      * Start a process and connect out and err to a file.
-      *
-      * @throws Exception the test failed
-      */
-     @Test
-     public void testExecuteWithRedirectOutErr() throws Exception {
-         final Path outFile = Files.createTempFile("EXEC", ".test");
-         final CommandLine cl = new CommandLine(testScript);
-         try (OutputStream outAndErr = Files.newOutputStream(outFile)) {
-             final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(outAndErr);
-             final DefaultExecutor executor = new DefaultExecutor();
-             executor.setStreamHandler(pumpStreamHandler);
-             final int exitValue = executor.execute(cl);
-             assertFalse(exec.isFailure(exitValue));
-             assertTrue(Files.exists(outFile));
-         } finally {
-             Files.delete(outFile);
-         }
-     }
+     * Start a process and connect out and err to a file.
+     *
+     * @throws Exception the test failed
+     */
+    @Test
+    public void testExecuteWithRedirectOutErr() throws Exception {
+        final Path outFile = Files.createTempFile("EXEC", ".test");
+        final CommandLine cl = new CommandLine(testScript);
+        try (OutputStream outAndErr = Files.newOutputStream(outFile)) {
+            final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(outAndErr);
+            final DefaultExecutor executor = new DefaultExecutor();
+            executor.setStreamHandler(pumpStreamHandler);
+            final int exitValue = executor.execute(cl);
+            assertFalse(exec.isFailure(exitValue));
+            assertTrue(Files.exists(outFile));
+        } finally {
+            Files.delete(outFile);
+        }
+    }
 
     /**
-     * Execute the test script and pass a environment containing
-     * 'TEST_ENV_VAR'.
+     * Execute the test script and pass a environment containing 'TEST_ENV_VAR'.
      */
     @Test
     public void testExecuteWithSingleEnvironmentVariable() throws Exception {
@@ -739,11 +706,11 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
     // ======================================================================
 
     /**
-      * Start a process and connect stdout and stderr.
-      *
-      * @throws Exception the test failed
-      */
-     @Test
+     * Start a process and connect stdout and stderr.
+     *
+     * @throws Exception the test failed
+     */
+    @Test
     public void testExecuteWithStdOutErr() throws Exception {
         final CommandLine cl = new CommandLine(testScript);
         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(System.out, System.err);
@@ -769,9 +736,8 @@ private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir +
     }
 
     /**
-     * The test script reads an argument from {@code stdin} and prints
-     * the result to stdout. To make things slightly more interesting
-     * we are using an asynchronous process.
+     * The test script reads an argument from {@code stdin} and prints the result to stdout. To make things slightly more interesting we are using an
+     * asynchronous process.
      *
      * @throws Exception the test failed
      */
