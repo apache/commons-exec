@@ -20,6 +20,7 @@ package org.apache.commons.exec.issues;
 import java.io.ByteArrayOutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.time.Duration;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecuteResultHandler;
@@ -34,6 +35,7 @@ import org.junit.Test;
  */
 public class Exec49Test {
 
+    private static final Duration WAIT = Duration.ofSeconds(10);
     private final Executor exec = new DefaultExecutor();
 
     /**
@@ -69,7 +71,7 @@ public class Exec49Test {
             }
             pis.close();
 
-            handler.waitFor(10000);
+            handler.waitFor(WAIT);
             handler.getExitValue(); // will fail if process has not finished
         }
     }
@@ -107,7 +109,7 @@ public class Exec49Test {
             }
             pis.close();
 
-            handler.waitFor(10000);
+            handler.waitFor(WAIT);
             handler.getExitValue(); // will fail if process has not finished
         }
     }

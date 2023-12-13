@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,6 +52,7 @@ public class DefaultExecutorTest {
 
     /** Maximum time to wait (15s) */
     private static final int WAITFOR_TIMEOUT = 15000;
+    private static final Duration WAITFOR_TIMEOUT_D = Duration.ofMillis(WAITFOR_TIMEOUT);
 
     // Get suitable exit codes for the OS
     private static int SUCCESS_STATUS; // test script successful exit code

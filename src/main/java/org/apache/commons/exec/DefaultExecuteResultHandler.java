@@ -17,6 +17,9 @@
 
 package org.apache.commons.exec;
 
+import java.time.Duration;
+import java.time.Instant;
+
 /**
  * A default implementation of 'ExecuteResultHandler' used for asynchronous process handling.
  */
@@ -114,14 +117,33 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
      * Causes the current thread to wait, if necessary, until the process has terminated. This method returns immediately if the process has already terminated.
      * If the process has not yet terminated, the calling thread will be blocked until the process exits.
      *
+     * @param timeout the maximum time to wait
+     * @throws InterruptedException if the current thread is {@linkplain Thread#interrupt() interrupted} by another thread while it is waiting, then the wait is
+     *                              ended and an {@link InterruptedException} is thrown.
+     * @since 1.4.0
+     */
+    public void waitFor(final Duration timeout) throws InterruptedException {
+        final Instant until = Instant.now().plus(timeout);
+        while (!hasResult() && Instant.now().isBefore(until)) {
+            Thread.sleep(SLEEP_TIME_MS);
+        }
+    }
+
+    /**
+     * Causes the current thread to wait, if necessary, until the process has terminated. This method returns immediately if the process has already terminated.
+     * If the process has not yet terminated, the calling thread will be blocked until the process exits.
+     *
      * @param timeoutMillis the maximum time to wait in milliseconds
      * @throws InterruptedException if the current thread is {@linkplain Thread#interrupt() interrupted} by another thread while it is waiting, then the wait is
      *                              ended and an {@link InterruptedException} is thrown.
+     * @deprecated Use {@link #waitFor(Duration)}.
      */
+    @Deprecated
     public void waitFor(final long timeoutMillis) throws InterruptedException {
         final long untilMillis = System.currentTimeMillis() + timeoutMillis;
         while (!hasResult() && System.currentTimeMillis() < untilMillis) {
             Thread.sleep(SLEEP_TIME_MS);
         }
     }
+
 }
