@@ -66,7 +66,7 @@ public abstract class LogOutputStream extends OutputStream {
     /**
      * Creates a new instance of this class.
      *
-     * @param level loglevel used to log data written to this stream.
+     * @param level level used to log data written to this stream.
      */
     public LogOutputStream(final int level) {
         this(level, null);
@@ -75,7 +75,7 @@ public abstract class LogOutputStream extends OutputStream {
     /**
      * Creates a new instance of this class, specifying the character set that should be used for outputting the string for each line
      *
-     * @param level   loglevel used to log data written to this stream
+     * @param level   level used to log data written to this stream
      * @param charset Character Set to use when processing lines
      */
     public LogOutputStream(final int level, final Charset charset) {
