@@ -34,7 +34,7 @@ public class CommandLine {
     /**
      * Encapsulates a command line argument.
      */
-    final class Argument {
+    static final class Argument {
 
         private final String value;
         private final boolean handleQuoting;
