@@ -35,7 +35,7 @@ import org.junit.Test;
  */
 public class LogOutputStreamTest {
 
-    private final class SystemLogOutputStream extends LogOutputStream {
+    private static final class SystemLogOutputStream extends LogOutputStream {
 
         StringBuffer output = new StringBuffer();
 

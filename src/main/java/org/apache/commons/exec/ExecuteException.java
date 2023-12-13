@@ -74,7 +74,7 @@ public class ExecuteException extends IOException {
 
     /**
      * Gets the exit value returned by the failed process
-     * 
+     *
      * @return The exit value
      */
     public int getExitValue() {

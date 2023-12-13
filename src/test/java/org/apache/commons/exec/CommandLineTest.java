@@ -183,7 +183,7 @@ public class CommandLineTest {
         assertArrayEquals(new String[] { "${appMainClass}" }, cmdl.getArguments());
 
         // pass arguments with an empty map
-        cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass}", new HashMap<String, Object>());
+        cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass}", new HashMap<>());
         assertTrue(cmdl.getExecutable().indexOf("${JAVA_HOME}") == 0);
         assertArrayEquals(new String[] { "${appMainClass}" }, cmdl.getArguments());
 

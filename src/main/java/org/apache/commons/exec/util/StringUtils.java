@@ -31,7 +31,7 @@ import java.util.StringTokenizer;
  */
 public class StringUtils {
 
-    private static final String[] EMPTY_STRING_ARRAY = new String[0];
+    private static final String[] EMPTY_STRING_ARRAY = {};
     private static final String SINGLE_QUOTE = "\'";
     private static final String DOUBLE_QUOTE = "\"";
     private static final char SLASH_CHAR = '/';
@@ -228,13 +228,7 @@ public class StringUtils {
      * @return the concatenated strings
      */
     public static String toString(final String[] strings, final String separator) {
-        final StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < strings.length; i++) {
-            if (i > 0) {
-                sb.append(separator);
-            }
-            sb.append(strings[i]);
-        }
-        return sb.toString();
+        final String sb = String.join(separator, strings);
+        return sb;
     }
 }

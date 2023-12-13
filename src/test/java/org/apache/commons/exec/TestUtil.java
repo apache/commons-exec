@@ -27,7 +27,7 @@ public final class TestUtil {
 
     /**
      * Gets success and fail return codes used by the test scripts
-     * 
+     *
      * @return int array[2] = {ok, success}
      */
     public static int[] getTestScriptCodesForOS() {

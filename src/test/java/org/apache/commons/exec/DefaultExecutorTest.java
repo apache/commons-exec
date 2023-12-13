@@ -148,7 +148,7 @@ public class DefaultExecutorTest {
         final BufferedReader reader = new BufferedReader(new FileReader(file));
 
         while ((text = reader.readLine()) != null) {
-            contents.append(text).append(System.getProperty("line.separator"));
+            contents.append(text).append(System.lineSeparator());
         }
         reader.close();
         return contents.toString();
