@@ -17,6 +17,7 @@
 
 package org.apache.commons.exec;
 
+import java.time.Duration;
 import java.util.Objects;
 
 import org.apache.commons.exec.util.DebugUtils;
@@ -49,6 +50,9 @@ public class ExecuteWatchdog implements TimeoutObserver {
     /** The marker for an infinite timeout */
     public static final long INFINITE_TIMEOUT = -1;
 
+    /** The marker for an infinite timeout */
+    public static final Duration INFINITE_TIMEOUT_DURATION = Duration.ofMillis(INFINITE_TIMEOUT);
+
     /** The process to execute and watch for duration. */
     private Process process;
 
@@ -73,12 +77,13 @@ public class ExecuteWatchdog implements TimeoutObserver {
     /**
      * Creates a new watchdog with a given timeout.
      *
-     * @param timeout the timeout for the process in milliseconds. It must be greater than 0 or 'INFINITE_TIMEOUT'
+     * @param timeout the timeout for the process in milliseconds. It must be greater than 0 or {@code INFINITE_TIMEOUT_DURATION}.
+     * @since 1.4.0
      */
-    public ExecuteWatchdog(final long timeout) {
+    public ExecuteWatchdog(final Duration timeout) {
         this.killedProcess = false;
         this.watch = false;
-        this.hasWatchdog = timeout != INFINITE_TIMEOUT;
+        this.hasWatchdog = !INFINITE_TIMEOUT_DURATION.equals(timeout);
         this.processStarted = false;
         if (this.hasWatchdog) {
             this.watchdog = new Watchdog(timeout);
@@ -86,6 +91,17 @@ public class ExecuteWatchdog implements TimeoutObserver {
         } else {
             this.watchdog = null;
         }
+    }
+
+    /**
+     * Creates a new watchdog with a given timeout.
+     *
+     * @param timeoutMillis the timeout for the process in milliseconds. It must be greater than 0 or {@code INFINITE_TIMEOUT}.
+     * @deprecated Use {@link #ExecuteWatchdog(Duration)}.
+     */
+    @Deprecated
+    public ExecuteWatchdog(final long timeoutMillis) {
+        this(Duration.ofMillis(timeoutMillis));
     }
 
     /**
@@ -113,8 +129,8 @@ public class ExecuteWatchdog implements TimeoutObserver {
      */
     public synchronized void destroyProcess() {
         ensureStarted();
-        this.timeoutOccured(null);
-        this.stop();
+        timeoutOccured(null);
+        stop();
     }
 
     /**
@@ -124,7 +140,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
     private void ensureStarted() {
         while (!processStarted && caught == null) {
             try {
-                this.wait();
+                wait();
             } catch (final InterruptedException e) {
                 throw new IllegalStateException(e.getMessage(), e);
             }
@@ -138,9 +154,9 @@ public class ExecuteWatchdog implements TimeoutObserver {
      *
      */
     public synchronized void failedToStart(final Exception e) {
-        this.processStarted = true;
-        this.caught = e;
-        this.notifyAll();
+        processStarted = true;
+        caught = e;
+        notifyAll();
     }
 
     /**
@@ -174,16 +190,16 @@ public class ExecuteWatchdog implements TimeoutObserver {
      */
     public synchronized void start(final Process processToMonitor) {
         Objects.requireNonNull(processToMonitor, "processToMonitor");
-        if (this.process != null) {
+        if (process != null) {
             throw new IllegalStateException("Already running.");
         }
-        this.caught = null;
-        this.killedProcess = false;
-        this.watch = true;
-        this.process = processToMonitor;
-        this.processStarted = true;
-        this.notifyAll();
-        if (this.hasWatchdog) {
+        caught = null;
+        killedProcess = false;
+        watch = true;
+        process = processToMonitor;
+        processStarted = true;
+        notifyAll();
+        if (hasWatchdog) {
             watchdog.start();
         }
     }

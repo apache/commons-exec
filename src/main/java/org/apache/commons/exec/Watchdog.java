@@ -17,6 +17,7 @@
 
 package org.apache.commons.exec;
 
+import java.time.Duration;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -33,6 +34,26 @@ public class Watchdog implements Runnable {
 
     private boolean stopped;
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param timeout the timeout duration.
+     * @since 1.4.0
+     */
+    public Watchdog(final Duration timeout) {
+        if (timeout.isNegative() || Duration.ZERO.equals(timeout)) {
+            throw new IllegalArgumentException("timeout must not be less than 1.");
+        }
+        this.timeoutMillis = timeout.toMillis();
+    }
+
+    /**
+     * Constructs a new instance.
+     *
+     * @param timeoutMillis the timeout duration.
+     * @deprecated Use {@link #Watchdog(Duration)}.
+     */
+    @Deprecated
     public Watchdog(final long timeoutMillis) {
         if (timeoutMillis < 1) {
             throw new IllegalArgumentException("timeout must not be less than 1.");
