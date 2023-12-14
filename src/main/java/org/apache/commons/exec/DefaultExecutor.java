@@ -44,25 +44,25 @@ import java.util.Map;
  */
 public class DefaultExecutor implements Executor {
 
-    /** taking care of output and error stream */
+    /** Taking care of output and error stream */
     private ExecuteStreamHandler streamHandler;
 
     /** The working directory of the process */
     private File workingDirectory;
 
-    /** monitoring of long running processes */
+    /** Monitoring of long running processes */
     private ExecuteWatchdog watchdog;
 
     /** The exit values considered to be successful */
     private int[] exitValues;
 
-    /** launches the command in a new process */
+    /** Launches the command in a new process */
     private final CommandLauncher launcher;
 
-    /** optional cleanup of started processes */
+    /** Optional cleanup of started processes */
     private ProcessDestroyer processDestroyer;
 
-    /** worker thread for asynchronous execution */
+    /** Worker thread for asynchronous execution */
     private Thread executorThread;
 
     /** The first exception being caught to be thrown to the caller */

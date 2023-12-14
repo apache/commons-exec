@@ -40,10 +40,10 @@ public class StreamPumper implements Runnable {
     /** The size of the internal buffer for copying the streams */
     private final int size;
 
-    /** was the end of the stream reached */
+    /** Was the end of the stream reached */
     private boolean finished;
 
-    /** close the output stream when exhausted */
+    /** Close the output stream when exhausted */
     private final boolean closeWhenExhausted;
 
     /**

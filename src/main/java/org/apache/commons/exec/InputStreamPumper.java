@@ -35,7 +35,7 @@ public class InputStreamPumper implements Runnable {
     /** The output stream to pmp into */
     private final OutputStream os;
 
-    /** flag to stop the stream pumping */
+    /** Flag to stop the stream pumping */
     private volatile boolean stop;
 
     /**

@@ -68,7 +68,7 @@ public class TutorialTest {
     /** The directory to pick up the test scripts */
     private final File testDir = new File("src/test/scripts");
 
-    /** simulates a PDF print job */
+    /** Simulates a PDF print job */
     private final File acroRd32Script = TestUtil.resolveScriptForOS(testDir + "/acrord32");
 
     /**
