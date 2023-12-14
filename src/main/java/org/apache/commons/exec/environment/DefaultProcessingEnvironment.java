@@ -32,10 +32,10 @@ import org.apache.commons.exec.OS;
  */
 public class DefaultProcessingEnvironment {
 
-    /** the line separator of the system */
+    /** The line separator of the system */
 //    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
-    /** the environment variables of the process */
+    /** The environment variables of the process */
     protected Map<String, String> procEnvironment;
 
     /**

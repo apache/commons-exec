@@ -47,7 +47,7 @@ public abstract class LogOutputStream extends OutputStream {
     /** Linefeed */
     private static final int LF = 0x0a;
 
-    /** the internal buffer */
+    /** The internal buffer */
     private final ByteArrayOutputStreamX buffer = new ByteArrayOutputStreamX(INTIAL_SIZE);
 
     private boolean skip;

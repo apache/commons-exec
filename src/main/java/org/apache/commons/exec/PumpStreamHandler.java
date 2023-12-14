@@ -46,10 +46,10 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
 
     private InputStreamPumper inputStreamPumper;
 
-    /** the timeout in ms the implementation waits when stopping the pumper threads */
+    /** The timeout in ms the implementation waits when stopping the pumper threads */
     private long stopTimeout;
 
-    /** the last exception being caught */
+    /** The last exception being caught */
     private IOException caught;
 
     /**

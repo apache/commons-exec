@@ -29,10 +29,10 @@ public class InputStreamPumper implements Runnable {
 
     public static final int SLEEPING_TIME = 100;
 
-    /** the input stream to pump from */
+    /** The input stream to pump from */
     private final InputStream is;
 
-    /** the output stream to pmp into */
+    /** The output stream to pmp into */
     private final OutputStream os;
 
     /** flag to stop the stream pumping */

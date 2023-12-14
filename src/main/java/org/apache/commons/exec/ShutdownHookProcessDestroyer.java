@@ -45,7 +45,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
         }
     }
 
-    /** the list of currently running processes */
+    /** The list of currently running processes */
     private final Vector<Process> processes = new Vector<>();
 
     /** The thread registered at the JVM to execute the shutdown handler */

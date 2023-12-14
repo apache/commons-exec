@@ -25,7 +25,7 @@ import java.time.Instant;
  */
 public class DefaultExecuteResultHandler implements ExecuteResultHandler {
 
-    /** the interval polling the result */
+    /** The interval polling the result */
     private static final int SLEEP_TIME_MS = 50;
 
     /** Keep track if the process is still running */

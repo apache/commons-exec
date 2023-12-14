@@ -47,13 +47,13 @@ public class DefaultExecutor implements Executor {
     /** taking care of output and error stream */
     private ExecuteStreamHandler streamHandler;
 
-    /** the working directory of the process */
+    /** The working directory of the process */
     private File workingDirectory;
 
     /** monitoring of long running processes */
     private ExecuteWatchdog watchdog;
 
-    /** the exit values considered to be successful */
+    /** The exit values considered to be successful */
     private int[] exitValues;
 
     /** launches the command in a new process */
@@ -65,7 +65,7 @@ public class DefaultExecutor implements Executor {
     /** worker thread for asynchronous execution */
     private Thread executorThread;
 
-    /** the first exception being caught to be thrown to the caller */
+    /** The first exception being caught to be thrown to the caller */
     private IOException exceptionCaught;
 
     /**

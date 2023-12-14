@@ -28,16 +28,16 @@ import org.apache.commons.exec.util.DebugUtils;
  */
 public class StreamPumper implements Runnable {
 
-    /** the default size of the internal buffer for copying the streams */
+    /** The default size of the internal buffer for copying the streams */
     private static final int DEFAULT_SIZE = 1024;
 
-    /** the input stream to pump from */
+    /** The input stream to pump from */
     private final InputStream is;
 
-    /** the output stream to pmp into */
+    /** The output stream to pmp into */
     private final OutputStream os;
 
-    /** the size of the internal buffer for copying the streams */
+    /** The size of the internal buffer for copying the streams */
     private final int size;
 
     /** was the end of the stream reached */
