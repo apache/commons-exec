@@ -38,7 +38,7 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
     private volatile ExecuteException exception;
 
     /**
-     * Constructor.
+     * Constructs a new instance.
      */
     public DefaultExecuteResultHandler() {
         this.hasResult = false;
