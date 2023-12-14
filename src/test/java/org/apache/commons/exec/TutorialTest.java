@@ -65,7 +65,7 @@ public class TutorialTest {
         }
     }
 
-    /** the directory to pick up the test scripts */
+    /** The directory to pick up the test scripts */
     private final File testDir = new File("src/test/scripts");
 
     /** simulates a PDF print job */
