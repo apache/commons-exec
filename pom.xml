@@ -44,71 +44,6 @@
         <url>https://gitbox.apache.org/repos/asf/commons-exec</url>
     </scm>
 
-    <developers>
-        <developer>
-            <id>brett</id>
-            <name>Brett Porter</name>
-            <organization>Apache</organization>
-            <timezone>+10</timezone>
-        </developer>
-        <developer>
-            <id>trygvis</id>
-            <name>Trygve Laugstøl</name>
-            <organization>Apache</organization>
-            <timezone>+1</timezone>
-        </developer>
-        <developer>
-            <id>sgoeschl</id>
-            <name>Siegfried Goeschl</name>
-            <organization>Apache</organization>
-            <timezone>+1</timezone>
-        </developer>
-        <developer>
-            <id>sebb</id>
-            <name>Sebastian Bazley</name>
-            <organization>Apache</organization>
-            <timezone>+1</timezone>
-        </developer>
-        <developer>
-            <id>ggregory</id>
-            <name>Gary Gregory</name>
-            <email>ggregory at apache.org</email>
-            <url>https://www.garygregory.com</url>
-            <organization>The Apache Software Foundation</organization>
-            <organizationUrl>https://www.apache.org/</organizationUrl>      
-            <roles>
-              <role>PMC Member</role>
-            </roles>
-            <timezone>America/New_York</timezone>
-            <properties>
-              <picUrl>https://people.apache.org/~ggregory/img/garydgregory80.png</picUrl>
-            </properties>
-        </developer>
-    </developers>
-    <contributors>
-        <contributor>
-            <name>Niklas Gustavsson</name>
-        </contributor>
-        <contributor>
-            <name>Benjamin Bentmann</name>
-        </contributor>
-        <contributor>
-            <name>Marco Ferrante</name>
-        </contributor>
-        <contributor>
-            <name>Jerome Lacoste</name>
-        </contributor>
-        <contributor>
-            <name>Milos Kleint</name>
-        </contributor>
-        <contributor>
-            <name>Pablo Hoertner</name>
-        </contributor>
-        <contributor>
-            <name>Niall Pemberton</name>
-        </contributor>
-    </contributors>
-
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -284,4 +219,70 @@
         <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
         <test>*Test</test>
     </properties>
+
+    <developers>
+        <developer>
+            <id>brett</id>
+            <name>Brett Porter</name>
+            <organization>Apache</organization>
+            <timezone>+10</timezone>
+        </developer>
+        <developer>
+            <id>trygvis</id>
+            <name>Trygve Laugstøl</name>
+            <organization>Apache</organization>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>sgoeschl</id>
+            <name>Siegfried Goeschl</name>
+            <organization>Apache</organization>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>sebb</id>
+            <name>Sebastian Bazley</name>
+            <organization>Apache</organization>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>ggregory</id>
+            <name>Gary Gregory</name>
+            <email>ggregory at apache.org</email>
+            <url>https://www.garygregory.com</url>
+            <organization>The Apache Software Foundation</organization>
+            <organizationUrl>https://www.apache.org/</organizationUrl>      
+            <roles>
+              <role>PMC Member</role>
+            </roles>
+            <timezone>America/New_York</timezone>
+            <properties>
+              <picUrl>https://people.apache.org/~ggregory/img/garydgregory80.png</picUrl>
+            </properties>
+        </developer>
+    </developers>
+    <contributors>
+        <contributor>
+            <name>Niklas Gustavsson</name>
+        </contributor>
+        <contributor>
+            <name>Benjamin Bentmann</name>
+        </contributor>
+        <contributor>
+            <name>Marco Ferrante</name>
+        </contributor>
+        <contributor>
+            <name>Jerome Lacoste</name>
+        </contributor>
+        <contributor>
+            <name>Milos Kleint</name>
+        </contributor>
+        <contributor>
+            <name>Pablo Hoertner</name>
+        </contributor>
+        <contributor>
+            <name>Niall Pemberton</name>
+        </contributor>
+    </contributors>
+
 </project>
