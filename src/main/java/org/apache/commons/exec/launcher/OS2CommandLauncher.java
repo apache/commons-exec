@@ -49,11 +49,10 @@ public class OS2CommandLauncher extends CommandLauncherProxy {
         if (workingDir == null) {
             return exec(cmd, env);
         }
-
-        final CommandLine newCmd = new CommandLine("cmd");
-        newCmd.addArgument("/c");
-        newCmd.addArguments(cmd.toStrings());
-
-        return exec(newCmd, env);
+        // @formatter:off
+        return exec(new CommandLine("cmd")
+                .addArgument("/c")
+                .addArguments(cmd.toStrings()), env);
+        // @formatter:on
     }
 }
