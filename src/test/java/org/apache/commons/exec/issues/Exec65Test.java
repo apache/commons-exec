@@ -54,10 +54,7 @@ public class Exec65Test extends AbstractExecTest {
     @Test
     @Timeout(value = TEST_TIMEOUT, unit = TimeUnit.MILLISECONDS)
     public void testExec65WithSleepUsingShellScript() throws Exception {
-
-        if (!OS.isFamilyMac()) {
-            throw new ExecuteException(testNotSupportedForCurrentOperatingSystem(), 0);
-        }
+        assumeTrue(OS.isFamilyMac());
         final DefaultExecutor executor = new DefaultExecutor();
         executor.setStreamHandler(new PumpStreamHandler(System.out, System.err));
         executor.setWatchdog(new ExecuteWatchdog(WATCHDOG_TIMEOUT));
