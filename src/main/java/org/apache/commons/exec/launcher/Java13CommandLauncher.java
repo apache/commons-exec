@@ -30,7 +30,7 @@ import org.apache.commons.exec.environment.EnvironmentUtils;
 public class Java13CommandLauncher extends CommandLauncherImpl {
 
     /**
-     * Constructor
+     * Constructs a new instance.
      */
     public Java13CommandLauncher() {
     }
