@@ -87,13 +87,7 @@ public class CommandLineTest {
     @Test
     public void testAddArgumentWithBothQuotes() {
         final CommandLine cmdl = new CommandLine("test");
-
-        try {
-            cmdl.addArgument("b\"a'r");
-            fail("IllegalArgumentException should be thrown");
-        } catch (final IllegalArgumentException e) {
-            // OK, expected
-        }
+        assertThrows(IllegalArgumentException.class, () -> cmdl.addArgument("b\"a'r"));
     }
 
     @Test
@@ -338,22 +332,12 @@ public class CommandLineTest {
 
     @Test
     public void testExecutableWhitespaceString() {
-        try {
-            new CommandLine("   ");
-            fail("Must throw IllegalArgumentException");
-        } catch (final IllegalArgumentException e) {
-            // Expected
-        }
+        assertThrows(IllegalArgumentException.class, () -> new CommandLine("   "));
     }
 
     @Test
     public void testExecutableZeroLengthString() {
-        try {
-            new CommandLine("");
-            fail("Must throw IllegalArgumentException");
-        } catch (final IllegalArgumentException e) {
-            // Expected
-        }
+        assertThrows(IllegalArgumentException.class, () -> new CommandLine(""));
     }
 
     @Test
@@ -370,22 +354,12 @@ public class CommandLineTest {
 
     @Test
     public void testParseCommandLineWithNull() {
-        try {
-            CommandLine.parse(null);
-            fail("IllegalArgumentException must be thrown due to incorrect command line");
-        } catch (final IllegalArgumentException e) {
-            // Expected
-        }
+        assertThrows(IllegalArgumentException.class, () -> CommandLine.parse(null));
     }
 
     @Test
     public void testParseCommandLineWithOnlyWhitespace() {
-        try {
-            CommandLine.parse("  ");
-            fail("IllegalArgumentException must be thrown due to incorrect command line");
-        } catch (final IllegalArgumentException e) {
-            // Expected
-        }
+        assertThrows(IllegalArgumentException.class, () -> CommandLine.parse("  "));
     }
 
     @Test
@@ -397,12 +371,7 @@ public class CommandLineTest {
 
     @Test
     public void testParseCommandLineWithUnevenQuotes() {
-        try {
-            CommandLine.parse("test \"foo bar");
-            fail("IllegalArgumentException must be thrown due to uneven quotes");
-        } catch (final IllegalArgumentException e) {
-            // Expected
-        }
+        assertThrows(IllegalArgumentException.class, () -> CommandLine.parse("test \"foo bar"), "IllegalArgumentException must be thrown due to uneven quotes");
     }
 
     /**
@@ -423,10 +392,8 @@ public class CommandLineTest {
      */
     @Test
     public void testParseComplexCommandLine2() {
-
         final String commandline = "./script/jrake cruise:publish_installers " + "INSTALLER_VERSION=unstable_2_1 "
                 + "INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\" " + "INSTALLER_DOWNLOAD_SERVER=\'something\' " + "WITHOUT_HELP_DOC=true";
-
         final CommandLine cmdl = CommandLine.parse(commandline);
         final String[] args = cmdl.getArguments();
         assertEquals(args[0], "cruise:publish_installers");
