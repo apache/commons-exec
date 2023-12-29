@@ -47,7 +47,6 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
             // add the environment as global symbols for the DCL script
             if (env != null) {
                 final Set<Entry<String, String>> entries = env.entrySet();
-
                 for (final Entry<String, String> entry : entries) {
                     writer.print("$ ");
                     writer.print(entry.getKey());
