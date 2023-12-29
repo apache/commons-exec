@@ -77,7 +77,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
     /**
      * Creates a new watchdog with a given timeout.
      *
-     * @param timeout the timeout for the process in milliseconds. It must be greater than 0 or {@code INFINITE_TIMEOUT_DURATION}.
+     * @param timeout the timeout Duration for the process. It must be greater than 0 or {@code INFINITE_TIMEOUT_DURATION}.
      * @since 1.4.0
      */
     public ExecuteWatchdog(final Duration timeout) {
