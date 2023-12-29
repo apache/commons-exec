@@ -86,7 +86,8 @@ public class Watchdog implements Runnable {
             while (!stopped && isWaiting) {
                 try {
                     wait(timeLeftMillis);
-                } catch (final InterruptedException e) {
+                } catch (final InterruptedException ignore) {
+                    // ignore
                 }
                 timeLeftMillis = timeoutMillis - (System.currentTimeMillis() - startTimeMillis);
                 isWaiting = timeLeftMillis > 0;
