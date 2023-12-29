@@ -229,7 +229,7 @@ public class CommandLine {
      * @throws IllegalArgumentException If argument contains both single and double quotes
      */
     public CommandLine addArgument(final String argument) {
-        return this.addArgument(argument, true);
+        return addArgument(argument, true);
     }
 
     /**
@@ -263,7 +263,7 @@ public class CommandLine {
      * @return The command line itself
      */
     public CommandLine addArguments(final String addArguments) {
-        return this.addArguments(addArguments, true);
+        return addArguments(addArguments, true);
     }
 
     /**
@@ -290,7 +290,7 @@ public class CommandLine {
      * @return The command line itself
      */
     public CommandLine addArguments(final String[] addArguments) {
-        return this.addArguments(addArguments, true);
+        return addArguments(addArguments, true);
     }
 
     /**
@@ -306,7 +306,6 @@ public class CommandLine {
                 addArgument(addArgument, handleQuoting);
             }
         }
-
         return this;
     }
 
@@ -317,7 +316,7 @@ public class CommandLine {
      * @return the expanded string
      */
     private String expandArgument(final String argument) {
-        final StringBuffer stringBuffer = StringUtils.stringSubstitution(argument, this.getSubstitutionMap(), true);
+        final StringBuffer stringBuffer = StringUtils.stringSubstitution(argument, getSubstitutionMap(), true);
         return stringBuffer.toString();
     }
 
@@ -414,7 +413,7 @@ public class CommandLine {
      */
     public String[] toStrings() {
         final String[] result = new String[arguments.size() + 1];
-        result[0] = this.getExecutable();
+        result[0] = getExecutable();
         System.arraycopy(getArguments(), 0, result, 1, result.length - 1);
         return result;
     }
