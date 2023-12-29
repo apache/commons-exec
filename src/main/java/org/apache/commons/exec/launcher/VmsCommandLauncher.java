@@ -43,16 +43,16 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
         final Path path = Files.createTempFile("EXEC", ".TMP");
         final File script = path.toFile();
         script.deleteOnExit();
-        try (PrintWriter out = new PrintWriter(Files.newBufferedWriter(path, Charset.defaultCharset()))) {
+        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(path, Charset.defaultCharset()))) {
             // add the environment as global symbols for the DCL script
             if (env != null) {
                 final Set<Entry<String, String>> entries = env.entrySet();
 
                 for (final Entry<String, String> entry : entries) {
-                    out.print("$ ");
-                    out.print(entry.getKey());
-                    out.print(" == "); // define as global symbol
-                    out.println('\"');
+                    writer.print("$ ");
+                    writer.print(entry.getKey());
+                    writer.print(" == "); // define as global symbol
+                    writer.println('\"');
                     String value = entry.getValue();
                     // Any embedded " values need to be doubled
                     if (value.indexOf('\"') > 0) {
@@ -66,36 +66,36 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
                         }
                         value = sb.toString();
                     }
-                    out.print(value);
-                    out.println('\"');
+                    writer.print(value);
+                    writer.println('\"');
                 }
             }
 
             final String command = cmd.getExecutable();
             if (cmd.isFile()) {// We assume it is it a script file
-                out.print("$ @");
+                writer.print("$ @");
                 // This is a bit crude, but seems to work
                 final String[] parts = StringUtils.split(command, "/");
-                out.print(parts[0]); // device
-                out.print(":[");
-                out.print(parts[1]); // top level directory
+                writer.print(parts[0]); // device
+                writer.print(":[");
+                writer.print(parts[1]); // top level directory
                 final int lastPart = parts.length - 1;
                 for (int i = 2; i < lastPart; i++) {
-                    out.print(".");
-                    out.print(parts[i]);
+                    writer.print(".");
+                    writer.print(parts[i]);
                 }
-                out.print("]");
-                out.print(parts[lastPart]);
+                writer.print("]");
+                writer.print(parts[lastPart]);
             } else {
-                out.print("$ ");
-                out.print(command);
+                writer.print("$ ");
+                writer.print(command);
             }
             final String[] args = cmd.getArguments();
             for (final String arg : args) {
-                out.println(" -");
-                out.print(arg);
+                writer.println(" -");
+                writer.print(arg);
             }
-            out.println();
+            writer.println();
         }
         return script;
     }
