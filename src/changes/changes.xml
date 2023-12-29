@@ -58,6 +58,7 @@
             <action dev="ggregory" type="remove" due-to="Gary Gregory">Deprecate ExecuteWatchdog.ExecuteWatchdog(long).</action>
             <action dev="ggregory" type="remove" due-to="Gary Gregory">Deprecate Watchdog.Watchdog(long).</action>
             <action dev="ggregory" type="remove" due-to="Gary Gregory">Drop obsolete and unmaintained Ant build.</action>
+            <action dev="ggregory" type="remove" due-to="Gary Gregory">Drop CLIRR plugin, replaced by JApiCmp.</action>
             <!-- UPDATE -->
             <action dev="ggregory" type="update" due-to="Gary Gregory, Dependabot">
                 Bump github actions #52.
