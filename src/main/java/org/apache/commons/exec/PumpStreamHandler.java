@@ -217,7 +217,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Sets maximum time to wait until output streams are exchausted when {@link #stop()} was called.
+     * Sets maximum time to wait until output streams are exhausted when {@link #stop()} was called.
      *
      * @param timeout timeout in milliseconds or zero to wait forever (default)
      */
