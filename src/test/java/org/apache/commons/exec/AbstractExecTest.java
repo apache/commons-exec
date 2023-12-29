@@ -17,10 +17,10 @@
 
 package org.apache.commons.exec;
 
+import java.io.File;
+
 import org.junit.Rule;
 import org.junit.rules.TestName;
-
-import java.io.File;
 
 public abstract class AbstractExecTest {
 

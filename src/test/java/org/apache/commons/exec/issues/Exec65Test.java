@@ -17,6 +17,10 @@
 
 package org.apache.commons.exec.issues;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.File;
+
 import org.apache.commons.exec.AbstractExecTest;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
@@ -26,10 +30,6 @@ import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.junit.Assume;
 import org.junit.Test;
-
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
 
 /**
  * Test to show that watchdog can destroy 'sudo' and 'sleep'.

@@ -17,6 +17,8 @@
 
 package org.apache.commons.exec.issues;
 
+import java.io.IOException;
+
 import org.apache.commons.exec.AbstractExecTest;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
@@ -24,8 +26,6 @@ import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import java.io.IOException;
 
 /**
  * Test EXEC-57 (https://issues.apache.org/jira/browse/EXEC-57).
