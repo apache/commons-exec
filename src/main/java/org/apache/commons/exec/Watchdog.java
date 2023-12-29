@@ -18,7 +18,6 @@
 package org.apache.commons.exec;
 
 import java.time.Duration;
-import java.util.Enumeration;
 import java.util.Vector;
 
 /**
@@ -66,10 +65,7 @@ public class Watchdog implements Runnable {
     }
 
     protected final void fireTimeoutOccured() {
-        final Enumeration<TimeoutObserver> e = observers.elements();
-        while (e.hasMoreElements()) {
-            e.nextElement().timeoutOccured(this);
-        }
+        observers.forEach(o -> o.timeoutOccured(this));
     }
 
     public void removeTimeoutObserver(final TimeoutObserver to) {
