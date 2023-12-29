@@ -403,7 +403,7 @@ public class CommandLine {
      */
     @Override
     public String toString() {
-        return "[" + StringUtils.toString(toStrings(), ", ") + "]";
+        return "[" + String.join(", ", toStrings()) + "]";
     }
 
     /**

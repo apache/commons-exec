@@ -42,6 +42,7 @@
             <action dev="ggregory" type="fix" due-to="ArdenL-Liu, Gary Gregory">[Javadoc] CommandLine.toCleanExecutable(final String dirtyExecutable) IllegalArgumentException #61.</action>
             <action dev="ggregory" type="fix" due-to="Gary Gregory">ExecuteException propagates its cause to its IOException superclass.</action>
             <action dev="ggregory" type="fix" due-to="Gary Gregory">Propagate exception in DebugUtils.handleException(String, Exception).</action>
+            <action dev="ggregory" type="fix" due-to="Gary Gregory">Deprecate StringUtils.toString(String[], String) in favor of String#join(CharSequence, CharSequence...).</action>
             <!-- REMOVE -->
             <action dev="ggregory" type="remove" due-to="Gary Gregory">Deprecate DefaultExecuteResultHandler.waitFor(long).</action>
             <action dev="ggregory" type="remove" due-to="Gary Gregory">Deprecate ExecuteWatchdog.ExecuteWatchdog(long).</action>

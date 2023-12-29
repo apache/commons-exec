@@ -39,7 +39,6 @@ public class StringUtils {
 
     /**
      * Fixes the file separator char for the target platform using the following replacement.
-     *
      * <ul>
      * <li>'/' &#x2192; File.separatorChar</li>
      * <li>'\\' &#x2192; File.separatorChar</li>
@@ -223,12 +222,13 @@ public class StringUtils {
     /**
      * Concatenates an array of string using a separator.
      *
-     * @param strings   the strings to concatenate
-     * @param separator the separator between two strings
-     * @return the concatenated strings
+     * @param strings   the strings to concatenate.
+     * @param separator the separator between two strings.
+     * @return the concatenated strings.
+     * @deprecated Use {@link String#join(CharSequence, CharSequence...)}.
      */
+    @Deprecated
     public static String toString(final String[] strings, final String separator) {
-        final String sb = String.join(separator, strings);
-        return sb;
+        return String.join(separator, strings);
     }
 }

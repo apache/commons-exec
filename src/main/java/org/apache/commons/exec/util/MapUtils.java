@@ -46,9 +46,7 @@ public class MapUtils {
      * @return the merged map
      */
     public static <K, V> Map<K, V> merge(final Map<K, V> lhs, final Map<K, V> rhs) {
-
         Map<K, V> result = null;
-
         if (lhs == null || lhs.isEmpty()) {
             result = copy(rhs);
         } else if (rhs == null || rhs.isEmpty()) {
@@ -57,7 +55,6 @@ public class MapUtils {
             result = copy(lhs);
             result.putAll(rhs);
         }
-
         return result;
     }
 
@@ -71,19 +68,15 @@ public class MapUtils {
      * @return the clone of the source map
      */
     public static <K, V> Map<String, V> prefix(final Map<K, V> source, final String prefix) {
-
         if (source == null) {
             return null;
         }
-
         final Map<String, V> result = new HashMap<>();
-
         for (final Map.Entry<K, V> entry : source.entrySet()) {
             final K key = entry.getKey();
             final V value = entry.getValue();
             result.put(prefix + '.' + key.toString(), value);
         }
-
         return result;
     }
 }
