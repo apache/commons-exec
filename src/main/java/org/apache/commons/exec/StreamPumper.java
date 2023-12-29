@@ -47,7 +47,7 @@ public class StreamPumper implements Runnable {
     private final boolean closeWhenExhausted;
 
     /**
-     * Create a new stream pumper.
+     * Constructs a new stream pumper.
      *
      * @param is input stream to read data from
      * @param os output stream to write data to.
@@ -57,7 +57,7 @@ public class StreamPumper implements Runnable {
     }
 
     /**
-     * Create a new stream pumper.
+     * Constructs a new stream pumper.
      *
      * @param is                 input stream to read data from
      * @param os                 output stream to write data to.
@@ -71,7 +71,7 @@ public class StreamPumper implements Runnable {
     }
 
     /**
-     * Create a new stream pumper.
+     * Constructs a new stream pumper.
      *
      * @param is                 input stream to read data from
      * @param os                 output stream to write data to.
@@ -86,7 +86,7 @@ public class StreamPumper implements Runnable {
     }
 
     /**
-     * Tells whether the end of the stream has been reached.
+     * Tests whether the end of the stream has been reached.
      *
      * @return true is the stream has been exhausted.
      */
