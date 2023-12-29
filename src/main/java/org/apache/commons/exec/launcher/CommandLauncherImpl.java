@@ -32,8 +32,7 @@ public abstract class CommandLauncherImpl implements CommandLauncher {
 
     @Override
     public Process exec(final CommandLine cmd, final Map<String, String> env) throws IOException {
-        final String[] envVar = EnvironmentUtils.toStrings(env);
-        return Runtime.getRuntime().exec(cmd.toStrings(), envVar);
+        return Runtime.getRuntime().exec(cmd.toStrings(), EnvironmentUtils.toStrings(env));
     }
 
     @Override
