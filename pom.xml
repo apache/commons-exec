@@ -58,7 +58,7 @@
     </dependencies>
 
     <build>
-        <defaultGoal>clean verify apache-rat:check japicmp:cmp checkstyle:check pmd:cpd-check pmd:check javadoc:javadoc spotbugs:check</defaultGoal>
+        <defaultGoal>clean artifact:check-buildplan verify apache-rat:check japicmp:cmp checkstyle:check pmd:cpd-check pmd:check javadoc:javadoc spotbugs:check</defaultGoal>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -208,6 +208,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
         <test>*Test</test>
+        <project.build.outputTimestamp>2024-01-01T00:00:00Z</project.build.outputTimestamp>
     </properties>
 
     <developers>
