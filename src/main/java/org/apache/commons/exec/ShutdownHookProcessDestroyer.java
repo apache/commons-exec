@@ -98,7 +98,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
     }
 
     /**
-     * Returns whether or not the ProcessDestroyer is registered as shutdown hook
+     * Tests whether or not the ProcessDestroyer is registered as shutdown hook
      *
      * @return true if this is currently added as shutdown hook
      */
