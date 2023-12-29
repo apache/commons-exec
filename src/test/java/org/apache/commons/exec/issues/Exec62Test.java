@@ -73,7 +73,7 @@ public class Exec62Test {
         Files.delete(outputFile);
     }
 
-    @Disabled("Test behaves differently between Mac OS X and Linux - don't know why")
+    @Disabled("Test behaves differently between macOS X and Linux - don't know why")
     @Test
     @Timeout(value = 10, unit = TimeUnit.SECONDS)
     public void testMe() throws Exception {

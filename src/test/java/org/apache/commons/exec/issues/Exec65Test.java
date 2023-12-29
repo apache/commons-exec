@@ -43,7 +43,7 @@ import org.junit.jupiter.api.Timeout;
 public class Exec65Test extends AbstractExecTest {
 
     /**
-     * This test currently only works for Mac OS X
+     * This test currently only works for macOS X
      * <ul>
      * <li>Linux hangs on the process stream while the process is finished</li>
      * <li>Windows seems to have similar problems</li>

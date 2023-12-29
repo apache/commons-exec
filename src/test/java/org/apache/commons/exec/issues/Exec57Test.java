@@ -40,7 +40,7 @@ public class Exec57Test extends AbstractExecTest {
      * but if the stop timeout is exceeded an ExecuteException is thrown to notify the caller. But this case the threads are still around causing a resource
      * leak.
      *
-     * @TODO [EXEC-57] Broken for Mac OS X & Linux
+     * @TODO [EXEC-57] Broken for macOS X & Linux
      */
     @Disabled("Broken for Unix-based systems")
     @Test
@@ -57,7 +57,7 @@ public class Exec57Test extends AbstractExecTest {
     }
 
     /**
-     * The same approach using a completely detached process works nicely on Mac OS X.
+     * The same approach using a completely detached process works nicely on macOS X.
      *
      * @throws IOException
      */
