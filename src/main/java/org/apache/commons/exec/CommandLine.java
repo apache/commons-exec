@@ -21,6 +21,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -98,7 +99,7 @@ public class CommandLine {
      * @return the command line broken into strings. An empty or null toProcess parameter results in a zero sized array
      */
     private static String[] translateCommandline(final String toProcess) {
-        if (toProcess == null || toProcess.isEmpty()) {
+        if (toProcess == null || toProcess.trim().isEmpty()) {
             // no command? no string
             return new String[0];
         }
@@ -211,7 +212,9 @@ public class CommandLine {
     /**
      * Create a command line without any arguments.
      *
-     * @param executable the executable
+     * @param executable the executable.
+     * @throws NullPointerException on null input.
+     * @throws IllegalArgumentException on empty input.
      */
     public CommandLine(final String executable) {
         this.isFile = false;
@@ -380,13 +383,13 @@ public class CommandLine {
     /**
      * Cleans the executable string. The argument is trimmed and '/' and '\\' are replaced with the platform specific file separator char
      *
-     * @param dirtyExecutable the executable
-     * @return the platform-specific executable string
+     * @param dirtyExecutable the executable.
+     * @return the platform-specific executable string.
+     * @throws NullPointerException on null input.
+     * @throws IllegalArgumentException on empty input.
      */
     private String toCleanExecutable(final String dirtyExecutable) {
-        if (dirtyExecutable == null) {
-            throw new IllegalArgumentException("Executable can not be null");
-        }
+        Objects.requireNonNull(dirtyExecutable, "dirtyExecutable");
         if (dirtyExecutable.trim().isEmpty()) {
             throw new IllegalArgumentException("Executable can not be empty");
         }

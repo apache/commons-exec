@@ -19,6 +19,7 @@ package org.apache.commons.exec;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -357,12 +358,7 @@ public class CommandLineTest {
 
     @Test
     public void testNullExecutable() {
-        try {
-            new CommandLine((String) null);
-            fail("Must throw IllegalArgumentException");
-        } catch (final IllegalArgumentException e) {
-            // Expected
-        }
+        assertThrows(NullPointerException.class, () -> new CommandLine((String) null));
     }
 
     @Test
