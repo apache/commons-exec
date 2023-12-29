@@ -28,7 +28,7 @@ import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.exec.TestUtil;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the patch for EXEC-41 (https://issues.apache.org/jira/browse/EXEC-41).

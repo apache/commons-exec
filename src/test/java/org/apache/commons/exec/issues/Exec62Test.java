@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.apache.commons.exec.CommandLine;
@@ -29,10 +30,11 @@ import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.exec.TestUtil;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 /**
  * @see <a href="https://issues.apache.org/jira/browse/EXEC-62">EXEC-62</a>
@@ -61,18 +63,19 @@ public class Exec62Test {
         }
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         outputFile = Files.createTempFile("foo", ".log");
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         Files.delete(outputFile);
     }
 
-    @Ignore("Test behaves differently between Mac OS X and Linux - don't know why")
-    @Test(expected = TimeoutException.class, timeout = 10000)
+    @Disabled("Test behaves differently between Mac OS X and Linux - don't know why")
+    @Test
+    @Timeout(value = 10, unit = TimeUnit.SECONDS)
     public void testMe() throws Exception {
         if (OS.isFamilyUnix()) {
             execute("exec-62");

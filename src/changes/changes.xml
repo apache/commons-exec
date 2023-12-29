@@ -50,6 +50,9 @@
             <action dev="ggregory" type="fix" due-to="step-security-bot, Gary Gregory">
                 [StepSecurity] ci: Harden GitHub Actions #107.
             </action>
+            <action dev="ggregory" type="fix" due-to="Gary Gregory">
+                Port from JUnit 4 to 5.
+            </action>
             <!-- REMOVE -->
             <action dev="ggregory" type="remove" due-to="Gary Gregory">Deprecate DefaultExecuteResultHandler.waitFor(long).</action>
             <action dev="ggregory" type="remove" due-to="Gary Gregory">Deprecate ExecuteWatchdog.ExecuteWatchdog(long).</action>

@@ -31,10 +31,10 @@ import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.exec.TestUtil;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test EXEC-36 see https://issues.apache.org/jira/browse/EXEC-36
@@ -51,7 +51,7 @@ public class Exec36Test {
      * Some complex real-life command line from http://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
      */
     @Test
-    @Ignore
+    @Disabled
     public void _testExec36_4() throws Exception {
 
         CommandLine cmdl;
@@ -73,7 +73,7 @@ public class Exec36Test {
      * Some complex real-life command line from http://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
      */
     @Test
-    @Ignore
+    @Disabled
     public void _testExec36_5() {
 
         CommandLine cmdl;
@@ -94,7 +94,7 @@ public class Exec36Test {
      * C:\CVS_DB\WeightsEngine /f WeightsEngine.mak CFG="WeightsEngine - Win32Release"
      */
     @Test
-    @Ignore
+    @Disabled
     public void _testExec36_6() {
 
         final String commandline = "C:\\CVS_DB\\WeightsEngine /f WeightsEngine.mak CFG=\"WeightsEngine - Win32Release\"";
@@ -106,14 +106,14 @@ public class Exec36Test {
         assertEquals("CFG=\"WeightsEngine - Win32Release\"", args[2]);
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         // prepare a ready to Executor
         this.baos = new ByteArrayOutputStream();
         this.exec.setStreamHandler(new PumpStreamHandler(baos, baos));
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         this.baos.close();
     }

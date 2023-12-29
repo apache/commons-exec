@@ -17,9 +17,9 @@
 
 package org.apache.commons.exec;
 
-import java.io.File;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import junit.framework.AssertionFailedError;
+import java.io.File;
 
 /**
  */
@@ -40,7 +40,8 @@ public final class TestUtil {
         if (OS.isFamilyOpenVms()) {
             return new int[] { 1, 2 };
         }
-        throw new AssertionFailedError("Test not supported for this OS");
+        fail("Test not supported for this OS");
+        return null; // unreachable.
     }
 
     public static File resolveScriptForOS(final String script) {
@@ -53,7 +54,8 @@ public final class TestUtil {
         if (OS.isFamilyOpenVms()) {
             return new File(script + ".dcl");
         }
-        throw new AssertionFailedError("Test not supported for this OS");
+        fail("Test not supported for this OS");
+        return null; // unreachable.
     }
 
     private TestUtil() {

@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.exec.OS;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  */

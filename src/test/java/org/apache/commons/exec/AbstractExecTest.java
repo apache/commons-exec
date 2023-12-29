@@ -19,9 +19,6 @@ package org.apache.commons.exec;
 
 import java.io.File;
 
-import org.junit.Rule;
-import org.junit.rules.TestName;
-
 public abstract class AbstractExecTest {
 
     public static final int TEST_TIMEOUT = 15000;
@@ -30,16 +27,6 @@ public abstract class AbstractExecTest {
     private static final String OS_NAME = System.getProperty("os.name");
 
     private final File testDir = new File("src/test/scripts");
-
-    @Rule
-    public TestName name = new TestName();
-
-    /**
-     * Gets the name of the currently executed test.
-     */
-    protected String getName() {
-        return name.getMethodName();
-    }
 
     /**
      * Resolve the OS-specific test file to execute.
@@ -64,13 +51,13 @@ public abstract class AbstractExecTest {
     }
 
     protected String testIsBrokenForCurrentOperatingSystem() {
-        final String msg = String.format("The test '%s' is broken for OS : %s", name.getMethodName(), OS_NAME);
+        final String msg = String.format("The test is broken for OS : %s", OS_NAME);
         System.err.println(msg);
         return msg;
     }
 
     protected String testNotSupportedForCurrentOperatingSystem() {
-        final String msg = String.format("The test '%s' is not possible for OS : %s", name.getMethodName(), OS_NAME);
+        final String msg = String.format("The test is not possible for OS : %s", OS_NAME);
         System.out.println(msg);
         return msg;
     }

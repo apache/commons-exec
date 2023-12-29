@@ -21,15 +21,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Placeholder for mailing list question - provided a minimal test case to answer the question as sel-contained regression test.
  */
 public class StandAloneTest {
 
-    @BeforeClass
+    @BeforeAll
     public static void classSetUp() {
         System.setProperty("org.apache.commons.exec.lenient", "false");
         System.setProperty("org.apache.commons.exec.debug", "true");

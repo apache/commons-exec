@@ -27,8 +27,8 @@ import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteException;
 import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.Executor;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test EXEC-60 (https://issues.apache.org/jira/browse/EXEC-60).
@@ -42,7 +42,7 @@ public class Exec60Test extends AbstractExecTest {
      * Possible deadlock when a process is terminating at the same time its timing out. Please note that a successful test is no proof that the issues was
      * indeed fixed.
      */
-    @Ignore("The test is fragile and might fail out of the blue")
+    @Disabled("The test is fragile and might fail out of the blue")
     @Test
     public void testExec_60() throws Exception {
 

@@ -40,11 +40,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.exec.environment.EnvironmentUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  */
@@ -58,7 +58,7 @@ public class DefaultExecutorTest {
     private static int SUCCESS_STATUS; // test script successful exit code
     private static int ERROR_STATUS; // test script error exit code
 
-    @BeforeClass
+    @BeforeAll
     public static void classSetUp() {
 
         final int[] statuses = TestUtil.getTestScriptCodesForOS();
@@ -94,7 +94,7 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    @Ignore
+    @Disabled
     public void _testExecuteStability() throws Exception {
 
         // make a plain-vanilla test
@@ -154,7 +154,7 @@ public class DefaultExecutorTest {
         return contents.toString();
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
 
         // delete the marker file
@@ -168,7 +168,7 @@ public class DefaultExecutorTest {
         this.exec.setStreamHandler(new PumpStreamHandler(baos, baos));
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         this.baos.close();
         foreverOutputFile.delete();

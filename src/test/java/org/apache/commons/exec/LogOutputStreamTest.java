@@ -24,11 +24,11 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the LogOutputStream.
@@ -58,7 +58,7 @@ public class LogOutputStreamTest {
         }
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void classSetUp() {
         // turn on debug mode and throw an exception for each encountered problem
         System.setProperty("org.apache.commons.exec.lenient", "false");
@@ -73,7 +73,7 @@ public class LogOutputStreamTest {
 
     private final File utf8CharacterScript = TestUtil.resolveScriptForOS(testDir + "/utf8Characters");
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
 
     }
@@ -82,7 +82,7 @@ public class LogOutputStreamTest {
     // Start of regression tests
     // ======================================================================
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         if (this.systemOut != null) {
             this.systemOut.close();
@@ -104,7 +104,7 @@ public class LogOutputStreamTest {
     // ======================================================================
 
     @Test
-    @Ignore("The file utf8CharacterScript is missing from the repository and is not in its history")
+    @Disabled("The file utf8CharacterScript is missing from the repository and is not in its history")
     public void testStdoutWithUTF8Characters() throws Exception {
         this.systemOut = new SystemLogOutputStream(1, StandardCharsets.UTF_8);
         this.exec.setStreamHandler(new PumpStreamHandler(systemOut, systemOut));
