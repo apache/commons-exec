@@ -17,12 +17,14 @@
 
 package org.apache.commons.exec;
 
-import org.apache.commons.exec.util.DebugUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PipedOutputStream;
+import java.time.Duration;
+import java.time.Instant;
+
+import org.apache.commons.exec.util.DebugUtils;
 
 /**
  * Copies standard output and error of sub-processes to standard output and error of the parent process. If output or error stream are set to null, any feedback
@@ -30,7 +32,7 @@ import java.io.PipedOutputStream;
  */
 public class PumpStreamHandler implements ExecuteStreamHandler {
 
-    private static final long STOP_TIMEOUT_ADDITION_MILLIS = 2000L;
+    private static final Duration STOP_TIMEOUT_ADDITION = Duration.ofSeconds(2);
 
     private Thread outputThread;
 
@@ -46,8 +48,8 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
 
     private InputStreamPumper inputStreamPumper;
 
-    /** The timeout in milliseconds the implementation waits when stopping the pumper threads. */
-    private long stopTimeout;
+    /** The timeout Duration the implementation waits when stopping the pumper threads. */
+    private Duration stopTimeout = Duration.ZERO;
 
     /** The last exception being caught. */
     private IOException caught;
@@ -169,6 +171,10 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
         return out;
     }
 
+    Duration getStopTimeout() {
+        return stopTimeout;
+    }
+
     /**
      * Sets the {@link InputStream} from which to read the standard error of the process.
      *
@@ -219,10 +225,22 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Sets maximum time to wait until output streams are exhausted when {@link #stop()} was called.
      *
-     * @param timeout timeout in milliseconds or zero to wait forever (default)
+     * @param timeout timeout or zero to wait forever (default).
+     * @since 1.4.0
      */
+    public void setStopTimeout(final Duration timeout) {
+        this.stopTimeout = timeout != null ? timeout : Duration.ZERO;
+    }
+
+    /**
+     * Sets maximum time to wait until output streams are exhausted when {@link #stop()} was called.
+     *
+     * @param timeout timeout in milliseconds or zero to wait forever (default).
+     * @deprecated Use {@link #setStopTimeout(Duration)}.
+     */
+    @Deprecated
     public void setStopTimeout(final long timeout) {
-        this.stopTimeout = timeout;
+        this.stopTimeout = Duration.ofMillis(timeout);
     }
 
     /**
@@ -283,26 +301,35 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * timeout was exceeded an IOException is created to be thrown to the caller.
      *
      * @param thread        the thread to be stopped.
-     * @param timeoutMillis the time in ms to wait to join.
+     * @param timeout the time in ms to wait to join.
      */
-    protected void stopThread(final Thread thread, final long timeoutMillis) {
-
+    private void stopThread(final Thread thread, final Duration timeout) {
         if (thread != null) {
             try {
-                if (timeoutMillis == 0) {
+                if (timeout.equals(Duration.ZERO)) {
                     thread.join();
                 } else {
-                    final long timeToWaitMillis = timeoutMillis + STOP_TIMEOUT_ADDITION_MILLIS;
-                    final long startTimeMillis = System.currentTimeMillis();
-                    thread.join(timeToWaitMillis);
-                    if (System.currentTimeMillis() > startTimeMillis + timeToWaitMillis) {
-                        final String msg = "The stop timeout of " + timeoutMillis + " ms was exceeded";
-                        caught = new ExecuteException(msg, Executor.INVALID_EXITVALUE);
+                    final Duration timeToWait = timeout.plus(STOP_TIMEOUT_ADDITION);
+                    final Instant startTime = Instant.now();
+                    thread.join(timeToWait.toMillis());
+                    if (Instant.now().isAfter(startTime.plus(timeToWait))) {
+                        caught = new ExecuteException("The stop timeout of " + timeout + " ms was exceeded", Executor.INVALID_EXITVALUE);
                     }
                 }
             } catch (final InterruptedException e) {
                 thread.interrupt();
             }
         }
+    }
+
+    /**
+     * Stops a pumper thread. The implementation actually waits longer than specified in 'timeout' to detect if the timeout was indeed exceeded. If the
+     * timeout was exceeded an IOException is created to be thrown to the caller.
+     *
+     * @param thread        the thread to be stopped.
+     * @param timeoutMillis the time in ms to wait to join.
+     */
+    protected void stopThread(final Thread thread, final long timeoutMillis) {
+        stopThread(thread, Duration.ofMillis(timeoutMillis));
     }
 }

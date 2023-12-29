@@ -31,6 +31,7 @@
             <action dev="ggregory" type="add" due-to="Gary Gregory">Add DefaultExecuteResultHandler.waitFor(Duration).</action>
             <action dev="ggregory" type="add" due-to="Gary Gregory">Add Watchdog.Watchdog(Duration).</action>
             <action dev="ggregory" type="add" due-to="Gary Gregory">Add ExecuteWatchdog.ExecuteWatchdog(Duration).</action>
+            <action dev="ggregory" type="add" due-to="Gary Gregory">Add PumpStreamHandler.setStopTimeout(Duration) and deprecate PumpStreamHandler.setStopTimeout(long).</action>
             <!-- FIX -->
             <action issue="EXEC-105" type="fix" date="2023-07-16" due-to="Dimitrios Efthymiou">Fix code snippet in tutorial page.</action>
             <action issue="EXEC-100" dev="sgoeschl" type="fix" date="2016-01-11">Sync org.apache.commons.exec.OS with the newest Ant source file.</action>
