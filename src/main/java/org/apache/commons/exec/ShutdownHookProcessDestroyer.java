@@ -17,7 +17,6 @@
 
 package org.apache.commons.exec;
 
-import java.util.Enumeration;
 import java.util.Vector;
 
 /**
@@ -166,15 +165,13 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
     public void run() {
         synchronized (processes) {
             running = true;
-            final Enumeration<Process> e = processes.elements();
-            while (e.hasMoreElements()) {
-                final Process process = e.nextElement();
+            processes.forEach(process -> {
                 try {
                     process.destroy();
                 } catch (final Throwable t) {
                     System.err.println("Unable to terminate process during process shutdown");
                 }
-            }
+            });
         }
     }
 
