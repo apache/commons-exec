@@ -85,7 +85,7 @@ public class DefaultExecutor implements Executor {
     /**
      * Close the streams belonging to the given Process.
      *
-     * @param process the <CODE>Process</CODE>.
+     * @param process the {@link Process}.
      */
     private void closeProcessStreams(final Process process) {
 

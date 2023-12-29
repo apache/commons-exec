@@ -53,37 +53,37 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     private IOException caught;
 
     /**
-     * Constructs a new <CODE>PumpStreamHandler</CODE>.
+     * Constructs a new {@link PumpStreamHandler}.
      */
     public PumpStreamHandler() {
         this(System.out, System.err);
     }
 
     /**
-     * Constructs a new <CODE>PumpStreamHandler</CODE>.
+     * Constructs a new {@link PumpStreamHandler}.
      *
-     * @param outAndErr the output/error <CODE>OutputStream</CODE>.
+     * @param outAndErr the output/error {@link OutputStream}.
      */
     public PumpStreamHandler(final OutputStream outAndErr) {
         this(outAndErr, outAndErr);
     }
 
     /**
-     * Constructs a new <CODE>PumpStreamHandler</CODE>.
+     * Constructs a new {@link PumpStreamHandler}.
      *
-     * @param out the output <CODE>OutputStream</CODE>.
-     * @param err the error <CODE>OutputStream</CODE>.
+     * @param out the output {@link OutputStream}.
+     * @param err the error {@link OutputStream}.
      */
     public PumpStreamHandler(final OutputStream out, final OutputStream err) {
         this(out, err, null);
     }
 
     /**
-     * Constructs a new <CODE>PumpStreamHandler</CODE>.
+     * Constructs a new {@link PumpStreamHandler}.
      *
-     * @param out   the output <CODE>OutputStream</CODE>.
-     * @param err   the error <CODE>OutputStream</CODE>.
-     * @param input the input <CODE>InputStream</CODE>.
+     * @param out   the output {@link OutputStream}.
+     * @param err   the error {@link OutputStream}.
+     * @param input the input {@link InputStream}.
      */
     public PumpStreamHandler(final OutputStream out, final OutputStream err, final InputStream input) {
         this.out = out;
@@ -94,8 +94,8 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Create the pump to handle error output.
      *
-     * @param is the <CODE>InputStream</CODE>.
-     * @param os the <CODE>OutputStream</CODE>.
+     * @param is the {@link InputStream}.
+     * @param os the {@link OutputStream}.
      */
     protected void createProcessErrorPump(final InputStream is, final OutputStream os) {
         errorThread = createPump(is, os);
@@ -104,8 +104,8 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Create the pump to handle process output.
      *
-     * @param is the <CODE>InputStream</CODE>.
-     * @param os the <CODE>OutputStream</CODE>.
+     * @param is the {@link InputStream}.
+     * @param os the {@link OutputStream}.
      */
     protected void createProcessOutputPump(final InputStream is, final OutputStream os) {
         outputThread = createPump(is, os);
@@ -154,7 +154,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Gets the error stream.
      *
-     * @return <CODE>OutputStream</CODE>.
+     * @return {@link OutputStream}.
      */
     protected OutputStream getErr() {
         return err;
@@ -163,16 +163,16 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Gets the output stream.
      *
-     * @return <CODE>OutputStream</CODE>.
+     * @return {@link OutputStream}.
      */
     protected OutputStream getOut() {
         return out;
     }
 
     /**
-     * Sets the <CODE>InputStream</CODE> from which to read the standard error of the process.
+     * Sets the {@link InputStream} from which to read the standard error of the process.
      *
-     * @param is the <CODE>InputStream</CODE>.
+     * @param is the {@link InputStream}.
      */
     @Override
     public void setProcessErrorStream(final InputStream is) {
@@ -182,9 +182,9 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Sets the <CODE>OutputStream</CODE> by means of which input can be sent to the process.
+     * Sets the {@link OutputStream} by means of which input can be sent to the process.
      *
-     * @param os the <CODE>OutputStream</CODE>.
+     * @param os the {@link OutputStream}.
      */
     @Override
     public void setProcessInputStream(final OutputStream os) {
@@ -205,9 +205,9 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Sets the <CODE>InputStream</CODE> from which to read the standard output of the process.
+     * Sets the {@link InputStream} from which to read the standard output of the process.
      *
-     * @param is the <CODE>InputStream</CODE>.
+     * @param is the {@link InputStream}.
      */
     @Override
     public void setProcessOutputStream(final InputStream is) {
@@ -226,7 +226,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Start the <CODE>Thread</CODE>s.
+     * Start the {@link Thread}s.
      */
     @Override
     public void start() {
