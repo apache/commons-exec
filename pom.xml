@@ -58,7 +58,19 @@
     </dependencies>
 
     <build>
-        <defaultGoal>clean verify apache-rat:check japicmp:cmp checkstyle:check pmd:cpd-check pmd:check javadoc:javadoc</defaultGoal>     
+        <defaultGoal>clean verify apache-rat:check japicmp:cmp checkstyle:check pmd:cpd-check pmd:check javadoc:javadoc</defaultGoal>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <configuration>
+                        <configLocation>${basedir}/src/conf/checkstyle.xml</configLocation>
+                        <enableRulesSummary>false</enableRulesSummary>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -98,14 +110,6 @@
                     </ignorePathsToDelete>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <configuration>
-                    <configLocation>${basedir}/src/conf/checkstyle.xml</configLocation>
-                    <enableRulesSummary>false</enableRulesSummary>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
@@ -137,10 +141,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <configuration>
-                    <configLocation>${basedir}/src/conf/checkstyle.xml</configLocation>
-                    <enableRulesSummary>false</enableRulesSummary>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
