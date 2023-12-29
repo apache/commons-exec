@@ -27,10 +27,10 @@ import org.apache.commons.exec.CommandLine;
  */
 public abstract class CommandLauncherProxy extends CommandLauncherImpl {
 
-    private final CommandLauncher myLauncher;
+    private final CommandLauncher launcher;
 
     public CommandLauncherProxy(final CommandLauncher launcher) {
-        myLauncher = launcher;
+        this.launcher = launcher;
     }
 
     /**
@@ -42,6 +42,6 @@ public abstract class CommandLauncherProxy extends CommandLauncherImpl {
      */
     @Override
     public Process exec(final CommandLine cmd, final Map<String, String> env) throws IOException {
-        return myLauncher.exec(cmd, env);
+        return launcher.exec(cmd, env);
     }
 }
