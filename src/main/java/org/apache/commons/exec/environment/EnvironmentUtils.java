@@ -41,8 +41,8 @@ public class EnvironmentUtils {
     /**
      * Add a key/value pair to the given environment. If the key matches an existing key, the previous setting is replaced.
      *
-     * @param environment the current environment
-     * @param keyAndValue the key/value pair
+     * @param environment the current environment.
+     * @param keyAndValue the key/value pair.
      */
     public static void addVariableToEnvironment(final Map<String, String> environment, final String keyAndValue) {
         final String[] parsedVariable = parseEnvironmentVariable(keyAndValue);
@@ -53,8 +53,8 @@ public class EnvironmentUtils {
      * Find the list of environment variables for this process. The returned map preserves the casing of a variable's name on all platforms but obeys the casing
      * rules of the current platform during lookup, e.g. key names will be case-insensitive on Windows platforms.
      *
-     * @return a map containing the environment variables, may be empty but never {@code null}
-     * @throws IOException the operation failed
+     * @return a map containing the environment variables, may be empty but never {@code null}.
+     * @throws IOException the operation failed.
      */
     public static Map<String, String> getProcEnvironment() throws IOException {
         return PROCESSING_ENVIRONMENT_IMPLEMENTATION.getProcEnvironment();
@@ -63,8 +63,8 @@ public class EnvironmentUtils {
     /**
      * Split a key/value pair into a String[]. It is assumed that the ky/value pair contains a '=' character.
      *
-     * @param keyAndValue the key/value pair
-     * @return a String[] containing the key and value
+     * @param keyAndValue the key/value pair.
+     * @return a String[] containing the key and value.
      */
     private static String[] parseEnvironmentVariable(final String keyAndValue) {
         final int index = keyAndValue.indexOf('=');
@@ -82,8 +82,8 @@ public class EnvironmentUtils {
     /**
      * Gets the variable list as an array.
      *
-     * @param environment the environment to use, may be {@code null}
-     * @return array of key=value assignment strings or {@code null} if and only if the input map was {@code null}
+     * @param environment the environment to use, may be {@code null}.
+     * @return array of key=value assignment strings or {@code null} if and only if the input map was {@code null}.
      */
     public static String[] toStrings(final Map<String, String> environment) {
         if (environment == null) {

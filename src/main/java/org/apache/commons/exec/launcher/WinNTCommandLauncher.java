@@ -34,10 +34,10 @@ public class WinNTCommandLauncher extends CommandLauncherProxy {
     /**
      * Launches the given command in a new process, in the given working directory.
      *
-     * @param cmd        the command line to execute as an array of strings
-     * @param env        the environment to set as an array of strings
-     * @param workingDir working directory where the command should run
-     * @throws IOException forwarded from the exec method of the command launcher
+     * @param cmd        the command line to execute as an array of strings.
+     * @param env        the environment to set as an array of strings.
+     * @param workingDir working directory where the command should run.
+     * @throws IOException forwarded from the exec method of the command launcher.
      */
     @Override
     public Process exec(final CommandLine cmd, final Map<String, String> env, final File workingDir) throws IOException {
@@ -45,8 +45,7 @@ public class WinNTCommandLauncher extends CommandLauncherProxy {
             return exec(cmd, env);
         }
 
-        // Use cmd.exe to change to the specified directory before running
-        // the command
+        // Use cmd.exe to change to the specified directory before running the command.
         // @formatter:off
         return exec(new CommandLine("cmd")
                 .addArgument("/c")

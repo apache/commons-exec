@@ -46,10 +46,10 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
 
     private InputStreamPumper inputStreamPumper;
 
-    /** The timeout in milliseconds the implementation waits when stopping the pumper threads */
+    /** The timeout in milliseconds the implementation waits when stopping the pumper threads. */
     private long stopTimeout;
 
-    /** The last exception being caught */
+    /** The last exception being caught. */
     private IOException caught;
 
     /**
@@ -115,9 +115,9 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * Creates a stream pumper to copy the given input stream to the given output stream. When the 'os' is an PipedOutputStream we are closing 'os' afterwards
      * to avoid an IOException ("Write end dead").
      *
-     * @param is the input stream to copy from
-     * @param os the output stream to copy into
-     * @return the stream pumper thread
+     * @param is the input stream to copy from.
+     * @param os the output stream to copy into.
+     * @return the stream pumper thread.
      */
     protected Thread createPump(final InputStream is, final OutputStream os) {
         return createPump(is, os, os instanceof PipedOutputStream);
@@ -126,10 +126,10 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Creates a stream pumper to copy the given input stream to the given output stream.
      *
-     * @param is                 the input stream to copy from
-     * @param os                 the output stream to copy into
-     * @param closeWhenExhausted close the output stream when the input stream is exhausted
-     * @return the stream pumper thread
+     * @param is                 the input stream to copy from.
+     * @param os                 the output stream to copy into.
+     * @param closeWhenExhausted close the output stream when the input stream is exhausted.
+     * @return the stream pumper thread.
      */
     protected Thread createPump(final InputStream is, final OutputStream os, final boolean closeWhenExhausted) {
         final Thread result = new Thread(new StreamPumper(is, os, closeWhenExhausted), "Exec Stream Pumper");
@@ -140,9 +140,9 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Creates a stream pumper to copy the given input stream to the given output stream.
      *
-     * @param is the System.in input stream to copy from
-     * @param os the output stream to copy into
-     * @return the stream pumper thread
+     * @param is the System.in input stream to copy from.
+     * @param os the output stream to copy into.
+     * @return the stream pumper thread.
      */
     private Thread createSystemInPump(final InputStream is, final OutputStream os) {
         inputStreamPumper = new InputStreamPumper(is, os);
@@ -282,8 +282,8 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * Stops a pumper thread. The implementation actually waits longer than specified in 'timeout' to detect if the timeout was indeed exceeded. If the
      * timeout was exceeded an IOException is created to be thrown to the caller.
      *
-     * @param thread        the thread to be stopped
-     * @param timeoutMillis the time in ms to wait to join
+     * @param thread        the thread to be stopped.
+     * @param timeoutMillis the time in ms to wait to join.
      */
     protected void stopThread(final Thread thread, final long timeoutMillis) {
 

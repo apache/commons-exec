@@ -28,28 +28,28 @@ import org.apache.commons.exec.util.DebugUtils;
  */
 public class StreamPumper implements Runnable {
 
-    /** The default size of the internal buffer for copying the streams */
+    /** The default size of the internal buffer for copying the streams. */
     private static final int DEFAULT_SIZE = 1024;
 
-    /** The input stream to pump from */
+    /** The input stream to pump from. */
     private final InputStream is;
 
-    /** The output stream to pmp into */
+    /** The output stream to pmp into. */
     private final OutputStream os;
 
-    /** The size of the internal buffer for copying the streams */
+    /** The size of the internal buffer for copying the streams. */
     private final int size;
 
-    /** Was the end of the stream reached */
+    /** Was the end of the stream reached. */
     private boolean finished;
 
-    /** Close the output stream when exhausted */
+    /** Close the output stream when exhausted. */
     private final boolean closeWhenExhausted;
 
     /**
      * Constructs a new stream pumper.
      *
-     * @param is input stream to read data from
+     * @param is input stream to read data from.
      * @param os output stream to write data to.
      */
     public StreamPumper(final InputStream is, final OutputStream os) {
@@ -59,7 +59,7 @@ public class StreamPumper implements Runnable {
     /**
      * Constructs a new stream pumper.
      *
-     * @param is                 input stream to read data from
+     * @param is                 input stream to read data from.
      * @param os                 output stream to write data to.
      * @param closeWhenExhausted if true, the output stream will be closed when the input is exhausted.
      */
@@ -73,10 +73,10 @@ public class StreamPumper implements Runnable {
     /**
      * Constructs a new stream pumper.
      *
-     * @param is                 input stream to read data from
+     * @param is                 input stream to read data from.
      * @param os                 output stream to write data to.
      * @param closeWhenExhausted if true, the output stream will be closed when the input is exhausted.
-     * @param size               the size of the internal buffer for copying the streams
+     * @param size               the size of the internal buffer for copying the streams.
      */
     public StreamPumper(final InputStream is, final OutputStream os, final boolean closeWhenExhausted, final int size) {
         this.is = is;

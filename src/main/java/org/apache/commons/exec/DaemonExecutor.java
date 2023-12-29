@@ -26,9 +26,9 @@ public class DaemonExecutor extends DefaultExecutor {
     /**
      * Factory method to create a thread waiting for the result of an asynchronous execution.
      *
-     * @param runnable the runnable passed to the thread
-     * @param name     the name of the thread
-     * @return the thread
+     * @param runnable the runnable passed to the thread.
+     * @param name     the name of the thread.
+     * @return the thread.
      */
     @Override
     protected Thread createThread(final Runnable runnable, final String name) {

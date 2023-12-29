@@ -44,32 +44,32 @@ import java.util.Map;
  */
 public class DefaultExecutor implements Executor {
 
-    /** Taking care of output and error stream */
+    /** Taking care of output and error stream. */
     private ExecuteStreamHandler streamHandler;
 
-    /** The working directory of the process */
+    /** The working directory of the process. */
     private File workingDirectory;
 
-    /** Monitoring of long running processes */
+    /** Monitoring of long running processes. */
     private ExecuteWatchdog watchdog;
 
-    /** The exit values considered to be successful */
+    /** The exit values considered to be successful. */
     private int[] exitValues;
 
-    /** Launches the command in a new process */
+    /** Launches the command in a new process. */
     private final CommandLauncher launcher;
 
-    /** Optional cleanup of started processes */
+    /** Optional cleanup of started processes. */
     private ProcessDestroyer processDestroyer;
 
-    /** Worker thread for asynchronous execution */
+    /** Worker thread for asynchronous execution. */
     private Thread executorThread;
 
-    /** The first exception being caught to be thrown to the caller */
+    /** The first exception being caught to be thrown to the caller. */
     private IOException exceptionCaught;
 
     /**
-     * Default constructor creating a default {@code PumpStreamHandler} and sets the working directory of the subprocess to the current working directory.
+     * Constructs a default {@code PumpStreamHandler} and sets the working directory of the subprocess to the current working directory.
      *
      * The {@code PumpStreamHandler} pumps the output of the subprocess into our {@code System.out} and {@code System.err} to avoid into our {@code System.out}
      * and {@code System.err} to avoid a blocked or deadlocked subprocess (see {@link Process Process}).
@@ -83,7 +83,7 @@ public class DefaultExecutor implements Executor {
     }
 
     /**
-     * Close the streams belonging to the given Process.
+     * Closes the streams belonging to the given Process.
      *
      * @param process the {@link Process}.
      */
@@ -109,10 +109,10 @@ public class DefaultExecutor implements Executor {
     }
 
     /**
-     * Factory method to create a thread waiting for the result of an asynchronous execution.
+     * Creates a thread waiting for the result of an asynchronous execution.
      *
-     * @param runnable the runnable passed to the thread
-     * @param name     the name of the thread
+     * @param runnable the runnable passed to the thread.
+     * @param name     the name of the thread.
      * @return the thread
      */
     protected Thread createThread(final Runnable runnable, final String name) {
@@ -181,12 +181,12 @@ public class DefaultExecutor implements Executor {
     /**
      * Execute an internal process. If the executing thread is interrupted while waiting for the child process to return the child process will be killed.
      *
-     * @param command     the command to execute
-     * @param environment the execution environment
-     * @param dir         the working directory
-     * @param streams     process the streams (in, out, err) of the process
-     * @return the exit code of the process
-     * @throws IOException executing the process failed
+     * @param command     the command to execute.
+     * @param environment the execution environment.
+     * @param dir         the working directory.
+     * @param streams     process the streams (in, out, err) of the process.
+     * @return the exit code of the process.
+     * @throws IOException executing the process failed.
      */
     private int executeInternal(final CommandLine command, final Map<String, String> environment, final File dir, final ExecuteStreamHandler streams)
             throws IOException {
@@ -288,7 +288,7 @@ public class DefaultExecutor implements Executor {
     /**
      * Gets the first IOException being thrown.
      *
-     * @return the first IOException being caught
+     * @return the first IOException being caught.
      */
     private IOException getExceptionCaught() {
         return this.exceptionCaught;
@@ -297,7 +297,7 @@ public class DefaultExecutor implements Executor {
     /**
      * Gets the worker thread being used for asynchronous execution.
      *
-     * @return the worker thread
+     * @return the worker thread.
      */
     protected Thread getExecutorThread() {
         return executorThread;
@@ -356,11 +356,11 @@ public class DefaultExecutor implements Executor {
     /**
      * Creates a process that runs a command.
      *
-     * @param command the command to run
-     * @param env     the environment for the command
-     * @param dir     the working directory for the command
-     * @return the process started
-     * @throws IOException forwarded from the particular launcher used
+     * @param command the command to run.
+     * @param env     the environment for the command.
+     * @param dir     the working directory for the command.
+     * @return the process started.
+     * @throws IOException forwarded from the particular launcher used.
      */
     protected Process launch(final CommandLine command, final Map<String, String> env, final File dir) throws IOException {
 
@@ -377,7 +377,7 @@ public class DefaultExecutor implements Executor {
     /**
      * Keep track of the first IOException being thrown.
      *
-     * @param e the IOException
+     * @param e the IOException.
      */
     private void setExceptionCaught(final IOException e) {
         if (this.exceptionCaught == null) {

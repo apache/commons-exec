@@ -27,10 +27,10 @@ public class MapUtils {
     /**
      * Clones a map.
      *
-     * @param source the Map to clone
-     * @param <K>    the map key type
-     * @param <V>    the map value type
-     * @return the cloned map
+     * @param source the Map to clone.
+     * @param <K>    the map key type.
+     * @param <V>    the map value type.
+     * @return the cloned map.
      */
     public static <K, V> Map<K, V> copy(final Map<K, V> source) {
         return source == null ? null : new HashMap<>(source);
@@ -39,11 +39,11 @@ public class MapUtils {
     /**
      * Clones the lhs map and add all things from the rhs map.
      *
-     * @param lhs the first map
-     * @param rhs the second map
-     * @param <K> the map key type
-     * @param <V> the map value type
-     * @return the merged map
+     * @param lhs the first map.
+     * @param rhs the second map.
+     * @param <K> the map key type.
+     * @param <V> the map value type.
+     * @return the merged map.
      */
     public static <K, V> Map<K, V> merge(final Map<K, V> lhs, final Map<K, V> rhs) {
         Map<K, V> result = null;
@@ -61,11 +61,11 @@ public class MapUtils {
     /**
      * Clones a map and prefixes the keys in the clone, e.g. for mapping "JAVA_HOME" to "env.JAVA_HOME" to simulate the behavior of Ant.
      *
-     * @param source the source map
-     * @param prefix the prefix used for all names
-     * @param <K>    the map key type
-     * @param <V>    the map value type
-     * @return the clone of the source map
+     * @param source the source map.
+     * @param prefix the prefix used for all names.
+     * @param <K>    the map key type.
+     * @param <V>    the map value type.
+     * @return the clone of the source map.
      */
     public static <K, V> Map<String, V> prefix(final Map<K, V> source, final String prefix) {
         if (source == null) {

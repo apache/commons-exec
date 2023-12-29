@@ -53,8 +53,8 @@ public class DefaultProcessingEnvironment {
     /**
      * Find the list of environment variables for this process.
      *
-     * @return a amp containing the environment variables
-     * @throws IOException the operation failed
+     * @return a amp containing the environment variables.
+     * @throws IOException the operation failed.
      */
     protected Map<String, String> createProcEnvironment() throws IOException {
         if (procEnvironment == null) {
@@ -98,8 +98,8 @@ public class DefaultProcessingEnvironment {
     /**
      * Determine the OS specific command line to get a list of environment variables.
      *
-     * @return the command line
-     * @deprecated No longer needed
+     * @return the command line.
+     * @deprecated No longer needed.
      */
     @Deprecated
     protected CommandLine getProcEnvCommand() {
@@ -151,8 +151,8 @@ public class DefaultProcessingEnvironment {
     /**
      * Find the list of environment variables for this process.
      *
-     * @return a map containing the environment variables
-     * @throws IOException obtaining the environment variables failed
+     * @return a map containing the environment variables.
+     * @throws IOException obtaining the environment variables failed.
      */
     public synchronized Map<String, String> getProcEnvironment() throws IOException {
 
@@ -197,9 +197,9 @@ public class DefaultProcessingEnvironment {
     /**
      * Start a process to list the environment variables.
      *
-     * @return a reader containing the output of the process
-     * @throws IOException starting the process failed
-     * @deprecated No longer needed
+     * @return a reader containing the output of the process.
+     * @throws IOException starting the process failed.
+     * @deprecated No longer needed.
      */
     @Deprecated
     protected BufferedReader runProcEnvCommand() throws IOException {

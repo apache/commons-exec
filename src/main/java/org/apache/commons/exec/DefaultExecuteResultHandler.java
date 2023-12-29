@@ -25,16 +25,16 @@ import java.time.Instant;
  */
 public class DefaultExecuteResultHandler implements ExecuteResultHandler {
 
-    /** The interval polling the result */
+    /** The interval polling the result. */
     private static final int SLEEP_TIME_MS = 50;
 
-    /** Keep track if the process is still running */
+    /** Keep track if the process is still running. */
     private volatile boolean hasResult;
 
-    /** The exit value of the finished process */
+    /** The exit value of the finished process. */
     private volatile int exitValue;
 
-    /** Any offending exception */
+    /** Any offending exception. */
     private volatile ExecuteException exception;
 
     /**
@@ -49,7 +49,7 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
      * Gets the {@code exception} causing the process execution to fail.
      *
      * @return Returns the exception.
-     * @throws IllegalStateException if the process has not exited yet
+     * @throws IllegalStateException if the process has not exited yet.
      */
     public ExecuteException getException() {
         if (!hasResult) {
@@ -62,7 +62,7 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
      * Gets the {@code exitValue} of the process.
      *
      * @return Returns the exitValue.
-     * @throws IllegalStateException if the process has not exited yet
+     * @throws IllegalStateException if the process has not exited yet.
      */
     public int getExitValue() {
         if (!hasResult) {
@@ -72,9 +72,9 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
     }
 
     /**
-     * Has the process exited and a result is available, i.e. exitCode or exception?
+     * Tests whether the process exited and a result is available, i.e. exitCode or exception?
      *
-     * @return true if a result of the execution is available
+     * @return true whether a result of the execution is available.
      */
     public boolean hasResult() {
         return hasResult;
@@ -117,7 +117,7 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
      * Causes the current thread to wait, if necessary, until the process has terminated. This method returns immediately if the process has already terminated.
      * If the process has not yet terminated, the calling thread will be blocked until the process exits.
      *
-     * @param timeout the maximum time to wait
+     * @param timeout the maximum time to wait.
      * @throws InterruptedException if the current thread is {@linkplain Thread#interrupt() interrupted} by another thread while it is waiting, then the wait is
      *                              ended and an {@link InterruptedException} is thrown.
      * @since 1.4.0
@@ -133,7 +133,7 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
      * Causes the current thread to wait, if necessary, until the process has terminated. This method returns immediately if the process has already terminated.
      * If the process has not yet terminated, the calling thread will be blocked until the process exits.
      *
-     * @param timeoutMillis the maximum time to wait in milliseconds
+     * @param timeoutMillis the maximum time to wait in milliseconds.
      * @throws InterruptedException if the current thread is {@linkplain Thread#interrupt() interrupted} by another thread while it is waiting, then the wait is
      *                              ended and an {@link InterruptedException} is thrown.
      * @deprecated Use {@link #waitFor(Duration)}.

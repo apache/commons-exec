@@ -28,7 +28,9 @@ import org.apache.commons.exec.CommandLine;
  * <p>
  * Unlike Windows NT and friends, OS/2's cd doesn't support the /d switch to change drives and directories in one go.
  * </p>
- * Please not that this class is currently unused because the Java13CommandLauncher is used for 0S/2
+ * <p>
+ * Note that this class is currently unused because the Java13CommandLauncher is used for 0S/2.
+ * </p>
  */
 public class OS2CommandLauncher extends CommandLauncherProxy {
 
@@ -39,10 +41,10 @@ public class OS2CommandLauncher extends CommandLauncherProxy {
     /**
      * Launches the given command in a new process, in the given working directory.
      *
-     * @param cmd        the command line to execute as an array of strings
-     * @param env        the environment to set as an array of strings
-     * @param workingDir working directory where the command should run
-     * @throws IOException forwarded from the exec method of the command launcher
+     * @param cmd        the command line to execute as an array of strings.
+     * @param env        the environment to set as an array of strings.
+     * @param workingDir working directory where the command should run.
+     * @throws IOException forwarded from the exec method of the command launcher.
      */
     @Override
     public Process exec(final CommandLine cmd, final Map<String, String> env, final File workingDir) throws IOException {

@@ -85,8 +85,8 @@ public final class OS {
     /**
      * Determines if the OS on which commons-exec is executing matches the given OS architecture.
      *
-     * @param arch the OS architecture to check for
-     * @return true if the OS matches
+     * @param arch the OS architecture to check for.
+     * @return true if the OS matches.
      */
     public static boolean isArch(final String arch) {
         return isOs(null, null, arch, null);
@@ -95,8 +95,8 @@ public final class OS {
     /**
      * Determines if the OS on which commons-exec is executing matches the given OS family.
      *
-     * @param family the family to check for
-     * @return true if the OS matches
+     * @param family the family to check for.
+     * @return true if the OS matches.
      */
     private static boolean isFamily(final String family) {
         return isOs(family, null, null, null);
@@ -153,8 +153,8 @@ public final class OS {
     /**
      * Determines if the OS on which commons-exec is executing matches the given OS name.
      *
-     * @param name the OS name to check for
-     * @return true if the OS matches
+     * @param name the OS name to check for.
+     * @return true if the OS matches.
      */
     public static boolean isName(final String name) {
         return isOs(null, name, null, null);
@@ -163,11 +163,11 @@ public final class OS {
     /**
      * Determines if the OS on which commons-exec is executing matches the given OS family, name, architecture and version.
      *
-     * @param family  The OS family
-     * @param name    The OS name
-     * @param arch    The OS architecture
-     * @param version The OS version
-     * @return true if the OS matches
+     * @param family  The OS family.
+     * @param name    The OS name.
+     * @param arch    The OS architecture.
+     * @param version The OS version.
+     * @return true if the OS matches.
      */
     public static boolean isOs(final String family, final String name, final String arch, final String version) {
         boolean retValue = false;
@@ -238,15 +238,15 @@ public final class OS {
     /**
      * Determines if the OS on which commonss-exec is executing matches the given OS version.
      *
-     * @param version the OS version to check for
-     * @return true if the OS matches
+     * @param version the OS version to check for.
+     * @return true if the OS matches.
      */
     public static boolean isVersion(final String version) {
         return isOs(null, null, null, version);
     }
 
     /**
-     * Default constructor
+     * Avoids instances.
      */
     private OS() {
     }

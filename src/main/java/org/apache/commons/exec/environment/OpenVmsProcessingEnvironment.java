@@ -27,7 +27,7 @@ package org.apache.commons.exec.environment;
 /**
  * Helper class to determine the environment variable for VMS.
  *
- * @deprecated No longer needed
+ * @deprecated No longer needed.
  */
 @Deprecated
 public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {

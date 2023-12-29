@@ -29,19 +29,19 @@ public class InputStreamPumper implements Runnable {
 
     public static final int SLEEPING_TIME = 100;
 
-    /** The input stream to pump from */
+    /** The input stream to pump from. */
     private final InputStream is;
 
-    /** The output stream to pmp into */
+    /** The output stream to pmp into. */
     private final OutputStream os;
 
-    /** Flag to stop the stream pumping */
+    /** Flag to stop the stream pumping. */
     private volatile boolean stop;
 
     /**
      * Create a new stream pumper.
      *
-     * @param is input stream to read data from
+     * @param is input stream to read data from.
      * @param os output stream to write data to.
      */
     public InputStreamPumper(final InputStream is, final OutputStream os) {

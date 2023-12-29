@@ -21,6 +21,7 @@ package org.apache.commons.exec.util;
  * Provides debugging support.
  */
 public class DebugUtils {
+
     /**
      * System property to determine how to handle exceptions. When set to "false" we rethrow the otherwise silently catched exceptions found in the original
      * code. The default value is "true"
@@ -35,8 +36,8 @@ public class DebugUtils {
     /**
      * Handles an exception based on the system properties.
      *
-     * @param msg message describing the problem
-     * @param e   an exception being handled
+     * @param msg message describing the problem.
+     * @param e   an exception being handled.
      */
     public static void handleException(final String msg, final Exception e) {
         if (isDebugEnabled()) {
@@ -54,7 +55,7 @@ public class DebugUtils {
     /**
      * Determines if debugging is enabled based on the system property "COMMONS_EXEC_DEBUG".
      *
-     * @return true if debug mode is enabled
+     * @return true if debug mode is enabled.
      */
     public static boolean isDebugEnabled() {
         final String debug = System.getProperty(COMMONS_EXEC_DEBUG, Boolean.FALSE.toString());
@@ -64,7 +65,7 @@ public class DebugUtils {
     /**
      * Determines if lenient mode is enabled.
      *
-     * @return true if lenient mode is enabled
+     * @return true if lenient mode is enabled.
      */
     public static boolean isLenientEnabled() {
         final String lenient = System.getProperty(COMMONS_EXEC_LENIENT, Boolean.TRUE.toString());

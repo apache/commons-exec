@@ -44,8 +44,8 @@ public class StringUtils {
      * <li>'\\' &#x2192; File.separatorChar</li>
      * </ul>
      *
-     * @param arg the argument to fix
-     * @return the transformed argument
+     * @param arg the argument to fix.
+     * @return the transformed argument.
      */
     public static String fixFileSeparatorChar(final String arg) {
         return arg.replace(SLASH_CHAR, File.separatorChar).replace(BACKSLASH_CHAR, File.separatorChar);
@@ -54,8 +54,8 @@ public class StringUtils {
     /**
      * Determines if this is a quoted argument - either single or double quoted.
      *
-     * @param argument the argument to check
-     * @return true when the argument is quoted
+     * @param argument the argument to check.
+     * @return true when the argument is quoted.
      */
     public static boolean isQuoted(final String argument) {
         return argument.startsWith(SINGLE_QUOTE) && argument.endsWith(SINGLE_QUOTE) || argument.startsWith(DOUBLE_QUOTE) && argument.endsWith(DOUBLE_QUOTE);
@@ -68,9 +68,9 @@ public class StringUtils {
      * quotes.
      * </p>
      *
-     * @param argument the argument to be quoted
-     * @return the quoted argument
-     * @throws IllegalArgumentException If argument contains both types of quotes
+     * @param argument the argument to be quoted.
+     * @return the quoted argument.
+     * @throws IllegalArgumentException If argument contains both types of quotes.
      */
     public static String quoteArgument(final String argument) {
 
@@ -101,9 +101,9 @@ public class StringUtils {
     /**
      * Split a string into an array of strings based on a separator.
      *
-     * @param input     what to split
-     * @param splitChar what to split on
-     * @return the array of strings
+     * @param input     what to split.
+     * @param splitChar what to split on.
+     * @return the array of strings.
      */
     public static String[] split(final String input, final String splitChar) {
         final StringTokenizer tokens = new StringTokenizer(input, splitChar);
@@ -132,8 +132,8 @@ public class StringUtils {
      * <li>underscore character
      * </ul>
      *
-     * @param argStr    the argument string to be processed
-     * @param vars      name/value pairs used for substitution
+     * @param argStr    the argument string to be processed.
+     * @param vars      name/value pairs used for substitution.
      * @param isLenient ignore a key not found in vars or throw a RuntimeException?
      * @return String target string with replacements.
      */

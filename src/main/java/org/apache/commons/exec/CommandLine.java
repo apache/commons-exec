@@ -57,9 +57,9 @@ public class CommandLine {
     /**
      * Create a command line from a string.
      *
-     * @param line the first element becomes the executable, the rest the arguments
-     * @return the parsed command line
-     * @throws IllegalArgumentException If line is null or all whitespace
+     * @param line the first element becomes the executable, the rest the arguments.
+     * @return the parsed command line.
+     * @throws IllegalArgumentException If line is null or all whitespace.
      */
     public static CommandLine parse(final String line) {
         return parse(line, null);
@@ -68,10 +68,10 @@ public class CommandLine {
     /**
      * Create a command line from a string.
      *
-     * @param line            the first element becomes the executable, the rest the arguments
-     * @param substitutionMap the name/value pairs used for substitution
-     * @return the parsed command line
-     * @throws IllegalArgumentException If line is null or all whitespace
+     * @param line            the first element becomes the executable, the rest the arguments.
+     * @param substitutionMap the name/value pairs used for substitution.
+     * @return the parsed command line.
+     * @throws IllegalArgumentException If line is null or all whitespace.
      */
     public static CommandLine parse(final String line, final Map<String, ?> substitutionMap) {
 
@@ -95,8 +95,8 @@ public class CommandLine {
     /**
      * Crack a command line.
      *
-     * @param toProcess the command line to process
-     * @return the command line broken into strings. An empty or null toProcess parameter results in a zero sized array
+     * @param toProcess the command line to process.
+     * @return the command line broken into strings. An empty or null toProcess parameter results in a zero sized array.
      */
     private static String[] translateCommandline(final String toProcess) {
         if (toProcess == null || toProcess.trim().isEmpty()) {
@@ -104,7 +104,7 @@ public class CommandLine {
             return new String[0];
         }
 
-        // parse with a simple finite state machine
+        // parse with a simple finite state machine.
 
         final int normal = 0;
         final int inQuote = 1;
@@ -175,19 +175,19 @@ public class CommandLine {
     private final String executable;
 
     /**
-     * A map of name value pairs used to expand command line arguments
+     * A map of name value pairs used to expand command line arguments.
      */
-    private Map<String, ?> substitutionMap; // N.B. This can contain values other than Strings
+    private Map<String, ?> substitutionMap; // N.B. This can contain values other than Strings.
 
     /**
-     * Was a file being used to set the executable?
+     * Tests whether a file was used to set the executable.
      */
     private final boolean isFile;
 
     /**
      * Copy constructor.
      *
-     * @param other the instance to copy
+     * @param other the instance to copy.
      */
     public CommandLine(final CommandLine other) {
         this.executable = other.getExecutable();
@@ -202,7 +202,7 @@ public class CommandLine {
     /**
      * Create a command line without any arguments.
      *
-     * @param executable the executable file
+     * @param executable the executable file.
      */
     public CommandLine(final File executable) {
         this.isFile = true;
@@ -224,9 +224,9 @@ public class CommandLine {
     /**
      * Add a single argument. Handles quoting.
      *
-     * @param argument The argument to add
-     * @return The command line itself
-     * @throws IllegalArgumentException If argument contains both single and double quotes
+     * @param argument The argument to add.
+     * @return The command line itself.
+     * @throws IllegalArgumentException If argument contains both single and double quotes.
      */
     public CommandLine addArgument(final String argument) {
         return addArgument(argument, true);
@@ -235,9 +235,9 @@ public class CommandLine {
     /**
      * Add a single argument.
      *
-     * @param argument      The argument to add
-     * @param handleQuoting Add the argument with/without handling quoting
-     * @return The command line itself
+     * @param argument      The argument to add.
+     * @param handleQuoting Add the argument with/without handling quoting.
+     * @return The command line itself.
      */
     public CommandLine addArgument(final String argument, final boolean handleQuoting) {
 
@@ -260,7 +260,7 @@ public class CommandLine {
      * recommended to build the command line incrementally.
      *
      * @param addArguments An string containing multiple arguments.
-     * @return The command line itself
+     * @return The command line itself.
      */
     public CommandLine addArguments(final String addArguments) {
         return addArguments(addArguments, true);
@@ -271,8 +271,8 @@ public class CommandLine {
      * recommended to build the command line incrementally.
      *
      * @param addArguments  An string containing multiple arguments.
-     * @param handleQuoting Add the argument with/without handling quoting
-     * @return The command line itself
+     * @param handleQuoting Add the argument with/without handling quoting.
+     * @return The command line itself.
      */
     public CommandLine addArguments(final String addArguments, final boolean handleQuoting) {
         if (addArguments != null) {
@@ -286,8 +286,8 @@ public class CommandLine {
     /**
      * Add multiple arguments. Handles parsing of quotes and whitespace.
      *
-     * @param addArguments An array of arguments
-     * @return The command line itself
+     * @param addArguments An array of arguments.
+     * @return The command line itself.
      */
     public CommandLine addArguments(final String[] addArguments) {
         return addArguments(addArguments, true);
@@ -296,9 +296,9 @@ public class CommandLine {
     /**
      * Add multiple arguments.
      *
-     * @param addArguments  An array of arguments
-     * @param handleQuoting Add the argument with/without handling quoting
-     * @return The command line itself
+     * @param addArguments  An array of arguments.
+     * @param handleQuoting Add the argument with/without handling quoting.
+     * @return The command line itself.
      */
     public CommandLine addArguments(final String[] addArguments, final boolean handleQuoting) {
         if (addArguments != null) {
@@ -312,8 +312,8 @@ public class CommandLine {
     /**
      * Expand variables in a command line argument.
      *
-     * @param argument the argument
-     * @return the expanded string
+     * @param argument the argument.
+     * @return the expanded string.
      */
     private String expandArgument(final String argument) {
         final StringBuffer stringBuffer = StringUtils.stringSubstitution(argument, getSubstitutionMap(), true);
@@ -323,7 +323,7 @@ public class CommandLine {
     /**
      * Returns the expanded and quoted command line arguments.
      *
-     * @return The quoted arguments
+     * @return The quoted arguments.
      */
     public String[] getArguments() {
 
@@ -343,7 +343,7 @@ public class CommandLine {
     /**
      * Returns the executable.
      *
-     * @return The executable
+     * @return The executable.
      */
     public String getExecutable() {
         // Expand the executable and replace '/' and '\\' with the platform
@@ -353,22 +353,20 @@ public class CommandLine {
     }
 
     /**
-     * @return the substitution map
+     * @return the substitution map.
      */
     public Map<String, ?> getSubstitutionMap() {
         return substitutionMap;
     }
 
     /**
-     * Was a file being used to set the executable?
+     * Tests whether a file was used to set the executable.
      *
-     * @return true if a file was used for setting the executable
+     * @return true whether a file was used for setting the executable.
      */
     public boolean isFile() {
         return isFile;
     }
-
-    // --- Implementation ---------------------------------------------------
 
     /**
      * Sets the substitutionMap to expand variables in the command line.
@@ -399,7 +397,7 @@ public class CommandLine {
      * Stringify operator returns the command line as a string. Parameters are correctly quoted when containing a space or left untouched if the are already
      * quoted.
      *
-     * @return the command line as single string
+     * @return the command line as single string.
      */
     @Override
     public String toString() {
@@ -409,7 +407,7 @@ public class CommandLine {
     /**
      * Returns the command line as an array of strings.
      *
-     * @return The command line as an string array
+     * @return The command line as an string array.
      */
     public String[] toStrings() {
         final String[] result = new String[arguments.size() + 1];

@@ -30,15 +30,15 @@ public class ExecuteException extends IOException {
     private static final long serialVersionUID = 3256443620654331699L;
 
     /**
-     * The exit value returned by the failed process
+     * The exit value returned by the failed process.
      */
     private final int exitValue;
 
     /**
      * Constructs a new exception with the specified detail message.
      *
-     * @param message   The detail message
-     * @param exitValue The exit value
+     * @param message   The detail message.
+     * @param exitValue The exit value.
      */
     public ExecuteException(final String message, final int exitValue) {
         super(message + " (Exit value: " + exitValue + ")");
@@ -48,9 +48,9 @@ public class ExecuteException extends IOException {
     /**
      * Constructs a new exception with the specified detail message and cause.
      *
-     * @param message   The detail message
-     * @param exitValue The exit value
-     * @param cause     The underlying cause
+     * @param message   The detail message.
+     * @param exitValue The exit value.
+     * @param cause     The underlying cause.
      */
     public ExecuteException(final String message, final int exitValue, final Throwable cause) {
         super(message + " (Exit value: " + exitValue + ")", cause);
@@ -58,9 +58,9 @@ public class ExecuteException extends IOException {
     }
 
     /**
-     * Gets the exit value returned by the failed process
+     * Gets the exit value returned by the failed process.
      *
-     * @return The exit value
+     * @return The exit value.
      */
     public int getExitValue() {
         return exitValue;

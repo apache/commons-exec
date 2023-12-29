@@ -47,16 +47,16 @@ import org.apache.commons.exec.util.DebugUtils;
  */
 public class ExecuteWatchdog implements TimeoutObserver {
 
-    /** The marker for an infinite timeout */
+    /** The marker for an infinite timeout. */
     public static final long INFINITE_TIMEOUT = -1;
 
-    /** The marker for an infinite timeout */
+    /** The marker for an infinite timeout. */
     public static final Duration INFINITE_TIMEOUT_DURATION = Duration.ofMillis(INFINITE_TIMEOUT);
 
     /** The process to execute and watch for duration. */
     private Process process;
 
-    /** Is a user-supplied timeout in use */
+    /** Is a user-supplied timeout in use. */
     private final boolean hasWatchdog;
 
     /** Say whether or not the watchdog is currently monitoring a process. */
@@ -135,7 +135,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
 
     /**
      * Ensures that the process is started or not already terminated so we do not race with asynch executionor hang forever. The caller of this method must be
-     * holding the lock on this
+     * holding the lock on this.
      */
     private void ensureStarted() {
         while (!processStarted && caught == null) {
@@ -150,7 +150,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
     /**
      * Notification that starting the process failed.
      *
-     * @param e the offending exception
+     * @param e the offending exception.
      *
      */
     public synchronized void failedToStart(final Exception e) {
@@ -185,7 +185,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
     /**
      * Watches the given process and terminates it, if it runs for too long. All information from the previous run are reset.
      *
-     * @param processToMonitor the process to monitor. It cannot be {@code null}
+     * @param processToMonitor the process to monitor. It cannot be {@code null}.
      * @throws IllegalStateException if a process is still being monitored.
      */
     public synchronized void start(final Process processToMonitor) {
