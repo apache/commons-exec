@@ -226,7 +226,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Start the {@link Thread}s.
+     * Starts the {@link Thread}s.
      */
     @Override
     public void start() {
@@ -242,7 +242,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Stop pumping the streams. When a timeout is specified it is not guaranteed that the pumper threads are cleanly terminated.
+     * Stops pumping the streams. When a timeout is specified it is not guaranteed that the pumper threads are cleanly terminated.
      */
     @Override
     public void stop() throws IOException {
@@ -279,7 +279,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Stopping a pumper thread. The implementation actually waits longer than specified in 'timeout' to detect if the timeout was indeed exceeded. If the
+     * Stops a pumper thread. The implementation actually waits longer than specified in 'timeout' to detect if the timeout was indeed exceeded. If the
      * timeout was exceeded an IOException is created to be thrown to the caller.
      *
      * @param thread        the thread to be stopped
