@@ -126,7 +126,7 @@
         <site>
             <id>apache.website</id>
             <name>Apache Website</name>
-            <url>${commons.deployment.protocol}://people.apache.org/www/commons.apache.org/exec/</url>
+            <url>scm:svn:https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-exec/</url>
         </site>
     </distributionManagement>
 
