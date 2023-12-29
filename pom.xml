@@ -33,6 +33,14 @@
 
     <url>https://commons.apache.org/proper/commons-exec/</url>
 
+    <distributionManagement>
+        <site>
+            <id>apache.website</id>
+            <name>Apache Website</name>
+            <url>scm:svn:https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-exec/</url>
+        </site>
+    </distributionManagement>
+
     <issueManagement>
         <system>jira</system>
         <url>https://issues.apache.org/jira/browse/EXEC</url>
@@ -121,14 +129,6 @@
             </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <site>
-            <id>apache.website</id>
-            <name>Apache Website</name>
-            <url>scm:svn:https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-exec/</url>
-        </site>
-    </distributionManagement>
 
     <reporting>
         <plugins>
