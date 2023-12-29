@@ -49,7 +49,7 @@ public interface Executor {
     int INVALID_EXITVALUE = 0xdeadbeef;
 
     /**
-     * Methods for starting synchronous execution. The child process inherits all environment variables of the parent process.
+     * Executes a command synchronously. The child process inherits all environment variables of the parent process.
      *
      * @param command the command to execute
      * @return process exit value
@@ -59,7 +59,7 @@ public interface Executor {
     int execute(CommandLine command) throws ExecuteException, IOException;
 
     /**
-     * Methods for starting asynchronous execution. The child process inherits all environment variables of the parent process. Result provided to callback
+     * Executes a command asynchronously. The child process inherits all environment variables of the parent process. Result provided to callback
      * handler.
      *
      * @param command the command to execute
@@ -70,7 +70,7 @@ public interface Executor {
     void execute(CommandLine command, ExecuteResultHandler handler) throws ExecuteException, IOException;
 
     /**
-     * Methods for starting synchronous execution.
+     * Executes a command synchronously.
      *
      * @param command     the command to execute
      * @param environment The environment for the new process. If null, the environment of the current process is used.
@@ -81,7 +81,7 @@ public interface Executor {
     int execute(CommandLine command, Map<String, String> environment) throws ExecuteException, IOException;
 
     /**
-     * Methods for starting asynchronous execution. The child process inherits all environment variables of the parent process. Result provided to callback
+     * Executes a command asynchronously. The child process inherits all environment variables of the parent process. Result provided to callback
      * handler.
      *
      * @param command     the command to execute
@@ -121,7 +121,7 @@ public interface Executor {
     File getWorkingDirectory();
 
     /**
-     * Checks whether {@code exitValue} signals a failure. If no exit values are set than the default conventions of the OS is used. e.g. most OS regard an exit
+     * Tests whether {@code exitValue} signals a failure. If no exit values are set than the default conventions of the OS is used. e.g. most OS regard an exit
      * code of '0' as successful execution and everything else as failure.
      *
      * @param exitValue the exit value (return code) to be checked
@@ -130,7 +130,7 @@ public interface Executor {
     boolean isFailure(final int exitValue);
 
     /**
-     * Define the {@code exitValue} of the process to be considered successful. If a different exit value is returned by the process then
+     * Sets the {@code exitValue} of the process to be considered successful. If a different exit value is returned by the process then
      * {@link org.apache.commons.exec.Executor#execute(CommandLine)} will throw an {@link org.apache.commons.exec.ExecuteException}
      *
      * @param value the exit code representing successful execution
@@ -138,7 +138,7 @@ public interface Executor {
     void setExitValue(final int value);
 
     /**
-     * Define a list of {@code exitValue} of the process to be considered successful. The caller can pass one of the following values
+     * Sets a list of {@code exitValue} of the process to be considered successful. The caller can pass one of the following values
      * <ul>
      * <li>an array of exit values to be considered successful</li>
      * <li>an empty array for auto-detect of successful exit codes relying on {@link org.apache.commons.exec.Executor#isFailure(int)}</li>
@@ -153,7 +153,7 @@ public interface Executor {
     void setExitValues(final int[] values);
 
     /**
-     * Gets the handler for cleanup of started processes if the main process is going to terminate.
+     * Sets the handler for cleanup of started processes if the main process is going to terminate.
      *
      * @param processDestroyer the ProcessDestroyer
      */
