@@ -41,6 +41,7 @@
             <action dev="ggregory" type="fix" due-to="Gary Gregory">Port from JUnit 4 to 5.</action>
             <action dev="ggregory" type="fix" due-to="ArdenL-Liu, Gary Gregory">[Javadoc] CommandLine.toCleanExecutable(final String dirtyExecutable) IllegalArgumentException #61.</action>
             <action dev="ggregory" type="fix" due-to="Gary Gregory">ExecuteException propagates its cause to its IOException superclass.</action>
+            <action dev="ggregory" type="fix" due-to="Gary Gregory">Propagate exception in DebugUtils.handleException(String, Exception).</action>
             <!-- REMOVE -->
             <action dev="ggregory" type="remove" due-to="Gary Gregory">Deprecate DefaultExecuteResultHandler.waitFor(long).</action>
             <action dev="ggregory" type="remove" due-to="Gary Gregory">Deprecate ExecuteWatchdog.ExecuteWatchdog(long).</action>

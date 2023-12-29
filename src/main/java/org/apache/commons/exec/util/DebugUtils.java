@@ -39,18 +39,15 @@ public class DebugUtils {
      * @param e   an exception being handled
      */
     public static void handleException(final String msg, final Exception e) {
-
         if (isDebugEnabled()) {
             System.err.println(msg);
             e.printStackTrace();
         }
-
         if (!isLenientEnabled()) {
             if (e instanceof RuntimeException) {
                 throw (RuntimeException) e;
             }
-            // can't pass root cause since the constructor is not available on JDK 1.3
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
