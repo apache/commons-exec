@@ -171,53 +171,62 @@ public final class OS {
      */
     public static boolean isOs(final String family, final String name, final String arch, final String version) {
         boolean retValue = false;
-
         if (family != null || name != null || arch != null || version != null) {
-
             boolean isFamily = true;
             boolean isName = true;
             boolean isArch = true;
             boolean isVersion = true;
-
             if (family != null) {
-                // windows probing logic relies on the word 'windows' in
-                // the OS
+                // Windows probing logic relies on the word 'windows' in the OS
                 final boolean isWindows = OS_NAME.contains(FAMILY_WINDOWS);
                 boolean is9x = false;
                 boolean isNT = false;
                 if (isWindows) {
                     // there are only four 9x platforms that we look for
                     is9x = OS_NAME.contains("95") || OS_NAME.contains("98") || OS_NAME.contains("me")
-                    // wince isn't really 9x, but crippled enough to
+                    // Windows CE isn't really 9x, but crippled enough to
                     // be a muchness. Ant doesn't run on CE, anyway.
                             || OS_NAME.contains("ce");
                     isNT = !is9x;
                 }
-                if (family.equals(FAMILY_WINDOWS)) {
+                switch (family) {
+                case FAMILY_WINDOWS:
                     isFamily = isWindows;
-                } else if (family.equals(FAMILY_9X)) {
+                    break;
+                case FAMILY_9X:
                     isFamily = isWindows && is9x;
-                } else if (family.equals(FAMILY_NT)) {
+                    break;
+                case FAMILY_NT:
                     isFamily = isWindows && isNT;
-                } else if (family.equals(FAMILY_OS2)) {
+                    break;
+                case FAMILY_OS2:
                     isFamily = OS_NAME.contains(FAMILY_OS2);
-                } else if (family.equals(FAMILY_NETWARE)) {
+                    break;
+                case FAMILY_NETWARE:
                     isFamily = OS_NAME.contains(FAMILY_NETWARE);
-                } else if (family.equals(FAMILY_DOS)) {
+                    break;
+                case FAMILY_DOS:
                     isFamily = PATH_SEP.equals(";") && !isFamily(FAMILY_NETWARE);
-                } else if (family.equals(FAMILY_MAC)) {
+                    break;
+                case FAMILY_MAC:
                     isFamily = OS_NAME.contains(FAMILY_MAC) || OS_NAME.contains(DARWIN);
-                } else if (family.equals(FAMILY_TANDEM)) {
+                    break;
+                case FAMILY_TANDEM:
                     isFamily = OS_NAME.contains("nonstop_kernel");
-                } else if (family.equals(FAMILY_UNIX)) {
+                    break;
+                case FAMILY_UNIX:
                     isFamily = PATH_SEP.equals(":") && !isFamily(FAMILY_VMS) && (!isFamily(FAMILY_MAC) || OS_NAME.endsWith("x") || OS_NAME.contains(DARWIN));
-                } else if (family.equals(FAMILY_ZOS)) {
+                    break;
+                case FAMILY_ZOS:
                     isFamily = OS_NAME.contains(FAMILY_ZOS) || OS_NAME.contains("os/390");
-                } else if (family.equals(FAMILY_OS400)) {
+                    break;
+                case FAMILY_OS400:
                     isFamily = OS_NAME.contains(FAMILY_OS400);
-                } else if (family.equals(FAMILY_VMS)) {
+                    break;
+                case FAMILY_VMS:
                     isFamily = OS_NAME.contains(FAMILY_VMS);
-                } else {
+                    break;
+                default:
                     throw new IllegalArgumentException("Don\'t know how to detect os family \"" + family + "\"");
                 }
             }
