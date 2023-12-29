@@ -1,3 +1,83 @@
+
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Apache Commons Exec
+Version 1.4.0
+Release Notes
+
+Apache Commons Exec is a library to reliably execute external processes from within the JVM.
+
+Maintenance and feature Release (Java 8 or above)
+
+Changes in this version include:
+
+New features:
+o            Add ShutdownHookProcessDestroyer.isEmpty(). Thanks to Gary Gregory.
+o            Add DefaultExecuteResultHandler.waitFor(Duration). Thanks to Gary Gregory.
+o            Add Watchdog.Watchdog(Duration). Thanks to Gary Gregory.
+o            Add ExecuteWatchdog.ExecuteWatchdog(Duration). Thanks to Gary Gregory.
+o            Add PumpStreamHandler.setStopTimeout(Duration) and deprecate PumpStreamHandler.setStopTimeout(long). Thanks to Gary Gregory.
+
+Fixed Bugs:
+o EXEC-105:  Fix code snippet in tutorial page. Thanks to Dimitrios Efthymiou.
+o EXEC-100:  Sync org.apache.commons.exec.OS with the newest Ant source file.
+o EXEC-64:   DefaultExecutor swallows IOException cause instead of propagating it (work-round for Java 1.5). Thanks to Michael Vorburger.
+o            Java-style Array declaration and remove empty finally block #26. Thanks to nullptr.
+o            Use JUnit 5 assertThrows() #72. Thanks to John Patrick.
+o            [StepSecurity] ci: Harden GitHub Actions #107. Thanks to step-security-bot, Gary Gregory.
+o            Port from JUnit 4 to 5. Thanks to Gary Gregory.
+o            [Javadoc] CommandLine.toCleanExecutable(final String dirtyExecutable) IllegalArgumentException #61. Thanks to ArdenL-Liu, Gary Gregory.
+o            ExecuteException propagates its cause to its IOException superclass. Thanks to Gary Gregory.
+o            Propagate exception in DebugUtils.handleException(String, Exception). Thanks to Gary Gregory.
+o            Deprecate StringUtils.toString(String[], String) in favor of String.join(CharSequence, CharSequence...). Thanks to Gary Gregory.
+
+Changes:
+o            Bump github actions #52. Thanks to Gary Gregory, Dependabot.
+o EXEC-111:  Update from Java 5 to 6. Thanks to Gary Gregory.
+o            Update from Java 7 to 8. Thanks to Gary Gregory.
+o            Bump actions/cache from 2 to 3.0.11 #48, #51, #55, #69. Thanks to Gary Gregory.
+o            Bump actions/checkout from 2.3.2 to 3.1.0 #24, #46, #68. Thanks to Dependabot, Gary Gregory.
+o            Bump actions/setup-java from 1.4.0 to 3.8.0 #21, #50, #70, #78. Thanks to Dependabot, Gary Gregory.
+o            Bump junit from 4.13 to 5.9.1 Vintage #23, #33. Thanks to Dependabot.
+o            Bump maven-pmd-plugin from 2.7.1 to 3.19.0 #45, #62. Thanks to Dependabot.
+o            Bump maven-checkstyle-plugin from 2.13 to 3.2.0 #29, #60. Thanks to Dependabot.
+o            Bump commons-parent from 52 to 65, #49, #65, #79, #88, #105, #137. Thanks to Dependabot, Gary Gregory.
+o            Bump japicmp-maven-plugin from 0.15.6 to 0.16.0. Thanks to Gary Gregory.
+
+Removed:
+o            Deprecate DefaultExecuteResultHandler.waitFor(long). Thanks to Gary Gregory.
+o            Deprecate ExecuteWatchdog.ExecuteWatchdog(long). Thanks to Gary Gregory.
+o            Deprecate Watchdog.Watchdog(long). Thanks to Gary Gregory.
+o            Drop obsolete and unmaintained Ant build. Thanks to Gary Gregory.
+o            Drop CLIRR plugin, replaced by JApiCmp. Thanks to Gary Gregory.
+
+Historical list of changes: https://commons.apache.org/proper/commons-exec//changes-report.html
+
+For complete information on Apache Commons Exec, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Commons Exec website:
+
+https://commons.apache.org/proper/commons-exec/
+
+Download page: https://commons.apache.org/proper/commons-exec//download_text.cgi
+
+Have fun!
+-Apache Commons Team
+
+=============================================================================
+
               Apache Commons Exec 1.3 RELEASE NOTES
 
 The Apache Commons Exec team is pleased to announce the commons-exec-1.3 release!
@@ -31,8 +111,8 @@ o Update to Java 5
 Have fun!
 -Apache Commons Exec team
 
+=============================================================================
 
--------------------------------------------------------------------------------
               Apache Commons Exec 1.2 RELEASE NOTES
 
 The Apache Commons Exec team is pleased to announce the Apache commons-exec-1.2 release!
@@ -84,4 +164,6 @@ https://commons.apache.org/proper/commons-exec/
 
 Have fun!
 -Apache Commons Exec team
+
+=============================================================================
 

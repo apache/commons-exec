@@ -25,7 +25,7 @@
         <author email="sgoeschl@apache.org">Siegfried Goeschl</author>
     </properties>
     <body>
-        <release version="1.4.0" date="20YY-MM-DD" description="Maintenance and feature Release (Java 8 or above)">
+        <release version="1.4.0" date="2023-12-29" description="Maintenance and feature Release (Java 8 or above)">
             <!-- ADD -->
             <action dev="ggregory" type="add" due-to="Gary Gregory">Add ShutdownHookProcessDestroyer.isEmpty().</action>
             <action dev="ggregory" type="add" due-to="Gary Gregory">Add DefaultExecuteResultHandler.waitFor(Duration).</action>
