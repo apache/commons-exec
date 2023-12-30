@@ -19,9 +19,6 @@
  --------
 Apache Commons Exec Tutorial
  --------
- --------
-15 September 2010
- --------
 
 Apache Commons Exec
 
@@ -78,7 +75,7 @@ String line = "AcroRd32.exe /p /h " + file.getAbsolutePath();
 CommandLine cmdLine = CommandLine.parse(line);
 DefaultExecutor executor = DefaultExecutor.builder().get();
 executor.setExitValue(1);
-ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
+ExecuteWatchdog watchdog = ExecuteWatchdog.builder().setTimeout(Duration.ofSeconds(60)).get();
 executor.setWatchdog(watchdog);
 int exitValue = executor.execute(cmdLine);
 +----------------------------------------------------------------------------
@@ -104,7 +101,7 @@ String line = "AcroRd32.exe /p /h \"" + file.getAbsolutePath() + "\"";
 CommandLine cmdLine = CommandLine.parse(line);
 DefaultExecutor executor = DefaultExecutor.builder().get();
 executor.setExitValue(1);
-ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
+ExecuteWatchdog watchdog = ExecuteWatchdog.builder().setTimeout(Duration.ofSeconds(60)).get();
 executor.setWatchdog(watchdog);
 int exitValue = executor.execute(cmdLine);
 +----------------------------------------------------------------------------
@@ -129,7 +126,7 @@ cmdLine.addArgument("${file}");
 cmdLine.setSubstitutionMap(map);
 DefaultExecutor executor = DefaultExecutor.builder().get();
 executor.setExitValue(1);
-ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
+ExecuteWatchdog watchdog = ExecuteWatchdog.builder().setTimeout(Duration.ofSeconds(60)).get();
 executor.setWatchdog(watchdog);
 int exitValue = executor.execute(cmdLine);
 +----------------------------------------------------------------------------
@@ -161,7 +158,7 @@ cmdLine.setSubstitutionMap(map);
 
 DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
 
-ExecuteWatchdog watchdog = new ExecuteWatchdog(60*1000);
+ExecuteWatchdog watchdog = ExecuteWatchdog.builder().setTimeout(Duration.ofSeconds(60)).get();
 Executor executor = DefaultExecutor.builder().get();
 executor.setExitValue(1);
 executor.setWatchdog(watchdog);

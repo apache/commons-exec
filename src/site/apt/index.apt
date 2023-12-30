@@ -19,9 +19,6 @@
  --------
 Apache Commons Exec
  --------
- --------
-12 November 2008
- --------
 
 Apache Commons Exec
 
@@ -50,14 +47,15 @@ Apache Commons Exec
   still having a consistent API for all platforms.
 
 * Releases 
+
+  * Version 1.4.0 requires Java 8 or above. 
    
-  Version v1.3 (current), is JDK 1.5 compatible - 
-  {{{https://commons.apache.org/exec/download_exec.cgi}Download now!}}. 
+  * Version 1.3 is JDK 1.5 compatible.
 
-  Version v1.2, is JDK 1.3 compatible. 
+  * Version 1.2 is JDK 1.3 compatible. 
 
-  Version v1.1, is JDK 1.3 compatible. 
+  * Version 1.1 is JDK 1.3 compatible. 
 
-  For previous releases, see the {{{https://archive.apache.org/dist/commons/exec/}Apache Archive}}.
+  * See the {{{https://archive.apache.org/dist/commons/exec/}Apache Archive}}.
   
    

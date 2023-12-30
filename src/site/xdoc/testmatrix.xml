@@ -24,7 +24,9 @@ limitations under the License.
     <section name="Test Matrix">
       <p>The following tables contains the test results of running the comons-exec regression tests
         on different OS/JVMs.</p>
-      <p>This page has not been updated for version 1.10.</p>
+      <p>The <a href="https://github.com/apache/commons-exec/actions">GitHub</a> builds tests Java 8, 11, 17, and 21; 
+         see <a href="https://github.com/apache/commons-exec/blob/master/.github/workflows/maven.yml">maven.yml</a>.</p>
+      <p>The rest of this page has not been updated for version 1.10 and above.</p>
       <subsection name="Linux">
         <table>
           <tr>
