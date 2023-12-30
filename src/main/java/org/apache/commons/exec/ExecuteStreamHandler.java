@@ -22,7 +22,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Used by {@code Execute} to handle input and output stream of subprocesses.
+ * Handles stream of subprocesses for {@link Executor}s.
  */
 public interface ExecuteStreamHandler {
 
