@@ -102,6 +102,14 @@
             <excludeFilterFile>${basedir}/src/conf/findbugs-exclude-filter.xml</excludeFilterFile>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${commons.javadoc.version}</version>
+          <configuration>
+            <top><![CDATA[<a href="${project.url}">${project.name}</a> ${project.version}]]></top>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
