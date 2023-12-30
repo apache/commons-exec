@@ -46,6 +46,16 @@ public class DaemonExecutor extends DefaultExecutor {
     }
 
     /**
+     * Creates a new builder.
+     *
+     * @return a new builder.
+     * @since 1.4.0
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    /**
      * Constructs a new instance.
      *
      * @deprecated Use {@link Builder#get()}.
@@ -57,16 +67,6 @@ public class DaemonExecutor extends DefaultExecutor {
 
     private DaemonExecutor(final ThreadFactory threadFactory, final ExecuteStreamHandler executeStreamHandler, final File workingDirectory) {
         super(threadFactory, executeStreamHandler, workingDirectory);
-    }
-
-    /**
-     * Creates a new builder.
-     *
-     * @return a new builder.
-     * @since 1.4.0
-     */
-    public static Builder builder() {
-        return new Builder();
     }
 
     /**

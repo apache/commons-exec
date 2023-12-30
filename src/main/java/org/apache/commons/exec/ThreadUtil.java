@@ -33,7 +33,7 @@ final class ThreadUtil {
      * @param daemon        marks this thread as a daemon thread
      * @return constructed thread, or {@code null} if the request to create a thread is rejected
      */
-    static Thread newThread(final ThreadFactory threadFactory, final Runnable runnable, final String prefix, boolean daemon) {
+    static Thread newThread(final ThreadFactory threadFactory, final Runnable runnable, final String prefix, final boolean daemon) {
         final Thread thread = threadFactory.newThread(runnable);
         if (thread == null) {
             throw new IllegalStateException(String.format("The ThreadFactory %s cound not construct a thread for '%s'", threadFactory, prefix));

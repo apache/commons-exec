@@ -96,19 +96,6 @@ public class Watchdog implements Runnable {
 
     /**
      * Constructs a new instance.
-     * @param threadFactory the thread factory.
-     * @param timeout the timeout duration.
-     */
-    private Watchdog(final ThreadFactory threadFactory, final Duration timeout) {
-        if (timeout.isNegative() || Duration.ZERO.equals(timeout)) {
-            throw new IllegalArgumentException("timeout must not be less than 1.");
-        }
-        this.timeoutMillis = timeout.toMillis();
-        this.threadFactory = threadFactory;
-    }
-
-    /**
-     * Constructs a new instance.
      *
      * @param timeoutMillis the timeout duration.
      * @deprecated Use {@link #Watchdog(ThreadFactory, Duration)}.
@@ -116,6 +103,20 @@ public class Watchdog implements Runnable {
     @Deprecated
     public Watchdog(final long timeoutMillis) {
         this(null, Duration.ofMillis(timeoutMillis));
+    }
+
+    /**
+     * Constructs a new instance.
+     *
+     * @param threadFactory the thread factory.
+     * @param timeout       the timeout duration.
+     */
+    private Watchdog(final ThreadFactory threadFactory, final Duration timeout) {
+        if (timeout.isNegative() || Duration.ZERO.equals(timeout)) {
+            throw new IllegalArgumentException("timeout must not be less than 1.");
+        }
+        this.timeoutMillis = timeout.toMillis();
+        this.threadFactory = threadFactory;
     }
 
     public void addTimeoutObserver(final TimeoutObserver to) {

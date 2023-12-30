@@ -45,18 +45,6 @@ public class StandAloneTest {
     }
 
     @Test
-    public void testDefaultExecutorDefaultBuilder() throws Exception {
-        if (OS.isFamilyUnix()) {
-            final File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/standalone");
-            final Executor exec = DefaultExecutor.builder().get();
-            exec.setStreamHandler(new PumpStreamHandler());
-            final CommandLine cl = new CommandLine(testScript);
-            exec.execute(cl);
-            assertTrue(new File("./target/mybackup.gz").exists());
-        }
-    }
-
-    @Test
     public void testDefaultExecutorBuilder() throws Exception {
         if (OS.isFamilyUnix()) {
             final File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/standalone");
@@ -67,6 +55,18 @@ public class StandAloneTest {
                     .setWorkingDirectory(new File("."))
                     .get();
             // @formatter:on
+            exec.setStreamHandler(new PumpStreamHandler());
+            final CommandLine cl = new CommandLine(testScript);
+            exec.execute(cl);
+            assertTrue(new File("./target/mybackup.gz").exists());
+        }
+    }
+
+    @Test
+    public void testDefaultExecutorDefaultBuilder() throws Exception {
+        if (OS.isFamilyUnix()) {
+            final File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/standalone");
+            final Executor exec = DefaultExecutor.builder().get();
             exec.setStreamHandler(new PumpStreamHandler());
             final CommandLine cl = new CommandLine(testScript);
             exec.execute(cl);

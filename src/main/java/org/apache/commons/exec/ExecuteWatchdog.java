@@ -101,6 +101,16 @@ public class ExecuteWatchdog implements TimeoutObserver {
     /** The marker for an infinite timeout. */
     public static final Duration INFINITE_TIMEOUT_DURATION = Duration.ofMillis(INFINITE_TIMEOUT);
 
+    /**
+     * Creates a new builder.
+     *
+     * @return a new builder.
+     * @since 1.4.0
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+
     /** The process to execute and watch for duration. */
     private Process process;
 
@@ -128,13 +138,14 @@ public class ExecuteWatchdog implements TimeoutObserver {
     private final ThreadFactory threadFactory;
 
     /**
-     * Creates a new builder.
+     * Creates a new watchdog with a given timeout.
      *
-     * @return a new builder.
-     * @since 1.4.0
+     * @param timeoutMillis the timeout for the process in milliseconds. It must be greater than 0 or {@code INFINITE_TIMEOUT}.
+     * @deprecated Use {@link Builder#get()}.
      */
-    public static Builder builder() {
-        return new Builder();
+    @Deprecated
+    public ExecuteWatchdog(final long timeoutMillis) {
+        this(Executors.defaultThreadFactory(), Duration.ofMillis(timeoutMillis));
     }
 
     /**
@@ -155,17 +166,6 @@ public class ExecuteWatchdog implements TimeoutObserver {
         } else {
             this.watchdog = null;
         }
-    }
-
-    /**
-     * Creates a new watchdog with a given timeout.
-     *
-     * @param timeoutMillis the timeout for the process in milliseconds. It must be greater than 0 or {@code INFINITE_TIMEOUT}.
-     * @deprecated Use {@link Builder#get()}.
-     */
-    @Deprecated
-    public ExecuteWatchdog(final long timeoutMillis) {
-        this(Executors.defaultThreadFactory(), Duration.ofMillis(timeoutMillis));
     }
 
     /**

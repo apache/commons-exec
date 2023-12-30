@@ -213,7 +213,7 @@ public class CommandLine {
      * Create a command line without any arguments.
      *
      * @param executable the executable.
-     * @throws NullPointerException on null input.
+     * @throws NullPointerException     on null input.
      * @throws IllegalArgumentException on empty input.
      */
     public CommandLine(final String executable) {
@@ -382,7 +382,7 @@ public class CommandLine {
      *
      * @param dirtyExecutable the executable.
      * @return the platform-specific executable string.
-     * @throws NullPointerException on null input.
+     * @throws NullPointerException     on null input.
      * @throws IllegalArgumentException on empty input.
      */
     private String toCleanExecutable(final String dirtyExecutable) {
