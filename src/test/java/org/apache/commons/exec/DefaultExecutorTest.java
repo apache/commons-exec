@@ -45,9 +45,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.SetSystemProperty;
 
 /**
  */
+//turn on debug mode and throw an exception for each encountered problem
+@SetSystemProperty(key = "org.apache.commons.exec.lenient", value = "false")
+@SetSystemProperty(key = "org.apache.commons.exec.debug", value = "true")
 public class DefaultExecutorTest {
 
     /** Maximum time to wait (15s) */
@@ -60,14 +64,9 @@ public class DefaultExecutorTest {
 
     @BeforeAll
     public static void classSetUp() {
-
         final int[] statuses = TestUtil.getTestScriptCodesForOS();
         SUCCESS_STATUS = statuses[0];
         ERROR_STATUS = statuses[1];
-
-        // turn on debug mode and throw an exception for each encountered problem
-        System.setProperty("org.apache.commons.exec.lenient", "false");
-        System.setProperty("org.apache.commons.exec.debug", "true");
     }
 
     private final Executor exec = new DefaultExecutor();
