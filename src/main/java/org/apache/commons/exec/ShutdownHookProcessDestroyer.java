@@ -24,11 +24,11 @@ import java.util.Vector;
  */
 public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable {
 
-    private final class ProcessDestroyerImpl extends Thread {
+    private final class ProcessDestroyerThread extends Thread {
 
         private boolean shouldDestroy = true;
 
-        public ProcessDestroyerImpl() {
+        public ProcessDestroyerThread() {
             super("ProcessDestroyer Shutdown Hook");
         }
 
@@ -48,7 +48,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
     private final Vector<Process> processes = new Vector<>();
 
     /** The thread registered at the JVM to execute the shutdown handler. */
-    private ProcessDestroyerImpl destroyProcessThread;
+    private ProcessDestroyerThread destroyProcessThread;
 
     /** Whether or not this ProcessDestroyer has been registered as a shutdown hook. */
     private boolean added;
@@ -56,7 +56,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
     /**
      * Whether or not this ProcessDestroyer is currently running as shutdown hook.
      */
-    private volatile boolean running = false;
+    private volatile boolean running;
 
     /**
      * Constructs a {@code ProcessDestroyer} and obtains {@code Runtime.addShutdownHook()} and {@code Runtime.removeShutdownHook()} through reflection. The
@@ -86,11 +86,11 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
     }
 
     /**
-     * Registers this {@code ProcessDestroyer} as a shutdown hook, uses reflection to ensure pre-JDK 1.3 compatibility.
+     * Registers this {@code ProcessDestroyer} as a shutdown hook.
      */
     private void addShutdownHook() {
         if (!running) {
-            destroyProcessThread = new ProcessDestroyerImpl();
+            destroyProcessThread = new ProcessDestroyerThread();
             Runtime.getRuntime().addShutdownHook(destroyProcessThread);
             added = true;
         }
