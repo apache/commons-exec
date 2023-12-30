@@ -98,7 +98,7 @@ public class Watchdog implements Runnable {
      * Constructs a new instance.
      *
      * @param timeoutMillis the timeout duration.
-     * @deprecated Use {@link #Watchdog(ThreadFactory, Duration)}.
+     * @deprecated Use {@link Builder#get()}.
      */
     @Deprecated
     public Watchdog(final long timeoutMillis) {
