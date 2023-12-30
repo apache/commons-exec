@@ -164,7 +164,7 @@ public class DefaultExecutor implements Executor {
             watchdog.setProcessNotStarted();
         }
 
-        this.executorThread = createThread(() -> {
+        executorThread = createThread(() -> {
             int exitValue = Executor.INVALID_EXITVALUE;
             try {
                 exitValue = executeInternal(command, environment, workingDirectory, streamHandler);
@@ -181,21 +181,21 @@ public class DefaultExecutor implements Executor {
     /**
      * Execute an internal process. If the executing thread is interrupted while waiting for the child process to return the child process will be killed.
      *
-     * @param command     the command to execute.
-     * @param environment the execution environment.
-     * @param dir         the working directory.
-     * @param streams     process the streams (in, out, err) of the process.
+     * @param command          the command to execute.
+     * @param environment      the execution environment.
+     * @param workingDirectory the working directory.
+     * @param streams          process the streams (in, out, err) of the process.
      * @return the exit code of the process.
      * @throws IOException executing the process failed.
      */
-    private int executeInternal(final CommandLine command, final Map<String, String> environment, final File dir, final ExecuteStreamHandler streams)
-            throws IOException {
+    private int executeInternal(final CommandLine command, final Map<String, String> environment, final File workingDirectory,
+            final ExecuteStreamHandler streams) throws IOException {
 
         final Process process;
         exceptionCaught = null;
 
         try {
-            process = this.launch(command, environment, dir);
+            process = launch(command, environment, workingDirectory);
         } catch (final IOException e) {
             if (watchdog != null) {
                 watchdog.failedToStart(e);
@@ -204,9 +204,7 @@ public class DefaultExecutor implements Executor {
         }
 
         try {
-            streams.setProcessInputStream(process.getOutputStream());
-            streams.setProcessOutputStream(process.getInputStream());
-            streams.setProcessErrorStream(process.getErrorStream());
+            setStreams(streams, process);
         } catch (final IOException e) {
             process.destroy();
             if (watchdog != null) {
@@ -220,8 +218,8 @@ public class DefaultExecutor implements Executor {
         try {
 
             // add the process to the list of those to destroy if the VM exits
-            if (this.getProcessDestroyer() != null) {
-                this.getProcessDestroyer().add(process);
+            if (getProcessDestroyer() != null) {
+                getProcessDestroyer().add(process);
             }
 
             // associate the watchdog with the newly created process
@@ -269,17 +267,24 @@ public class DefaultExecutor implements Executor {
                 }
             }
 
-            if (this.isFailure(exitValue)) {
+            if (isFailure(exitValue)) {
                 throw new ExecuteException("Process exited with an error: " + exitValue, exitValue);
             }
 
             return exitValue;
         } finally {
             // remove the process to the list of those to destroy if the VM exits
-            if (this.getProcessDestroyer() != null) {
-                this.getProcessDestroyer().remove(process);
+            if (getProcessDestroyer() != null) {
+                getProcessDestroyer().remove(process);
             }
         }
+    }
+
+    @SuppressWarnings("resource")
+    private void setStreams(final ExecuteStreamHandler streams, final Process process) throws IOException {
+        streams.setProcessInputStream(process.getOutputStream());
+        streams.setProcessOutputStream(process.getInputStream());
+        streams.setProcessErrorStream(process.getErrorStream());
     }
 
     /**
@@ -288,7 +293,7 @@ public class DefaultExecutor implements Executor {
      * @return the first IOException being caught.
      */
     private IOException getExceptionCaught() {
-        return this.exceptionCaught;
+        return exceptionCaught;
     }
 
     /**
@@ -305,7 +310,7 @@ public class DefaultExecutor implements Executor {
      */
     @Override
     public ProcessDestroyer getProcessDestroyer() {
-        return this.processDestroyer;
+        return processDestroyer;
     }
 
     /**
@@ -336,13 +341,13 @@ public class DefaultExecutor implements Executor {
     @Override
     public boolean isFailure(final int exitValue) {
 
-        if (this.exitValues == null) {
+        if (exitValues == null) {
             return false;
         }
-        if (this.exitValues.length == 0) {
-            return this.launcher.isFailure(exitValue);
+        if (exitValues.length == 0) {
+            return launcher.isFailure(exitValue);
         }
-        for (final int exitValue2 : this.exitValues) {
+        for (final int exitValue2 : exitValues) {
             if (exitValue2 == exitValue) {
                 return false;
             }
@@ -353,22 +358,22 @@ public class DefaultExecutor implements Executor {
     /**
      * Creates a process that runs a command.
      *
-     * @param command the command to run.
-     * @param env     the environment for the command.
-     * @param dir     the working directory for the command.
+     * @param command          the command to run.
+     * @param env              the environment for the command.
+     * @param workingDirectory the working directory for the command.
      * @return the process started.
      * @throws IOException forwarded from the particular launcher used.
      */
-    protected Process launch(final CommandLine command, final Map<String, String> env, final File dir) throws IOException {
+    protected Process launch(final CommandLine command, final Map<String, String> env, final File workingDirectory) throws IOException {
 
-        if (this.launcher == null) {
+        if (launcher == null) {
             throw new IllegalStateException("CommandLauncher can not be null");
         }
 
-        if (dir != null && !dir.exists()) {
-            throw new IOException(dir + " doesn't exist.");
+        if (workingDirectory != null && !workingDirectory.exists()) {
+            throw new IOException(workingDirectory + " doesn't exist.");
         }
-        return this.launcher.exec(command, env, dir);
+        return launcher.exec(command, env, workingDirectory);
     }
 
     /**
@@ -377,21 +382,21 @@ public class DefaultExecutor implements Executor {
      * @param e the IOException.
      */
     private void setExceptionCaught(final IOException e) {
-        if (this.exceptionCaught == null) {
-            this.exceptionCaught = e;
+        if (exceptionCaught == null) {
+            exceptionCaught = e;
         }
     }
 
     /** @see org.apache.commons.exec.Executor#setExitValue(int) */
     @Override
     public void setExitValue(final int value) {
-        this.setExitValues(new int[] { value });
+        setExitValues(new int[] { value });
     }
 
     /** @see org.apache.commons.exec.Executor#setExitValues(int[]) */
     @Override
     public void setExitValues(final int[] values) {
-        this.exitValues = values == null ? null : (int[]) values.clone();
+        exitValues = values == null ? null : (int[]) values.clone();
     }
 
     /**
@@ -414,16 +419,16 @@ public class DefaultExecutor implements Executor {
      * @see org.apache.commons.exec.Executor#setWatchdog(org.apache.commons.exec.ExecuteWatchdog)
      */
     @Override
-    public void setWatchdog(final ExecuteWatchdog watchDog) {
-        this.watchdog = watchDog;
+    public void setWatchdog(final ExecuteWatchdog watchdog) {
+        this.watchdog = watchdog;
     }
 
     /**
      * @see org.apache.commons.exec.Executor#setWorkingDirectory(java.io.File)
      */
     @Override
-    public void setWorkingDirectory(final File dir) {
-        this.workingDirectory = dir;
+    public void setWorkingDirectory(final File workingDirectory) {
+        this.workingDirectory = workingDirectory;
     }
 
 }
