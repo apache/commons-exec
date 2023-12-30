@@ -24,30 +24,30 @@ import java.util.Map;
 import org.apache.commons.exec.CommandLine;
 
 /**
- * Abstracts the various platform-dependent implementations.
+ * Abstracts platform-dependent implementations.
  */
 public interface CommandLauncher {
 
     /**
      * Executes the given command in a new process.
      *
-     * @param cmd The command to execute.
-     * @param env The environment for the new process. If null, the environment of the current process is used.
+     * @param commandLine The command to execute.
+     * @param env         The environment for the new process. If null, the environment of the current process is used.
      * @return the newly created process.
      * @throws IOException if attempting to run a command in a specific directory.
      */
-    Process exec(final CommandLine cmd, final Map<String, String> env) throws IOException;
+    Process exec(final CommandLine commandLine, final Map<String, String> env) throws IOException;
 
     /**
      * Executes the given command in a new process, in the given working directory.
      *
-     * @param cmd        The command to execute.
-     * @param env        The environment for the new process. If null, the environment of the current process is used.
-     * @param workingDir The directory to start the command in. If null, the current directory is used.
+     * @param commandLine      The command to execute.
+     * @param env              The environment for the new process. If null, the environment of the current process is used.
+     * @param workingDirectory The directory to start the command in. If null, the current directory is used.
      * @return the newly created process.
      * @throws IOException if trying to change directory.
      */
-    Process exec(final CommandLine cmd, final Map<String, String> env, final File workingDir) throws IOException;
+    Process exec(final CommandLine commandLine, final Map<String, String> env, final File workingDirectory) throws IOException;
 
     /**
      * Tests whether {@code exitValue} signals a failure on the current system (OS specific).
