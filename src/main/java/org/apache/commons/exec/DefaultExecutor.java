@@ -16,12 +16,16 @@
  */
 package org.apache.commons.exec;
 
-import org.apache.commons.exec.launcher.CommandLauncher;
-import org.apache.commons.exec.launcher.CommandLauncherFactory;
-
+import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.function.Supplier;
+
+import org.apache.commons.exec.launcher.CommandLauncher;
+import org.apache.commons.exec.launcher.CommandLauncherFactory;
 
 /**
  * The default class to start a subprocess. The implementation allows to
@@ -37,15 +41,99 @@ import java.util.Map;
  * The following example shows the basic usage:
  *
  * <pre>
- * Executor exec = new DefaultExecutor();
+ * Executor exec = DefaultExecutor.builder().get();
  * CommandLine cl = new CommandLine("ls -l");
  * int exitvalue = exec.execute(cl);
  * </pre>
  */
 public class DefaultExecutor implements Executor {
 
+    /**
+     * Constructs a new builder.
+     *
+     * @param <T> The builder type.
+     * @since 1.4.0
+     */
+    public static class Builder<T extends Builder<T>> implements Supplier<DefaultExecutor> {
+
+        private ThreadFactory threadFactory;
+        private ExecuteStreamHandler executeStreamHandler;
+        private File workingDirectory;
+
+        @SuppressWarnings("unchecked")
+        T asThis() {
+            return (T) this;
+        }
+
+        /**
+         * Creates a new configured DefaultExecutor.
+         *
+         * @return a new configured DefaultExecutor.
+         */
+        @Override
+        public DefaultExecutor get() {
+            return new DefaultExecutor(threadFactory, executeStreamHandler, workingDirectory);
+        }
+
+        ExecuteStreamHandler getExecuteStreamHandler() {
+            return executeStreamHandler;
+        }
+
+        ThreadFactory getThreadFactory() {
+            return threadFactory;
+        }
+
+        File getWorkingDirectory() {
+            return workingDirectory;
+        }
+
+        /**
+         * Sets the PumpStreamHandler.
+         *
+         * @param executeStreamHandler the ExecuteStreamHandler, null resets to the default.
+         * @return this.
+         */
+        public T setExecuteStreamHandler(final ExecuteStreamHandler executeStreamHandler) {
+            this.executeStreamHandler = executeStreamHandler;
+            return asThis();
+        }
+
+        /**
+         * Sets the ThreadFactory.
+         *
+         * @param threadFactory the ThreadFactory, null resets to the default.
+         * @return this.
+         */
+        public T setThreadFactory(final ThreadFactory threadFactory) {
+            this.threadFactory = threadFactory;
+            return asThis();
+        }
+
+        /**
+         * Sets the working directory.
+         *
+         * @param workingDirectory the working directory., null resets to the default.
+         * @return this.
+         */
+        public T setWorkingDirectory(final File workingDirectory) {
+            this.workingDirectory = workingDirectory;
+            return asThis();
+        }
+
+    }
+
+    /**
+     * Creates a new builder.
+     *
+     * @return a new builder.
+     * @since 1.4.0
+     */
+    public static Builder<?> builder() {
+        return new Builder<>();
+    }
+
     /** Taking care of output and error stream. */
-    private ExecuteStreamHandler streamHandler;
+    private ExecuteStreamHandler executeStreamHandler;
 
     /** The working directory of the process. */
     private File workingDirectory;
@@ -69,17 +157,51 @@ public class DefaultExecutor implements Executor {
     private IOException exceptionCaught;
 
     /**
+     * The thread factory.
+     */
+    private final ThreadFactory threadFactory;
+
+    /**
      * Constructs a default {@code PumpStreamHandler} and sets the working directory of the subprocess to the current working directory.
      *
      * The {@code PumpStreamHandler} pumps the output of the subprocess into our {@code System.out} and {@code System.err} to avoid into our {@code System.out}
      * and {@code System.err} to avoid a blocked or deadlocked subprocess (see {@link Process Process}).
+     * @deprecated Use {@link Builder#get()}.
      */
+    @Deprecated
     public DefaultExecutor() {
-        this.streamHandler = new PumpStreamHandler();
+        this(Executors.defaultThreadFactory(), new PumpStreamHandler(), new File("."));
+    }
+
+    DefaultExecutor(final ThreadFactory threadFactory, final ExecuteStreamHandler executeStreamHandler, final File workingDirectory) {
+        this.threadFactory = threadFactory != null ? threadFactory : Executors.defaultThreadFactory();
+        this.executeStreamHandler = executeStreamHandler != null ? executeStreamHandler : new PumpStreamHandler();
+        this.workingDirectory = workingDirectory != null ? workingDirectory : new File(".");
         this.launcher = CommandLauncherFactory.createVMLauncher();
         this.exitValues = new int[0];
-        this.workingDirectory = new File(".");
-        this.exceptionCaught = null;
+    }
+
+    private void checkWorkingDirectory() throws IOException {
+        checkWorkingDirectory(workingDirectory);
+    }
+
+    private void checkWorkingDirectory(final File directory) throws IOException {
+        if (directory != null && !directory.exists()) {
+            throw new IOException(directory + " doesn't exist.");
+        }
+    }
+
+    /**
+     * Closes the Closeable, remembering any exception.
+     *
+     * @param closeable the {@link Closeable} to close.
+     */
+    private void closeCatch(final Closeable closeable) {
+        try {
+            closeable.close();
+        } catch (final IOException e) {
+            setExceptionCaught(e);
+        }
     }
 
     /**
@@ -87,25 +209,11 @@ public class DefaultExecutor implements Executor {
      *
      * @param process the {@link Process}.
      */
+    @SuppressWarnings("resource")
     private void closeProcessStreams(final Process process) {
-
-        try {
-            process.getInputStream().close();
-        } catch (final IOException e) {
-            setExceptionCaught(e);
-        }
-
-        try {
-            process.getOutputStream().close();
-        } catch (final IOException e) {
-            setExceptionCaught(e);
-        }
-
-        try {
-            process.getErrorStream().close();
-        } catch (final IOException e) {
-            setExceptionCaught(e);
-        }
+        closeCatch(process.getInputStream());
+        closeCatch(process.getOutputStream());
+        closeCatch(process.getErrorStream());
     }
 
     /**
@@ -116,7 +224,7 @@ public class DefaultExecutor implements Executor {
      * @return the thread
      */
     protected Thread createThread(final Runnable runnable, final String name) {
-        return new Thread(runnable, name);
+        return ThreadUtil.newThread(threadFactory, runnable, name, false);
     }
 
     /**
@@ -140,13 +248,8 @@ public class DefaultExecutor implements Executor {
      */
     @Override
     public int execute(final CommandLine command, final Map<String, String> environment) throws ExecuteException, IOException {
-
-        if (workingDirectory != null && !workingDirectory.exists()) {
-            throw new IOException(workingDirectory + " doesn't exist.");
-        }
-
-        return executeInternal(command, environment, workingDirectory, streamHandler);
-
+        checkWorkingDirectory();
+        return executeInternal(command, environment, workingDirectory, executeStreamHandler);
     }
 
     /**
@@ -155,26 +258,21 @@ public class DefaultExecutor implements Executor {
     @Override
     public void execute(final CommandLine command, final Map<String, String> environment, final ExecuteResultHandler handler)
             throws ExecuteException, IOException {
-
-        if (workingDirectory != null && !workingDirectory.exists()) {
-            throw new IOException(workingDirectory + " doesn't exist.");
-        }
-
+        checkWorkingDirectory();
         if (watchdog != null) {
             watchdog.setProcessNotStarted();
         }
-
         executorThread = createThread(() -> {
             int exitValue = Executor.INVALID_EXITVALUE;
             try {
-                exitValue = executeInternal(command, environment, workingDirectory, streamHandler);
+                exitValue = executeInternal(command, environment, workingDirectory, executeStreamHandler);
                 handler.onProcessComplete(exitValue);
             } catch (final ExecuteException e) {
                 handler.onProcessFailed(e);
             } catch (final Exception e) {
                 handler.onProcessFailed(new ExecuteException("Execution failed", exitValue, e));
             }
-        }, "Exec Default Executor");
+        }, "CommonsExecDefaultExecutor");
         getExecutorThread().start();
     }
 
@@ -190,10 +288,8 @@ public class DefaultExecutor implements Executor {
      */
     private int executeInternal(final CommandLine command, final Map<String, String> environment, final File workingDirectory,
             final ExecuteStreamHandler streams) throws IOException {
-
         final Process process;
         exceptionCaught = null;
-
         try {
             process = launch(command, environment, workingDirectory);
         } catch (final IOException e) {
@@ -202,7 +298,6 @@ public class DefaultExecutor implements Executor {
             }
             throw e;
         }
-
         try {
             setStreams(streams, process);
         } catch (final IOException e) {
@@ -212,23 +307,17 @@ public class DefaultExecutor implements Executor {
             }
             throw e;
         }
-
         streams.start();
-
         try {
-
             // add the process to the list of those to destroy if the VM exits
             if (getProcessDestroyer() != null) {
                 getProcessDestroyer().add(process);
             }
-
             // associate the watchdog with the newly created process
             if (watchdog != null) {
                 watchdog.start(process);
             }
-
             int exitValue = Executor.INVALID_EXITVALUE;
-
             try {
                 exitValue = process.waitFor();
             } catch (final InterruptedException e) {
@@ -240,23 +329,18 @@ public class DefaultExecutor implements Executor {
                 // but we have to do that manually
                 Thread.interrupted();
             }
-
             if (watchdog != null) {
                 watchdog.stop();
             }
-
             try {
                 streams.stop();
             } catch (final IOException e) {
                 setExceptionCaught(e);
             }
-
             closeProcessStreams(process);
-
             if (getExceptionCaught() != null) {
                 throw getExceptionCaught();
             }
-
             if (watchdog != null) {
                 try {
                     watchdog.checkException();
@@ -266,11 +350,9 @@ public class DefaultExecutor implements Executor {
                     throw new IOException(e);
                 }
             }
-
             if (isFailure(exitValue)) {
                 throw new ExecuteException("Process exited with an error: " + exitValue, exitValue);
             }
-
             return exitValue;
         } finally {
             // remove the process to the list of those to destroy if the VM exits
@@ -278,13 +360,6 @@ public class DefaultExecutor implements Executor {
                 getProcessDestroyer().remove(process);
             }
         }
-    }
-
-    @SuppressWarnings("resource")
-    private void setStreams(final ExecuteStreamHandler streams, final Process process) throws IOException {
-        streams.setProcessInputStream(process.getOutputStream());
-        streams.setProcessOutputStream(process.getInputStream());
-        streams.setProcessErrorStream(process.getErrorStream());
     }
 
     /**
@@ -318,7 +393,16 @@ public class DefaultExecutor implements Executor {
      */
     @Override
     public ExecuteStreamHandler getStreamHandler() {
-        return streamHandler;
+        return executeStreamHandler;
+    }
+
+    /**
+     * Gets the thread factory. Z
+     *
+     * @return the thread factory.
+     */
+    ThreadFactory getThreadFactory() {
+        return threadFactory;
     }
 
     /**
@@ -340,7 +424,6 @@ public class DefaultExecutor implements Executor {
     /** @see org.apache.commons.exec.Executor#isFailure(int) */
     @Override
     public boolean isFailure(final int exitValue) {
-
         if (exitValues == null) {
             return false;
         }
@@ -365,19 +448,15 @@ public class DefaultExecutor implements Executor {
      * @throws IOException forwarded from the particular launcher used.
      */
     protected Process launch(final CommandLine command, final Map<String, String> env, final File workingDirectory) throws IOException {
-
         if (launcher == null) {
             throw new IllegalStateException("CommandLauncher can not be null");
         }
-
-        if (workingDirectory != null && !workingDirectory.exists()) {
-            throw new IOException(workingDirectory + " doesn't exist.");
-        }
+        checkWorkingDirectory(workingDirectory);
         return launcher.exec(command, env, workingDirectory);
     }
 
     /**
-     * Keep track of the first IOException being thrown.
+     * Sets the first IOException thrown.
      *
      * @param e the IOException.
      */
@@ -412,7 +491,14 @@ public class DefaultExecutor implements Executor {
      */
     @Override
     public void setStreamHandler(final ExecuteStreamHandler streamHandler) {
-        this.streamHandler = streamHandler;
+        this.executeStreamHandler = streamHandler;
+    }
+
+    @SuppressWarnings("resource")
+    private void setStreams(final ExecuteStreamHandler streams, final Process process) throws IOException {
+        streams.setProcessInputStream(process.getOutputStream());
+        streams.setProcessOutputStream(process.getInputStream());
+        streams.setProcessErrorStream(process.getErrorStream());
     }
 
     /**
@@ -424,8 +510,12 @@ public class DefaultExecutor implements Executor {
     }
 
     /**
+     * Sets the working directory.
+     *
      * @see org.apache.commons.exec.Executor#setWorkingDirectory(java.io.File)
+     * @deprecated Use {@link Builder#setWorkingDirectory(File)}.
      */
+    @Deprecated
     @Override
     public void setWorkingDirectory(final File workingDirectory) {
         this.workingDirectory = workingDirectory;

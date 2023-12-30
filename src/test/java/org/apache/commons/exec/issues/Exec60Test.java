@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
  */
 public class Exec60Test extends AbstractExecTest {
 
-    private final Executor exec = new DefaultExecutor();
+    private final Executor exec = DefaultExecutor.builder().get();
     private final File pingScript = resolveTestScript("ping");
 
     /**

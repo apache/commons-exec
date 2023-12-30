@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
 public class Exec49Test {
 
     private static final Duration WAIT = Duration.ofSeconds(10);
-    private final Executor exec = new DefaultExecutor();
+    private final Executor exec = DefaultExecutor.builder().get();
 
     /**
      * The issue was detected when trying to capture stdout/stderr with a PipedOutputStream and then pass that to a PipedInputStream. The following code will

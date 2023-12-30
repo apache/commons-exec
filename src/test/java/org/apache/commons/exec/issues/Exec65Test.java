@@ -55,7 +55,7 @@ public class Exec65Test extends AbstractExecTest {
     @Timeout(value = TEST_TIMEOUT, unit = TimeUnit.MILLISECONDS)
     public void testExec65WithSleepUsingShellScript() throws Exception {
         assumeTrue(OS.isFamilyMac());
-        final DefaultExecutor executor = new DefaultExecutor();
+        final DefaultExecutor executor = DefaultExecutor.builder().get();
         executor.setStreamHandler(new PumpStreamHandler(System.out, System.err));
         executor.setWatchdog(new ExecuteWatchdog(WATCHDOG_TIMEOUT));
         final CommandLine command = new CommandLine(resolveTestScript("sleep"));
@@ -94,7 +94,7 @@ public class Exec65Test extends AbstractExecTest {
         if (!OS.isFamilyUnix()) {
             throw new ExecuteException(testNotSupportedForCurrentOperatingSystem(), 0);
         }
-        final DefaultExecutor executor = new DefaultExecutor();
+        final DefaultExecutor executor = DefaultExecutor.builder().get();
         executor.setStreamHandler(new PumpStreamHandler(System.out, System.err, System.in));
         executor.setWatchdog(new ExecuteWatchdog(WATCHDOG_TIMEOUT));
         final CommandLine command = new CommandLine(resolveTestScript("issues", "exec-65"));
@@ -110,7 +110,7 @@ public class Exec65Test extends AbstractExecTest {
             throw new ExecuteException(testNotSupportedForCurrentOperatingSystem(), 0);
         }
         final ExecuteWatchdog watchdog = new ExecuteWatchdog(WATCHDOG_TIMEOUT);
-        final DefaultExecutor executor = new DefaultExecutor();
+        final DefaultExecutor executor = DefaultExecutor.builder().get();
         final CommandLine command = new CommandLine("sleep");
         command.addArgument("60");
         executor.setStreamHandler(new PumpStreamHandler(System.out, System.err));

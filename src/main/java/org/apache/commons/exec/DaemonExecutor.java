@@ -16,12 +16,58 @@
  */
 package org.apache.commons.exec;
 
+import java.io.File;
+import java.util.concurrent.ThreadFactory;
+
 /**
  * Runs daemon processes asynchronously. Callers are expected to register a {@link ProcessDestroyer} before executing any processes.
  *
  * @since 1.3
  */
 public class DaemonExecutor extends DefaultExecutor {
+
+    /**
+     * Constructs a new builder.
+     *
+     * @since 1.4.0
+     */
+    public static class Builder extends DefaultExecutor.Builder<Builder> {
+
+        /**
+         * Creates a new configured DaemonExecutor.
+         *
+         * @return a new configured DaemonExecutor.
+         */
+        @Override
+        public DefaultExecutor get() {
+            return new DaemonExecutor(getThreadFactory(), getExecuteStreamHandler(), getWorkingDirectory());
+        }
+
+    }
+
+    /**
+     * Constructs a new instance.
+     *
+     * @deprecated Use {@link Builder#get()}.
+     */
+    @Deprecated
+    public DaemonExecutor() {
+        // super
+    }
+
+    private DaemonExecutor(final ThreadFactory threadFactory, final ExecuteStreamHandler executeStreamHandler, final File workingDirectory) {
+        super(threadFactory, executeStreamHandler, workingDirectory);
+    }
+
+    /**
+     * Creates a new builder.
+     *
+     * @return a new builder.
+     * @since 1.4.0
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
 
     /**
      * Factory method to create a thread waiting for the result of an asynchronous execution.
@@ -32,8 +78,8 @@ public class DaemonExecutor extends DefaultExecutor {
      */
     @Override
     protected Thread createThread(final Runnable runnable, final String name) {
-        final Thread t = super.createThread(runnable, name);
-        t.setDaemon(true);
-        return t;
+        final Thread thread = super.createThread(runnable, name);
+        thread.setDaemon(true);
+        return thread;
     }
 }

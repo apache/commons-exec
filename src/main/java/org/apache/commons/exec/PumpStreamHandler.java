@@ -23,6 +23,8 @@ import java.io.OutputStream;
 import java.io.PipedOutputStream;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
 import org.apache.commons.exec.util.DebugUtils;
 
@@ -40,11 +42,11 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
 
     private Thread inputThread;
 
-    private final OutputStream out;
+    private final OutputStream outputStream;
 
-    private final OutputStream err;
+    private final OutputStream errorOutputStream;
 
-    private final InputStream input;
+    private final InputStream inputStream;
 
     private InputStreamPumper inputStreamPumper;
 
@@ -53,6 +55,11 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
 
     /** The last exception being caught. */
     private IOException caught;
+
+    /**
+     * The thread factory.
+     */
+    private final ThreadFactory threadFactory;
 
     /**
      * Constructs a new {@link PumpStreamHandler}.
@@ -64,33 +71,46 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Constructs a new {@link PumpStreamHandler}.
      *
-     * @param outAndErr the output/error {@link OutputStream}.
+     * @param allOutputStream the output/error {@link OutputStream}.
      */
-    public PumpStreamHandler(final OutputStream outAndErr) {
-        this(outAndErr, outAndErr);
+    public PumpStreamHandler(final OutputStream allOutputStream) {
+        this(allOutputStream, allOutputStream);
     }
 
     /**
      * Constructs a new {@link PumpStreamHandler}.
      *
-     * @param out the output {@link OutputStream}.
-     * @param err the error {@link OutputStream}.
+     * @param outputStream      the output {@link OutputStream}.
+     * @param errorOutputStream the error {@link OutputStream}.
      */
-    public PumpStreamHandler(final OutputStream out, final OutputStream err) {
-        this(out, err, null);
+    public PumpStreamHandler(final OutputStream outputStream, final OutputStream errorOutputStream) {
+        this(outputStream, errorOutputStream, null);
     }
 
     /**
      * Constructs a new {@link PumpStreamHandler}.
      *
-     * @param out   the output {@link OutputStream}.
-     * @param err   the error {@link OutputStream}.
-     * @param input the input {@link InputStream}.
+     * @param outputStream      the output {@link OutputStream}.
+     * @param errorOutputStream the error {@link OutputStream}.
+     * @param inputStream       the input {@link InputStream}.
      */
-    public PumpStreamHandler(final OutputStream out, final OutputStream err, final InputStream input) {
-        this.out = out;
-        this.err = err;
-        this.input = input;
+    public PumpStreamHandler(final OutputStream outputStream, final OutputStream errorOutputStream, final InputStream inputStream) {
+        this(Executors.defaultThreadFactory(), outputStream, errorOutputStream, inputStream);
+    }
+
+    /**
+     * Constructs a new {@link PumpStreamHandler}.
+     *
+     * @param outputStream      the output {@link OutputStream}.
+     * @param errorOutputStream the error {@link OutputStream}.
+     * @param inputStream       the input {@link InputStream}.
+     */
+    private PumpStreamHandler(final ThreadFactory threadFactory, final OutputStream outputStream, final OutputStream errorOutputStream,
+            final InputStream inputStream) {
+        this.threadFactory = threadFactory;
+        this.outputStream = outputStream;
+        this.errorOutputStream = errorOutputStream;
+        this.inputStream = inputStream;
     }
 
     /**
@@ -134,9 +154,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * @return the stream pumper thread.
      */
     protected Thread createPump(final InputStream is, final OutputStream os, final boolean closeWhenExhausted) {
-        final Thread result = new Thread(new StreamPumper(is, os, closeWhenExhausted), "Exec Stream Pumper");
-        result.setDaemon(true);
-        return result;
+        return ThreadUtil.newThread(threadFactory, new StreamPumper(is, os, closeWhenExhausted), "CommonsExecStreamPumper-", true);
     }
 
     /**
@@ -148,9 +166,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      */
     private Thread createSystemInPump(final InputStream is, final OutputStream os) {
         inputStreamPumper = new InputStreamPumper(is, os);
-        final Thread result = new Thread(inputStreamPumper, "Exec Input Stream Pumper");
-        result.setDaemon(true);
-        return result;
+        return ThreadUtil.newThread(threadFactory, inputStreamPumper, "CommonsExecStreamPumper-", true);
     }
 
     /**
@@ -159,7 +175,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * @return {@link OutputStream}.
      */
     protected OutputStream getErr() {
-        return err;
+        return errorOutputStream;
     }
 
     /**
@@ -168,7 +184,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * @return {@link OutputStream}.
      */
     protected OutputStream getOut() {
-        return out;
+        return outputStream;
     }
 
     Duration getStopTimeout() {
@@ -182,8 +198,8 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      */
     @Override
     public void setProcessErrorStream(final InputStream is) {
-        if (err != null) {
-            createProcessErrorPump(is, err);
+        if (errorOutputStream != null) {
+            createProcessErrorPump(is, errorOutputStream);
         }
     }
 
@@ -194,11 +210,11 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      */
     @Override
     public void setProcessInputStream(final OutputStream os) {
-        if (input != null) {
-            if (input == System.in) {
-                inputThread = createSystemInPump(input, os);
+        if (inputStream != null) {
+            if (inputStream == System.in) {
+                inputThread = createSystemInPump(inputStream, os);
             } else {
-                inputThread = createPump(input, os, true);
+                inputThread = createPump(inputStream, os, true);
             }
         } else {
             try {
@@ -217,8 +233,8 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      */
     @Override
     public void setProcessOutputStream(final InputStream is) {
-        if (out != null) {
-            createProcessOutputPump(is, out);
+        if (outputStream != null) {
+            createProcessOutputPump(is, outputStream);
         }
     }
 
@@ -248,14 +264,17 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      */
     @Override
     public void start() {
-        if (outputThread != null) {
-            outputThread.start();
-        }
-        if (errorThread != null) {
-            errorThread.start();
-        }
-        if (inputThread != null) {
-            inputThread.start();
+        start(outputThread);
+        start(errorThread);
+        start(inputThread);
+    }
+
+    /**
+     * Starts the given {@link Thread}.
+     */
+    private void start(final Thread thread) {
+        if (thread != null) {
+            thread.start();
         }
     }
 
@@ -264,27 +283,25 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      */
     @Override
     public void stop() throws IOException {
-
         if (inputStreamPumper != null) {
             inputStreamPumper.stopProcessing();
         }
+        stop(outputThread, stopTimeout);
+        stop(errorThread, stopTimeout);
+        stop(inputThread, stopTimeout);
 
-        stopThread(outputThread, stopTimeout);
-        stopThread(errorThread, stopTimeout);
-        stopThread(inputThread, stopTimeout);
-
-        if (err != null && err != out) {
+        if (errorOutputStream != null && errorOutputStream != outputStream) {
             try {
-                err.flush();
+                errorOutputStream.flush();
             } catch (final IOException e) {
                 final String msg = "Got exception while flushing the error stream : " + e.getMessage();
                 DebugUtils.handleException(msg, e);
             }
         }
 
-        if (out != null) {
+        if (outputStream != null) {
             try {
-                out.flush();
+                outputStream.flush();
             } catch (final IOException e) {
                 final String msg = "Got exception while flushing the output stream";
                 DebugUtils.handleException(msg, e);
@@ -297,13 +314,13 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Stops a pumper thread. The implementation actually waits longer than specified in 'timeout' to detect if the timeout was indeed exceeded. If the
-     * timeout was exceeded an IOException is created to be thrown to the caller.
+     * Stops a pumper thread. The implementation actually waits longer than specified in 'timeout' to detect if the timeout was indeed exceeded. If the timeout
+     * was exceeded an IOException is created to be thrown to the caller.
      *
-     * @param thread        the thread to be stopped.
+     * @param thread  the thread to be stopped.
      * @param timeout the time in ms to wait to join.
      */
-    private void stopThread(final Thread thread, final Duration timeout) {
+    private void stop(final Thread thread, final Duration timeout) {
         if (thread != null) {
             try {
                 if (timeout.equals(Duration.ZERO)) {
@@ -323,13 +340,13 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Stops a pumper thread. The implementation actually waits longer than specified in 'timeout' to detect if the timeout was indeed exceeded. If the
-     * timeout was exceeded an IOException is created to be thrown to the caller.
+     * Stops a pumper thread. The implementation actually waits longer than specified in 'timeout' to detect if the timeout was indeed exceeded. If the timeout
+     * was exceeded an IOException is created to be thrown to the caller.
      *
      * @param thread        the thread to be stopped.
      * @param timeoutMillis the time in ms to wait to join.
      */
     protected void stopThread(final Thread thread, final long timeoutMillis) {
-        stopThread(thread, Duration.ofMillis(timeoutMillis));
+        stop(thread, Duration.ofMillis(timeoutMillis));
     }
 }

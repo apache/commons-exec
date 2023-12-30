@@ -32,8 +32,12 @@
             <action dev="ggregory" type="add" due-to="Gary Gregory">Add Watchdog.Watchdog(Duration).</action>
             <action dev="ggregory" type="add" due-to="Gary Gregory">Add ExecuteWatchdog.ExecuteWatchdog(Duration).</action>
             <action dev="ggregory" type="add" due-to="Gary Gregory">Add PumpStreamHandler.setStopTimeout(Duration) and deprecate PumpStreamHandler.setStopTimeout(long).</action>
+            <action dev="ggregory" type="add" due-to="Gary Gregory">Add DefaultExecutor.Builder.</action>
+            <action dev="ggregory" type="add" due-to="Gary Gregory">Add DaemonExecutor.Builder.</action>
+            <action dev="ggregory" type="add" due-to="Gary Gregory">Add ExecuteWatchdog.Builder.</action>
+            <action dev="ggregory" type="add" due-to="Gary Gregory">Add Watchdog.Builder.</action>
             <!-- FIX -->
-            <action issue="EXEC-105" type="fix" date="2023-07-16" due-to="Dimitrios Efthymiou">Fix code snippet in tutorial page.</action>
+            <action issue="EXEC-105" type="fix" due-to="Dimitrios Efthymiou">Fix code snippet in tutorial page.</action>
             <action issue="EXEC-100" dev="sgoeschl" type="fix" date="2016-01-11">Sync org.apache.commons.exec.OS with the newest Ant source file.</action>
             <action issue="EXEC-64" dev="sebb" type="fix" due-to="Michael Vorburger">DefaultExecutor swallows IOException cause instead of propagating it (work-round for Java 1.5).</action>
             <action dev="ggregory" type="fix" due-to="nullptr">Java-style Array declaration and remove empty finally block #26.</action>
@@ -45,6 +49,7 @@
             <action dev="ggregory" type="fix" due-to="Gary Gregory">Propagate exception in DebugUtils.handleException(String, Exception).</action>
             <action dev="ggregory" type="fix" due-to="Gary Gregory">Deprecate StringUtils.toString(String[], String) in favor of String.join(CharSequence, CharSequence...).</action>
             <action issue="EXEC-78" dev="ggregory" type="fix">No need to use System.class.getMethod("getenv",...) any more.</action>
+            <action issue="EXEC-70" dev="ggregory" type="fix">Delegate thread creation to java.util.concurrent.ThreadFactory.</action>
             <!-- REMOVE -->
             <action dev="ggregory" type="remove" due-to="Gary Gregory">Deprecate DefaultExecuteResultHandler.waitFor(long).</action>
             <action dev="ggregory" type="remove" due-to="Gary Gregory">Deprecate ExecuteWatchdog.ExecuteWatchdog(long).</action>

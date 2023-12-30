@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
  */
 public class Exec33Test {
 
-    private final Executor exec = new DefaultExecutor();
+    private final Executor exec = DefaultExecutor.builder().get();
     private final File testDir = new File("src/test/scripts");
     private final File testScript = TestUtil.resolveScriptForOS(testDir + "/test");
 
@@ -43,7 +43,7 @@ public class Exec33Test {
     public void testExec33() throws Exception {
         final CommandLine cl = new CommandLine(testScript);
         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(System.out, System.err, System.in);
-        final DefaultExecutor executor = new DefaultExecutor();
+        final DefaultExecutor executor = DefaultExecutor.builder().get();
         executor.setStreamHandler(pumpStreamHandler);
         final int exitValue = executor.execute(cl);
         assertFalse(exec.isFailure(exitValue));

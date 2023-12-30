@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Test;
  */
 public class Exec36Test {
 
-    private final Executor exec = new DefaultExecutor();
+    private final Executor exec = DefaultExecutor.builder().get();
     private final File testDir = new File("src/test/scripts");
     private final File printArgsScript = TestUtil.resolveScriptForOS(testDir + "/printargs");
 

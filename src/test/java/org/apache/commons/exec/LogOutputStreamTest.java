@@ -25,8 +25,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junitpioneer.jupiter.SetSystemProperty;
@@ -62,7 +60,7 @@ public class LogOutputStreamTest {
         }
     }
 
-    private final Executor exec = new DefaultExecutor();
+    private final Executor exec = DefaultExecutor.builder().get();
     private final File testDir = new File("src/test/scripts");
     private OutputStream systemOut;
 

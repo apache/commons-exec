@@ -52,7 +52,7 @@ public class Exec41Test {
 
         final CommandLine cmdLine = new CommandLine(pingScript);
         cmdLine.addArgument("10"); // sleep 10 seconds
-        final DefaultExecutor executor = new DefaultExecutor();
+        final DefaultExecutor executor = DefaultExecutor.builder().get();
         final ExecuteWatchdog watchdog = new ExecuteWatchdog(2 * 1000); // allow process no more than 2 seconds
 
         // create a custom "PumpStreamHandler" doing no pumping at all
@@ -106,7 +106,7 @@ public class Exec41Test {
             return;
         }
 
-        final DefaultExecutor executor = new DefaultExecutor();
+        final DefaultExecutor executor = DefaultExecutor.builder().get();
         final ExecuteWatchdog watchdog = new ExecuteWatchdog(2 * 1000); // allow process no more than 2 seconds
         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(System.out, System.err);
         // this method was part of the patch I reverted

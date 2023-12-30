@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * The main abstraction to start an external process.
  *
- * The interface allows to
+ * The interface allows to:
  * <ul>
  * <li>set a current working directory for the subprocess</li>
  * <li>provide a set of environment variables passed to the subprocess</li>
@@ -33,11 +33,11 @@ import java.util.Map;
  * <li>define a set of expected exit values</li>
  * <li>terminate any started processes when the main process is terminating using a ProcessDestroyer</li>
  * </ul>
- *
+ * <p>
  * The following example shows the basic usage:
- *
+ * </p>
  * <pre>
- * Executor exec = new DefaultExecutor();
+ * Executor exec = DefaultExecutor.builder().get();
  * CommandLine cl = new CommandLine("ls -l");
  * int exitvalue = exec.execute(cl);
  * </pre>

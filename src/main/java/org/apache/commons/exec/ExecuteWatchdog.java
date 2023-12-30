@@ -19,6 +19,9 @@ package org.apache.commons.exec;
 
 import java.time.Duration;
 import java.util.Objects;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.function.Supplier;
 
 import org.apache.commons.exec.util.DebugUtils;
 
@@ -26,26 +29,71 @@ import org.apache.commons.exec.util.DebugUtils;
  * Destroys a process running for too long. For example:
  *
  * <pre>
- * ExecuteWatchdog watchdog = new ExecuteWatchdog(30000);
- * Executor executor = new DefaultExecutor();
- * executor.setStreamHandler(new PumpStreamHandler());
+ * ExecuteWatchdog watchdog = ExecuteWatchdog.builder().setTimeout(Duration.ofSeconds(30)).get();
+ * Executor executor = DefaultExecutor.builder().setExecuteStreamHandler(new PumpStreamHandler()).get();
  * executor.setWatchdog(watchdog);
  * int exitValue = executor.execute(myCommandLine);
  * if (executor.isFailure(exitValue) &amp;&amp; watchdog.killedProcess()) {
  *     // it was killed on purpose by the watchdog
  * }
  * </pre>
- *
- * When starting an asynchronous process than 'ExecuteWatchdog' is the keeper of the process handle. In some cases it is useful not to define a timeout (and
- * pass 'INFINITE_TIMEOUT') and to kill the process explicitly using 'destroyProcess()'.
  * <p>
- * Please note that ExecuteWatchdog is processed asynchronously, e.g. it might be still attached to a process even after the DefaultExecutor.execute has
- * returned.
+ * When starting an asynchronous process than 'ExecuteWatchdog' is the keeper of the process handle. In some cases it is useful not to define a timeout (and
+ * pass {@link #INFINITE_TIMEOUT_DURATION}) and to kill the process explicitly using {@link #destroyProcess()}.
+ * </p>
+ * <p>
+ * Please note that ExecuteWatchdog is processed asynchronously, e.g. it might be still attached to a process even after the
+ * {@link DefaultExecutor#execute(CommandLine)} or a variation has returned.
+ * </p>
  *
- * @see org.apache.commons.exec.Executor
- * @see org.apache.commons.exec.Watchdog
+ * @see Executor
+ * @see Watchdog
  */
 public class ExecuteWatchdog implements TimeoutObserver {
+
+    /**
+     * Builds ExecuteWatchdog instances.
+     *
+     * @since 1.4.0
+     */
+    public static final class Builder implements Supplier<ExecuteWatchdog> {
+
+        private ThreadFactory threadFactory;
+        private Duration timeout;
+
+        /**
+         * Creates a new configured ExecuteWatchdog.
+         *
+         * @return a new configured ExecuteWatchdog.
+         */
+        @Override
+        public ExecuteWatchdog get() {
+            return new ExecuteWatchdog(threadFactory, timeout);
+        }
+
+        /**
+         * Sets the thread factory.
+         *
+         * @param threadFactory the thread factory.
+         * @return this.
+         */
+        public Builder setThreadFactory(final ThreadFactory threadFactory) {
+            this.threadFactory = threadFactory;
+            return this;
+        }
+
+        /**
+         * Sets the timeout duration.
+         *
+         * @param timeout the timeout duration.
+         * @return this.
+         */
+        public Builder setTimeout(final Duration timeout) {
+            this.timeout = timeout;
+            return this;
+        }
+
+    }
 
     /** The marker for an infinite timeout. */
     public static final long INFINITE_TIMEOUT = -1;
@@ -75,18 +123,34 @@ public class ExecuteWatchdog implements TimeoutObserver {
     private volatile boolean processStarted;
 
     /**
-     * Creates a new watchdog with a given timeout.
+     * The thread factory.
+     */
+    private final ThreadFactory threadFactory;
+
+    /**
+     * Creates a new builder.
      *
-     * @param timeout the timeout Duration for the process. It must be greater than 0 or {@code INFINITE_TIMEOUT_DURATION}.
+     * @return a new builder.
      * @since 1.4.0
      */
-    public ExecuteWatchdog(final Duration timeout) {
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    /**
+     * Creates a new watchdog with a given timeout.
+     *
+     * @param threadFactory the thread factory.
+     * @param timeout       the timeout Duration for the process. It must be greater than 0 or {@code INFINITE_TIMEOUT_DURATION}.
+     */
+    private ExecuteWatchdog(final ThreadFactory threadFactory, final Duration timeout) {
         this.killedProcess = false;
         this.watch = false;
         this.hasWatchdog = !INFINITE_TIMEOUT_DURATION.equals(timeout);
         this.processStarted = false;
+        this.threadFactory = threadFactory != null ? threadFactory : Executors.defaultThreadFactory();
         if (this.hasWatchdog) {
-            this.watchdog = new Watchdog(timeout);
+            this.watchdog = Watchdog.builder().setThreadFactory(this.threadFactory).setTimeout(timeout).get();
             this.watchdog.addTimeoutObserver(this);
         } else {
             this.watchdog = null;
@@ -97,11 +161,11 @@ public class ExecuteWatchdog implements TimeoutObserver {
      * Creates a new watchdog with a given timeout.
      *
      * @param timeoutMillis the timeout for the process in milliseconds. It must be greater than 0 or {@code INFINITE_TIMEOUT}.
-     * @deprecated Use {@link #ExecuteWatchdog(Duration)}.
+     * @deprecated Use {@link Builder#get()}.
      */
     @Deprecated
     public ExecuteWatchdog(final long timeoutMillis) {
-        this(Duration.ofMillis(timeoutMillis));
+        this(Executors.defaultThreadFactory(), Duration.ofMillis(timeoutMillis));
     }
 
     /**

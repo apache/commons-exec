@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,7 +81,7 @@ public class TutorialTest {
      * @return a print result handler (implementing a future)
      * @throws IOException the test failed
      */
-    public PrintResultHandler print(final File file, final long printJobTimeout, final boolean printInBackground) throws IOException {
+    public PrintResultHandler print(final File file, final Duration printJobTimeout, final boolean printInBackground) throws IOException {
 
         int exitValue;
         ExecuteWatchdog watchdog = null;
@@ -96,12 +97,12 @@ public class TutorialTest {
         commandLine.setSubstitutionMap(map);
 
         // create the executor and consider the exitValue '1' as success
-        final Executor executor = new DefaultExecutor();
+        final Executor executor = DefaultExecutor.builder().get();
         executor.setExitValue(1);
 
         // create a watchdog if requested
-        if (printJobTimeout > 0) {
-            watchdog = new ExecuteWatchdog(printJobTimeout);
+        if (printJobTimeout.toMillis() > 0) {
+            watchdog = ExecuteWatchdog.builder().setTimeout(printJobTimeout).get();
             executor.setWatchdog(watchdog);
         }
 
@@ -122,7 +123,7 @@ public class TutorialTest {
     @Test
     public void testTutorialExample() throws Exception {
 
-        final long printJobTimeout = 15000;
+        final Duration printJobTimeout = Duration.ofSeconds(15);
         final boolean printInBackground = false;
         final File pdfFile = new File("/Documents and Settings/foo.pdf");
 

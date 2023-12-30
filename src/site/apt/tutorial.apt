@@ -48,7 +48,7 @@ Apache Commons Exec
 +----------------------------------------------------------------------------
 String line = "AcroRd32.exe /p /h " + file.getAbsolutePath();
 CommandLine cmdLine = CommandLine.parse(line);
-DefaultExecutor executor = new DefaultExecutor();
+DefaultExecutor executor = DefaultExecutor.builder().get();
 int exitValue = executor.execute(cmdLine);
 +----------------------------------------------------------------------------
 
@@ -60,7 +60,7 @@ int exitValue = executor.execute(cmdLine);
 +----------------------------------------------------------------------------
 String line = "AcroRd32.exe /p /h " + file.getAbsolutePath();
 CommandLine cmdLine = CommandLine.parse(line);
-DefaultExecutor executor = new DefaultExecutor();
+DefaultExecutor executor = DefaultExecutor.builder().get();
 executor.setExitValue(1);
 int exitValue = executor.execute(cmdLine);
 +----------------------------------------------------------------------------
@@ -76,7 +76,7 @@ int exitValue = executor.execute(cmdLine);
 +----------------------------------------------------------------------------
 String line = "AcroRd32.exe /p /h " + file.getAbsolutePath();
 CommandLine cmdLine = CommandLine.parse(line);
-DefaultExecutor executor = new DefaultExecutor();
+DefaultExecutor executor = DefaultExecutor.builder().get();
 executor.setExitValue(1);
 ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
 executor.setWatchdog(watchdog);
@@ -102,7 +102,7 @@ int exitValue = executor.execute(cmdLine);
 +----------------------------------------------------------------------------
 String line = "AcroRd32.exe /p /h \"" + file.getAbsolutePath() + "\"";
 CommandLine cmdLine = CommandLine.parse(line);
-DefaultExecutor executor = new DefaultExecutor();
+DefaultExecutor executor = DefaultExecutor.builder().get();
 executor.setExitValue(1);
 ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
 executor.setWatchdog(watchdog);
@@ -127,7 +127,7 @@ cmdLine.addArgument("/p");
 cmdLine.addArgument("/h");
 cmdLine.addArgument("${file}");
 cmdLine.setSubstitutionMap(map);
-DefaultExecutor executor = new DefaultExecutor();
+DefaultExecutor executor = DefaultExecutor.builder().get();
 executor.setExitValue(1);
 ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
 executor.setWatchdog(watchdog);
@@ -162,7 +162,7 @@ cmdLine.setSubstitutionMap(map);
 DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
 
 ExecuteWatchdog watchdog = new ExecuteWatchdog(60*1000);
-Executor executor = new DefaultExecutor();
+Executor executor = DefaultExecutor.builder().get();
 executor.setExitValue(1);
 executor.setWatchdog(watchdog);
 executor.execute(cmdLine, resultHandler);

@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
  */
 public class Exec44Test {
 
-    private final Executor exec = new DefaultExecutor();
+    private final Executor exec = DefaultExecutor.builder().get();
     private final File testDir = new File("src/test/scripts");
     private final File foreverTestScript = TestUtil.resolveScriptForOS(testDir + "/forever");
 

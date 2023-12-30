@@ -20,26 +20,53 @@ package org.apache.commons.exec;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.util.concurrent.Executors;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.SetSystemProperty;
 
 /**
  * Placeholder for mailing list question - provided a minimal test case to answer the question as sel-contained regression test.
  */
+@SetSystemProperty(key = "org.apache.commons.exec.lenient", value = "false")
+@SetSystemProperty(key = "org.apache.commons.exec.debug", value = "true")
 public class StandAloneTest {
 
-    @BeforeAll
-    public static void classSetUp() {
-        System.setProperty("org.apache.commons.exec.lenient", "false");
-        System.setProperty("org.apache.commons.exec.debug", "true");
-    }
-
     @Test
-    public void testMe() throws Exception {
+    public void testDefaultExecutor() throws Exception {
         if (OS.isFamilyUnix()) {
             final File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/standalone");
             final Executor exec = new DefaultExecutor();
+            exec.setStreamHandler(new PumpStreamHandler());
+            final CommandLine cl = new CommandLine(testScript);
+            exec.execute(cl);
+            assertTrue(new File("./target/mybackup.gz").exists());
+        }
+    }
+
+    @Test
+    public void testDefaultExecutorDefaultBuilder() throws Exception {
+        if (OS.isFamilyUnix()) {
+            final File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/standalone");
+            final Executor exec = DefaultExecutor.builder().get();
+            exec.setStreamHandler(new PumpStreamHandler());
+            final CommandLine cl = new CommandLine(testScript);
+            exec.execute(cl);
+            assertTrue(new File("./target/mybackup.gz").exists());
+        }
+    }
+
+    @Test
+    public void testDefaultExecutorBuilder() throws Exception {
+        if (OS.isFamilyUnix()) {
+            final File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/standalone");
+            // @formatter:off
+            final Executor exec = DefaultExecutor.builder()
+                    .setThreadFactory(Executors.defaultThreadFactory())
+                    .setExecuteStreamHandler(new PumpStreamHandler())
+                    .setWorkingDirectory(new File("."))
+                    .get();
+            // @formatter:on
             exec.setStreamHandler(new PumpStreamHandler());
             final CommandLine cl = new CommandLine(testScript);
             exec.execute(cl);

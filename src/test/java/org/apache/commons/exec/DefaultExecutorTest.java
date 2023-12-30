@@ -69,7 +69,7 @@ public class DefaultExecutorTest {
         ERROR_STATUS = statuses[1];
     }
 
-    private final Executor exec = new DefaultExecutor();
+    private final Executor exec = DefaultExecutor.builder().get();
 
     private final File testDir = new File("src/test/scripts");
     private final File foreverOutputFile = new File("./target/forever.txt");
@@ -135,10 +135,6 @@ public class DefaultExecutorTest {
 
         return result;
     }
-
-    // ======================================================================
-    // Start of regression tests
-    // ======================================================================
 
     private String readFile(final File file) throws Exception {
 
@@ -251,7 +247,7 @@ public class DefaultExecutorTest {
     public void testExecuteAsyncNonExistingApplication() throws Exception {
         final CommandLine cl = new CommandLine(nonExistingTestScript);
         final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
-        final DefaultExecutor executor = new DefaultExecutor();
+        final DefaultExecutor executor = DefaultExecutor.builder().get();
 
         executor.execute(cl, resultHandler);
         resultHandler.waitFor();
@@ -276,7 +272,7 @@ public class DefaultExecutorTest {
                 super.onProcessFailed(e);
             }
         };
-        final DefaultExecutor executor = new DefaultExecutor();
+        final DefaultExecutor executor = DefaultExecutor.builder().get();
         executor.setWatchdog(new ExecuteWatchdog(ExecuteWatchdog.INFINITE_TIMEOUT));
 
         executor.execute(cl, resultHandler);
@@ -402,7 +398,7 @@ public class DefaultExecutorTest {
     @Test
     public void testExecuteNonExistingApplication() throws Exception {
         final CommandLine cl = new CommandLine(nonExistingTestScript);
-        final DefaultExecutor executor = new DefaultExecutor();
+        final DefaultExecutor executor = DefaultExecutor.builder().get();
 
         assertThrows(IOException.class, () -> executor.execute(cl));
     }
@@ -413,7 +409,7 @@ public class DefaultExecutorTest {
     @Test
     public void testExecuteNonExistingApplicationWithWatchDog() throws Exception {
         final CommandLine cl = new CommandLine(nonExistingTestScript);
-        final DefaultExecutor executor = new DefaultExecutor();
+        final DefaultExecutor executor = DefaultExecutor.builder().get();
         executor.setWatchdog(new ExecuteWatchdog(ExecuteWatchdog.INFINITE_TIMEOUT));
 
         assertThrows(IOException.class, () -> executor.execute(cl));
@@ -432,7 +428,7 @@ public class DefaultExecutorTest {
 
         final CommandLine cl = new CommandLine(foreverTestScript);
         final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
-        final DefaultExecutor executor = new DefaultExecutor();
+        final DefaultExecutor executor = DefaultExecutor.builder().get();
         executor.setWorkingDirectory(new File("."));
         executor.setWatchdog(new ExecuteWatchdog(timeout));
 
@@ -464,7 +460,7 @@ public class DefaultExecutorTest {
         final long timeout = 10000;
 
         final CommandLine cl = new CommandLine(foreverTestScript);
-        final DefaultExecutor executor = new DefaultExecutor();
+        final DefaultExecutor executor = DefaultExecutor.builder().get();
         executor.setWorkingDirectory(new File("."));
         final ExecuteWatchdog watchdog = new ExecuteWatchdog(timeout);
         executor.setWatchdog(watchdog);
@@ -496,7 +492,7 @@ public class DefaultExecutorTest {
         final long timeout = Long.MAX_VALUE;
 
         final CommandLine cl = new CommandLine(testScript);
-        final DefaultExecutor executor = new DefaultExecutor();
+        final DefaultExecutor executor = DefaultExecutor.builder().get();
         executor.setWorkingDirectory(new File("."));
         final ExecuteWatchdog watchdog = new ExecuteWatchdog(timeout);
         executor.setWatchdog(watchdog);
@@ -530,7 +526,7 @@ public class DefaultExecutorTest {
         final CommandLine cl = new CommandLine(printArgsScript);
         cl.addArgument("gdal_translate");
         cl.addArgument("HDF5:\"/home/kk/grass/data/4404.he5\"://HDFEOS/GRIDS/OMI_Column_Amount_O3/Data_Fields/ColumnAmountO3/home/kk/4.tif", false);
-        final DefaultExecutor executor = new DefaultExecutor();
+        final DefaultExecutor executor = DefaultExecutor.builder().get();
         final int exitValue = executor.execute(cl);
         assertFalse(exec.isFailure(exitValue));
     }
@@ -608,7 +604,7 @@ public class DefaultExecutorTest {
     public void testExecuteWithNullOutErr() throws Exception {
         final CommandLine cl = new CommandLine(testScript);
         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(null, null);
-        final DefaultExecutor executor = new DefaultExecutor();
+        final DefaultExecutor executor = DefaultExecutor.builder().get();
         executor.setStreamHandler(pumpStreamHandler);
         final int exitValue = executor.execute(cl);
         assertFalse(exec.isFailure(exitValue));
@@ -649,7 +645,7 @@ public class DefaultExecutorTest {
             final FileInputStream fis = new FileInputStream("./NOTICE.txt");
             final CommandLine cl = new CommandLine(redirectScript);
             final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(baos, baos, fis);
-            final DefaultExecutor executor = new DefaultExecutor();
+            final DefaultExecutor executor = DefaultExecutor.builder().get();
             executor.setWorkingDirectory(new File("."));
             executor.setStreamHandler(pumpStreamHandler);
             final int exitValue = executor.execute(cl);
@@ -676,7 +672,7 @@ public class DefaultExecutorTest {
         final CommandLine cl = new CommandLine(testScript);
         try (OutputStream outAndErr = Files.newOutputStream(outFile)) {
             final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(outAndErr);
-            final DefaultExecutor executor = new DefaultExecutor();
+            final DefaultExecutor executor = DefaultExecutor.builder().get();
             executor.setStreamHandler(pumpStreamHandler);
             final int exitValue = executor.execute(cl);
             assertFalse(exec.isFailure(exitValue));
@@ -715,7 +711,7 @@ public class DefaultExecutorTest {
     public void testExecuteWithStdOutErr() throws Exception {
         final CommandLine cl = new CommandLine(testScript);
         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(System.out, System.err);
-        final DefaultExecutor executor = new DefaultExecutor();
+        final DefaultExecutor executor = DefaultExecutor.builder().get();
         executor.setStreamHandler(pumpStreamHandler);
         final int exitValue = executor.execute(cl);
         assertFalse(exec.isFailure(exitValue));
@@ -749,7 +745,7 @@ public class DefaultExecutorTest {
         final CommandLine cl = new CommandLine(this.stdinSript);
         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(this.baos, System.err, bais);
         final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
-        final Executor executor = new DefaultExecutor();
+        final Executor executor = DefaultExecutor.builder().get();
         executor.setStreamHandler(pumpStreamHandler);
         executor.execute(cl, resultHandler);
 

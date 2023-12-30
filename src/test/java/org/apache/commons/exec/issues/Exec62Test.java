@@ -49,7 +49,7 @@ public class Exec62Test {
 
         commandLine.addArgument(testScript.getAbsolutePath());
 
-        final DefaultExecutor executor = new DefaultExecutor();
+        final DefaultExecutor executor = DefaultExecutor.builder().get();
         executor.setExitValues(null); // ignore exit values
         executor.setWatchdog(watchdog);
 

@@ -19,6 +19,8 @@ package org.apache.commons.exec;
 
 import java.time.Duration;
 import java.util.Vector;
+import java.util.concurrent.ThreadFactory;
+import java.util.function.Supplier;
 
 /**
  * Generalization of {@code ExecuteWatchdog}.
@@ -27,6 +29,60 @@ import java.util.Vector;
  */
 public class Watchdog implements Runnable {
 
+    /**
+     * Builds ExecuteWatchdog instances.
+     *
+     * @since 1.4.0
+     */
+    public static final class Builder implements Supplier<Watchdog> {
+
+        private ThreadFactory threadFactory;
+        private Duration timeout;
+
+        /**
+         * Creates a new configured ExecuteWatchdog.
+         *
+         * @return a new configured ExecuteWatchdog.
+         */
+        @Override
+        public Watchdog get() {
+            return new Watchdog(threadFactory, timeout);
+        }
+
+        /**
+         * Sets the thread factory.
+         *
+         * @param threadFactory the thread factory.
+         * @return this.
+         */
+        public Builder setThreadFactory(final ThreadFactory threadFactory) {
+            this.threadFactory = threadFactory;
+            return this;
+        }
+
+        /**
+         * Sets the timeout duration.
+         *
+         * @param timeout the timeout duration.
+         * @return this.
+         */
+        public Builder setTimeout(final Duration timeout) {
+            this.timeout = timeout;
+            return this;
+        }
+
+    }
+
+    /**
+     * Creates a new builder.
+     *
+     * @return a new builder.
+     * @since 1.4.0
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+
     private final Vector<TimeoutObserver> observers = new Vector<>(1);
 
     private final long timeoutMillis;
@@ -34,30 +90,32 @@ public class Watchdog implements Runnable {
     private boolean stopped;
 
     /**
-     * Constructs a new instance.
-     *
-     * @param timeout the timeout duration.
-     * @since 1.4.0
+     * The thread factory.
      */
-    public Watchdog(final Duration timeout) {
+    private final ThreadFactory threadFactory;
+
+    /**
+     * Constructs a new instance.
+     * @param threadFactory the thread factory.
+     * @param timeout the timeout duration.
+     */
+    private Watchdog(final ThreadFactory threadFactory, final Duration timeout) {
         if (timeout.isNegative() || Duration.ZERO.equals(timeout)) {
             throw new IllegalArgumentException("timeout must not be less than 1.");
         }
         this.timeoutMillis = timeout.toMillis();
+        this.threadFactory = threadFactory;
     }
 
     /**
      * Constructs a new instance.
      *
      * @param timeoutMillis the timeout duration.
-     * @deprecated Use {@link #Watchdog(Duration)}.
+     * @deprecated Use {@link #Watchdog(ThreadFactory, Duration)}.
      */
     @Deprecated
     public Watchdog(final long timeoutMillis) {
-        if (timeoutMillis < 1) {
-            throw new IllegalArgumentException("timeout must not be less than 1.");
-        }
-        this.timeoutMillis = timeoutMillis;
+        this(null, Duration.ofMillis(timeoutMillis));
     }
 
     public void addTimeoutObserver(final TimeoutObserver to) {
@@ -98,9 +156,7 @@ public class Watchdog implements Runnable {
 
     public synchronized void start() {
         stopped = false;
-        final Thread t = new Thread(this, "WATCHDOG");
-        t.setDaemon(true);
-        t.start();
+        ThreadUtil.newThread(threadFactory, this, "CommonsExecWatchdog-", true).start();
     }
 
     public synchronized void stop() {

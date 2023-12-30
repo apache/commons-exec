@@ -48,7 +48,7 @@ public class Exec57Test extends AbstractExecTest {
     public void testExecutionOfBackgroundProcess() throws IOException {
 
         final CommandLine cmdLine = new CommandLine("sh").addArgument("-c").addArgument("./src/test/scripts/issues/exec-57-nohup.sh", false);
-        final DefaultExecutor executor = new DefaultExecutor();
+        final DefaultExecutor executor = DefaultExecutor.builder().get();
         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(System.out, System.err);
 
         executor.setStreamHandler(pumpStreamHandler);
@@ -71,7 +71,7 @@ public class Exec57Test extends AbstractExecTest {
         }
 
         final CommandLine cmdLine = new CommandLine("sh").addArgument("-c").addArgument("./src/test/scripts/issues/exec-57-detached.sh", false);
-        final DefaultExecutor executor = new DefaultExecutor();
+        final DefaultExecutor executor = DefaultExecutor.builder().get();
         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(System.out, System.err);
 
         executor.setStreamHandler(pumpStreamHandler);

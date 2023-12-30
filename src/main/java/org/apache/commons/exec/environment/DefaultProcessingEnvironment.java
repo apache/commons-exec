@@ -204,7 +204,7 @@ public class DefaultProcessingEnvironment {
     @Deprecated
     protected BufferedReader runProcEnvCommand() throws IOException {
 //        final ByteArrayOutputStream out = new ByteArrayOutputStream();
-//        final Executor exe = new DefaultExecutor();
+//        final Executor exe = DefaultExecutor.builder().get();
 //        exe.setStreamHandler(new PumpStreamHandler(out));
 //        // ignore the exit value - Just try to use what we got
 //        exe.execute(getProcEnvCommand());
