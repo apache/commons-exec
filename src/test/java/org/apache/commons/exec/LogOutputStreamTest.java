@@ -29,10 +29,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.SetSystemProperty;
 
 /**
  * Test the LogOutputStream.
  */
+// turn on debug mode and throw an exception for each encountered problem
+@SetSystemProperty(key = "org.apache.commons.exec.lenient", value = "false")
+@SetSystemProperty(key = "org.apache.commons.exec.debug", value = "true")
 public class LogOutputStreamTest {
 
     private static final class SystemLogOutputStream extends LogOutputStream {
@@ -58,13 +62,6 @@ public class LogOutputStreamTest {
         }
     }
 
-    @BeforeAll
-    public static void classSetUp() {
-        // turn on debug mode and throw an exception for each encountered problem
-        System.setProperty("org.apache.commons.exec.lenient", "false");
-        System.setProperty("org.apache.commons.exec.debug", "true");
-    }
-
     private final Executor exec = new DefaultExecutor();
     private final File testDir = new File("src/test/scripts");
     private OutputStream systemOut;
@@ -72,15 +69,6 @@ public class LogOutputStreamTest {
     private final File environmentScript = TestUtil.resolveScriptForOS(testDir + "/environment");
 
     private final File utf8CharacterScript = TestUtil.resolveScriptForOS(testDir + "/utf8Characters");
-
-    @BeforeEach
-    public void setUp() throws Exception {
-
-    }
-
-    // ======================================================================
-    // Start of regression tests
-    // ======================================================================
 
     @AfterEach
     public void tearDown() throws Exception {
@@ -98,10 +86,6 @@ public class LogOutputStreamTest {
         final int exitValue = exec.execute(cl);
         assertFalse(exec.isFailure(exitValue));
     }
-
-    // ======================================================================
-    // Helper classes
-    // ======================================================================
 
     @Test
     @Disabled("The file utf8CharacterScript is missing from the repository and is not in its history")
