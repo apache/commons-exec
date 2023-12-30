@@ -86,7 +86,7 @@ public abstract class LogOutputStream extends OutputStream {
     /**
      * Writes all remaining data from the buffer.
      *
-     * @see java.io.OutputStream#close()
+     * @see OutputStream#close()
      */
     @Override
     public void close() throws IOException {
@@ -97,9 +97,9 @@ public abstract class LogOutputStream extends OutputStream {
     }
 
     /**
-     * Flush this log stream.
+     * Flushes this log stream.
      *
-     * @see java.io.OutputStream#flush()
+     * @see OutputStream#flush()
      */
     @Override
     public void flush() {
@@ -109,6 +109,8 @@ public abstract class LogOutputStream extends OutputStream {
     }
 
     /**
+     * Gets the trace level of the log system.
+     *
      * @return the trace level of the log system.
      */
     public int getMessageLevel() {
@@ -141,13 +143,13 @@ public abstract class LogOutputStream extends OutputStream {
     protected abstract void processLine(final String line, final int logLevel);
 
     /**
-     * Write a block of characters to the output stream.
+     * Writes a block of characters to the output stream.
      *
      * @param b   the array containing the data.
      * @param off the offset into the array where data starts.
      * @param len the length of block.
      * @throws IOException if the data cannot be written into the stream.
-     * @see java.io.OutputStream#write(byte[], int, int)
+     * @see OutputStream#write(byte[], int, int)
      */
     @Override
     public void write(final byte[] b, final int off, final int len) throws IOException {
@@ -175,10 +177,10 @@ public abstract class LogOutputStream extends OutputStream {
     }
 
     /**
-     * Write the data to the buffer and flush the buffer, if a line separator is detected.
+     * Writes the data to the buffer and flush the buffer, if a line separator is detected.
      *
      * @param cc data to log (byte).
-     * @see java.io.OutputStream#write(int)
+     * @see OutputStream#write(int)
      */
     @Override
     public void write(final int cc) throws IOException {
