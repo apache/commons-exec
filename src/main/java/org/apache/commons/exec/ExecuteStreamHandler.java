@@ -27,38 +27,38 @@ import java.io.OutputStream;
 public interface ExecuteStreamHandler {
 
     /**
-     * Install a handler for the error stream of the subprocess.
+     * Sets a handler for the error stream of the subprocess.
      *
-     * @param is input stream to read from the error stream from the subprocess.
+     * @param inputStream input stream to read from the error stream from the subprocess.
      * @throws IOException thrown when an I/O exception occurs.
      */
-    void setProcessErrorStream(InputStream is) throws IOException;
+    void setProcessErrorStream(InputStream inputStream) throws IOException;
 
     /**
-     * Install a handler for the input stream of the subprocess.
+     * Sets a handler for the input stream of the subprocess.
      *
-     * @param os output stream to write to the standard input stream of the subprocess.
+     * @param outputStream output stream to write to the standard input stream of the subprocess.
      * @throws IOException thrown when an I/O exception occurs.
      */
-    void setProcessInputStream(OutputStream os) throws IOException;
+    void setProcessInputStream(OutputStream outputStream) throws IOException;
 
     /**
-     * Install a handler for the output stream of the subprocess.
+     * Sets a handler for the output stream of the subprocess.
      *
-     * @param is input stream to read from the error stream from the subprocess.
+     * @param inputStream input stream to read from the error stream from the subprocess.
      * @throws IOException thrown when an I/O exception occurs.
      */
-    void setProcessOutputStream(InputStream is) throws IOException;
+    void setProcessOutputStream(InputStream inputStream) throws IOException;
 
     /**
-     * Start handling of the streams.
+     * Starts handling of the streams.
      *
      * @throws IOException thrown when an I/O exception occurs.
      */
     void start() throws IOException;
 
     /**
-     * Stop handling of the streams - will not be restarted. Will wait for pump threads to complete.
+     * Stops handling of the streams - will not be restarted. Will wait for pump threads to complete.
      *
      * @throws IOException thrown when an I/O exception occurs.
      */
