@@ -50,6 +50,7 @@
             <action dev="ggregory" type="fix" due-to="Gary Gregory">Deprecate StringUtils.toString(String[], String) in favor of String.join(CharSequence, CharSequence...).</action>
             <action issue="EXEC-78" dev="ggregory" type="fix">No need to use System.class.getMethod("getenv",...) any more.</action>
             <action issue="EXEC-70" dev="ggregory" type="fix">Delegate thread creation to java.util.concurrent.ThreadFactory.</action>
+            <action dev="ggregory" type="fix" due-to="Gary Gregory">Avoid NullPointerException in MapUtils.prefix(Map, String).</action>
             <!-- REMOVE -->
             <action dev="ggregory" type="remove" due-to="Gary Gregory">Deprecate DefaultExecuteResultHandler.waitFor(long).</action>
             <action dev="ggregory" type="remove" due-to="Gary Gregory">Deprecate ExecuteWatchdog.ExecuteWatchdog(long).</action>

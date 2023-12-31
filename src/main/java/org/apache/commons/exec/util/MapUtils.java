@@ -19,6 +19,7 @@ package org.apache.commons.exec.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Helper classes to manipulate maps to pass substition map to the CommandLine. This class is not part of the public API and could change without warning.
@@ -73,9 +74,7 @@ public class MapUtils {
         }
         final Map<String, V> result = new HashMap<>();
         for (final Map.Entry<K, V> entry : source.entrySet()) {
-            final K key = entry.getKey();
-            final V value = entry.getValue();
-            result.put(prefix + '.' + key.toString(), value);
+            result.put(prefix + '.' + Objects.toString(entry.getKey(), ""), entry.getValue());
         }
         return result;
     }
