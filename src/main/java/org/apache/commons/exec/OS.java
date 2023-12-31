@@ -287,7 +287,7 @@ public final class OS {
                     isFamily = OS_NAME.contains(FAMILY_VMS);
                     break;
                 default:
-                    throw new IllegalArgumentException("Don\'t know how to detect os family \"" + family + "\"");
+                    throw new IllegalArgumentException("Don\'t know how to detect OS family \"" + family + "\"");
                 }
             }
             if (name != null) {
