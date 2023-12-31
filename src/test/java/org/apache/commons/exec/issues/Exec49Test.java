@@ -50,22 +50,23 @@ public class Exec49Test {
             final CommandLine cl = CommandLine.parse("/bin/ls");
             cl.addArgument("/opt");
             // redirect stdout/stderr to pipedOutputStream
-            final PipedOutputStream pipedOutputStream = new PipedOutputStream();
-            final PumpStreamHandler psh = new PumpStreamHandler(pipedOutputStream);
-            exec.setStreamHandler(psh);
-            // start an asynchronous process to enable the main thread
-            System.out.println("Preparing to execute process - commandLine=" + cl.toString());
-            final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
-            exec.execute(cl, handler);
-            System.out.println("Process spun off successfully - process=" + cl.getExecutable());
-            try (PipedInputStream pis = new PipedInputStream(pipedOutputStream)) {
-                while (pis.read() >= 0) {
+            try (PipedOutputStream pipedOutputStream = new PipedOutputStream()) {
+                final PumpStreamHandler psh = new PumpStreamHandler(pipedOutputStream);
+                exec.setStreamHandler(psh);
+                // start an asynchronous process to enable the main thread
+                System.out.println("Preparing to execute process - commandLine=" + cl.toString());
+                final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
+                exec.execute(cl, handler);
+                System.out.println("Process spun off successfully - process=" + cl.getExecutable());
+                try (PipedInputStream pis = new PipedInputStream(pipedOutputStream)) {
+                    while (pis.read() >= 0) {
 //                 System.out.println("pis.available() " + pis.available());
 //                 System.out.println("x " + x);
+                    }
                 }
+                handler.waitFor(WAIT);
+                handler.getExitValue(); // will fail if process has not finished
             }
-            handler.waitFor(WAIT);
-            handler.getExitValue(); // will fail if process has not finished
         }
     }
 
@@ -81,22 +82,23 @@ public class Exec49Test {
             final CommandLine cl = CommandLine.parse("/bin/ls");
             cl.addArgument("/opt");
             // redirect only stdout to pipedOutputStream
-            final PipedOutputStream pipedOutputStream = new PipedOutputStream();
-            final PumpStreamHandler psh = new PumpStreamHandler(pipedOutputStream, new ByteArrayOutputStream());
-            exec.setStreamHandler(psh);
-            // start an asynchronous process to enable the main thread
-            System.out.println("Preparing to execute process - commandLine=" + cl.toString());
-            final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
-            exec.execute(cl, handler);
-            System.out.println("Process spun off successfully - process=" + cl.getExecutable());
-            try (PipedInputStream pis = new PipedInputStream(pipedOutputStream)) {
-                while (pis.read() >= 0) {
+            try (PipedOutputStream pipedOutputStream = new PipedOutputStream()) {
+                final PumpStreamHandler psh = new PumpStreamHandler(pipedOutputStream, new ByteArrayOutputStream());
+                exec.setStreamHandler(psh);
+                // start an asynchronous process to enable the main thread
+                System.out.println("Preparing to execute process - commandLine=" + cl.toString());
+                final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
+                exec.execute(cl, handler);
+                System.out.println("Process spun off successfully - process=" + cl.getExecutable());
+                try (PipedInputStream pis = new PipedInputStream(pipedOutputStream)) {
+                    while (pis.read() >= 0) {
 //                 System.out.println("pis.available() " + pis.available());
 //                 System.out.println("x " + x);
+                    }
                 }
+                handler.waitFor(WAIT);
+                handler.getExitValue(); // will fail if process has not finished
             }
-            handler.waitFor(WAIT);
-            handler.getExitValue(); // will fail if process has not finished
         }
     }
 
