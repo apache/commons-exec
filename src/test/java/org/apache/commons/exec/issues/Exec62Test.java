@@ -53,13 +53,14 @@ public class Exec62Test {
         executor.setExitValues(null); // ignore exit values
         executor.setWatchdog(watchdog);
 
-        final OutputStream fos = Files.newOutputStream(outputFile);
-        final PumpStreamHandler streamHandler = new PumpStreamHandler(fos);
-        executor.setStreamHandler(streamHandler);
-        executor.execute(commandLine);
+        try (OutputStream fos = Files.newOutputStream(outputFile)) {
+            final PumpStreamHandler streamHandler = new PumpStreamHandler(fos);
+            executor.setStreamHandler(streamHandler);
+            executor.execute(commandLine);
 
-        if (watchdog.killedProcess()) {
-            throw new TimeoutException(String.format("Transcode process was killed on timeout %1$s ms, command line %2$s", 4000, commandLine.toString()));
+            if (watchdog.killedProcess()) {
+                throw new TimeoutException(String.format("Transcode process was killed on timeout %1$s ms, command line %2$s", 4000, commandLine.toString()));
+            }
         }
     }
 
