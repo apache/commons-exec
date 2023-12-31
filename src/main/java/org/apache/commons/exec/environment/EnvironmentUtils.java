@@ -19,7 +19,7 @@ package org.apache.commons.exec.environment;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Objects;
 
 //import org.apache.commons.exec.OS;
 
@@ -28,14 +28,14 @@ import java.util.Map.Entry;
  */
 public class EnvironmentUtils {
 
-    private static final DefaultProcessingEnvironment PROCESSING_ENVIRONMENT_IMPLEMENTATION;
+    private static final DefaultProcessingEnvironment ENVIRONMENT;
 
     static {
-        PROCESSING_ENVIRONMENT_IMPLEMENTATION = new DefaultProcessingEnvironment();
+        ENVIRONMENT = new DefaultProcessingEnvironment();
     }
 
     /**
-     * Add a key/value pair to the given environment. If the key matches an existing key, the previous setting is replaced.
+     * Adds a key/value pair to the given environment. If the key matches an existing key, the previous setting is replaced.
      *
      * @param environment the current environment.
      * @param keyAndValue the key/value pair.
@@ -46,18 +46,18 @@ public class EnvironmentUtils {
     }
 
     /**
-     * Find the list of environment variables for this process. The returned map preserves the casing of a variable's name on all platforms but obeys the casing
+     * Gets the list of environment variables for this process. The returned map preserves the casing of a variable's name on all platforms but obeys the casing
      * rules of the current platform during lookup, e.g. key names will be case-insensitive on Windows platforms.
      *
      * @return a map containing the environment variables, may be empty but never {@code null}.
      * @throws IOException the operation failed.
      */
     public static Map<String, String> getProcEnvironment() throws IOException {
-        return PROCESSING_ENVIRONMENT_IMPLEMENTATION.getProcEnvironment();
+        return ENVIRONMENT.getProcEnvironment();
     }
 
     /**
-     * Split a key/value pair into a String[]. It is assumed that the ky/value pair contains a '=' character.
+     * Parses a key/value pair into a String[]. It is assumed that the ky/value pair contains a '=' character.
      *
      * @param keyAndValue the key/value pair.
      * @return a String[] containing the key and value.
@@ -73,8 +73,12 @@ public class EnvironmentUtils {
         return result;
     }
 
+    private static String toString(final String value) {
+        return Objects.toString(value, "");
+    }
+
     /**
-     * Gets the variable list as an array.
+     * Converts a variable map as an array.
      *
      * @param environment the environment to use, may be {@code null}.
      * @return array of key=value assignment strings or {@code null} if and only if the input map was {@code null}.
@@ -83,15 +87,7 @@ public class EnvironmentUtils {
         if (environment == null) {
             return null;
         }
-        final String[] result = new String[environment.size()];
-        int i = 0;
-        for (final Entry<String, String> entry : environment.entrySet()) {
-            final String key = entry.getKey() == null ? "" : entry.getKey().toString();
-            final String value = entry.getValue() == null ? "" : entry.getValue().toString();
-            result[i] = key + "=" + value;
-            i++;
-        }
-        return result;
+        return environment.entrySet().stream().map(e -> toString(e.getKey()) + "=" + toString(e.getValue())).toArray(String[]::new);
     }
 
     /**

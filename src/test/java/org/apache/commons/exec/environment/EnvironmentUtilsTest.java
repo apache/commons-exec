@@ -34,6 +34,7 @@ import org.apache.commons.exec.OS;
 import org.junit.jupiter.api.Test;
 
 /**
+ * Tests {@link EnvironmentUtils}.
  */
 public class EnvironmentUtilsTest {
 
