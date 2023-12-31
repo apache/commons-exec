@@ -32,9 +32,6 @@ import org.apache.commons.exec.OS;
  */
 public class DefaultProcessingEnvironment {
 
-    /** The line separator of the system */
-//    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
-
     /** The environment variables of the process */
     protected Map<String, String> procEnvironment;
 
@@ -51,47 +48,16 @@ public class DefaultProcessingEnvironment {
     }
 
     /**
-     * Find the list of environment variables for this process.
+     * Creates the list of environment variables for this process.
      *
      * @return a amp containing the environment variables.
      * @throws IOException the operation failed.
      */
     protected Map<String, String> createProcEnvironment() throws IOException {
         if (procEnvironment == null) {
-            final Map<String, String> env = System.getenv();
             procEnvironment = createEnvironmentMap();
-            procEnvironment.putAll(env);
+            procEnvironment.putAll(System.getenv());
         }
-
-// No longer needed
-//        if (procEnvironment == null) {
-//            procEnvironment = createEnvironmentMap();
-//            final BufferedReader in = runProcEnvCommand();
-//
-//            String var = null;
-//            String line;
-//            while ((line = in.readLine()) != null) {
-//                if (line.indexOf('=') == -1) {
-//                    // Chunk part of previous env var (UNIX env vars can
-//                    // contain embedded new lines).
-//                    if (var == null) {
-//                        var = LINE_SEPARATOR + line;
-//                    } else {
-//                        var += LINE_SEPARATOR + line;
-//                    }
-//                } else {
-//                    // New env var...append the previous one if we have it.
-//                    if (var != null) {
-//                        EnvironmentUtils.addVariableToEnvironment(procEnvironment, var);
-//                    }
-//                    var = line;
-//                }
-//            }
-//            // Since we "look ahead" before adding, there's one last env var.
-//            if (var != null) {
-//                EnvironmentUtils.addVariableToEnvironment(procEnvironment, var);
-//            }
-//        }
         return procEnvironment;
     }
 
@@ -149,17 +115,15 @@ public class DefaultProcessingEnvironment {
     }
 
     /**
-     * Find the list of environment variables for this process.
+     * Gets the list of environment variables for this process.
      *
      * @return a map containing the environment variables.
      * @throws IOException obtaining the environment variables failed.
      */
     public synchronized Map<String, String> getProcEnvironment() throws IOException {
-
         if (procEnvironment == null) {
             procEnvironment = this.createProcEnvironment();
         }
-
         // create a copy of the map just in case that
         // anyone is going to modifiy it, e.g. removing
         // or setting an evironment variable
@@ -168,34 +132,8 @@ public class DefaultProcessingEnvironment {
         return copy;
     }
 
-//    /**
-//     * ByteArrayOutputStream#toString doesn't seem to work reliably on OS/390,
-//     * at least not the way we use it in the execution context.
-//     *
-//     * @param bos
-//     *            the output stream that one wants to read
-//     * @return the output stream as a string, read with special encodings in the
-//     *         case of z/os and os/400
-//     */
-//    private String toString(final ByteArrayOutputStream bos) {
-//        if (OS.isFamilyZOS()) {
-//            try {
-//                return bos.toString("Cp1047");
-//            } catch (final java.io.UnsupportedEncodingException e) {
-//                // noop default encoding used
-//            }
-//        } else if (OS.isFamilyOS400()) {
-//            try {
-//                return bos.toString("Cp500");
-//            } catch (final java.io.UnsupportedEncodingException e) {
-//                // noop default encoding used
-//            }
-//        }
-//        return bos.toString();
-//    }
-
     /**
-     * Start a process to list the environment variables.
+     * Runs a process to list the environment variables.
      *
      * @return a reader containing the output of the process.
      * @throws IOException starting the process failed.
