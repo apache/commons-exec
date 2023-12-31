@@ -27,8 +27,14 @@ import org.apache.commons.exec.CommandLine;
  */
 public abstract class CommandLauncherProxy extends CommandLauncherImpl {
 
+    /** The command launcher to use. */
     private final CommandLauncher launcher;
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param launcher the command launcher to use.
+     */
     public CommandLauncherProxy(final CommandLauncher launcher) {
         this.launcher = launcher;
     }

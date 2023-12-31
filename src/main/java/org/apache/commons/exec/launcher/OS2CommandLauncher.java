@@ -34,6 +34,11 @@ import org.apache.commons.exec.CommandLine;
  */
 public class OS2CommandLauncher extends CommandLauncherProxy {
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param launcher the command launcher to use.
+     */
     public OS2CommandLauncher(final CommandLauncher launcher) {
         super(launcher);
     }

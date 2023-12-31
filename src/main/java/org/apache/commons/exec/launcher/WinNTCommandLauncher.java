@@ -27,6 +27,12 @@ import org.apache.commons.exec.CommandLine;
  * A command launcher for Windows XP/2000/NT that uses 'cmd.exe' when launching commands in directories other than the current working directory.
  */
 public class WinNTCommandLauncher extends CommandLauncherProxy {
+
+    /**
+     * Constructs a new instance.
+     *
+     * @param launcher the command launcher to use.
+     */
     public WinNTCommandLauncher(final CommandLauncher launcher) {
         super(launcher);
     }

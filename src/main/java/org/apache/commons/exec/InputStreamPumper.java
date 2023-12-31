@@ -27,6 +27,9 @@ import org.apache.commons.exec.util.DebugUtils;
  */
 public class InputStreamPumper implements Runnable {
 
+    /**
+     * Sleep time in milliseconds.
+     */
     public static final int SLEEPING_TIME = 100;
 
     /** The input stream to pump from. */
@@ -69,6 +72,9 @@ public class InputStreamPumper implements Runnable {
         }
     }
 
+    /**
+     * Requests processing to stop.
+     */
     public void stopProcessing() {
         stop = true;
     }

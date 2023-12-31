@@ -321,7 +321,7 @@ public class CommandLine {
     }
 
     /**
-     * Returns the expanded and quoted command line arguments.
+     * Gets the expanded and quoted command line arguments.
      *
      * @return The quoted arguments.
      */
@@ -341,7 +341,7 @@ public class CommandLine {
     }
 
     /**
-     * Returns the executable.
+     * Gets the executable.
      *
      * @return The executable.
      */
@@ -353,6 +353,8 @@ public class CommandLine {
     }
 
     /**
+     * Gets the substitution map.
+     *
      * @return the substitution map.
      */
     public Map<String, ?> getSubstitutionMap() {
@@ -405,7 +407,7 @@ public class CommandLine {
     }
 
     /**
-     * Returns the command line as an array of strings.
+     * Converts the command line as an array of strings.
      *
      * @return The command line as an string array.
      */

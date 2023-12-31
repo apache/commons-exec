@@ -119,14 +119,27 @@ public class Watchdog implements Runnable {
         this.threadFactory = threadFactory;
     }
 
+    /**
+     * Adds a TimeoutObserver.
+     *
+     * @param to a TimeoutObserver to add.
+     */
     public void addTimeoutObserver(final TimeoutObserver to) {
         observers.addElement(to);
     }
 
+    /**
+     * Fires a timeout occurred event for each observer.
+     */
     protected final void fireTimeoutOccured() {
         observers.forEach(o -> o.timeoutOccured(this));
     }
 
+    /**
+     * Removes a TimeoutObserver.
+     *
+     * @param to a TimeoutObserver to remove.
+     */
     public void removeTimeoutObserver(final TimeoutObserver to) {
         observers.removeElement(to);
     }
@@ -155,11 +168,17 @@ public class Watchdog implements Runnable {
         }
     }
 
+    /**
+     * Starts a new thread.
+     */
     public synchronized void start() {
         stopped = false;
         ThreadUtil.newThread(threadFactory, this, "CommonsExecWatchdog-", true).start();
     }
 
+    /**
+     * Requests a thread stop.
+     */
     public synchronized void stop() {
         stopped = true;
         notifyAll();
