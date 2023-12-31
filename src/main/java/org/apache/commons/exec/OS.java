@@ -83,91 +83,151 @@ public final class OS {
     private static final String PATH_SEP = File.pathSeparator;
 
     /**
-     * Determines if the OS on which commons-exec is executing matches the given OS architecture.
+     * Tests whether the OS on which commons-exec is executing matches the given OS architecture.
      *
      * @param arch the OS architecture to check for.
-     * @return true if the OS matches.
+     * @return whether if the OS matches.
      */
     public static boolean isArch(final String arch) {
         return isOs(null, null, arch, null);
     }
 
     /**
-     * Determines if the OS on which commons-exec is executing matches the given OS family.
+     * Tests whether the OS on which commons-exec is executing matches the given OS family.
      *
      * @param family the family to check for.
-     * @return true if the OS matches.
+     * @return whether if the OS matches.
      */
     private static boolean isFamily(final String family) {
         return isOs(family, null, null, null);
     }
 
+    /**
+     * Tests whether the OS is in the DOS family.
+     *
+     * @return whether the OS is in the DOS family.
+     */
     public static boolean isFamilyDOS() {
         return isFamily(FAMILY_DOS);
     }
 
+    /**
+     * Tests whether the OS is in the Mac family.
+     *
+     * @return whether the OS is in the Mac family.
+     */
     public static boolean isFamilyMac() {
         return isFamily(FAMILY_MAC);
     }
 
+    /**
+     * Tests whether the OS is in the Netware family.
+     *
+     * @return whether the OS is in the Netware family.
+     */
     public static boolean isFamilyNetware() {
         return isFamily(FAMILY_NETWARE);
     }
 
+    /**
+     * Tests whether the OS is in the OpenVMS family.
+     *
+     * @return whether the OS is in the OpenVMS family.
+     */
     public static boolean isFamilyOpenVms() {
         return isFamily(FAMILY_VMS);
     }
 
+    /**
+     * Tests whether the OS is in the OS/2 family.
+     *
+     * @return whether the OS is in the OS/2 family.
+     */
     public static boolean isFamilyOS2() {
         return isFamily(FAMILY_OS2);
     }
 
+    /**
+     * Tests whether the OS is in the OS/400 family.
+     *
+     * @return whether the OS is in the OS/400 family.
+     */
     public static boolean isFamilyOS400() {
         return isFamily(FAMILY_OS400);
     }
 
+    /**
+     * Tests whether the OS is in the Tandem family.
+     *
+     * @return whether the OS is in the Tandem family.
+     */
     public static boolean isFamilyTandem() {
         return isFamily(FAMILY_TANDEM);
     }
 
+    /**
+     * Tests whether the OS is in the Unix family.
+     *
+     * @return whether the OS is in the Unix family.
+     */
     public static boolean isFamilyUnix() {
         return isFamily(FAMILY_UNIX);
     }
 
+    /**
+     * Tests whether the OS is in the Windows 9x family.
+     *
+     * @return whether the OS is in the Windows 9x family.
+     */
     public static boolean isFamilyWin9x() {
         return isFamily(FAMILY_9X);
     }
 
+    /**
+     * Tests whether the OS is in the Windows family.
+     *
+     * @return whether the OS is in the Windows family.
+     */
     public static boolean isFamilyWindows() {
         return isFamily(FAMILY_WINDOWS);
     }
 
+    /**
+     * Tests whether the OS is in the Windows NT family.
+     *
+     * @return whether the OS is in the Windows NT family.
+     */
     public static boolean isFamilyWinNT() {
         return isFamily(FAMILY_NT);
     }
 
+    /**
+     * Tests whether the OS is in the z/OS family.
+     *
+     * @return whether the OS is in the z/OS family.
+     */
     public static boolean isFamilyZOS() {
         return isFamily(FAMILY_ZOS);
     }
 
     /**
-     * Determines if the OS on which commons-exec is executing matches the given OS name.
+     * Tests whether if the OS on which commons-exec is executing matches the given OS name.
      *
      * @param name the OS name to check for.
-     * @return true if the OS matches.
+     * @return whether the OS matches.
      */
     public static boolean isName(final String name) {
         return isOs(null, name, null, null);
     }
 
     /**
-     * Determines if the OS on which commons-exec is executing matches the given OS family, name, architecture and version.
+     * Tests whether the OS on which commons-exec is executing matches the given OS family, name, architecture and version.
      *
      * @param family  The OS family.
      * @param name    The OS name.
      * @param arch    The OS architecture.
      * @param version The OS version.
-     * @return true if the OS matches.
+     * @return whether the OS matches.
      */
     public static boolean isOs(final String family, final String name, final String arch, final String version) {
         boolean retValue = false;
@@ -245,10 +305,10 @@ public final class OS {
     }
 
     /**
-     * Determines if the OS on which commonss-exec is executing matches the given OS version.
+     * Tests whether the OS on which commonss-exec is executing matches the given OS version.
      *
      * @param version the OS version to check for.
-     * @return true if the OS matches.
+     * @return whether if the OS matches.
      */
     public static boolean isVersion(final String version) {
         return isOs(null, null, null, version);
