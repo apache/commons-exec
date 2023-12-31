@@ -17,15 +17,13 @@
  specific language governing permissions and limitations
  under the License.
 -->
-<project name="Commons Exec">
-  <bannerRight>
+<project name="Apache Commons Exec">
+  <bannerLeft>
     <name>Apache Commons Exec</name>
-    <src>/images/logo.png</src>
+    <src>/images/apache-commons-exec.png</src>
     <href>/index.html</href>
-  </bannerRight>
-  
+  </bannerLeft>
   <body>
-
     <menu name="Commons Exec">
       <item name="Overview" href="/index.html" />
       <item name="Tutorial" href="/tutorial.html" />
@@ -34,7 +32,6 @@
       <item name="Test Matrix" href="/testmatrix.html" />
       <item name="Download" href="/download_exec.cgi"/>    
     </menu>
-    
     <menu name="Development">
       <item name="Mailing Lists"           href="/mail-lists.html"/>
       <item name="Issue Tracking"          href="/issue-tracking.html"/>
@@ -43,6 +40,5 @@
       <item name="Javadoc"                 href="/apidocs/index.html"/>
       <item name="Javadoc Archive"         href="https://javadoc.io/doc/org.apache.commons/commons-exec"/>
     </menu>
-
   </body>
 </project>
