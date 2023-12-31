@@ -46,31 +46,24 @@ public class Exec49Test {
      */
     @Test
     public void testExec49_1() throws Exception {
-
         if (OS.isFamilyUnix()) {
-
             final CommandLine cl = CommandLine.parse("/bin/ls");
             cl.addArgument("/opt");
-
             // redirect stdout/stderr to pipedOutputStream
             final PipedOutputStream pipedOutputStream = new PipedOutputStream();
             final PumpStreamHandler psh = new PumpStreamHandler(pipedOutputStream);
             exec.setStreamHandler(psh);
-
             // start an asynchronous process to enable the main thread
             System.out.println("Preparing to execute process - commandLine=" + cl.toString());
             final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
             exec.execute(cl, handler);
             System.out.println("Process spun off successfully - process=" + cl.getExecutable());
-
-            int x;
-            final PipedInputStream pis = new PipedInputStream(pipedOutputStream);
-            while ((x = pis.read()) >= 0) {
+            try (PipedInputStream pis = new PipedInputStream(pipedOutputStream)) {
+                while (pis.read() >= 0) {
 //                 System.out.println("pis.available() " + pis.available());
 //                 System.out.println("x " + x);
+                }
             }
-            pis.close();
-
             handler.waitFor(WAIT);
             handler.getExitValue(); // will fail if process has not finished
         }
@@ -84,31 +77,24 @@ public class Exec49Test {
      */
     @Test
     public void testExec49_2() throws Exception {
-
         if (OS.isFamilyUnix()) {
-
             final CommandLine cl = CommandLine.parse("/bin/ls");
             cl.addArgument("/opt");
-
             // redirect only stdout to pipedOutputStream
             final PipedOutputStream pipedOutputStream = new PipedOutputStream();
             final PumpStreamHandler psh = new PumpStreamHandler(pipedOutputStream, new ByteArrayOutputStream());
             exec.setStreamHandler(psh);
-
             // start an asynchronous process to enable the main thread
             System.out.println("Preparing to execute process - commandLine=" + cl.toString());
             final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
             exec.execute(cl, handler);
             System.out.println("Process spun off successfully - process=" + cl.getExecutable());
-
-            int x;
-            final PipedInputStream pis = new PipedInputStream(pipedOutputStream);
-            while ((x = pis.read()) >= 0) {
+            try (PipedInputStream pis = new PipedInputStream(pipedOutputStream)) {
+                while (pis.read() >= 0) {
 //                 System.out.println("pis.available() " + pis.available());
 //                 System.out.println("x " + x);
+                }
             }
-            pis.close();
-
             handler.waitFor(WAIT);
             handler.getExitValue(); // will fail if process has not finished
         }

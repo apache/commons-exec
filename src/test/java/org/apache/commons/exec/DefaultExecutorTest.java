@@ -137,15 +137,13 @@ public class DefaultExecutorTest {
     }
 
     private String readFile(final File file) throws Exception {
-
         String text;
         final StringBuilder contents = new StringBuilder();
-        final BufferedReader reader = new BufferedReader(new FileReader(file));
-
-        while ((text = reader.readLine()) != null) {
-            contents.append(text).append(System.lineSeparator());
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            while ((text = reader.readLine()) != null) {
+                contents.append(text).append(System.lineSeparator());
+            }
         }
-        reader.close();
         return contents.toString();
     }
 
@@ -642,14 +640,15 @@ public class DefaultExecutorTest {
     @Test
     public void testExecuteWithRedirectedStreams() throws Exception {
         if (OS.isFamilyUnix()) {
-            final FileInputStream fis = new FileInputStream("./NOTICE.txt");
-            final CommandLine cl = new CommandLine(redirectScript);
-            final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(baos, baos, fis);
-            final DefaultExecutor executor = DefaultExecutor.builder().get();
-            executor.setWorkingDirectory(new File("."));
-            executor.setStreamHandler(pumpStreamHandler);
-            final int exitValue = executor.execute(cl);
-            fis.close();
+            final int exitValue;
+            try (FileInputStream fis = new FileInputStream("./NOTICE.txt")) {
+                final CommandLine cl = new CommandLine(redirectScript);
+                final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(baos, baos, fis);
+                final DefaultExecutor executor = DefaultExecutor.builder().get();
+                executor.setWorkingDirectory(new File("."));
+                executor.setStreamHandler(pumpStreamHandler);
+                exitValue = executor.execute(cl);
+            }
             final String result = baos.toString().trim();
             assertTrue(result.indexOf("Finished reading from stdin") > 0, result);
             assertFalse(exec.isFailure(exitValue), () -> "exitValue=" + exitValue);
