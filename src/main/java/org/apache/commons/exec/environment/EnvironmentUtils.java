@@ -21,10 +21,8 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
 
-//import org.apache.commons.exec.OS;
-
 /**
- * Wrapper for environment variables.
+ * Wraps environment variables.
  */
 public class EnvironmentUtils {
 
