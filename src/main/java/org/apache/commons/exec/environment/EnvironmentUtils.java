@@ -31,11 +31,7 @@ public class EnvironmentUtils {
     private static final DefaultProcessingEnvironment PROCESSING_ENVIRONMENT_IMPLEMENTATION;
 
     static {
-//        if (OS.isFamilyOpenVms()) {
-//            PROCESSING_ENVIRONMENT_IMPLEMENTATION = new OpenVmsProcessingEnvironment();
-//        } else {
         PROCESSING_ENVIRONMENT_IMPLEMENTATION = new DefaultProcessingEnvironment();
-//        }
     }
 
     /**
@@ -69,13 +65,11 @@ public class EnvironmentUtils {
     private static String[] parseEnvironmentVariable(final String keyAndValue) {
         final int index = keyAndValue.indexOf('=');
         if (index == -1) {
-            throw new IllegalArgumentException("Environment variable for this platform " + "must contain an equals sign ('=')");
+            throw new IllegalArgumentException("Environment variable for this platform must contain an equals sign ('=')");
         }
-
         final String[] result = new String[2];
         result[0] = keyAndValue.substring(0, index);
         result[1] = keyAndValue.substring(index + 1);
-
         return result;
     }
 
@@ -101,10 +95,10 @@ public class EnvironmentUtils {
     }
 
     /**
-     * Disable constructor.
+     * Hides constructor.
      */
     private EnvironmentUtils() {
-
+        // empty
     }
 
 }
