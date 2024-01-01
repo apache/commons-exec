@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 Apache Commons Exec
-Version 1.4.0
+Version 1.4.0-SNAPSHOT
 Release Notes
 
 Apache Commons Exec is a library to reliably execute external processes from within the JVM.
@@ -30,6 +30,10 @@ o            Add DefaultExecuteResultHandler.waitFor(Duration). Thanks to Gary G
 o            Add Watchdog.Watchdog(Duration). Thanks to Gary Gregory.
 o            Add ExecuteWatchdog.ExecuteWatchdog(Duration). Thanks to Gary Gregory.
 o            Add PumpStreamHandler.setStopTimeout(Duration) and deprecate PumpStreamHandler.setStopTimeout(long). Thanks to Gary Gregory.
+o            Add DefaultExecutor.Builder. Thanks to Gary Gregory.
+o            Add DaemonExecutor.Builder. Thanks to Gary Gregory.
+o            Add ExecuteWatchdog.Builder. Thanks to Gary Gregory.
+o            Add Watchdog.Builder. Thanks to Gary Gregory.
 
 Fixed Bugs:
 o EXEC-105:  Fix code snippet in tutorial page. Thanks to Dimitrios Efthymiou.
@@ -43,6 +47,9 @@ o            [Javadoc] CommandLine.toCleanExecutable(final String dirtyExecutabl
 o            ExecuteException propagates its cause to its IOException superclass. Thanks to Gary Gregory.
 o            Propagate exception in DebugUtils.handleException(String, Exception). Thanks to Gary Gregory.
 o            Deprecate StringUtils.toString(String[], String) in favor of String.join(CharSequence, CharSequence...). Thanks to Gary Gregory.
+o EXEC-78:   No need to use System.class.getMethod("getenv",...) any more.
+o EXEC-70:   Delegate thread creation to java.util.concurrent.ThreadFactory.
+o            Avoid NullPointerException in MapUtils.prefix(Map, String). Thanks to Gary Gregory.
 
 Changes:
 o            Bump github actions #52. Thanks to Gary Gregory, Dependabot.

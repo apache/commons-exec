@@ -22,10 +22,9 @@
           xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
     <properties>
         <title>Apache Commons Exec Release Notes</title>
-        <author email="sgoeschl@apache.org">Siegfried Goeschl</author>
     </properties>
     <body>
-        <release version="1.4.0" date="2023-12-29" description="Maintenance and feature Release (Java 8 or above)">
+        <release version="1.4.0" date="2024-01-01" description="Maintenance and feature Release (Java 8 or above)">
             <!-- ADD -->
             <action dev="ggregory" type="add" due-to="Gary Gregory">Add ShutdownHookProcessDestroyer.isEmpty().</action>
             <action dev="ggregory" type="add" due-to="Gary Gregory">Add DefaultExecuteResultHandler.waitFor(Duration).</action>
@@ -78,7 +77,7 @@
                 Remove remaining raw types, unchecked conversions
             </action>
             <action issue="EXEC-80" dev="ggregory" type="fix" date="2014-02-04">
-                NPE in EnvironmentUtils.toString(map)
+                NullPointerException in EnvironmentUtils.toString(map)
             </action>
             <action issue="EXEC-78" dev="sebb" type="update" date="2014-01-11">
                 No need to use System.class.getMethod("getenv",...) any more
@@ -184,7 +183,7 @@
                 thread completes before the InputStreamPumper starts.
             </action>
             <action dev="sgoeschl" type="fix" due-to="Peter Henderson" issue="EXEC-40">
-                Fixes NPE in DefaultExecutor.setExitValues().
+                Fixes NullPointerException in DefaultExecutor.setExitValues().
             </action>
             <action dev="sgoeschl" type="fix" due-to="Milos Kleint" issue="EXEC-33">
                 Copies all data from an System.input stream to an output stream of
