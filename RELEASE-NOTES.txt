@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 Apache Commons Exec
-Version 1.4.0-SNAPSHOT
+Version 1.4.0
 Release Notes
 
 Apache Commons Exec is a library to reliably execute external processes from within the JVM.
