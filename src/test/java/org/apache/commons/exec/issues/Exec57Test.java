@@ -23,11 +23,11 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.exec.AbstractExecTest;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
-import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.condition.DisabledOnOs;
 
 /**
  * Test EXEC-57 (https://issues.apache.org/jira/browse/EXEC-57).
@@ -62,14 +62,9 @@ public class Exec57Test extends AbstractExecTest {
      * @throws IOException
      */
     @Test
+    @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
     @Timeout(value = TEST_TIMEOUT, unit = TimeUnit.MILLISECONDS)
     public void testExecutionOfDetachedProcess() throws IOException {
-
-        if (!OS.isFamilyUnix()) {
-            testNotSupportedForCurrentOperatingSystem();
-            return;
-        }
-
         final CommandLine cmdLine = new CommandLine("sh").addArgument("-c").addArgument("./src/test/scripts/issues/exec-57-detached.sh", false);
         final DefaultExecutor executor = DefaultExecutor.builder().get();
         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(System.out, System.err);
