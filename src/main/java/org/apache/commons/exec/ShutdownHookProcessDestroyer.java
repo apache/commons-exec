@@ -141,8 +141,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
             if (!removed) {
                 System.err.println("Could not remove shutdown hook");
             }
-            // start the hook thread, a unstarted thread may not be eligible for garbage collection Cf.: http://developer.java.sun.com/developer/
-            // bugParade/bugs/4533087.html
+            // start the hook thread, an unstarted thread may not be eligible for garbage collection Cf.: https://bugs.openjdk.org/browse/JDK-4533087
 
             destroyProcessThread.setShouldDestroy(false);
             destroyProcessThread.start();

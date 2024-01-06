@@ -38,6 +38,9 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
 import org.apache.commons.exec.environment.EnvironmentUtils;
 import org.junit.jupiter.api.AfterEach;
@@ -82,9 +85,9 @@ public class DefaultExecutorTest {
 
     private final File printArgsScript = TestUtil.resolveScriptForOS(testDir + "/printargs");
     // private final File acroRd32Script = TestUtil.resolveScriptForOS(testDir + "/acrord32");
-    private final File stdinSript = TestUtil.resolveScriptForOS(testDir + "/stdin");
+    private final File stdinScript = TestUtil.resolveScriptForOS(testDir + "/stdin");
 
-    private final File environmentSript = TestUtil.resolveScriptForOS(testDir + "/environment");
+    private final File environmentScript = TestUtil.resolveScriptForOS(testDir + "/environment");
 //    private final File wrapperScript = TestUtil.resolveScriptForOS(testDir + "/wrapper");
 
     /**
@@ -173,7 +176,7 @@ public class DefaultExecutorTest {
         final String name = "NEW_VAR";
         final String value = "NEW_\"_VAL";
         myEnvVars.put(name, value);
-        exec.execute(new CommandLine(environmentSript), myEnvVars);
+        exec.execute(new CommandLine(environmentScript), myEnvVars);
         final String environment = baos.toString().trim();
         assertTrue(environment.indexOf(name) >= 0, () -> "Expecting " + name + " in " + environment);
         assertTrue(environment.indexOf(value) >= 0, () -> "Expecting " + value + " in " + environment);
@@ -188,7 +191,7 @@ public class DefaultExecutorTest {
     public void testAddEnvironmentVariables() throws Exception {
         final Map<String, String> myEnvVars = new HashMap<>(EnvironmentUtils.getProcEnvironment());
         myEnvVars.put("NEW_VAR", "NEW_VAL");
-        exec.execute(new CommandLine(environmentSript), myEnvVars);
+        exec.execute(new CommandLine(environmentScript), myEnvVars);
         final String environment = baos.toString().trim();
         assertTrue(environment.indexOf("NEW_VAR") >= 0, () -> "Expecting NEW_VAR in " + environment);
         assertTrue(environment.indexOf("NEW_VAL") >= 0, () -> "Expecting NEW_VAL in " + environment);
@@ -201,7 +204,7 @@ public class DefaultExecutorTest {
      */
     @Test
     public void testEnvironmentVariables() throws Exception {
-        exec.execute(new CommandLine(environmentSript));
+        exec.execute(new CommandLine(environmentScript));
         final String environment = baos.toString().trim();
         assertFalse(environment.isEmpty(), "Found no environment variables");
         assertFalse(environment.indexOf("NEW_VAR") >= 0);
@@ -239,7 +242,7 @@ public class DefaultExecutorTest {
     }
 
     /**
-     * Try to start an non-existing application where the exception is caught/processed by the result handler.
+     * Try to start an non-existing application.
      */
     @Test
     public void testExecuteAsyncNonExistingApplication() throws Exception {
@@ -247,15 +250,12 @@ public class DefaultExecutorTest {
         final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
         final DefaultExecutor executor = DefaultExecutor.builder().get();
 
-        executor.execute(cl, resultHandler);
-        resultHandler.waitFor();
-
-        assertTrue(executor.isFailure(resultHandler.getExitValue()));
-        assertNotNull(resultHandler.getException());
+        // fails fast in the calling thread for non-existing application
+        assertThrows(IOException.class, () -> executor.execute(cl, resultHandler));
     }
 
     /**
-     * Try to start an non-existing application where the exception is caught/processed by the result handler. The watchdog in notified to avoid waiting for the
+     * Try to start an non-existing application. The watchdog in notified to avoid waiting for the
      * process infinitely.
      *
      * @see <a href="https://issues.apache.org/jira/browse/EXEC-71">EXEC-71</a>
@@ -273,11 +273,9 @@ public class DefaultExecutorTest {
         final DefaultExecutor executor = DefaultExecutor.builder().get();
         executor.setWatchdog(new ExecuteWatchdog(ExecuteWatchdog.INFINITE_TIMEOUT));
 
-        executor.execute(cl, resultHandler);
-        resultHandler.waitFor();
+        // fails fast in the calling thread for non-existing application
+        assertThrows(IOException.class, () -> executor.execute(cl, resultHandler));
 
-        assertTrue(executor.isFailure(resultHandler.getExitValue()));
-        assertNotNull(resultHandler.getException());
         assertFalse(executor.getWatchdog().isWatching());
         assertFalse(executor.getWatchdog().killedProcess());
         executor.getWatchdog().destroyProcess();
@@ -314,21 +312,38 @@ public class DefaultExecutorTest {
         final ShutdownHookProcessDestroyer processDestroyer = new ShutdownHookProcessDestroyer();
         final ExecuteWatchdog watchdog = new ExecuteWatchdog(Integer.MAX_VALUE);
 
-        assertNull(exec.getProcessDestroyer());
+        // custom thread factory which waits with execution until the latch is counted down
+        final CountDownLatch canStartLatch = new CountDownLatch(1);
+        final DefaultExecutor executor = DefaultExecutor.builder()
+            .setThreadFactory(runnable -> {
+                final ThreadFactory delegate = Executors.defaultThreadFactory();
+                return delegate.newThread(() -> {
+                    try {
+                        canStartLatch.await();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    runnable.run();
+                });
+            })
+            .get();
+
+        assertNull(executor.getProcessDestroyer());
         assertTrue(processDestroyer.isEmpty());
         assertFalse(processDestroyer.isAddedAsShutdownHook());
 
-        exec.setWatchdog(watchdog);
-        exec.setProcessDestroyer(processDestroyer);
-        exec.execute(cl, handler);
-
-        // wait for script to start
-        Thread.sleep(2000);
+        executor.setWatchdog(watchdog);
+        executor.setProcessDestroyer(processDestroyer);
+        executor.execute(cl, handler);
 
         // our process destroyer should be initialized now
-        assertNotNull(exec.getProcessDestroyer(), "Process destroyer should exist");
+        assertNotNull(executor.getProcessDestroyer(), "Process destroyer should exist");
         assertEquals(1, processDestroyer.size(), "Process destroyer size should be 1");
         assertTrue(processDestroyer.isAddedAsShutdownHook(), "Process destroyer should exist as shutdown hook");
+
+        // now allow actual async execution to start; the checks above therefore verified that process destroyer
+        // had been registered before async execution
+        canStartLatch.countDown();
 
         // terminate it and the process destroyer is detached
         watchdog.destroyProcess();
@@ -741,7 +756,7 @@ public class DefaultExecutorTest {
     public void testStdInHandling() throws Exception {
         // newline not needed; causes problems for VMS
         final ByteArrayInputStream bais = new ByteArrayInputStream("Foo".getBytes());
-        final CommandLine cl = new CommandLine(this.stdinSript);
+        final CommandLine cl = new CommandLine(this.stdinScript);
         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(this.baos, System.err, bais);
         final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
         final Executor executor = DefaultExecutor.builder().get();
