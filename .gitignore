@@ -8,3 +8,4 @@ target
 .classpath
 .project
 .settings
+/site-content/

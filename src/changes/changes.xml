@@ -24,6 +24,8 @@
         <title>Apache Commons Exec Release Notes</title>
     </properties>
     <body>
+        <release version="1.4.1" date="20YY-MM-DD" description="Maintenance and feature Release (Java 8 or above)">
+        </release>
         <release version="1.4.0" date="2024-01-01" description="Maintenance and feature Release (Java 8 or above)">
             <!-- ADD -->
             <action dev="ggregory" type="add" due-to="Gary Gregory">Add ShutdownHookProcessDestroyer.isEmpty().</action>
