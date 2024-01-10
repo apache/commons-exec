@@ -71,7 +71,9 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Constructs a new {@link PumpStreamHandler}.
      *
-     * @param allOutputStream the output/error {@link OutputStream}.
+     * @param allOutputStream the output/error {@link OutputStream}. The {@code OutputStream}
+     *      implementation must be thread-safe because the output and error reader threads will
+     *      concurrently write to it.
      */
     public PumpStreamHandler(final OutputStream allOutputStream) {
         this(allOutputStream, allOutputStream);
@@ -79,6 +81,9 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
 
     /**
      * Constructs a new {@link PumpStreamHandler}.
+     *
+     * <p>If the same {@link OutputStream} instance is used for output and error, then it must be
+     * thread-safe because the output and error reader threads will concurrently write to it.
      *
      * @param outputStream      the output {@link OutputStream}.
      * @param errorOutputStream the error {@link OutputStream}.
@@ -90,6 +95,9 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Constructs a new {@link PumpStreamHandler}.
      *
+     * <p>If the same {@link OutputStream} instance is used for output and error, then it must be
+     * thread-safe because the output and error reader threads will concurrently write to it.
+     *
      * @param outputStream      the output {@link OutputStream}.
      * @param errorOutputStream the error {@link OutputStream}.
      * @param inputStream       the input {@link InputStream}.
@@ -100,6 +108,9 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
 
     /**
      * Constructs a new {@link PumpStreamHandler}.
+     *
+     * <p>If the same {@link OutputStream} instance is used for output and error, then it must be
+     * thread-safe because the output and error reader threads will concurrently write to it.
      *
      * @param outputStream      the output {@link OutputStream}.
      * @param errorOutputStream the error {@link OutputStream}.
