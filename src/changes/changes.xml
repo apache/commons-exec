@@ -25,6 +25,7 @@
     </properties>
     <body>
         <release version="1.4.1" date="20YY-MM-DD" description="Maintenance and feature Release (Java 8 or above)">
+          <action dev="ggregory" type="fix" issue="EXEC-122" due-to="Marcono1234">Document PumpStreamHandler stream thread-safety requirements #145.</action>
         </release>
         <release version="1.4.0" date="2024-01-01" description="Maintenance and feature Release (Java 8 or above)">
             <!-- ADD -->
