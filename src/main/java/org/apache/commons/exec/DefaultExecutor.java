@@ -250,7 +250,8 @@ public class DefaultExecutor implements Executor {
     @Override
     public int execute(final CommandLine command, final Map<String, String> environment) throws ExecuteException, IOException {
         checkWorkingDirectory();
-        return executeInternal(command, environment, workingDirectory, executeStreamHandler);
+        final Process process = startProcess(command, environment);
+        return waitForProcessExit(process);
     }
 
     /**
@@ -263,10 +264,14 @@ public class DefaultExecutor implements Executor {
         if (watchdog != null) {
             watchdog.setProcessNotStarted();
         }
+        // Start process from calling thread, to fail fast and to make sure process destroyer (if any) is registered
+        // and there is no race condition where JVM exits before process destroyer has been registered
+        final Process process = startProcess(command, environment);
+
         executorThread = createThread(() -> {
             int exitValue = Executor.INVALID_EXITVALUE;
             try {
-                exitValue = executeInternal(command, environment, workingDirectory, executeStreamHandler);
+                exitValue = waitForProcessExit(process);
                 handler.onProcessComplete(exitValue);
             } catch (final ExecuteException e) {
                 handler.onProcessFailed(e);
@@ -277,20 +282,8 @@ public class DefaultExecutor implements Executor {
         getExecutorThread().start();
     }
 
-    /**
-     * Execute an internal process. If the executing thread is interrupted while waiting for the child process to return the child process will be killed.
-     *
-     * @param command          the command to execute.
-     * @param environment      the execution environment.
-     * @param workingDirectory the working directory.
-     * @param streams          process the streams (in, out, err) of the process.
-     * @return the exit code of the process.
-     * @throws IOException executing the process failed.
-     */
-    private int executeInternal(final CommandLine command, final Map<String, String> environment, final File workingDirectory,
-            final ExecuteStreamHandler streams) throws IOException {
+    private Process startProcess(final CommandLine command, final Map<String, String> environment) throws IOException {
         final Process process;
-        exceptionCaught = null;
         try {
             process = launch(command, environment, workingDirectory);
         } catch (final IOException e) {
@@ -299,21 +292,39 @@ public class DefaultExecutor implements Executor {
             }
             throw e;
         }
-        try {
-            setStreams(streams, process);
-        } catch (final IOException e) {
-            process.destroy();
-            if (watchdog != null) {
-                watchdog.failedToStart(e);
-            }
-            throw e;
+
+        // add the process to the list of those to destroy if the VM exits
+        if (getProcessDestroyer() != null) {
+            getProcessDestroyer().add(process);
         }
-        streams.start();
+
+        return process;
+    }
+
+    /**
+     * Sets up the handling of the process streams and waits until the process exits. If the executing thread
+     * is interrupted while waiting for the child process to return, the child process will be killed.
+     *
+     * @param process the process to wait for.
+     * @return the exit code of the process.
+     * @throws IOException executing the process failed.
+     */
+    private int waitForProcessExit(final Process process) throws IOException {
+        final ExecuteStreamHandler streams = executeStreamHandler;
+        exceptionCaught = null;
+
         try {
-            // add the process to the list of those to destroy if the VM exits
-            if (getProcessDestroyer() != null) {
-                getProcessDestroyer().add(process);
+            try {
+                setStreams(streams, process);
+            } catch (final IOException e) {
+                process.destroy();
+                if (watchdog != null) {
+                    watchdog.failedToStart(e);
+                }
+                throw e;
             }
+            streams.start();
+
             // associate the watchdog with the newly created process
             if (watchdog != null) {
                 watchdog.start(process);
@@ -356,7 +367,7 @@ public class DefaultExecutor implements Executor {
             }
             return exitValue;
         } finally {
-            // remove the process to the list of those to destroy if the VM exits
+            // remove the process from the list of those to destroy if the VM exits
             if (getProcessDestroyer() != null) {
                 getProcessDestroyer().remove(process);
             }
