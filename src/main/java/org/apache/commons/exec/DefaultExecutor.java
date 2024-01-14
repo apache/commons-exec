@@ -324,7 +324,7 @@ public class DefaultExecutor implements Executor {
             } catch (final InterruptedException e) {
                 process.destroy();
             } finally {
-                // see http://bugs.sun.com/view_bug.do?bug_id=6420270
+                // see https://bugs.sun.com/view_bug.do?bug_id=6420270
                 // see https://issues.apache.org/jira/browse/EXEC-46
                 // Process.waitFor should clear interrupt status when throwing InterruptedException
                 // but we have to do that manually

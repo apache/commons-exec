@@ -48,7 +48,7 @@ public class Exec36Test {
     private ByteArrayOutputStream baos;
 
     /**
-     * Some complex real-life command line from http://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
+     * Some complex real-life command line from https://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
      */
     @Test
     @Disabled
@@ -70,7 +70,7 @@ public class Exec36Test {
     }
 
     /**
-     * Some complex real-life command line from http://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
+     * Some complex real-life command line from https://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
      */
     @Test
     @Disabled
@@ -157,7 +157,7 @@ public class Exec36Test {
     }
 
     /**
-     * Test a complex real example found at http://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
+     * Test a complex real example found at https://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
      *
      * The command line is so weird that it even falls apart under Windows
      *
