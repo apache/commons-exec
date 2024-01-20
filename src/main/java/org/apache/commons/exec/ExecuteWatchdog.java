@@ -215,7 +215,6 @@ public class ExecuteWatchdog implements TimeoutObserver {
      * Notification that starting the process failed.
      *
      * @param e the offending exception.
-     *
      */
     public synchronized void failedToStart(final Exception e) {
         processStarted = true;
