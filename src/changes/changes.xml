@@ -25,7 +25,10 @@
     </properties>
     <body>
         <release version="1.4.1" date="20YY-MM-DD" description="Maintenance and feature Release (Java 8 or above)">
-            <action dev="ggregory" type="fix" issue="EXEC-122" due-to="Marcono1234">Document PumpStreamHandler stream thread-safety requirements #145.</action>
+            <!-- FIX -->
+            <action dev="ggregory" type="fix" issue="EXEC-122" due-to="Marcono1234">Document PumpStreamHandler stream thread-safety requirements.</action>
+            <!-- UPDATE -->
+            <action dev="ggregory" type="update" due-to="Dependabot">Bump org.apache.commons:commons-parent from 65 to 66.</action>
         </release>
         <release version="1.4.0" date="2024-01-01" description="Maintenance and feature Release (Java 8 or above)">
             <!-- ADD -->
