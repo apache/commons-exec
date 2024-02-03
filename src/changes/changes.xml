@@ -25,6 +25,8 @@
     </properties>
     <body>
         <release version="1.4.1" date="20YY-MM-DD" description="Maintenance and feature Release (Java 8 or above)">
+            <!-- ADD -->
+            <action dev="ggregory" type="add" due-to="Gary Gregory">Add Maven property project.build.outputTimestamp for build reproducibility.</action>
             <!-- FIX -->
             <action dev="ggregory" type="fix" issue="EXEC-122" due-to="Marcono1234">Document PumpStreamHandler stream thread-safety requirements.</action>
             <!-- UPDATE -->
