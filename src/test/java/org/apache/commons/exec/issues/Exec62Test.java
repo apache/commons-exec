@@ -27,7 +27,6 @@ import java.util.concurrent.TimeoutException;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteWatchdog;
-import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.exec.TestUtil;
 import org.junit.jupiter.api.AfterEach;
@@ -35,6 +34,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.condition.DisabledOnOs;
 
 /**
  * @see <a href="https://issues.apache.org/jira/browse/EXEC-62">EXEC-62</a>
@@ -76,10 +76,9 @@ public class Exec62Test {
 
     @Disabled("Test behaves differently between macOS X and Linux - don't know why")
     @Test
+    @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
     @Timeout(value = 10, unit = TimeUnit.SECONDS)
     public void testMe() throws Exception {
-        if (OS.isFamilyUnix()) {
-            execute("exec-62");
-        }
+        execute("exec-62");
     }
 }

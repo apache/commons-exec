@@ -45,6 +45,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.junitpioneer.jupiter.SetSystemProperty;
 
 /**
@@ -638,26 +639,20 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
+    @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
     public void testExecuteWithRedirectedStreams() throws Exception {
-        if (OS.isFamilyUnix()) {
-            final int exitValue;
-            try (FileInputStream fis = new FileInputStream("./NOTICE.txt")) {
-                final CommandLine cl = new CommandLine(redirectScript);
-                final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(baos, baos, fis);
-                final DefaultExecutor executor = DefaultExecutor.builder().get();
-                executor.setWorkingDirectory(new File("."));
-                executor.setStreamHandler(pumpStreamHandler);
-                exitValue = executor.execute(cl);
-            }
-            final String result = baos.toString().trim();
-            assertTrue(result.indexOf("Finished reading from stdin") > 0, result);
-            assertFalse(exec.isFailure(exitValue), () -> "exitValue=" + exitValue);
-        } else {
-            if (OS.isFamilyWindows()) {
-                System.err.println("The code samples to do that in windows look like a joke ... :-( .., no way I'm doing that");
-            }
-            System.err.println("The test 'testExecuteWithRedirectedStreams' does not support the following OS : " + System.getProperty("os.name"));
+        final int exitValue;
+        try (FileInputStream fis = new FileInputStream("./NOTICE.txt")) {
+            final CommandLine cl = new CommandLine(redirectScript);
+            final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(baos, baos, fis);
+            final DefaultExecutor executor = DefaultExecutor.builder().get();
+            executor.setWorkingDirectory(new File("."));
+            executor.setStreamHandler(pumpStreamHandler);
+            exitValue = executor.execute(cl);
         }
+        final String result = baos.toString().trim();
+        assertTrue(result.indexOf("Finished reading from stdin") > 0, result);
+        assertFalse(exec.isFailure(exitValue), () -> "exitValue=" + exitValue);
     }
 
     /**

@@ -35,6 +35,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
 
 /**
  * Test EXEC-36 see https://issues.apache.org/jira/browse/EXEC-36
@@ -125,35 +126,30 @@ public class Exec36Test {
      * @throws Exception the test failed
      */
     @Test
+    @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
     public void testExec36_1() throws Exception {
+        CommandLine cmdl;
 
-        if (OS.isFamilyUnix()) {
+        /**
+         * ./script/jrake cruise:publish_installers INSTALLER_VERSION=unstable_2_1 \ INSTALLER_PATH="/var/lib/ cruise-agent/installers"
+         * INSTALLER_DOWNLOAD_SERVER='something' WITHOUT_HELP_DOC=true
+         */
 
-            CommandLine cmdl;
+        final String expected = "./script/jrake\n" + "cruise:publish_installers\n" + "INSTALLER_VERSION=unstable_2_1\n"
+                + "INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\"\n" + "INSTALLER_DOWNLOAD_SERVER='something'\n" + "WITHOUT_HELP_DOC=true";
 
-            /**
-             * ./script/jrake cruise:publish_installers INSTALLER_VERSION=unstable_2_1 \ INSTALLER_PATH="/var/lib/ cruise-agent/installers"
-             * INSTALLER_DOWNLOAD_SERVER='something' WITHOUT_HELP_DOC=true
-             */
+        cmdl = new CommandLine(printArgsScript);
+        cmdl.addArgument("./script/jrake", false);
+        cmdl.addArgument("cruise:publish_installers", false);
+        cmdl.addArgument("INSTALLER_VERSION=unstable_2_1", false);
+        cmdl.addArgument("INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\"", false);
+        cmdl.addArgument("INSTALLER_DOWNLOAD_SERVER='something'", false);
+        cmdl.addArgument("WITHOUT_HELP_DOC=true", false);
 
-            final String expected = "./script/jrake\n" + "cruise:publish_installers\n" + "INSTALLER_VERSION=unstable_2_1\n"
-                    + "INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\"\n" + "INSTALLER_DOWNLOAD_SERVER='something'\n" + "WITHOUT_HELP_DOC=true";
-
-            cmdl = new CommandLine(printArgsScript);
-            cmdl.addArgument("./script/jrake", false);
-            cmdl.addArgument("cruise:publish_installers", false);
-            cmdl.addArgument("INSTALLER_VERSION=unstable_2_1", false);
-            cmdl.addArgument("INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\"", false);
-            cmdl.addArgument("INSTALLER_DOWNLOAD_SERVER='something'", false);
-            cmdl.addArgument("WITHOUT_HELP_DOC=true", false);
-
-            final int exitValue = exec.execute(cmdl);
-            final String result = baos.toString().trim();
-            assertFalse(exec.isFailure(exitValue));
-            assertEquals(expected, result);
-        } else {
-            System.err.println("The test 'testExec36_1' does not support the following OS : " + System.getProperty("os.name"));
-        }
+        final int exitValue = exec.execute(cmdl);
+        final String result = baos.toString().trim();
+        assertFalse(exec.isFailure(exitValue));
+        assertEquals(expected, result);
     }
 
     /**

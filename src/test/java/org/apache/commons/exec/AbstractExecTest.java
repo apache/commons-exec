@@ -24,8 +24,6 @@ public abstract class AbstractExecTest {
     public static final int TEST_TIMEOUT = 15000;
     public static final int WATCHDOG_TIMEOUT = 3000;
 
-    private static final String OS_NAME = System.getProperty("os.name");
-
     private final File testDir = new File("src/test/scripts");
 
     /**
@@ -49,17 +47,4 @@ public abstract class AbstractExecTest {
         }
         return result;
     }
-
-    protected String testIsBrokenForCurrentOperatingSystem() {
-        final String msg = String.format("The test is broken for OS : %s", OS_NAME);
-        System.err.println(msg);
-        return msg;
-    }
-
-    protected String testNotSupportedForCurrentOperatingSystem() {
-        final String msg = String.format("The test is not possible for OS : %s", OS_NAME);
-        System.out.println(msg);
-        return msg;
-    }
-
 }

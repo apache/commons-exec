@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.concurrent.Executors;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.junitpioneer.jupiter.SetSystemProperty;
 
 /**
@@ -33,44 +34,41 @@ import org.junitpioneer.jupiter.SetSystemProperty;
 public class StandAloneTest {
 
     @Test
+    @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
     public void testDefaultExecutor() throws Exception {
-        if (OS.isFamilyUnix()) {
-            final File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/standalone");
-            final Executor exec = new DefaultExecutor();
-            exec.setStreamHandler(new PumpStreamHandler());
-            final CommandLine cl = new CommandLine(testScript);
-            exec.execute(cl);
-            assertTrue(new File("./target/mybackup.gz").exists());
-        }
+        final File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/standalone");
+        final Executor exec = new DefaultExecutor();
+        exec.setStreamHandler(new PumpStreamHandler());
+        final CommandLine cl = new CommandLine(testScript);
+        exec.execute(cl);
+        assertTrue(new File("./target/mybackup.gz").exists());
     }
 
     @Test
+    @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
     public void testDefaultExecutorBuilder() throws Exception {
-        if (OS.isFamilyUnix()) {
-            final File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/standalone");
-            // @formatter:off
-            final Executor exec = DefaultExecutor.builder()
-                    .setThreadFactory(Executors.defaultThreadFactory())
-                    .setExecuteStreamHandler(new PumpStreamHandler())
-                    .setWorkingDirectory(new File("."))
-                    .get();
-            // @formatter:on
-            exec.setStreamHandler(new PumpStreamHandler());
-            final CommandLine cl = new CommandLine(testScript);
-            exec.execute(cl);
-            assertTrue(new File("./target/mybackup.gz").exists());
-        }
+        final File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/standalone");
+        // @formatter:off
+        final Executor exec = DefaultExecutor.builder()
+                .setThreadFactory(Executors.defaultThreadFactory())
+                .setExecuteStreamHandler(new PumpStreamHandler())
+                .setWorkingDirectory(new File("."))
+                .get();
+        // @formatter:on
+        exec.setStreamHandler(new PumpStreamHandler());
+        final CommandLine cl = new CommandLine(testScript);
+        exec.execute(cl);
+        assertTrue(new File("./target/mybackup.gz").exists());
     }
 
     @Test
+    @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
     public void testDefaultExecutorDefaultBuilder() throws Exception {
-        if (OS.isFamilyUnix()) {
-            final File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/standalone");
-            final Executor exec = DefaultExecutor.builder().get();
-            exec.setStreamHandler(new PumpStreamHandler());
-            final CommandLine cl = new CommandLine(testScript);
-            exec.execute(cl);
-            assertTrue(new File("./target/mybackup.gz").exists());
-        }
+        final File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/standalone");
+        final Executor exec = DefaultExecutor.builder().get();
+        exec.setStreamHandler(new PumpStreamHandler());
+        final CommandLine cl = new CommandLine(testScript);
+        exec.execute(cl);
+        assertTrue(new File("./target/mybackup.gz").exists());
     }
 }

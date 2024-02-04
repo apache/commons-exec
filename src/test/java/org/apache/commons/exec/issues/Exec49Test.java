@@ -26,9 +26,9 @@ import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecuteResultHandler;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.Executor;
-import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
 
 /**
  * Test EXEC-44 (https://issues.apache.org/jira/browse/EXEC-44).
@@ -45,28 +45,27 @@ public class Exec49Test {
      * @throws Exception the test failed
      */
     @Test
+    @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
     public void testExec49_1() throws Exception {
-        if (OS.isFamilyUnix()) {
-            final CommandLine cl = CommandLine.parse("/bin/ls");
-            cl.addArgument("/opt");
-            // redirect stdout/stderr to pipedOutputStream
-            try (PipedOutputStream pipedOutputStream = new PipedOutputStream()) {
-                final PumpStreamHandler psh = new PumpStreamHandler(pipedOutputStream);
-                exec.setStreamHandler(psh);
-                // start an asynchronous process to enable the main thread
-                System.out.println("Preparing to execute process - commandLine=" + cl.toString());
-                final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
-                exec.execute(cl, handler);
-                System.out.println("Process spun off successfully - process=" + cl.getExecutable());
-                try (PipedInputStream pis = new PipedInputStream(pipedOutputStream)) {
-                    while (pis.read() >= 0) {
+        final CommandLine cl = CommandLine.parse("/bin/ls");
+        cl.addArgument("/opt");
+        // redirect stdout/stderr to pipedOutputStream
+        try (PipedOutputStream pipedOutputStream = new PipedOutputStream()) {
+            final PumpStreamHandler psh = new PumpStreamHandler(pipedOutputStream);
+            exec.setStreamHandler(psh);
+            // start an asynchronous process to enable the main thread
+            System.out.println("Preparing to execute process - commandLine=" + cl.toString());
+            final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
+            exec.execute(cl, handler);
+            System.out.println("Process spun off successfully - process=" + cl.getExecutable());
+            try (PipedInputStream pis = new PipedInputStream(pipedOutputStream)) {
+                while (pis.read() >= 0) {
 //                 System.out.println("pis.available() " + pis.available());
 //                 System.out.println("x " + x);
-                    }
                 }
-                handler.waitFor(WAIT);
-                handler.getExitValue(); // will fail if process has not finished
             }
+            handler.waitFor(WAIT);
+            handler.getExitValue(); // will fail if process has not finished
         }
     }
 
@@ -77,28 +76,27 @@ public class Exec49Test {
      * @throws Exception the test failed
      */
     @Test
+    @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
     public void testExec49_2() throws Exception {
-        if (OS.isFamilyUnix()) {
-            final CommandLine cl = CommandLine.parse("/bin/ls");
-            cl.addArgument("/opt");
-            // redirect only stdout to pipedOutputStream
-            try (PipedOutputStream pipedOutputStream = new PipedOutputStream()) {
-                final PumpStreamHandler psh = new PumpStreamHandler(pipedOutputStream, new ByteArrayOutputStream());
-                exec.setStreamHandler(psh);
-                // start an asynchronous process to enable the main thread
-                System.out.println("Preparing to execute process - commandLine=" + cl.toString());
-                final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
-                exec.execute(cl, handler);
-                System.out.println("Process spun off successfully - process=" + cl.getExecutable());
-                try (PipedInputStream pis = new PipedInputStream(pipedOutputStream)) {
-                    while (pis.read() >= 0) {
+        final CommandLine cl = CommandLine.parse("/bin/ls");
+        cl.addArgument("/opt");
+        // redirect only stdout to pipedOutputStream
+        try (PipedOutputStream pipedOutputStream = new PipedOutputStream()) {
+            final PumpStreamHandler psh = new PumpStreamHandler(pipedOutputStream, new ByteArrayOutputStream());
+            exec.setStreamHandler(psh);
+            // start an asynchronous process to enable the main thread
+            System.out.println("Preparing to execute process - commandLine=" + cl.toString());
+            final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
+            exec.execute(cl, handler);
+            System.out.println("Process spun off successfully - process=" + cl.getExecutable());
+            try (PipedInputStream pis = new PipedInputStream(pipedOutputStream)) {
+                while (pis.read() >= 0) {
 //                 System.out.println("pis.available() " + pis.available());
 //                 System.out.println("x " + x);
-                    }
                 }
-                handler.waitFor(WAIT);
-                handler.getExitValue(); // will fail if process has not finished
             }
+            handler.waitFor(WAIT);
+            handler.getExitValue(); // will fail if process has not finished
         }
     }
 

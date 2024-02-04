@@ -30,10 +30,11 @@ import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteException;
 import org.apache.commons.exec.ExecuteWatchdog;
-import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.EnabledOnOs;
 
 /**
  * Test to show that watchdog can destroy 'sudo' and 'sleep'.
@@ -48,13 +49,12 @@ public class Exec65Test extends AbstractExecTest {
      * <li>Linux hangs on the process stream while the process is finished</li>
      * <li>Windows seems to have similar problems</li>
      * </ul>
-     *
-     * @TODO Fix tests for Windows & Linux
      */
     @Test
+    // TODO: Fix test for Windows & Linux
+    @EnabledOnOs(value = org.junit.jupiter.api.condition.OS.MAC)
     @Timeout(value = TEST_TIMEOUT, unit = TimeUnit.MILLISECONDS)
     public void testExec65WithSleepUsingShellScript() throws Exception {
-        assumeTrue(OS.isFamilyMac());
         final DefaultExecutor executor = DefaultExecutor.builder().get();
         executor.setStreamHandler(new PumpStreamHandler(System.out, System.err));
         executor.setWatchdog(new ExecuteWatchdog(WATCHDOG_TIMEOUT));
@@ -85,15 +85,14 @@ public class Exec65Test extends AbstractExecTest {
      * already (thereby requiring a password).
      */
     @Test
+    @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
     @Timeout(value = TEST_TIMEOUT, unit = TimeUnit.MILLISECONDS)
     public void testExec65WithSudoUsingShellScript() throws Exception {
         assumeFalse(new File(".").getAbsolutePath().contains("travis"),
                 "Test is skipped on travis, because we have to be a sudoer to make the other tests pass.");
         // TODO Fails on GitHub
         assumeTrue(System.getenv("GITHUB_WORKFLOW") == null);
-        if (!OS.isFamilyUnix()) {
-            throw new ExecuteException(testNotSupportedForCurrentOperatingSystem(), 0);
-        }
+
         final DefaultExecutor executor = DefaultExecutor.builder().get();
         executor.setStreamHandler(new PumpStreamHandler(System.out, System.err, System.in));
         executor.setWatchdog(new ExecuteWatchdog(WATCHDOG_TIMEOUT));
@@ -103,12 +102,9 @@ public class Exec65Test extends AbstractExecTest {
     }
 
     @Test
+    @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
     @Timeout(value = TEST_TIMEOUT, unit = TimeUnit.MILLISECONDS)
     public void testExec65WitSleepUsingSleepCommandDirectly() throws Exception {
-
-        if (!OS.isFamilyUnix()) {
-            throw new ExecuteException(testNotSupportedForCurrentOperatingSystem(), 0);
-        }
         final ExecuteWatchdog watchdog = new ExecuteWatchdog(WATCHDOG_TIMEOUT);
         final DefaultExecutor executor = DefaultExecutor.builder().get();
         final CommandLine command = new CommandLine("sleep");
