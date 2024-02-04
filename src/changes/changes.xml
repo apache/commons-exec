@@ -29,6 +29,7 @@
             <action dev="ggregory" type="add" due-to="Gary Gregory">Add Maven property project.build.outputTimestamp for build reproducibility.</action>
             <!-- FIX -->
             <action dev="ggregory" type="fix" issue="EXEC-122" due-to="Marcono1234">Document PumpStreamHandler stream thread-safety requirements.</action>
+            <action dev="ggregory" type="fix" due-to="Marcono1234">Fix CI only running on Ubuntu & improve OS-specific tests #143.</action>
             <!-- UPDATE -->
             <action dev="ggregory" type="update" due-to="Dependabot">Bump org.apache.commons:commons-parent from 65 to 66.</action>
         </release>
