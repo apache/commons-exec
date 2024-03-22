@@ -19,8 +19,10 @@ package org.apache.commons.exec;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -172,29 +174,29 @@ public class CommandLineTest {
 
         // do not pass substitution map
         cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass}");
-        assertTrue(cmdl.getExecutable().indexOf("${JAVA_HOME}") == 0);
+        assertTrue(cmdl.getExecutable().startsWith("${JAVA_HOME}"));
         assertArrayEquals(new String[] { "${appMainClass}" }, cmdl.getArguments());
 
         // pass arguments with an empty map
         cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass}", new HashMap<>());
-        assertTrue(cmdl.getExecutable().indexOf("${JAVA_HOME}") == 0);
+        assertTrue(cmdl.getExecutable().startsWith("${JAVA_HOME}"));
         assertArrayEquals(new String[] { "${appMainClass}" }, cmdl.getArguments());
 
         // pass an complete substitution map
         cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass}", substitutionMap);
-        assertTrue(cmdl.getExecutable().indexOf("${JAVA_HOME}") < 0);
+        assertFalse(cmdl.getExecutable().contains("${JAVA_HOME}"));
         assertTrue(cmdl.getExecutable().indexOf("local") > 0);
         assertArrayEquals(new String[] { "foo.bar.Main" }, cmdl.getArguments());
 
         // pass an incomplete substitution map resulting in unresolved variables
         cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass}", incompleteMap);
-        assertTrue(cmdl.getExecutable().indexOf("${JAVA_HOME}") < 0);
+        assertFalse(cmdl.getExecutable().contains("${JAVA_HOME}"));
         assertTrue(cmdl.getExecutable().indexOf("local") > 0);
         assertArrayEquals(new String[] { "${appMainClass}" }, cmdl.getArguments());
 
         // pass a file
         cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass} ${file1} ${file2}", substitutionMap);
-        assertTrue(cmdl.getExecutable().indexOf("${file}") < 0);
+        assertFalse(cmdl.getExecutable().contains("${file}"));
     }
 
     /**

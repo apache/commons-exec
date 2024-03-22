@@ -176,8 +176,8 @@ public class DefaultExecutorTest {
         myEnvVars.put(name, value);
         exec.execute(new CommandLine(environmentSript), myEnvVars);
         final String environment = baos.toString().trim();
-        assertTrue(environment.indexOf(name) >= 0, () -> "Expecting " + name + " in " + environment);
-        assertTrue(environment.indexOf(value) >= 0, () -> "Expecting " + value + " in " + environment);
+        assertTrue(environment.contains(name), () -> "Expecting " + name + " in " + environment);
+        assertTrue(environment.contains(value), () -> "Expecting " + value + " in " + environment);
     }
 
     /**
@@ -191,8 +191,8 @@ public class DefaultExecutorTest {
         myEnvVars.put("NEW_VAR", "NEW_VAL");
         exec.execute(new CommandLine(environmentSript), myEnvVars);
         final String environment = baos.toString().trim();
-        assertTrue(environment.indexOf("NEW_VAR") >= 0, () -> "Expecting NEW_VAR in " + environment);
-        assertTrue(environment.indexOf("NEW_VAL") >= 0, () -> "Expecting NEW_VAL in " + environment);
+        assertTrue(environment.contains("NEW_VAR"), () -> "Expecting NEW_VAR in " + environment);
+        assertTrue(environment.contains("NEW_VAL"), () -> "Expecting NEW_VAL in " + environment);
     }
 
     /**
@@ -205,7 +205,7 @@ public class DefaultExecutorTest {
         exec.execute(new CommandLine(environmentSript));
         final String environment = baos.toString().trim();
         assertFalse(environment.isEmpty(), "Found no environment variables");
-        assertFalse(environment.indexOf("NEW_VAR") >= 0);
+        assertFalse(environment.contains("NEW_VAR"));
     }
 
     /**
@@ -748,6 +748,6 @@ public class DefaultExecutorTest {
 
         assertFalse(exec.isFailure(resultHandler.getExitValue()));
         final String result = baos.toString();
-        assertTrue(result.indexOf("Hello Foo!") >= 0, "Result '" + result + "' should contain 'Hello Foo!'");
+        assertTrue(result.contains("Hello Foo!"), "Result '" + result + "' should contain 'Hello Foo!'");
     }
 }

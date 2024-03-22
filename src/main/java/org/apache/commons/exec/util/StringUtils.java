@@ -86,13 +86,13 @@ public class StringUtils {
         }
 
         final StringBuilder buf = new StringBuilder();
-        if (cleanedArgument.indexOf(DOUBLE_QUOTE) > -1) {
-            if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1) {
+        if (cleanedArgument.contains(DOUBLE_QUOTE)) {
+            if (cleanedArgument.contains(SINGLE_QUOTE)) {
                 throw new IllegalArgumentException("Can't handle single and double quotes in same argument");
             }
             return buf.append(SINGLE_QUOTE).append(cleanedArgument).append(SINGLE_QUOTE).toString();
         }
-        if (cleanedArgument.indexOf(SINGLE_QUOTE) > -1 || cleanedArgument.indexOf(" ") > -1) {
+        if (cleanedArgument.contains(SINGLE_QUOTE) || cleanedArgument.contains(" ")) {
             return buf.append(DOUBLE_QUOTE).append(cleanedArgument).append(DOUBLE_QUOTE).toString();
         }
         return cleanedArgument;
