@@ -121,7 +121,7 @@ public class Exec36Test {
 
     /**
      *
-     * Original example from Kai Hu which only can be tested on Unix
+     * Original example from Kai Hu which only can be tested on UNIX
      *
      * @throws Exception the test failed
      */

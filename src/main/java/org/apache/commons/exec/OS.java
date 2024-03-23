@@ -166,9 +166,9 @@ public final class OS {
     }
 
     /**
-     * Tests whether the OS is in the Unix family.
+     * Tests whether the OS is in the UNIX family.
      *
-     * @return whether the OS is in the Unix family.
+     * @return whether the OS is in the UNIX family.
      */
     public static boolean isFamilyUnix() {
         return isFamily(FAMILY_UNIX);
