@@ -75,7 +75,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
          * Sets the thread factory.
          *
          * @param threadFactory the thread factory.
-         * @return this.
+         * @return {@code this} instance.
          */
         public Builder setThreadFactory(final ThreadFactory threadFactory) {
             this.threadFactory = threadFactory;
@@ -86,7 +86,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
          * Sets the timeout duration.
          *
          * @param timeout the timeout duration.
-         * @return this.
+         * @return {@code this} instance.
          */
         public Builder setTimeout(final Duration timeout) {
             this.timeout = timeout;
