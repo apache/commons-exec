@@ -264,7 +264,7 @@ public class DefaultExecutor implements Executor {
             watchdog.setProcessNotStarted();
         }
         executorThread = createThread(() -> {
-            int exitValue = Executor.INVALID_EXITVALUE;
+            int exitValue = INVALID_EXITVALUE;
             try {
                 exitValue = executeInternal(command, environment, workingDirectory, executeStreamHandler);
                 handler.onProcessComplete(exitValue);
@@ -318,7 +318,7 @@ public class DefaultExecutor implements Executor {
             if (watchdog != null) {
                 watchdog.start(process);
             }
-            int exitValue = Executor.INVALID_EXITVALUE;
+            int exitValue = INVALID_EXITVALUE;
             try {
                 exitValue = process.waitFor();
             } catch (final InterruptedException e) {
