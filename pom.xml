@@ -20,7 +20,7 @@ limitations under the License.
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>69</version>
+    <version>71</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <name>Apache Commons Exec</name>
@@ -98,7 +98,6 @@ limitations under the License.
       <scope>test</scope>
     </dependency>
   </dependencies>
-
   <build>
     <defaultGoal>clean artifact:check-buildplan verify apache-rat:check japicmp:cmp checkstyle:check pmd:cpd-check pmd:check javadoc:javadoc spotbugs:check</defaultGoal>
     <pluginManagement>
@@ -124,6 +123,16 @@ limitations under the License.
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>${commons.javadoc.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <configuration>
+            <targetJdk>${maven.compiler.target}</targetJdk>
+            <rulesets>
+              <ruleset>${basedir}/src/conf/pmd-ruleset.xml</ruleset>
+            </rulesets>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -168,7 +177,6 @@ limitations under the License.
       </plugin>
     </plugins>
   </build>
-
   <reporting>
     <plugins>
       <!-- generate the changes report from changes.xml -->
@@ -195,6 +203,9 @@ limitations under the License.
         <artifactId>maven-pmd-plugin</artifactId>
         <configuration>
           <targetJdk>${maven.compiler.target}</targetJdk>
+          <rulesets>
+            <ruleset>${basedir}/src/conf/pmd-ruleset.xml</ruleset>
+          </rulesets>
         </configuration>
       </plugin>
       <plugin>
@@ -212,7 +223,6 @@ limitations under the License.
       </plugin>
     </plugins>
   </reporting>
-
   <developers>
     <developer>
       <id>brett</id>
@@ -277,5 +287,4 @@ limitations under the License.
       <name>Niall Pemberton</name>
     </contributor>
   </contributors>
-
 </project>
