@@ -149,7 +149,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
             // this should return quickly, since it basically is a NO-OP.
             try {
                 destroyProcessThread.join(20000);
-            } catch (final InterruptedException ie) {
+            } catch (final InterruptedException ignore) {
                 // the thread didn't die in time
                 // it should not kill any processes unexpectedly
             }
