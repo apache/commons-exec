@@ -122,7 +122,7 @@ public class DefaultProcessingEnvironment {
      */
     public synchronized Map<String, String> getProcEnvironment() throws IOException {
         if (procEnvironment == null) {
-            procEnvironment = this.createProcEnvironment();
+            procEnvironment = createProcEnvironment();
         }
         // create a copy of the map just in case that
         // anyone is going to modifiy it, e.g. removing
