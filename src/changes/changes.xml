@@ -34,7 +34,7 @@
             <action dev="ggregory" type="fix" due-to="Gary Gregory">Fix PMD EmptyCatchBlock by allowing commented blocks.</action>
             <action dev="ggregory" type="fix" due-to="Gary Gregory">Fix PMD EmptyControlStatement by allowing commented blocks.</action>
             <!-- UPDATE -->
-            <action dev="ggregory" type="update" due-to="Dependabot, Gary Gregory">Bump org.apache.commons:commons-parent from 65 to 71 #174.</action>
+            <action dev="ggregory" type="update" due-to="Dependabot, Gary Gregory">Bump org.apache.commons:commons-parent from 65 to 72 #174, #204.</action>
         </release>
         <release version="1.4.0" date="2024-01-01" description="Maintenance and feature Release (Java 8 or above)">
             <!-- ADD -->
