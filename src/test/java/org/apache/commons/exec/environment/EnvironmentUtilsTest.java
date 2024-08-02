@@ -89,8 +89,8 @@ public class EnvironmentUtilsTest {
         for (final Entry<String, String> entry : procEnvironment.entrySet()) {
             final String key = entry.getKey();
             final String value = entry.getValue();
-            assertEquals(value, procEnvironment.get(key.toLowerCase(Locale.ENGLISH)));
-            assertEquals(value, procEnvironment.get(key.toUpperCase(Locale.ENGLISH)));
+            assertEquals(value, procEnvironment.get(key.toLowerCase(Locale.ROOT)));
+            assertEquals(value, procEnvironment.get(key.toUpperCase(Locale.ROOT)));
         }
 
         // add an environment variable and check access

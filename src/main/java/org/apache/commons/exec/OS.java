@@ -77,9 +77,9 @@ public final class OS {
 
     private static final String DARWIN = "darwin";
 
-    private static final String OS_NAME = System.getProperty("os.name").toLowerCase(Locale.ENGLISH);
-    private static final String OS_ARCH = System.getProperty("os.arch").toLowerCase(Locale.ENGLISH);
-    private static final String OS_VERSION = System.getProperty("os.version").toLowerCase(Locale.ENGLISH);
+    private static final String OS_NAME = System.getProperty("os.name").toLowerCase(Locale.ROOT);
+    private static final String OS_ARCH = System.getProperty("os.arch").toLowerCase(Locale.ROOT);
+    private static final String OS_VERSION = System.getProperty("os.version").toLowerCase(Locale.ROOT);
     private static final String PATH_SEP = File.pathSeparator;
 
     /**
