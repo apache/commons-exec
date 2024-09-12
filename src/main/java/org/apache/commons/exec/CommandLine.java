@@ -135,17 +135,22 @@ public class CommandLine {
                 }
                 break;
             default:
-                if ("\'".equals(nextTok)) {
+                switch (nextTok) {
+                case "\'":
                     state = inQuote;
-                } else if ("\"".equals(nextTok)) {
+                    break;
+                case "\"":
                     state = inDoubleQuote;
-                } else if (" ".equals(nextTok)) {
+                    break;
+                case " ":
                     if (lastTokenHasBeenQuoted || current.length() != 0) {
                         list.add(current.toString());
                         current = new StringBuilder();
                     }
-                } else {
+                    break;
+                default:
                     current.append(nextTok);
+                    break;
                 }
                 lastTokenHasBeenQuoted = false;
                 break;
