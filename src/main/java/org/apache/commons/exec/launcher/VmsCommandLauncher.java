@@ -39,7 +39,7 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
     /**
      * Writes the command into a temporary DCL script and returns the corresponding File object. The script will be deleted on exit.
      */
-    private File createCommandFile(final CommandLine cmd, final Map<String, String> env) throws IOException {
+    File createCommandFile(final CommandLine cmd, final Map<String, String> env) throws IOException {
         final Path path = Files.createTempFile("EXEC", ".TMP");
         final File script = path.toFile();
         script.deleteOnExit();
