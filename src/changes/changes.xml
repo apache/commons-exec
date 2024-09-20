@@ -29,7 +29,7 @@
             <action type="add" dev="ggregory" due-to="Gary Gregory">Add Maven property project.build.outputTimestamp for build reproducibility.</action>
             <!-- FIX -->
             <action type="fix" dev="ggregory" issue="EXEC-122" due-to="Marcono1234">Document PumpStreamHandler stream thread-safety requirements.</action>
-            <action type="fix" dev="ggregory" due-to="Marcono1234">Fix CI only running on Ubuntu & improve OS-specific tests #143.</action>
+            <action type="fix" dev="ggregory" due-to="Marcono1234">Fix CI only running on Ubuntu and improve OS-specific tests #143.</action>
             <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix PMD UnnecessaryFullyQualifiedName in DefaultExecutor.</action>
             <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix PMD EmptyCatchBlock by allowing commented blocks.</action>
             <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix PMD EmptyControlStatement by allowing commented blocks.</action>
