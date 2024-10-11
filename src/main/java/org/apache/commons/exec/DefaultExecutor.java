@@ -60,6 +60,17 @@ public class DefaultExecutor implements Executor {
         private ExecuteStreamHandler executeStreamHandler;
         private File workingDirectory;
 
+        /**
+         * Returns this instance typed as the subclass type {@code T}.
+         * <p>
+         * This is the same as the expression:
+         * </p>
+         * <pre>
+         * (B) this
+         * </pre>
+         *
+         * @return this instance typed as the subclass type {@code T}.
+         */
         @SuppressWarnings("unchecked")
         T asThis() {
             return (T) this;
