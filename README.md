@@ -44,7 +44,7 @@ Apache Commons Exec
 ===================
 
 [![Java CI](https://github.com/apache/commons-exec/actions/workflows/maven.yml/badge.svg)](https://github.com/apache/commons-exec/actions/workflows/maven.yml)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-exec/badge.svg?gav=true)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-exec/?gav=true)
+[![Maven Central](https://img.shields.io/maven-central/v/org.apache.commons/commons-exec?label=Maven%20Central)](https://search.maven.org/artifact/org.apache.commons/commons-exec)
 [![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-exec/1.4.0.svg)](https://javadoc.io/doc/org.apache.commons/commons-exec/1.4.0)
 [![CodeQL](https://github.com/apache/commons-exec/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/apache/commons-exec/actions/workflows/codeql-analysis.yml)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/apache/commons-exec/badge)](https://api.securityscorecards.dev/projects/github.com/apache/commons-exec)
