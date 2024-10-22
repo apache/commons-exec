@@ -35,7 +35,7 @@
             <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix PMD EmptyControlStatement by allowing commented blocks.</action>
             <action type="fix" dev="ggregory" due-to="Gary Gregory">Replace OS.OS_* use of Locale.ENGLISH with Locale.ROOT.</action>
             <!-- UPDATE -->
-            <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump org.apache.commons:commons-parent from 65 to 77 #174, #204, #212, #214, #219, #223, #226.</action>
+            <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump org.apache.commons:commons-parent from 65 to 78 #174, #204, #212, #214, #219, #223, #226, #233.</action>
         </release>
         <release version="1.4.0" date="2024-01-01" description="Maintenance and feature Release (Java 8 or above)">
             <!-- ADD -->
