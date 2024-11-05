@@ -76,10 +76,10 @@ public class CommandLine {
     public static CommandLine parse(final String line, final Map<String, ?> substitutionMap) {
 
         if (line == null) {
-            throw new IllegalArgumentException("Command line can not be null");
+            throw new IllegalArgumentException("Command line cannot be null");
         }
         if (line.trim().isEmpty()) {
-            throw new IllegalArgumentException("Command line can not be empty");
+            throw new IllegalArgumentException("Command line cannot be empty");
         }
         final String[] tmp = translateCommandline(line);
 
@@ -395,7 +395,7 @@ public class CommandLine {
     private String toCleanExecutable(final String dirtyExecutable) {
         Objects.requireNonNull(dirtyExecutable, "dirtyExecutable");
         if (dirtyExecutable.trim().isEmpty()) {
-            throw new IllegalArgumentException("Executable can not be empty");
+            throw new IllegalArgumentException("Executable cannot be empty");
         }
         return StringUtils.fixFileSeparatorChar(dirtyExecutable);
     }

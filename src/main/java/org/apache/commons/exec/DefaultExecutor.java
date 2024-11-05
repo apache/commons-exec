@@ -461,7 +461,7 @@ public class DefaultExecutor implements Executor {
      */
     protected Process launch(final CommandLine command, final Map<String, String> env, final File workingDirectory) throws IOException {
         if (launcher == null) {
-            throw new IllegalStateException("CommandLauncher can not be null");
+            throw new IllegalStateException("CommandLauncher cannot be null");
         }
         checkWorkingDirectory(workingDirectory);
         return launcher.exec(command, env, workingDirectory);
