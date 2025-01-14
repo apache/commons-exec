@@ -94,8 +94,6 @@ limitations under the License.
     <dependency>
       <groupId>org.junit-pioneer</groupId>
       <artifactId>junit-pioneer</artifactId>
-      <!-- Version 2.x requires Java 11 -->
-      <version>1.9.1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
