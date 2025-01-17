@@ -78,7 +78,7 @@ patches, or suggestions for improvement, see the Apache Commons Exec website:
 
 https://commons.apache.org/proper/commons-exec/
 
-Download page: https://commons.apache.org/proper/commons-exec//download_text.cgi
+Download page: https://commons.apache.org/proper/commons-exec//download_exec.cgi
 
 Have fun!
 -Apache Commons Team
