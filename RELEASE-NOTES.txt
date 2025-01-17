@@ -71,7 +71,7 @@ o            Deprecate Watchdog.Watchdog(long). Thanks to Gary Gregory.
 o            Drop obsolete and unmaintained Ant build. Thanks to Gary Gregory.
 o            Drop CLIRR plugin, replaced by JApiCmp. Thanks to Gary Gregory.
 
-Historical list of changes: https://commons.apache.org/proper/commons-exec//changes-report.html
+Historical list of changes: https://commons.apache.org/proper/commons-exec/changes.html
 
 For complete information on Apache Commons Exec, including instructions on how to submit bug reports,
 patches, or suggestions for improvement, see the Apache Commons Exec website:
