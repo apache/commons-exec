@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
@@ -220,6 +221,7 @@ public class DefaultExecutorTest {
         assertEquals("FOO..", baos.toString().trim());
         assertFalse(exec.isFailure(exitValue));
         assertEquals(new File("."), exec.getWorkingDirectory());
+        assertEquals(Paths.get("."), exec.getWorkingDirectoryPath());
     }
 
     /**
@@ -717,13 +719,15 @@ public class DefaultExecutorTest {
 
     @Test
     public void testExecuteWithWorkingDirectory() throws Exception {
-        final File workingDir = new File("./target");
+        final Path workingDirPath = Paths.get("./target");
         final CommandLine cl = new CommandLine(testScript);
-        exec.setWorkingDirectory(workingDir);
+        final File workingDirFile = workingDirPath.toFile();
+        exec.setWorkingDirectory(workingDirFile);
         final int exitValue = exec.execute(cl);
         assertEquals("FOO..", baos.toString().trim());
         assertFalse(exec.isFailure(exitValue));
-        assertEquals(exec.getWorkingDirectory(), workingDir);
+        assertEquals(exec.getWorkingDirectory(), workingDirFile);
+        assertEquals(exec.getWorkingDirectoryPath(), workingDirPath);        
     }
 
     /**

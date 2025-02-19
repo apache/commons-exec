@@ -19,6 +19,7 @@ package org.apache.commons.exec;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Map;
 
 /**
@@ -118,6 +119,16 @@ public interface Executor {
      * @return the working directory.
      */
     File getWorkingDirectory();
+
+    /**
+     * Gets the working directory of the created process.
+     *
+     * @return the working directory.
+     * @since 1.5.0
+     */
+    default Path getWorkingDirectoryPath() {
+        return getWorkingDirectory().toPath();
+    }
 
     /**
      * Tests whether {@code exitValue} signals a failure. If no exit values are set than the default conventions of the OS is used. e.g. most OS regard an exit
