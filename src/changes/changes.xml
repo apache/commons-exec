@@ -41,7 +41,7 @@
             <action type="fix" dev="ggregory" due-to="Gary Gregory">Deprecate StringUtils.StringUtils().</action>
             <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix Javadoc warnings.</action>
             <!-- UPDATE -->
-            <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump org.apache.commons:commons-parent from 65 to 79 #174, #204, #212, #214, #219, #223, #226, #233.</action>
+            <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump org.apache.commons:commons-parent from 65 to 81 #174, #204, #212, #214, #219, #223, #226, #233, #253.</action>
         </release>
         <release version="1.4.0" date="2024-01-01" description="Maintenance and feature Release (Java 8 or above)">
             <!-- ADD -->
