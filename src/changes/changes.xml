@@ -36,6 +36,7 @@
             <action type="fix" dev="ggregory" due-to="Gary Gregory">Replace OS.OS_* use of Locale.ENGLISH with Locale.ROOT.</action>
             <action type="fix" dev="ggregory" due-to="Gary Gregory">Deprecate DebugUtils.DebugUtils().</action>
             <action type="fix" dev="ggregory" due-to="Gary Gregory">Deprecate MapUtils.MapUtils().</action>
+            <action type="fix" dev="ggregory" due-to="Gary Gregory">Deprecate StringUtils.StringUtils().</action>
             <!-- UPDATE -->
             <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump org.apache.commons:commons-parent from 65 to 79 #174, #204, #212, #214, #219, #223, #226, #233.</action>
         </release>

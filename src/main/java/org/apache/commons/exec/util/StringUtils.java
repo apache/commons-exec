@@ -231,4 +231,14 @@ public class StringUtils {
     public static String toString(final String[] strings, final String separator) {
         return String.join(separator, strings);
     }
+
+    /**
+     * Constructs a new instance.
+     *
+     * @deprecated Will be private in the next major version.
+     */
+    @Deprecated
+    public StringUtils() {
+        // empty
+    }
 }
