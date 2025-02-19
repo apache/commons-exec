@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Disabled;
@@ -64,9 +65,9 @@ public class LogOutputStreamTest {
     private final File testDir = new File("src/test/scripts");
     private OutputStream systemOut;
 
-    private final File environmentScript = TestUtil.resolveScriptForOS(testDir + "/environment");
+    private final Path environmentScript = TestUtil.resolveScriptPathForOS(testDir + "/environment");
 
-    private final File utf8CharacterScript = TestUtil.resolveScriptForOS(testDir + "/utf8Characters");
+    private final Path utf8CharacterScript = TestUtil.resolveScriptPathForOS(testDir + "/utf8Characters");
 
     @AfterEach
     public void tearDown() throws Exception {

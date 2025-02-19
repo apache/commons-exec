@@ -38,7 +38,7 @@ public class Exec34Test {
 
     private final Executor exec = DefaultExecutor.builder().get();
     private final File testDir = new File("src/test/scripts");
-    private final File pingScript = TestUtil.resolveScriptForOS(testDir + "/ping");
+    private final File pingScript = TestUtil.resolveScriptFileForOS(testDir + "/ping");
 
     /**
      *

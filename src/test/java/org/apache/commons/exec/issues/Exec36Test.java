@@ -44,7 +44,7 @@ public class Exec36Test {
 
     private final Executor exec = DefaultExecutor.builder().get();
     private final File testDir = new File("src/test/scripts");
-    private final File printArgsScript = TestUtil.resolveScriptForOS(testDir + "/printargs");
+    private final File printArgsScript = TestUtil.resolveScriptFileForOS(testDir + "/printargs");
 
     private ByteArrayOutputStream baos;
 

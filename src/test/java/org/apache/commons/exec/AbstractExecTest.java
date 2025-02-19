@@ -30,7 +30,7 @@ public abstract class AbstractExecTest {
      * Resolve the OS-specific test file to execute.
      */
     protected File resolveTestScript(final String baseName) {
-        final File result = TestUtil.resolveScriptForOS(testDir + "/" + baseName);
+        final File result = TestUtil.resolveScriptFileForOS(testDir + "/" + baseName);
         if (!result.exists()) {
             throw new IllegalArgumentException("Unable to find the following file: " + result.getAbsolutePath());
         }
@@ -41,7 +41,7 @@ public abstract class AbstractExecTest {
      * Resolve the OS-specific test file to execute.
      */
     protected File resolveTestScript(final String directoryName, final String baseName) {
-        final File result = TestUtil.resolveScriptForOS(testDir + "/" + directoryName + "/" + baseName);
+        final File result = TestUtil.resolveScriptFileForOS(testDir + "/" + directoryName + "/" + baseName);
         if (!result.exists()) {
             throw new IllegalArgumentException("Unable to find the following file: " + result.getAbsolutePath());
         }

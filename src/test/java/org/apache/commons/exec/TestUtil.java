@@ -20,6 +20,8 @@ package org.apache.commons.exec;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  */
@@ -44,15 +46,19 @@ public final class TestUtil {
         return null; // unreachable.
     }
 
-    public static File resolveScriptForOS(final String script) {
+    public static File resolveScriptFileForOS(final String script) {
+        return resolveScriptPathForOS(script).toFile();
+    }
+
+    public static Path resolveScriptPathForOS(final String script) {
         if (OS.isFamilyWindows()) {
-            return new File(script + ".bat");
+            return Paths.get(script + ".bat");
         }
         if (OS.isFamilyUnix()) {
-            return new File(script + ".sh");
+            return Paths.get(script + ".sh");
         }
         if (OS.isFamilyOpenVms()) {
-            return new File(script + ".dcl");
+            return Paths.get(script + ".dcl");
         }
         fail("Test not supported for this OS");
         return null; // unreachable.

@@ -18,6 +18,7 @@
 package org.apache.commons.exec;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -205,7 +206,7 @@ public class CommandLine {
     }
 
     /**
-     * Create a command line without any arguments.
+     * Constructs a command line without any arguments.
      *
      * @param executable the executable file.
      */
@@ -215,7 +216,18 @@ public class CommandLine {
     }
 
     /**
-     * Create a command line without any arguments.
+     * Constructs a command line without any arguments.
+     *
+     * @param executable the executable file.
+     * @since 1.5.0
+     */
+    public CommandLine(final Path executable) {
+        this.isFile = true;
+        this.executable = toCleanExecutable(executable.toAbsolutePath().toString());
+    }
+
+    /**
+     * Constructs a command line without any arguments.
      *
      * @param executable the executable.
      * @throws NullPointerException     on null input.

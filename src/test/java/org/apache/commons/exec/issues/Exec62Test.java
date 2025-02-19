@@ -45,7 +45,7 @@ public class Exec62Test {
     private void execute(final String scriptName) throws Exception {
         final ExecuteWatchdog watchdog = new ExecuteWatchdog(4000);
         final CommandLine commandLine = new CommandLine("/bin/sh");
-        final File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/issues/" + scriptName);
+        final File testScript = TestUtil.resolveScriptFileForOS("./src/test/scripts/issues/" + scriptName);
 
         commandLine.addArgument(testScript.getAbsolutePath());
 

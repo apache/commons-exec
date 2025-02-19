@@ -37,7 +37,7 @@ public class Exec33Test {
 
     private final Executor exec = DefaultExecutor.builder().get();
     private final File testDir = new File("src/test/scripts");
-    private final File testScript = TestUtil.resolveScriptForOS(testDir + "/test");
+    private final File testScript = TestUtil.resolveScriptFileForOS(testDir + "/test");
 
     @Test
     public void testExec33() throws Exception {

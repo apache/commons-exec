@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
 public class Exec41Test {
 
     private final File testDir = new File("src/test/scripts");
-    private final File pingScript = TestUtil.resolveScriptForOS(testDir + "/ping");
+    private final File pingScript = TestUtil.resolveScriptFileForOS(testDir + "/ping");
 
     /**
      * Test EXEC-41 with a disabled PumpStreamHandler to check if we could return immediately after killing the process (no streams implies no blocking stream

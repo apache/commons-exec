@@ -24,9 +24,10 @@
         <title>Apache Commons Exec Release Notes</title>
     </properties>
     <body>
-        <release version="1.4.1" date="YYYY-MM-DD" description="Maintenance and feature Release (Java 8 or above)">
+        <release version="1.5.0" date="YYYY-MM-DD" description="Maintenance and feature Release (Java 8 or above)">
             <!-- ADD -->
             <action type="add" dev="ggregory" due-to="Gary Gregory">Add Maven property project.build.outputTimestamp for build reproducibility.</action>
+            <action type="add" dev="ggregory" due-to="Gary Gregory">Add CommandLine.CommandLine(Path).</action>
             <!-- FIX -->
             <action type="fix" dev="ggregory" issue="EXEC-122" due-to="Marcono1234">Document PumpStreamHandler stream thread-safety requirements.</action>
             <action type="fix" dev="ggregory" due-to="Marcono1234">Fix CI only running on Ubuntu and improve OS-specific tests #143.</action>

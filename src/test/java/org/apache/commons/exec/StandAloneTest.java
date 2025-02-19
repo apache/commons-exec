@@ -20,6 +20,7 @@ package org.apache.commons.exec;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.concurrent.Executors;
 
 import org.junit.jupiter.api.Test;
@@ -35,19 +36,8 @@ public class StandAloneTest {
 
     @Test
     @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
-    public void testDefaultExecutor() throws Exception {
-        final File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/standalone");
-        final Executor exec = new DefaultExecutor();
-        exec.setStreamHandler(new PumpStreamHandler());
-        final CommandLine cl = new CommandLine(testScript);
-        exec.execute(cl);
-        assertTrue(new File("./target/mybackup.gz").exists());
-    }
-
-    @Test
-    @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
     public void testDefaultExecutorBuilder() throws Exception {
-        final File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/standalone");
+        final Path testScript = TestUtil.resolveScriptPathForOS("./src/test/scripts/standalone");
         // @formatter:off
         final Executor exec = DefaultExecutor.builder()
                 .setThreadFactory(Executors.defaultThreadFactory())
@@ -64,8 +54,30 @@ public class StandAloneTest {
     @Test
     @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
     public void testDefaultExecutorDefaultBuilder() throws Exception {
-        final File testScript = TestUtil.resolveScriptForOS("./src/test/scripts/standalone");
+        final Path testScript = TestUtil.resolveScriptPathForOS("./src/test/scripts/standalone");
         final Executor exec = DefaultExecutor.builder().get();
+        exec.setStreamHandler(new PumpStreamHandler());
+        final CommandLine cl = new CommandLine(testScript);
+        exec.execute(cl);
+        assertTrue(new File("./target/mybackup.gz").exists());
+    }
+
+    @Test
+    @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
+    public void testDefaultExecutorFromFile() throws Exception {
+        final Path testScript = TestUtil.resolveScriptPathForOS("./src/test/scripts/standalone");
+        final Executor exec = new DefaultExecutor();
+        exec.setStreamHandler(new PumpStreamHandler());
+        final CommandLine cl = new CommandLine(testScript);
+        exec.execute(cl);
+        assertTrue(new File("./target/mybackup.gz").exists());
+    }
+
+    @Test
+    @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
+    public void testDefaultExecutorFromPath() throws Exception {
+        final Path testScript = TestUtil.resolveScriptPathForOS("./src/test/scripts/standalone");
+        final Executor exec = new DefaultExecutor();
         exec.setStreamHandler(new PumpStreamHandler());
         final CommandLine cl = new CommandLine(testScript);
         exec.execute(cl);

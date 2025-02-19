@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
@@ -70,7 +71,7 @@ public class TutorialTest {
     private final File testDir = new File("src/test/scripts");
 
     /** Simulates a PDF print job */
-    private final File acroRd32Script = TestUtil.resolveScriptForOS(testDir + "/acrord32");
+    private final Path acroRd32Script = TestUtil.resolveScriptPathForOS(testDir + "/acrord32");
 
     /**
      * Simulate printing a PDF document.

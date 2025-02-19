@@ -75,17 +75,17 @@ public class DefaultExecutorTest {
     private final File testDir = new File("src/test/scripts");
     private final File foreverOutputFile = new File("./target/forever.txt");
     private ByteArrayOutputStream baos;
-    private final File testScript = TestUtil.resolveScriptForOS(testDir + "/test");
-    private final File errorTestScript = TestUtil.resolveScriptForOS(testDir + "/error");
-    private final File foreverTestScript = TestUtil.resolveScriptForOS(testDir + "/forever");
-    private final File nonExistingTestScript = TestUtil.resolveScriptForOS(testDir + "/grmpffffff");
-    private final File redirectScript = TestUtil.resolveScriptForOS(testDir + "/redirect");
+    private final Path testScript = TestUtil.resolveScriptPathForOS(testDir + "/test");
+    private final Path errorTestScript = TestUtil.resolveScriptPathForOS(testDir + "/error");
+    private final Path foreverTestScript = TestUtil.resolveScriptPathForOS(testDir + "/forever");
+    private final Path nonExistingTestScript = TestUtil.resolveScriptPathForOS(testDir + "/grmpffffff");
+    private final Path redirectScript = TestUtil.resolveScriptPathForOS(testDir + "/redirect");
 
-    private final File printArgsScript = TestUtil.resolveScriptForOS(testDir + "/printargs");
+    private final Path printArgsScript = TestUtil.resolveScriptPathForOS(testDir + "/printargs");
     // private final File acroRd32Script = TestUtil.resolveScriptForOS(testDir + "/acrord32");
-    private final File stdinSript = TestUtil.resolveScriptForOS(testDir + "/stdin");
+    private final Path stdinSript = TestUtil.resolveScriptPathForOS(testDir + "/stdin");
 
-    private final File environmentSript = TestUtil.resolveScriptForOS(testDir + "/environment");
+    private final Path environmentSript = TestUtil.resolveScriptPathForOS(testDir + "/environment");
 //    private final File wrapperScript = TestUtil.resolveScriptForOS(testDir + "/wrapper");
 
     /**
