@@ -72,4 +72,13 @@ public class DebugUtils {
         return Boolean.TRUE.toString().equalsIgnoreCase(lenient);
     }
 
+    /**
+     * Constructs a new instance.
+     *
+     * @deprecated Will be private in the next major version.
+     */
+    @Deprecated
+    public DebugUtils() {
+        // empty
+    }
 }
