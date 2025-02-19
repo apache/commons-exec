@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.concurrent.Executors;
 
 import org.junit.jupiter.api.Test;
@@ -36,13 +37,30 @@ public class StandAloneTest {
 
     @Test
     @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
-    public void testDefaultExecutorBuilder() throws Exception {
+    public void testDefaultExecutorBuilderFromFile() throws Exception {
         final Path testScript = TestUtil.resolveScriptPathForOS("./src/test/scripts/standalone");
         // @formatter:off
         final Executor exec = DefaultExecutor.builder()
                 .setThreadFactory(Executors.defaultThreadFactory())
                 .setExecuteStreamHandler(new PumpStreamHandler())
                 .setWorkingDirectory(new File("."))
+                .get();
+        // @formatter:on
+        exec.setStreamHandler(new PumpStreamHandler());
+        final CommandLine cl = new CommandLine(testScript);
+        exec.execute(cl);
+        assertTrue(new File("./target/mybackup.gz").exists());
+    }
+
+    @Test
+    @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
+    public void testDefaultExecutorBuilderFromPath() throws Exception {
+        final Path testScript = TestUtil.resolveScriptPathForOS("./src/test/scripts/standalone");
+        // @formatter:off
+        final Executor exec = DefaultExecutor.builder()
+                .setThreadFactory(Executors.defaultThreadFactory())
+                .setExecuteStreamHandler(new PumpStreamHandler())
+                .setWorkingDirectory(Paths.get("."))
                 .get();
         // @formatter:on
         exec.setStreamHandler(new PumpStreamHandler());

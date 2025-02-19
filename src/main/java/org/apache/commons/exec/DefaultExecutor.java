@@ -19,6 +19,7 @@ package org.apache.commons.exec;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -135,6 +136,18 @@ public class DefaultExecutor implements Executor {
          */
         public T setWorkingDirectory(final File workingDirectory) {
             this.workingDirectory = workingDirectory;
+            return asThis();
+        }
+
+        /**
+         * Sets the working directory.
+         *
+         * @param workingDirectory the working directory., null resets to the default.
+         * @return {@code this} instance.
+         * @since 1.5.0
+         */
+        public T setWorkingDirectory(final Path workingDirectory) {
+            this.workingDirectory = workingDirectory != null ? workingDirectory.toFile() : null;
             return asThis();
         }
 
