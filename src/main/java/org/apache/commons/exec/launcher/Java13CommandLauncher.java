@@ -25,7 +25,7 @@ import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.environment.EnvironmentUtils;
 
 /**
- * A command launcher for JDK/JRE 1.3 (and higher). Uses the built-in Runtime.exec() command.
+ * A command launcher for Java 1.3 (and higher). Uses the built-in {@link Runtime#exec(String, String[], File)} command.
  */
 public class Java13CommandLauncher extends CommandLauncherImpl {
 
