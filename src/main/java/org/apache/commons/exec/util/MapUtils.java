@@ -78,4 +78,14 @@ public class MapUtils {
         }
         return result;
     }
+
+    /**
+     * Constructs a new instance.
+     *
+     * @deprecated Will be private in the next major version.
+     */
+    @Deprecated
+    public MapUtils() {
+        // empty
+    }
 }
