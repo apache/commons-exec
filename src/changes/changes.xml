@@ -37,6 +37,7 @@
             <action type="fix" dev="ggregory" due-to="Gary Gregory">Deprecate DebugUtils.DebugUtils().</action>
             <action type="fix" dev="ggregory" due-to="Gary Gregory">Deprecate MapUtils.MapUtils().</action>
             <action type="fix" dev="ggregory" due-to="Gary Gregory">Deprecate StringUtils.StringUtils().</action>
+            <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix Javadoc warnings.</action>
             <!-- UPDATE -->
             <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump org.apache.commons:commons-parent from 65 to 79 #174, #204, #212, #214, #219, #223, #226, #233.</action>
         </release>

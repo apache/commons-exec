@@ -34,6 +34,13 @@ public class DaemonExecutor extends DefaultExecutor {
     public static class Builder extends DefaultExecutor.Builder<Builder> {
 
         /**
+         * Constructs a new instance.
+         */
+        public Builder() {
+            // empty
+        }
+
+        /**
          * Creates a new configured DaemonExecutor.
          *
          * @return a new configured DaemonExecutor.

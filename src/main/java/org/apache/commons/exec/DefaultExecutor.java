@@ -49,7 +49,7 @@ import org.apache.commons.exec.launcher.CommandLauncherFactory;
 public class DefaultExecutor implements Executor {
 
     /**
-     * Constructs a new builder.
+     * Constructs a new {@link DefaultExecutor}.
      *
      * @param <T> The builder type.
      * @since 1.4.0
@@ -59,6 +59,13 @@ public class DefaultExecutor implements Executor {
         private ThreadFactory threadFactory;
         private ExecuteStreamHandler executeStreamHandler;
         private File workingDirectory;
+
+        /**
+         * Constructs a new instance.
+         */
+        public Builder() {
+            // empty
+        }
 
         /**
          * Returns this instance typed as the subclass type {@code T}.

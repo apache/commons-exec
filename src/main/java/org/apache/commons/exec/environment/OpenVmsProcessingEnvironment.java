@@ -32,6 +32,13 @@ package org.apache.commons.exec.environment;
 @Deprecated
 public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
 
+    /**
+     * Constructs a new instance.
+     */
+    public OpenVmsProcessingEnvironment() {
+        // empty
+    }
+
     /*
      * Hopefully removing super-class overrides won't cause Clirr error. If necessary can just delegate to super-class.
      */

@@ -37,6 +37,13 @@ import org.apache.commons.exec.util.StringUtils;
 public class VmsCommandLauncher extends Java13CommandLauncher {
 
     /**
+     * Constructs a new instance.
+     */
+    public VmsCommandLauncher() {
+        // empty
+    }
+
+    /**
      * Writes the command into a temporary DCL script and returns the corresponding File object. The script will be deleted on exit.
      */
     File createCommandFile(final CommandLine cmd, final Map<String, String> env) throws IOException {

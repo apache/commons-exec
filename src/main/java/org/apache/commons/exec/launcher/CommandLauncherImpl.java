@@ -30,6 +30,13 @@ import org.apache.commons.exec.environment.EnvironmentUtils;
  */
 public abstract class CommandLauncherImpl implements CommandLauncher {
 
+    /**
+     * Constructs a new instance.
+     */
+    public CommandLauncherImpl() {
+        // empty
+    }
+
     @Override
     public Process exec(final CommandLine cmd, final Map<String, String> env) throws IOException {
         return Runtime.getRuntime().exec(cmd.toStrings(), EnvironmentUtils.toStrings(env));

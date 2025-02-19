@@ -62,6 +62,13 @@ public class ExecuteWatchdog implements TimeoutObserver {
         private Duration timeout;
 
         /**
+         * Constructs a new instance.
+         */
+        public Builder() {
+            // empty
+        }
+
+        /**
          * Creates a new configured ExecuteWatchdog.
          *
          * @return a new configured ExecuteWatchdog.

@@ -36,6 +36,13 @@ public class DefaultProcessingEnvironment {
     protected Map<String, String> procEnvironment;
 
     /**
+     * Constructs a new instance.
+     */
+    public DefaultProcessingEnvironment() {
+        // empty
+    }
+
+    /**
      * Creates a map that obeys the casing rules of the current platform for key lookup. E.g. on a Windows platform, the map keys will be case-insensitive.
      *
      * @return The map for storage of environment variables, never {@code null}.
