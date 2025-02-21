@@ -19,6 +19,7 @@ package org.apache.commons.exec.launcher;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Map;
 
 import org.apache.commons.exec.CommandLine;
@@ -48,6 +49,20 @@ public interface CommandLauncher {
      * @throws IOException if trying to change directory.
      */
     Process exec(final CommandLine commandLine, final Map<String, String> env, final File workingDirectory) throws IOException;
+
+    /**
+     * Executes the given command in a new process, in the given working directory.
+     *
+     * @param commandLine      The command to execute.
+     * @param env              The environment for the new process. If null, the environment of the current process is used.
+     * @param workingDirectory The directory to start the command in. If null, the current directory is used.
+     * @return the newly created process.
+     * @throws IOException if trying to change directory.
+     * @since 1.5.0
+     */
+    default Process exec(final CommandLine commandLine, final Map<String, String> env, final Path workingDirectory) throws IOException {
+        return exec(commandLine, env, workingDirectory != null ? workingDirectory.toFile() : null);
+    }
 
     /**
      * Tests whether {@code exitValue} signals a failure on the current system (OS specific).

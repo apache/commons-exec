@@ -16,7 +16,7 @@
  */
 package org.apache.commons.exec;
 
-import java.io.File;
+import java.nio.file.Path;
 import java.util.concurrent.ThreadFactory;
 
 /**
@@ -47,7 +47,7 @@ public class DaemonExecutor extends DefaultExecutor {
          */
         @Override
         public DefaultExecutor get() {
-            return new DaemonExecutor(getThreadFactory(), getExecuteStreamHandler(), getWorkingDirectory());
+            return new DaemonExecutor(getThreadFactory(), getExecuteStreamHandler(), getWorkingDirectoryPath());
         }
 
     }
@@ -72,7 +72,7 @@ public class DaemonExecutor extends DefaultExecutor {
         // super
     }
 
-    private DaemonExecutor(final ThreadFactory threadFactory, final ExecuteStreamHandler executeStreamHandler, final File workingDirectory) {
+    private DaemonExecutor(final ThreadFactory threadFactory, final ExecuteStreamHandler executeStreamHandler, final Path workingDirectory) {
         super(threadFactory, executeStreamHandler, workingDirectory);
     }
 

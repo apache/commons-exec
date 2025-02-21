@@ -19,7 +19,9 @@ package org.apache.commons.exec;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -59,7 +61,7 @@ public class DefaultExecutor implements Executor {
 
         private ThreadFactory threadFactory;
         private ExecuteStreamHandler executeStreamHandler;
-        private File workingDirectory;
+        private Path workingDirectory;
 
         /**
          * Constructs a new instance.
@@ -102,7 +104,7 @@ public class DefaultExecutor implements Executor {
             return threadFactory;
         }
 
-        File getWorkingDirectory() {
+        Path getWorkingDirectoryPath() {
             return workingDirectory;
         }
 
@@ -135,7 +137,7 @@ public class DefaultExecutor implements Executor {
          * @return {@code this} instance.
          */
         public T setWorkingDirectory(final File workingDirectory) {
-            this.workingDirectory = workingDirectory;
+            this.workingDirectory = workingDirectory != null ? workingDirectory.toPath() : null;
             return asThis();
         }
 
@@ -147,7 +149,7 @@ public class DefaultExecutor implements Executor {
          * @since 1.5.0
          */
         public T setWorkingDirectory(final Path workingDirectory) {
-            this.workingDirectory = workingDirectory != null ? workingDirectory.toFile() : null;
+            this.workingDirectory = workingDirectory;
             return asThis();
         }
 
@@ -167,7 +169,7 @@ public class DefaultExecutor implements Executor {
     private ExecuteStreamHandler executeStreamHandler;
 
     /** The working directory of the process. */
-    private File workingDirectory;
+    private Path workingDirectory;
 
     /** Monitoring of long running processes. */
     private ExecuteWatchdog watchdog;
@@ -202,13 +204,13 @@ public class DefaultExecutor implements Executor {
      */
     @Deprecated
     public DefaultExecutor() {
-        this(Executors.defaultThreadFactory(), new PumpStreamHandler(), new File("."));
+        this(Executors.defaultThreadFactory(), new PumpStreamHandler(), Paths.get("."));
     }
 
-    DefaultExecutor(final ThreadFactory threadFactory, final ExecuteStreamHandler executeStreamHandler, final File workingDirectory) {
+    DefaultExecutor(final ThreadFactory threadFactory, final ExecuteStreamHandler executeStreamHandler, final Path workingDirectory) {
         this.threadFactory = threadFactory != null ? threadFactory : Executors.defaultThreadFactory();
         this.executeStreamHandler = executeStreamHandler != null ? executeStreamHandler : new PumpStreamHandler();
-        this.workingDirectory = workingDirectory != null ? workingDirectory : new File(".");
+        this.workingDirectory = workingDirectory != null ? workingDirectory : Paths.get(".");
         this.launcher = CommandLauncherFactory.createVMLauncher();
         this.exitValues = new int[0];
     }
@@ -219,6 +221,12 @@ public class DefaultExecutor implements Executor {
 
     private void checkWorkingDirectory(final File directory) throws IOException {
         if (directory != null && !directory.exists()) {
+            throw new IOException(directory + " doesn't exist.");
+        }
+    }
+
+    private void checkWorkingDirectory(final Path directory) throws IOException {
+        if (directory != null && !Files.exists(directory)) {
             throw new IOException(directory + " doesn't exist.");
         }
     }
@@ -318,7 +326,7 @@ public class DefaultExecutor implements Executor {
      * @return the exit code of the process.
      * @throws IOException executing the process failed.
      */
-    private int executeInternal(final CommandLine command, final Map<String, String> environment, final File workingDirectory,
+    private int executeInternal(final CommandLine command, final Map<String, String> environment, final Path workingDirectory,
             final ExecuteStreamHandler streams) throws IOException {
         final Process process;
         exceptionCaught = null;
@@ -450,7 +458,7 @@ public class DefaultExecutor implements Executor {
      */
     @Override
     public File getWorkingDirectory() {
-        return workingDirectory;
+        return workingDirectory.toFile();
     }
 
     /** @see org.apache.commons.exec.Executor#isFailure(int) */
@@ -480,6 +488,24 @@ public class DefaultExecutor implements Executor {
      * @throws IOException forwarded from the particular launcher used.
      */
     protected Process launch(final CommandLine command, final Map<String, String> env, final File workingDirectory) throws IOException {
+        if (launcher == null) {
+            throw new IllegalStateException("CommandLauncher cannot be null");
+        }
+        checkWorkingDirectory(workingDirectory);
+        return launcher.exec(command, env, workingDirectory);
+    }
+
+    /**
+     * Creates a process that runs a command.
+     *
+     * @param command          the command to run.
+     * @param env              the environment for the command.
+     * @param workingDirectory the working directory for the command.
+     * @return the process started.
+     * @throws IOException forwarded from the particular launcher used.
+     * @since 1.5.0
+     */
+    protected Process launch(final CommandLine command, final Map<String, String> env, final Path workingDirectory) throws IOException {
         if (launcher == null) {
             throw new IllegalStateException("CommandLauncher cannot be null");
         }
@@ -550,7 +576,7 @@ public class DefaultExecutor implements Executor {
     @Deprecated
     @Override
     public void setWorkingDirectory(final File workingDirectory) {
-        this.workingDirectory = workingDirectory;
+        this.workingDirectory = workingDirectory != null ? workingDirectory.toPath() : null;
     }
 
 }
