@@ -98,9 +98,9 @@ public class Exec36Test {
     @Disabled
     public void _testExec36_6() {
 
-        final String commandline = "C:\\CVS_DB\\WeightsEngine /f WeightsEngine.mak CFG=\"WeightsEngine - Win32Release\"";
+        final String commandLine = "C:\\CVS_DB\\WeightsEngine /f WeightsEngine.mak CFG=\"WeightsEngine - Win32Release\"";
 
-        final CommandLine cmdl = CommandLine.parse(commandline);
+        final CommandLine cmdl = CommandLine.parse(commandLine);
         final String[] args = cmdl.getArguments();
         assertEquals("/f", args[0]);
         assertEquals("WeightsEngine.mak", args[1]);

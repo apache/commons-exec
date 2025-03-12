@@ -392,9 +392,9 @@ public class CommandLineTest {
      */
     @Test
     public void testParseComplexCommandLine2() {
-        final String commandline = "./script/jrake cruise:publish_installers " + "INSTALLER_VERSION=unstable_2_1 "
+        final String commandLine = "./script/jrake cruise:publish_installers " + "INSTALLER_VERSION=unstable_2_1 "
                 + "INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\" " + "INSTALLER_DOWNLOAD_SERVER=\'something\' " + "WITHOUT_HELP_DOC=true";
-        final CommandLine cmdl = CommandLine.parse(commandline);
+        final CommandLine cmdl = CommandLine.parse(commandLine);
         final String[] args = cmdl.getArguments();
         assertEquals(args[0], "cruise:publish_installers");
         assertEquals(args[1], "INSTALLER_VERSION=unstable_2_1");
@@ -411,9 +411,9 @@ public class CommandLineTest {
     @Test
     public void testParseRealLifeCommandLine_1() {
 
-        final String commandline = "cmd.exe /C \"c:\\was51\\Web Sphere\\AppServer\\bin\\versionInfo.bat\"";
+        final String commandLine = "cmd.exe /C \"c:\\was51\\Web Sphere\\AppServer\\bin\\versionInfo.bat\"";
 
-        final CommandLine cmdl = CommandLine.parse(commandline);
+        final CommandLine cmdl = CommandLine.parse(commandLine);
         final String[] args = cmdl.getArguments();
         assertEquals("/C", args[0]);
         assertEquals("\"c:\\was51\\Web Sphere\\AppServer\\bin\\versionInfo.bat\"", args[1]);
