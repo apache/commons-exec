@@ -183,7 +183,7 @@ public class CommandLine {
     /**
      * A map of name value pairs used to expand command line arguments.
      */
-    private Map<String, ?> substitutionMap; // N.B. This can contain values other than Strings.
+    private Map<String, ?> substitutionMap; // This can contain values other than Strings.
 
     /**
      * Tests whether a file was used to set the executable.
