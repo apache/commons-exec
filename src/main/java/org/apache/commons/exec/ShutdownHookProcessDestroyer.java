@@ -41,7 +41,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
         }
 
         public void setShouldDestroy(final boolean shouldDestroy) {
-            this.shouldDestroy.set(shouldDestroy);
+            this.shouldDestroy.compareAndSet(!shouldDestroy, shouldDestroy);
         }
     }
 
@@ -52,12 +52,12 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
     private ProcessDestroyerThread destroyProcessThread;
 
     /** Whether or not this ProcessDestroyer has been registered as a shutdown hook. */
-    private boolean added;
+    private AtomicBoolean added = new AtomicBoolean();
 
     /**
      * Whether or not this ProcessDestroyer is currently running as shutdown hook.
      */
-    private volatile boolean running;
+    private AtomicBoolean running = new AtomicBoolean();
 
     /**
      * Constructs a {@code ProcessDestroyer} and obtains {@code Runtime.addShutdownHook()} and {@code Runtime.removeShutdownHook()} through reflection. The
@@ -90,10 +90,10 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
      * Registers this {@code ProcessDestroyer} as a shutdown hook.
      */
     private void addShutdownHook() {
-        if (!running) {
+        if (!running.get()) {
             destroyProcessThread = new ProcessDestroyerThread();
             Runtime.getRuntime().addShutdownHook(destroyProcessThread);
-            added = true;
+            added.compareAndSet(false, true);
         }
     }
 
@@ -103,7 +103,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
      * @return true if this is currently added as shutdown hook.
      */
     public boolean isAddedAsShutdownHook() {
-        return added;
+        return added.get();
     }
 
     /**
@@ -134,17 +134,16 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
     }
 
     /**
-     * Removes this {@code ProcessDestroyer} as a shutdown hook, uses reflection to ensure pre-JDK 1.3 compatibility
+     * Removes this {@code ProcessDestroyer} as a shutdown hook.
      */
     private void removeShutdownHook() {
-        if (added && !running) {
+        if (added.get() && !running.get()) {
             final boolean removed = Runtime.getRuntime().removeShutdownHook(destroyProcessThread);
             if (!removed) {
                 System.err.println("Could not remove shutdown hook");
             }
             // start the hook thread, a unstarted thread may not be eligible for garbage collection Cf.: https://developer.java.sun.com/developer/
             // bugParade/bugs/4533087.html
-
             destroyProcessThread.setShouldDestroy(false);
             destroyProcessThread.start();
             // this should return quickly, since it basically is a NO-OP.
@@ -155,7 +154,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
                 // it should not kill any processes unexpectedly
             }
             destroyProcessThread = null;
-            added = false;
+            added.compareAndSet(true, false);
         }
     }
 
@@ -165,7 +164,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
     @Override
     public void run() {
         synchronized (processes) {
-            running = true;
+            running.compareAndSet(false, true);
             processes.forEach(process -> {
                 try {
                     process.destroy();
