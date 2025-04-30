@@ -18,6 +18,7 @@
 package org.apache.commons.exec;
 
 import java.util.Vector;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Destroys all registered {@code Process}es when the VM exits.
@@ -26,7 +27,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
 
     private final class ProcessDestroyerThread extends Thread {
 
-        private boolean shouldDestroy = true;
+        private AtomicBoolean shouldDestroy = new AtomicBoolean(true);
 
         public ProcessDestroyerThread() {
             super("ProcessDestroyer Shutdown Hook");
@@ -34,13 +35,13 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
 
         @Override
         public void run() {
-            if (shouldDestroy) {
+            if (shouldDestroy.get()) {
                 ShutdownHookProcessDestroyer.this.run();
             }
         }
 
         public void setShouldDestroy(final boolean shouldDestroy) {
-            this.shouldDestroy = shouldDestroy;
+            this.shouldDestroy.set(shouldDestroy);
         }
     }
 
