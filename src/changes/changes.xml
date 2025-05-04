@@ -46,6 +46,8 @@
             <action type="fix" dev="ggregory" due-to="Gary Gregory, SpotBugs">Fix SpotBugs AT_STALE_THREAD_WRITE_OF_PRIMITIVE: Shared primitive variable "added" in one thread may not yield the value of the most recent write from another thread [org.apache.commons.exec.ShutdownHookProcessDestroyer].</action>
             <!-- UPDATE -->
             <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump org.apache.commons:commons-parent from 65 to 83 #174, #204, #212, #214, #219, #223, #226, #233, #253.</action>
+            <!-- REMOVE -->
+            <action type="remove" dev="ggregory" due-to="Gary Gregory">Remove obsolete and unmaintained Ant build file.</action>
         </release>
         <release version="1.4.0" date="2024-01-01" description="Maintenance and feature Release (Java 8 or above)">
             <!-- ADD -->
