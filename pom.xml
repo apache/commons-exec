@@ -101,6 +101,7 @@ limitations under the License.
           <configuration>
             <configLocation>${basedir}/src/conf/checkstyle.xml</configLocation>
             <enableRulesSummary>false</enableRulesSummary>
+            <includeTestSourceDirectory>true</includeTestSourceDirectory>
           </configuration>
         </plugin>
         <plugin>
