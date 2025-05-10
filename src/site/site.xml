@@ -1,44 +1,72 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <!--
- Licensed to the Apache Software Foundation (ASF) under one
- or more contributor license agreements.  See the NOTICE file
- distributed with this work for additional information
- regarding copyright ownership.  The ASF licenses this file
- to you under the Apache License, Version 2.0 (the
- "License"); you may not use this file except in compliance
- with the License.  You may obtain a copy of the License at
 
-   https://www.apache.org/licenses/LICENSE-2.0
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
 
- Unless required by applicable law or agreed to in writing,
- software distributed under the License is distributed on an
- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- KIND, either express or implied.  See the License for the
- specific language governing permissions and limitations
- under the License.
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
 -->
-<project name="Apache Commons Exec">
-  <bannerLeft>
-    <name>Apache Commons Exec</name>
-    <src>/images/apache-commons-exec.png</src>
-    <href>/index.html</href>
-  </bannerLeft>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License.  You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License.
+-->
+<site xmlns="http://maven.apache.org/SITE/2.0.0" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SITE/2.0.0 https://maven.apache.org/xsd/site-2.0.0.xsd"
+  name="Apache Commons Exec">
+  <bannerRight name="Commons Exec" href="/index.html">
+    <image src="/images/logo.png"/>
+  </bannerRight>
   <body>
     <menu name="Commons Exec">
-      <item name="Overview" href="/index.html" />
+      <!-- Start: For all components. -->
+      <item name="About" href="index.html" />
+      <item name="Asking Questions" href="/mail-lists.html" />
+      <item name="Release History" href="/changes.html" />
+      <item name="Issue Tracking" href="/issue-management.html" />
+      <item name="Dependency Management" href="/dependency-info.html" />
+      <item name="Sources" href="/scm.html" />
+      <item name="Security" href="security.html" />
+      <item name="License" href="https://www.apache.org/licenses/LICENSE-2.0" />
+      <item name="Code of Conduct" href="https://www.apache.org/foundation/policies/conduct.html" />
+      <item name="Download" href="https://commons.apache.org/proper/commons-exec/download_compress.cgi" />
+      <item name="Javadoc">
+        <item name="Javadoc Current" href="apidocs/index.html" />
+        <item name="Javadoc Archive" href="https://javadoc.io/doc/org.apache.commons/commons-exec/" />
+      </item>
+      <!-- End: For all components. -->
+      <!-- Specific to this component: -->
       <item name="Tutorial" href="/tutorial.html" />
       <item name="Command Line" href="/commandline.html" />        
+      <item name="Wiki" href="https://cwiki.apache.org/confluence/display/COMMONS/Exec"/>
+      <!--  The test matrix is woefully out of date and should preferably be generated from the GitHub CI build specification. -->
+      <!-- <item name="Test Matrix" href="/testmatrix.html" /> -->
       <item name="FAQ" href="faq.html"/>
-      <item name="Test Matrix" href="/testmatrix.html" />
-      <item name="Download" href="/download_exec.cgi"/>    
-    </menu>
-    <menu name="Development">
-      <item name="Mailing Lists"           href="/mail-lists.html"/>
-      <item name="Issue Tracking"          href="/issue-tracking.html"/>
-      <item name="Team"                    href="/team-list.html"/>
-      <item name="Source Repository"       href="/scm.html"/>
-      <item name="Javadoc"                 href="/apidocs/index.html"/>
-      <item name="Javadoc Archive"         href="https://javadoc.io/doc/org.apache.commons/commons-exec"/>
     </menu>
   </body>
-</project>
+</site>
