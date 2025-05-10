@@ -7,7 +7,7 @@
  (the "License"); you may not use this file except in compliance with
  the License.  You may obtain a copy of the License at
 
-     http://www.apache.org/licenses/LICENSE-2.0
+     https://www.apache.org/licenses/LICENSE-2.0
 
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,21 +26,21 @@
   <property name="severity" value="warning" />
 
   <!-- Checks that a package.html file exists for each package. -->
-  <!-- See http://checkstyle.sf.net/config_javadoc.html#JavadocPackage -->
+  <!-- See https://checkstyle.sf.net/config_javadoc.html#JavadocPackage -->
   <module name="JavadocPackage">
     <property name="allowLegacy" value="true" />
   </module>
 
   <!-- Checks whether files end with a new line. -->
-  <!-- See http://checkstyle.sf.net/config_misc.html#NewlineAtEndOfFile -->
+  <!-- See https://checkstyle.sf.net/config_misc.html#NewlineAtEndOfFile -->
   <module name="NewlineAtEndOfFile" />
 
   <!-- Checks that property files contain the same keys. -->
-  <!-- See http://checkstyle.sf.net/config_misc.html#Translation -->
+  <!-- See https://checkstyle.sf.net/config_misc.html#Translation -->
   <module name="Translation" />
 
   <!-- Checks for Headers -->
-  <!-- See http://checkstyle.sf.net/config_header.html -->
+  <!-- See https://checkstyle.sf.net/config_header.html -->
   <module name="Header">
     <property name="headerFile" value="${checkstyle.header.file}" />
     <property name="fileExtensions" value="java" />
@@ -61,13 +61,13 @@
     <module name="ExplicitInitializationCheck" />
 
     <!-- Checks for Javadoc comments. -->
-    <!-- See http://checkstyle.sf.net/config_javadoc.html -->
+    <!-- See https://checkstyle.sf.net/config_javadoc.html -->
     <module name="JavadocType">
     </module>
     <module name="JavadocVariable" />
 
     <!-- Checks for Naming Conventions. -->
-    <!-- See http://checkstyle.sf.net/config_naming.html -->
+    <!-- See https://checkstyle.sf.net/config_naming.html -->
     <module name="ConstantName" />
     <module name="LocalFinalVariableName" />
     <module name="LocalVariableName" />
@@ -82,19 +82,19 @@
     <!-- <module name="RegexpHeader"/> -->
 
     <!-- Checks for imports -->
-    <!-- See http://checkstyle.sf.net/config_import.html -->
+    <!-- See https://checkstyle.sf.net/config_import.html -->
     <module name="AvoidStarImport" />
     <module name="IllegalImport" /> <!-- defaults to sun.* packages -->
     <module name="RedundantImport" />
     <module name="UnusedImports" />
 
     <!-- Checks for Size Violations. -->
-    <!-- See http://checkstyle.sf.net/config_sizes.html -->
+    <!-- See https://checkstyle.sf.net/config_sizes.html -->
     <module name="MethodLength" />
     <module name="ParameterNumber" />
 
     <!-- Checks for whitespace -->
-    <!-- See http://checkstyle.sf.net/config_whitespace.html -->
+    <!-- See https://checkstyle.sf.net/config_whitespace.html -->
     <module name="EmptyForIteratorPad" />
     <module name="NoWhitespaceAfter" />
     <module name="NoWhitespaceBefore" />
@@ -104,12 +104,12 @@
     <module name="WhitespaceAround" />
 
     <!-- Modifier Checks -->
-    <!-- See http://checkstyle.sf.net/config_modifiers.html -->
+    <!-- See https://checkstyle.sf.net/config_modifiers.html -->
     <module name="ModifierOrder" />
     <module name="RedundantModifier" />
 
     <!-- Checks for blocks. You know, those {}'s -->
-    <!-- See http://checkstyle.sf.net/config_blocks.html -->
+    <!-- See https://checkstyle.sf.net/config_blocks.html -->
     <module name="AvoidNestedBlocks" />
     <module name="EmptyBlock">
       <property name="option" value="text" />
@@ -124,7 +124,7 @@
     </module>
 
     <!-- Checks for common coding problems -->
-    <!-- See http://checkstyle.sf.net/config_coding.html -->
+    <!-- See https://checkstyle.sf.net/config_coding.html -->
     <module name="CovariantEquals" />
     <module name="EmptyStatement" />
     <module name="EqualsHashCode" />
@@ -146,7 +146,7 @@
     <module name="UnnecessaryParentheses" />
 
     <!-- Checks for class design -->
-    <!-- See http://checkstyle.sf.net/config_design.html -->
+    <!-- See https://checkstyle.sf.net/config_design.html -->
     <module name="FinalClass" />
     <module name="HideUtilityClassConstructor" />
     <module name="InterfaceIsType" />
@@ -154,7 +154,7 @@
       <property name="protectedAllowed" value="true" />
     </module>
     <!-- Miscellaneous other checks. -->
-    <!-- See http://checkstyle.sf.net/config_misc.html -->
+    <!-- See https://checkstyle.sf.net/config_misc.html -->
     <module name="ArrayTypeStyle" />
     <module name="TodoComment" />
     <module name="UpperEll" />

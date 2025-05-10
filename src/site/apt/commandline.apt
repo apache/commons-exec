@@ -6,7 +6,7 @@
 ~~  (the "License"); you may not use this file except in compliance with
 ~~  the License.  You may obtain a copy of the License at
 ~~
-~~      http://www.apache.org/licenses/LICENSE-2.0
+~~      https://www.apache.org/licenses/LICENSE-2.0
 ~~
 ~~  Unless required by applicable law or agreed to in writing, software
 ~~  distributed under the License is distributed on an "AS IS" BASIS,
@@ -53,7 +53,7 @@ You have two ways to create the command line to be executed
 
   Parsing the command line string is easy to use but you might run into
   problems when tackling complex scenarios. Therefore this functionality
-  was deprecated in the {{{http://ant.apache.org/manual/Tasks/exec.html}Ant Exec task}}.
+  was deprecated in the {{{https://ant.apache.org/manual/Tasks/exec.html}Ant Exec task}}.
 
   Let's have a look at few examples you would like to stick to parsing entire command
   line strings
