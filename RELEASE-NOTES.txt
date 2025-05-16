@@ -14,6 +14,58 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
+Apache Commons Exec 1.5.0 Release Notes
+---------------------------------------
+
+The Apache Commons Exec team is pleased to announce the release of Apache Commons Exec 1.5.0.
+
+Apache Commons Exec is a library to reliably execute external processes from within the JVM.
+
+Maintenance and feature Release (Java 8 or above)
+
+Changes in this version include:
+
+New features:
+o            Add Maven property project.build.outputTimestamp for build reproducibility. Thanks to Gary Gregory.
+o            Add CommandLine.CommandLine(Path). Thanks to Gary Gregory.
+o            Add Executor.getWorkingDirectoryPath(). Thanks to Gary Gregory.
+o            Add DefaultExecutor.Builder.setWorkingDirectory(Path). Thanks to Gary Gregory.
+o            Add CommandLauncher.exec(CommandLine, Map<String, String>, Path). Thanks to Gary Gregory.
+
+Fixed Bugs:
+o EXEC-122:  Document PumpStreamHandler stream thread-safety requirements. Thanks to Marcono1234.
+o            Fix CI only running on Ubuntu and improve OS-specific tests #143. Thanks to Marcono1234.
+o            Fix PMD UnnecessaryFullyQualifiedName in DefaultExecutor. Thanks to Gary Gregory.
+o            Fix PMD EmptyCatchBlock by allowing commented blocks. Thanks to Gary Gregory.
+o            Fix PMD EmptyControlStatement by allowing commented blocks. Thanks to Gary Gregory.
+o            Replace OS.OS_* use of Locale.ENGLISH with Locale.ROOT. Thanks to Gary Gregory.
+o            Deprecate DebugUtils.DebugUtils(). Thanks to Gary Gregory.
+o            Deprecate MapUtils.MapUtils(). Thanks to Gary Gregory.
+o            Deprecate StringUtils.StringUtils(). Thanks to Gary Gregory.
+o            Fix Javadoc warnings. Thanks to Gary Gregory.
+o            Fix SpotBugs AT_STALE_THREAD_WRITE_OF_PRIMITIVE: Shared primitive variable "shouldDestroy" in one thread may not yield the value of the most recent write from another thread [org.apache.commons.exec.ShutdownHookProcessDestroyer$ProcessDestroyerThread]. Thanks to Gary Gregory, SpotBugs.
+o            Fix SpotBugs AT_STALE_THREAD_WRITE_OF_PRIMITIVE: Shared primitive variable "added" in one thread may not yield the value of the most recent write from another thread [org.apache.commons.exec.ShutdownHookProcessDestroyer]. Thanks to Gary Gregory, SpotBugs.
+
+Changes:
+o            Bump org.apache.commons:commons-parent from 65 to 83 #174, #204, #212, #214, #219, #223, #226, #233, #253. Thanks to Dependabot, Gary Gregory.
+
+Removed:
+o            Remove obsolete and unmaintained Ant build file. Thanks to Gary Gregory.
+
+Historical list of changes: https://commons.apache.org/proper/commons-exec//changes.html
+
+For complete information on Apache Commons Exec, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Commons Exec website:
+
+https://commons.apache.org/proper/commons-exec/
+
+Download page: https://commons.apache.org/proper/commons-exec//download_exec.cgi
+
+Have fun!
+-Apache Commons Team
+
+=============================================================================
+
 Apache Commons Exec
 Version 1.4.0
 Release Notes

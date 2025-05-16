@@ -24,7 +24,7 @@
         <title>Apache Commons Exec Release Notes</title>
     </properties>
     <body>
-        <release version="1.5.0" date="YYYY-MM-DD" description="Maintenance and feature Release (Java 8 or above)">
+        <release version="1.5.0" date="2025-05-16" description="Maintenance and feature Release (Java 8 or above)">
             <!-- ADD -->
             <action type="add" dev="ggregory" due-to="Gary Gregory">Add Maven property project.build.outputTimestamp for build reproducibility.</action>
             <action type="add" dev="ggregory" due-to="Gary Gregory">Add CommandLine.CommandLine(Path).</action>
