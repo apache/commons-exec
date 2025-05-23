@@ -27,15 +27,16 @@
       <!-- FIX -->
       <!-- ADD -->
       <!-- UPDATE -->
+      <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump org.apache.commons:commons-parent from 83 to 84.</action>
     </release>
     <release version="1.5.0" date="2025-05-16" description="Maintenance and feature Release (Java 8 or above)">
-            <!-- ADD -->
+      <!-- ADD -->
       <action type="add" dev="ggregory" due-to="Gary Gregory">Add Maven property project.build.outputTimestamp for build reproducibility.</action>
       <action type="add" dev="ggregory" due-to="Gary Gregory">Add CommandLine.CommandLine(Path).</action>
       <action type="add" dev="ggregory" due-to="Gary Gregory">Add Executor.getWorkingDirectoryPath().</action>
       <action type="add" dev="ggregory" due-to="Gary Gregory">Add DefaultExecutor.Builder.setWorkingDirectory(Path).</action>
       <action type="add" dev="ggregory" due-to="Gary Gregory">Add CommandLauncher.exec(CommandLine, Map&lt;String, String&gt;, Path).</action>
-            <!-- FIX -->
+      <!-- FIX -->
       <action type="fix" dev="ggregory" issue="EXEC-122" due-to="Marcono1234">Document PumpStreamHandler stream thread-safety requirements.</action>
       <action type="fix" dev="ggregory" due-to="Marcono1234">Fix CI only running on Ubuntu and improve OS-specific tests #143.</action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix PMD UnnecessaryFullyQualifiedName in DefaultExecutor.</action>
@@ -48,13 +49,13 @@
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix Javadoc warnings.</action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory, SpotBugs">Fix SpotBugs AT_STALE_THREAD_WRITE_OF_PRIMITIVE: Shared primitive variable "shouldDestroy" in one thread may not yield the value of the most recent write from another thread [org.apache.commons.exec.ShutdownHookProcessDestroyer$ProcessDestroyerThread].</action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory, SpotBugs">Fix SpotBugs AT_STALE_THREAD_WRITE_OF_PRIMITIVE: Shared primitive variable "added" in one thread may not yield the value of the most recent write from another thread [org.apache.commons.exec.ShutdownHookProcessDestroyer].</action>
-            <!-- UPDATE -->
+      <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump org.apache.commons:commons-parent from 65 to 83 #174, #204, #212, #214, #219, #223, #226, #233, #253.</action>
-            <!-- REMOVE -->
+      <!-- REMOVE -->
       <action type="remove" dev="ggregory" due-to="Gary Gregory">Remove obsolete and unmaintained Ant build file.</action>
     </release>
     <release version="1.4.0" date="2024-01-01" description="Maintenance and feature Release (Java 8 or above)">
-            <!-- ADD -->
+      <!-- ADD -->
       <action type="add" dev="ggregory" due-to="Gary Gregory">Add ShutdownHookProcessDestroyer.isEmpty().</action>
       <action type="add" dev="ggregory" due-to="Gary Gregory">Add DefaultExecuteResultHandler.waitFor(Duration).</action>
       <action type="add" dev="ggregory" due-to="Gary Gregory">Add Watchdog.Watchdog(Duration).</action>
@@ -64,7 +65,7 @@
       <action type="add" dev="ggregory" due-to="Gary Gregory">Add DaemonExecutor.Builder.</action>
       <action type="add" dev="ggregory" due-to="Gary Gregory">Add ExecuteWatchdog.Builder.</action>
       <action type="add" dev="ggregory" due-to="Gary Gregory">Add Watchdog.Builder.</action>
-            <!-- FIX -->
+      <!-- FIX -->
       <action issue="EXEC-105" type="fix" due-to="Dimitrios Efthymiou">Fix code snippet in tutorial page.</action>
       <action issue="EXEC-100" dev="sgoeschl" type="fix" date="2016-01-11">Sync org.apache.commons.exec.OS with the newest Ant source file.</action>
       <action issue="EXEC-64" dev="sebb" type="fix" due-to="Michael Vorburger">DefaultExecutor swallows IOException cause instead of propagating it (work-round for Java 1.5).</action>
@@ -79,13 +80,13 @@
       <action issue="EXEC-78" dev="ggregory" type="fix">No need to use System.class.getMethod("getenv",...) any more.</action>
       <action issue="EXEC-70" dev="ggregory" type="fix">Delegate thread creation to java.util.concurrent.ThreadFactory.</action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Avoid NullPointerException in MapUtils.prefix(Map, String).</action>
-            <!-- REMOVE -->
+      <!-- REMOVE -->
       <action type="remove" dev="ggregory" due-to="Gary Gregory">Deprecate DefaultExecuteResultHandler.waitFor(long).</action>
       <action type="remove" dev="ggregory" due-to="Gary Gregory">Deprecate ExecuteWatchdog.ExecuteWatchdog(long).</action>
       <action type="remove" dev="ggregory" due-to="Gary Gregory">Deprecate Watchdog.Watchdog(long).</action>
       <action type="remove" dev="ggregory" due-to="Gary Gregory">Drop obsolete and unmaintained Ant build.</action>
       <action type="remove" dev="ggregory" due-to="Gary Gregory">Drop CLIRR plugin, replaced by JApiCmp.</action>
-            <!-- UPDATE -->
+      <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Bump github actions #52.</action>
       <action issue="EXEC-111" type="update" dev="ggregory" due-to="Gary Gregory">Update from Java 5 to 6.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">Update from Java 7 to 8.</action>

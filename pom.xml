@@ -20,7 +20,7 @@ limitations under the License.
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>83</version>
+    <version>84</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <name>Apache Commons Exec</name>
@@ -57,8 +57,6 @@ limitations under the License.
     <commons.module.name>org.apache.commons.exec</commons.module.name>
     <commons.jira.id>EXEC</commons.jira.id>
     <commons.jira.pid>12310814</commons.jira.pid>
-    <!-- Remove commons.changes.versi override when commons-parent 84 is available-->
-    <commons.changes.version>3.0.0-M3</commons.changes.version>
     <!-- The RC version used in the staging repository URL. -->
     <!-- Don't use platform specific encodings for copying resources -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
