@@ -27,7 +27,7 @@ limitations under the License.
   <artifactId>commons-exec</artifactId>
   <version>1.5.1-SNAPSHOT</version>
   <inceptionYear>2005</inceptionYear>
-  <description>Apache Commons Exec is a library to reliably execute external processes from within the JVM.</description>
+  <description>AApache Commons Exec is a library that reliably executes external processes from within the JVM.</description>
   <url>https://commons.apache.org/proper/commons-exec/</url>
   <distributionManagement>
     <site>
