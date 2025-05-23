@@ -21,8 +21,13 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/changes/2.0.0 https://maven.apache.org/xsd/changes-2.0.0.xsd">
     <properties>
-        <title>Apache Commons Exec Release Notes</title>
+      <title>Apache Commons Exec Release Notes</title>
     </properties>
+    <release version="1.5.1" date="YYYY-MM-DD" description="This is a feature and maintenance release. Java 8 or later is required.">
+      <!-- FIX -->
+      <!-- ADD -->
+      <!-- UPDATE -->
+    </release>
     <body>
         <release version="1.5.0" date="2025-05-16" description="Maintenance and feature Release (Java 8 or above)">
             <!-- ADD -->
