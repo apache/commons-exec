@@ -20,8 +20,8 @@
 package org.apache.commons.exec;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 import java.util.concurrent.ThreadFactory;
 import java.util.function.Supplier;
 
@@ -101,7 +101,7 @@ public class Watchdog implements Runnable {
     /**
      * Observers.
      */
-    private final List<TimeoutObserver> observers = new Vector<>(1);
+    private final List<TimeoutObserver> observers = new ArrayList<>(1);
 
     /**
      * Timeout duration.
