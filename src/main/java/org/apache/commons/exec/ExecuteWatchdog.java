@@ -60,7 +60,10 @@ public class ExecuteWatchdog implements TimeoutObserver {
      */
     public static final class Builder implements Supplier<ExecuteWatchdog> {
 
+        /** Thread factory. */
         private ThreadFactory threadFactory;
+
+        /** Timeout duration. */
         private Duration timeout;
 
         /**

@@ -63,9 +63,7 @@
     <!-- See https://checkstyle.sf.net/config_javadoc.html -->
     <module name="JavadocType">
     </module>
-    <module name="JavadocVariable">
-      <property name="accessModifiers" value="public, protected"/>
-    </module>
+    <module name="JavadocVariable" />
     <!-- Checks for Naming Conventions. -->
     <!-- See https://checkstyle.sf.net/config_naming.html -->
     <module name="ConstantName" />

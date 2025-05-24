@@ -39,7 +39,12 @@ public class Watchdog implements Runnable {
      */
     public static final class Builder implements Supplier<Watchdog> {
 
+        /** Thread factory. */
         private ThreadFactory threadFactory;
+
+        /**
+         * Timeout duration.
+         */
         private Duration timeout;
 
         /**
@@ -93,10 +98,19 @@ public class Watchdog implements Runnable {
         return new Builder();
     }
 
+    /**
+     * Observers.
+     */
     private final List<TimeoutObserver> observers = new Vector<>(1);
 
+    /**
+     * Timeout duration.
+     */
     private final long timeoutMillis;
 
+    /**
+     * Whether this is stopped.
+     */
     private boolean stopped;
 
     /**

@@ -89,12 +89,25 @@ public final class OS {
      */
     public static final String FAMILY_ZOS = "z/os";
 
+    /**
+     * Apple Darwin string: {@value}
+     */
     private static final String DARWIN = "darwin";
 
+    /**
+     * The OS name.
+     */
     private static final String OS_NAME = System.getProperty("os.name").toLowerCase(Locale.ROOT);
+
+    /**
+     * The OS architecture.
+     */
     private static final String OS_ARCH = System.getProperty("os.arch").toLowerCase(Locale.ROOT);
+
+    /**
+     * The OS version.
+     */
     private static final String OS_VERSION = System.getProperty("os.version").toLowerCase(Locale.ROOT);
-    private static final String PATH_SEP = File.pathSeparator;
 
     /**
      * Tests whether the OS on which commons-exec is executing matches the given OS architecture.
@@ -280,7 +293,7 @@ public final class OS {
                     isFamily = OS_NAME.contains(FAMILY_NETWARE);
                     break;
                 case FAMILY_DOS:
-                    isFamily = PATH_SEP.equals(";") && !isFamily(FAMILY_NETWARE);
+                    isFamily = File.pathSeparator.equals(";") && !isFamily(FAMILY_NETWARE);
                     break;
                 case FAMILY_MAC:
                     isFamily = OS_NAME.contains(FAMILY_MAC) || OS_NAME.contains(DARWIN);
@@ -289,7 +302,8 @@ public final class OS {
                     isFamily = OS_NAME.contains("nonstop_kernel");
                     break;
                 case FAMILY_UNIX:
-                    isFamily = PATH_SEP.equals(":") && !isFamily(FAMILY_VMS) && (!isFamily(FAMILY_MAC) || OS_NAME.endsWith("x") || OS_NAME.contains(DARWIN));
+                    isFamily = File.pathSeparator.equals(":") && !isFamily(FAMILY_VMS)
+                            && (!isFamily(FAMILY_MAC) || OS_NAME.endsWith("x") || OS_NAME.contains(DARWIN));
                     break;
                 case FAMILY_ZOS:
                     isFamily = OS_NAME.contains(FAMILY_ZOS) || OS_NAME.contains("os/390");

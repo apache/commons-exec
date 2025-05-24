@@ -30,6 +30,9 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
 
     private final class ProcessDestroyerThread extends Thread {
 
+        /**
+         * Whether to run the ShutdownHookProcessDestroyer.
+         */
         private AtomicBoolean shouldDestroy = new AtomicBoolean(true);
 
         private ProcessDestroyerThread() {

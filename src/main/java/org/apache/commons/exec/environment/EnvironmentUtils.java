@@ -28,6 +28,9 @@ import java.util.Objects;
  */
 public class EnvironmentUtils {
 
+    /**
+     * Default environment.
+     */
     private static final DefaultProcessingEnvironment ENVIRONMENT;
 
     static {

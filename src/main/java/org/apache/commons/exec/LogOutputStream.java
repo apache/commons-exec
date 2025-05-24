@@ -52,10 +52,19 @@ public abstract class LogOutputStream extends OutputStream {
     /** The internal buffer. */
     private final ByteArrayOutputStreamX buffer = new ByteArrayOutputStreamX(INTIAL_SIZE);
 
+    /**
+     * Last written char was a CR.
+     */
     private boolean skip;
 
+    /**
+     * Level used to log data written to this stream.
+     */
     private final int level;
 
+    /**
+     * Character Set to use when processing lines.
+     */
     private final Charset charset;
 
     /**

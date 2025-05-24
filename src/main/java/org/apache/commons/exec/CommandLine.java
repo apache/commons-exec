@@ -41,7 +41,14 @@ public class CommandLine {
      */
     static final class Argument {
 
+        /**
+         * Argument value.
+         */
         private final String value;
+
+        /**
+         * Whether to quote arguments.
+         */
         private final boolean handleQuoting;
 
         private Argument(final String value, final boolean handleQuoting) {

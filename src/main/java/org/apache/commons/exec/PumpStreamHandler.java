@@ -36,20 +36,32 @@ import org.apache.commons.exec.util.DebugUtils;
  */
 public class PumpStreamHandler implements ExecuteStreamHandler {
 
+    /** Three seconds timeout. */
     private static final Duration STOP_TIMEOUT_ADDITION = Duration.ofSeconds(2);
 
+    /**
+     * Output thread.
+     */
     private Thread outputThread;
 
+    /**
+     * Error thread.
+     */
     private Thread errorThread;
 
+    /** Input thread. */
     private Thread inputThread;
 
+    /** Output stream. */
     private final OutputStream outputStream;
 
+    /** Error output stream. */
     private final OutputStream errorOutputStream;
 
+    /** Error input stream. */
     private final InputStream inputStream;
 
+    /** Pumper input stream. */
     private InputStreamPumper inputStreamPumper;
 
     /** The timeout Duration the implementation waits when stopping the pumper threads. */

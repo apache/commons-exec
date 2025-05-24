@@ -62,8 +62,19 @@ public class DefaultExecutor implements Executor {
      */
     public static class Builder<T extends Builder<T>> implements Supplier<DefaultExecutor> {
 
+        /**
+         * Error stream handler.
+         */
         private ExecuteStreamHandler executeStreamHandler;
+
+        /**
+         * Thread factory.
+         */
         private ThreadFactory threadFactory;
+
+        /**
+         * Working directory path.
+         */
         private Path workingDirectory;
 
         /**

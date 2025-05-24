@@ -21,6 +21,7 @@ limitations under the License.
 <!-- SEE: http://checkstyle.sourceforge.net/config.html#Examples -->
 <suppressions>
   <suppress checks="JavadocPackage" files="src[/\\]test[/\\]java[/\\]" />
+  <suppress checks="JavadocVariable" files="src[/\\]test[/\\]java[/\\]" />
   <!--  EnvironmentUtils can be final when we break BC. -->
   <suppress checks="FinalClass" files="src[/\\]main[/\\]java[/\\]org[/\\]apache[/\\]commons[/\\]exec[/\\]environment[/\\]EnvironmentUtils.java" />
   <!--  StringUtils can have a private default constructor when we break BC. -->

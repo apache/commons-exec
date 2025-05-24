@@ -33,10 +33,19 @@ import java.util.StringTokenizer;
  */
 public class StringUtils {
 
+    /** Empty array. */
     private static final String[] EMPTY_STRING_ARRAY = {};
+
+    /** Single quote. */
     private static final String SINGLE_QUOTE = "\'";
+
+    /** Double quote. */
     private static final String DOUBLE_QUOTE = "\"";
+
+    /** Forward lash character. */
     private static final char SLASH_CHAR = '/';
+
+    /** Backlash character. */
     private static final char BACKSLASH_CHAR = '\\';
 
     /**
