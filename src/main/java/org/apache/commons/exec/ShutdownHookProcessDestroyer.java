@@ -19,8 +19,8 @@
 
 package org.apache.commons.exec;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -52,7 +52,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
     }
 
     /** The list of currently running processes. */
-    private final List<Process> processes = new Vector<>();
+    private final List<Process> processes = new ArrayList<>();
 
     /** The thread registered at the JVM to execute the shutdown handler. */
     private ProcessDestroyerThread destroyProcessThread;
