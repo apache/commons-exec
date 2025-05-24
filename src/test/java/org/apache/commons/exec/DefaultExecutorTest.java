@@ -98,7 +98,7 @@ public class DefaultExecutorTest {
      */
     @Test
     @Disabled
-    public void _testExecuteStability() throws Exception {
+    public void testExecuteStability() throws Exception {
 
         // make a plain-vanilla test
         for (int i = 0; i < 100; i++) {
