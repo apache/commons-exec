@@ -410,7 +410,7 @@ public class CommandLineTest {
      * cmd.exe /C c:\was51\Web Sphere\AppServer\bin\versionInfo.bat
      */
     @Test
-    public void testParseRealLifeCommandLine_1() {
+    public void testParseRealLifeCommandLine() {
 
         final String commandLine = "cmd.exe /C \"c:\\was51\\Web Sphere\\AppServer\\bin\\versionInfo.bat\"";
 
