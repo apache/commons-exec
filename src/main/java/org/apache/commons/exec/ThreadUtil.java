@@ -45,4 +45,7 @@ final class ThreadUtil {
         return thread;
     }
 
+    private ThreadUtil() {
+        // empty
+    }
 }
