@@ -30,51 +30,62 @@ import java.util.Locale;
 public final class OS {
 
     /**
-     * OS family that can be tested for. {@value}
+     * OS family name to test: {@value}
      */
     public static final String FAMILY_9X = "win9x";
+
     /**
-     * OS family that can be tested for. {@value}
+     * OS family name to test: {@value}
      */
     public static final String FAMILY_DOS = "dos";
+
     /**
-     * OS family that can be tested for. {@value}
+     * OS family name to test: {@value}
      */
     public static final String FAMILY_MAC = "mac";
+
     /**
-     * OS family that can be tested for. {@value}
+     * OS family name to test: {@value}
      */
     public static final String FAMILY_NETWARE = "netware";
+
     /**
-     * OS family that can be tested for. {@value}
+     * OS family name to test: {@value}
      */
     public static final String FAMILY_NT = "winnt";
+
     /**
-     * OS family that can be tested for. {@value}
+     * OS family name to test: {@value}
      */
     public static final String FAMILY_OS2 = "os/2";
+
     /**
-     * OS family that can be tested for. {@value}
+     * OS family name to test: {@value}
      */
     public static final String FAMILY_OS400 = "os/400";
+
     /**
-     * OS family that can be tested for. {@value}
+     * OS family name to test: {@value}
      */
     public static final String FAMILY_TANDEM = "tandem";
+
     /**
-     * OS family that can be tested for. {@value}
+     * OS family name to test: {@value}
      */
     public static final String FAMILY_UNIX = "unix";
+
     /**
-     * OS family that can be tested for. {@value}
+     * OS family name to test: {@value}
      */
     public static final String FAMILY_VMS = "openvms";
+
     /**
-     * OS family that can be tested for. {@value}
+     * OS family name to test: {@value}
      */
     public static final String FAMILY_WINDOWS = "windows";
+
     /**
-     * OS family that can be tested for. {@value}
+     * OS family name to test: {@value}
      */
     public static final String FAMILY_ZOS = "z/os";
 
