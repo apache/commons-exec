@@ -174,7 +174,7 @@ public class CommandLine {
     /**
      * The arguments of the command.
      */
-    private final List<Argument> arguments = new Vector<>();
+    private final List<Argument> arguments = new ArrayList<>();
 
     /**
      * The program to execute.
