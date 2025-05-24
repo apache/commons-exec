@@ -27,7 +27,6 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executors;
 
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.junit.jupiter.api.Test;
