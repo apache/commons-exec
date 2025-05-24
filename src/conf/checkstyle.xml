@@ -23,7 +23,6 @@
 
 <module name="Checker">
   <property name="localeLanguage" value="en" />
-  <property name="severity" value="warning" />
 
   <!-- Checks that a package.html file exists for each package. -->
   <!-- See https://checkstyle.sf.net/config_javadoc.html#JavadocPackage -->
