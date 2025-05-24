@@ -64,8 +64,9 @@
     <!-- See https://checkstyle.sf.net/config_javadoc.html -->
     <module name="JavadocType">
     </module>
-    <module name="JavadocVariable" />
-
+    <module name="JavadocVariable">
+      <property name="accessModifiers" value="public, protected"/>
+    </module>
     <!-- Checks for Naming Conventions. -->
     <!-- See https://checkstyle.sf.net/config_naming.html -->
     <module name="ConstantName" />
@@ -96,7 +97,9 @@
     <!-- Checks for whitespace -->
     <!-- See https://checkstyle.sf.net/config_whitespace.html -->
     <module name="EmptyForIteratorPad" />
-    <module name="NoWhitespaceAfter" />
+    <module name="NoWhitespaceAfter">
+      <property name="tokens" value="AT, INC, DEC, UNARY_MINUS, UNARY_PLUS, BNOT, LNOT, DOT, ARRAY_DECLARATOR, INDEX_OP"/>
+    </module>
     <module name="NoWhitespaceBefore" />
     <module name="OperatorWrap" />
     <module name="ParenPad" />

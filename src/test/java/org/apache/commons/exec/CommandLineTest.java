@@ -37,7 +37,6 @@ public class CommandLineTest {
     @Test
     public void testAddArgument() {
         final CommandLine cmdl = new CommandLine("test");
-
         cmdl.addArgument("foo");
         cmdl.addArgument("bar");
         assertEquals("[test, foo, bar]", cmdl.toString());

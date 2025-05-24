@@ -524,10 +524,14 @@ public class DefaultExecutor implements Executor {
         }
     }
 
-    /** @see org.apache.commons.exec.Executor#setExitValue(int) */
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.apache.commons.exec.Executor#setExitValue(int)
+     */
     @Override
     public void setExitValue(final int value) {
-        setExitValues(new int[] { value });
+        setExitValues(new int[] {value});
     }
 
     /** @see org.apache.commons.exec.Executor#setExitValues(int[]) */

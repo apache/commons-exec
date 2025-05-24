@@ -19,10 +19,20 @@ package org.apache.commons.exec;
 
 import java.io.File;
 
+/**
+ * Abstracts tests.
+ */
 public abstract class AbstractExecTest {
 
-    public static final int TEST_TIMEOUT = 15000;
-    public static final int WATCHDOG_TIMEOUT = 3000;
+    /**
+     * Default test timeout in milliseconds.
+     */
+    public static final int TEST_TIMEOUT = 15_000;
+
+    /**
+     * Watchdog timeout in milliseconds.
+     */
+    public static final int WATCHDOG_TIMEOUT = 3_000;
 
     private final File testDir = new File("src/test/scripts");
 

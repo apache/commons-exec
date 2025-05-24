@@ -44,7 +44,7 @@ public class Exec60Test extends AbstractExecTest {
      */
     @Disabled("The test is fragile and might fail out of the blue")
     @Test
-    public void testExec_60() throws Exception {
+    public void testExec60() throws Exception {
 
         final int start = 0;
         final int seconds = 1;

@@ -57,18 +57,18 @@ import org.junitpioneer.jupiter.SetSystemProperty;
 public class DefaultExecutorTest {
 
     /** Maximum time to wait (15s) */
-    private static final int WAITFOR_TIMEOUT = 15000;
+    private static final int WAITFOR_TIMEOUT = 15_000;
     private static final Duration WAITFOR_TIMEOUT_D = Duration.ofMillis(WAITFOR_TIMEOUT);
 
     // Get suitable exit codes for the OS
-    private static int SUCCESS_STATUS; // test script successful exit code
-    private static int ERROR_STATUS; // test script error exit code
+    private static int successStatus; // test script successful exit code
+    private static int errorStatus; // test script error exit code
 
     @BeforeAll
     public static void classSetUp() {
         final int[] statuses = TestUtil.getTestScriptCodesForOS();
-        SUCCESS_STATUS = statuses[0];
-        ERROR_STATUS = statuses[1];
+        successStatus = statuses[0];
+        errorStatus = statuses[1];
     }
 
     private final Executor exec = DefaultExecutor.builder().get();
@@ -539,7 +539,7 @@ public class DefaultExecutorTest {
      */
     @Test
     public void testExecuteWithCustomExitValue1() throws Exception {
-        exec.setExitValue(ERROR_STATUS);
+        exec.setExitValue(errorStatus);
         final CommandLine cl = new CommandLine(errorTestScript);
         exec.execute(cl);
     }
@@ -552,7 +552,7 @@ public class DefaultExecutorTest {
     @Test
     public void testExecuteWithCustomExitValue2() throws Exception {
         final CommandLine cl = new CommandLine(errorTestScript);
-        exec.setExitValue(SUCCESS_STATUS);
+        exec.setExitValue(successStatus);
         try {
             exec.execute(cl);
             fail("Must throw ExecuteException");
