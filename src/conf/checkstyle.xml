@@ -141,7 +141,6 @@
     <module name="SuperClone" />
     <module name="SuperFinalize" />
     <module name="IllegalType" />
-    <module name="DeclarationOrder" />
     <module name="ExplicitInitialization" />
     <module name="DefaultComesLast" />
     <module name="FallThrough" />
@@ -159,7 +158,6 @@
     <!-- Miscellaneous other checks. -->
     <!-- See https://checkstyle.sf.net/config_misc.html -->
     <module name="ArrayTypeStyle" />
-    <module name="TodoComment" />
     <module name="UpperEll" />
     <module name="TypecastParenPad" />    
   </module>

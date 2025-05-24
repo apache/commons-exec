@@ -92,7 +92,7 @@ public class Exec65Test extends AbstractExecTest {
     public void testExec65WithSudoUsingShellScript() throws Exception {
         assumeFalse(new File(".").getAbsolutePath().contains("travis"),
                 "Test is skipped on travis, because we have to be a sudoer to make the other tests pass.");
-        // TODO Fails on GitHub
+        // TODO: Fails on GitHub
         assumeTrue(System.getenv("GITHUB_WORKFLOW") == null);
 
         final DefaultExecutor executor = DefaultExecutor.builder().get();
