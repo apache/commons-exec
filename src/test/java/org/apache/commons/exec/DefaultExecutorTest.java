@@ -729,7 +729,7 @@ public class DefaultExecutorTest {
         assertEquals("FOO..", baos.toString().trim());
         assertFalse(exec.isFailure(exitValue));
         assertEquals(exec.getWorkingDirectory(), workingDirFile);
-        assertEquals(exec.getWorkingDirectoryPath(), workingDirPath);        
+        assertEquals(exec.getWorkingDirectoryPath(), workingDirPath);
     }
 
     /**
