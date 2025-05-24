@@ -19,29 +19,39 @@
 
 package org.apache.commons.exec;
 
-import java.util.function.Consumer;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
 
 /**
- * Interface for classes that want to be notified by Watchdog.
- *
- * @see org.apache.commons.exec.Watchdog
+ * Tests {@link TimeoutObserver}.
  */
-public interface TimeoutObserver extends Consumer<Watchdog> {
+public class TimeoutObserverTest {
 
-    /**
-     * Called when the watchdog times out.
-     *
-     * @param w the watchdog that timed out.
-     */
-    void timeoutOccured(Watchdog w);
+    static class TimeoutObserverFixture implements TimeoutObserver {
 
-    /**
-     * {@inheritDoc}
-     *
-     * @since 1.6.0
-     */
-    @Override
-    default void accept(final Watchdog w) {
-        timeoutOccured(w);
+        private boolean b;
+
+        @Override
+        public void timeoutOccured(final Watchdog w) {
+            b = true;
+        }
+    }
+
+    private final TimeoutObserverFixture tof = new TimeoutObserverFixture();
+
+    @Test
+    public void testAccept() {
+        assertFalse(tof.b);
+        tof.accept(null);
+        assertTrue(tof.b);
+    }
+
+    @Test
+    public void testTimeoutOccured() {
+        assertFalse(tof.b);
+        tof.timeoutOccured(null);
+        assertTrue(tof.b);
     }
 }
