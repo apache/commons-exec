@@ -19,6 +19,7 @@
 
 package org.apache.commons.exec;
 
+import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -48,7 +49,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
     }
 
     /** The list of currently running processes. */
-    private final Vector<Process> processes = new Vector<>();
+    private final List<Process> processes = new Vector<>();
 
     /** The thread registered at the JVM to execute the shutdown handler. */
     private ProcessDestroyerThread destroyProcessThread;
@@ -83,7 +84,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
             if (processes.isEmpty()) {
                 addShutdownHook();
             }
-            processes.addElement(process);
+            processes.add(process);
             return processes.contains(process);
         }
     }
@@ -127,7 +128,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
     @Override
     public boolean remove(final Process process) {
         synchronized (processes) {
-            final boolean processRemoved = processes.removeElement(process);
+            final boolean processRemoved = processes.remove(process);
             if (processRemoved && processes.isEmpty()) {
                 removeShutdownHook();
             }

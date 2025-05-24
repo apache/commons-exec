@@ -20,6 +20,7 @@
 package org.apache.commons.exec;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.ThreadFactory;
 import java.util.function.Supplier;
@@ -92,7 +93,7 @@ public class Watchdog implements Runnable {
         return new Builder();
     }
 
-    private final Vector<TimeoutObserver> observers = new Vector<>(1);
+    private final List<TimeoutObserver> observers = new Vector<>(1);
 
     private final long timeoutMillis;
 
@@ -134,7 +135,7 @@ public class Watchdog implements Runnable {
      * @param to a TimeoutObserver to add.
      */
     public void addTimeoutObserver(final TimeoutObserver to) {
-        observers.addElement(to);
+        observers.add(to);
     }
 
     /**
@@ -150,7 +151,7 @@ public class Watchdog implements Runnable {
      * @param to a TimeoutObserver to remove.
      */
     public void removeTimeoutObserver(final TimeoutObserver to) {
-        observers.removeElement(to);
+        observers.remove(to);
     }
 
     @Override

@@ -23,6 +23,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.StringTokenizer;
@@ -175,7 +176,7 @@ public class CommandLine {
     /**
      * The arguments of the command.
      */
-    private final Vector<Argument> arguments = new Vector<>();
+    private final List<Argument> arguments = new Vector<>();
 
     /**
      * The program to execute.
@@ -201,7 +202,6 @@ public class CommandLine {
         this.executable = other.getExecutable();
         this.isFile = other.isFile();
         this.arguments.addAll(other.arguments);
-
         if (other.getSubstitutionMap() != null) {
             this.substitutionMap = new HashMap<>(other.getSubstitutionMap());
         }
