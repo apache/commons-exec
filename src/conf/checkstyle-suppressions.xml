@@ -27,4 +27,6 @@ limitations under the License.
   <suppress checks="HideUtilityClassConstructor" files="src[/\\]main[/\\]java[/\\]org[/\\]apache[/\\]commons[/\\]exec[/\\]util/StringUtils.java" />
   <!--  MapUtils can have a private default constructor when we break BC. -->
   <suppress checks="HideUtilityClassConstructor" files="src[/\\]main[/\\]java[/\\]org[/\\]apache[/\\]commons[/\\]exec[/\\]util/MapUtils.java" />
+  <!--  DebugUtils can have a private default constructor when we break BC. -->
+  <suppress checks="HideUtilityClassConstructor" files="src[/\\]main[/\\]java[/\\]org[/\\]apache[/\\]commons[/\\]exec[/\\]util/DebugUtils.java" />
 </suppressions>
