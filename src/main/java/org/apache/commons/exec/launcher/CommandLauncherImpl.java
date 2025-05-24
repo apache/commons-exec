@@ -43,7 +43,7 @@ public abstract class CommandLauncherImpl implements CommandLauncher {
     }
 
     @Override
-    public abstract Process exec(final CommandLine cmd, final Map<String, String> env, final File workingDir) throws IOException;
+    public abstract Process exec(CommandLine cmd, Map<String, String> env, File workingDir) throws IOException;
 
     /** @see org.apache.commons.exec.launcher.CommandLauncher#isFailure(int) */
     @Override

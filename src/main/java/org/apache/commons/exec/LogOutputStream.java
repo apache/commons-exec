@@ -140,7 +140,7 @@ public abstract class LogOutputStream extends OutputStream {
      * @param line     the line to log.
      * @param logLevel the log level to use
      */
-    protected abstract void processLine(final String line, final int logLevel);
+    protected abstract void processLine(String line, int logLevel);
 
     /**
      * Writes a block of characters to the output stream.

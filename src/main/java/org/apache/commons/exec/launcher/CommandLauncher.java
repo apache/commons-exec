@@ -37,7 +37,7 @@ public interface CommandLauncher {
      * @return the newly created process.
      * @throws IOException if attempting to run a command in a specific directory.
      */
-    Process exec(final CommandLine commandLine, final Map<String, String> env) throws IOException;
+    Process exec(CommandLine commandLine, Map<String, String> env) throws IOException;
 
     /**
      * Executes the given command in a new process, in the given working directory.
@@ -48,7 +48,7 @@ public interface CommandLauncher {
      * @return the newly created process.
      * @throws IOException if trying to change directory.
      */
-    Process exec(final CommandLine commandLine, final Map<String, String> env, final File workingDirectory) throws IOException;
+    Process exec(CommandLine commandLine, Map<String, String> env, File workingDirectory) throws IOException;
 
     /**
      * Executes the given command in a new process, in the given working directory.
@@ -60,7 +60,7 @@ public interface CommandLauncher {
      * @throws IOException if trying to change directory.
      * @since 1.5.0
      */
-    default Process exec(final CommandLine commandLine, final Map<String, String> env, final Path workingDirectory) throws IOException {
+    default Process exec(CommandLine commandLine, Map<String, String> env, Path workingDirectory) throws IOException {
         return exec(commandLine, env, workingDirectory != null ? workingDirectory.toFile() : null);
     }
 
@@ -75,5 +75,5 @@ public interface CommandLauncher {
      * @param exitValue the exit value (return code) to be checked.
      * @return {@code true} if {@code exitValue} signals a failure.
      */
-    boolean isFailure(final int exitValue);
+    boolean isFailure(int exitValue);
 }

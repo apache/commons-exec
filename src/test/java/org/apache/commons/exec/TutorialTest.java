@@ -42,11 +42,11 @@ public class TutorialTest {
 
         private ExecuteWatchdog watchdog;
 
-        public PrintResultHandler(final ExecuteWatchdog watchdog) {
+        private PrintResultHandler(final ExecuteWatchdog watchdog) {
             this.watchdog = watchdog;
         }
 
-        public PrintResultHandler(final int exitValue) {
+        private PrintResultHandler(final int exitValue) {
             super.onProcessComplete(exitValue);
         }
 

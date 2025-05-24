@@ -137,7 +137,7 @@ public interface Executor {
      * @param exitValue the exit value (return code) to be checked.
      * @return {@code true} if {@code exitValue} signals a failure.
      */
-    boolean isFailure(final int exitValue);
+    boolean isFailure(int exitValue);
 
     /**
      * Sets the {@code exitValue} of the process to be considered successful. If a different exit value is returned by the process then
@@ -145,7 +145,7 @@ public interface Executor {
      *
      * @param value the exit code representing successful execution.
      */
-    void setExitValue(final int value);
+    void setExitValue(int value);
 
     /**
      * Sets a list of {@code exitValue} of the process to be considered successful. The caller can pass one of the following values.
@@ -160,7 +160,7 @@ public interface Executor {
      *
      * @param values a list of the exit codes.
      */
-    void setExitValues(final int[] values);
+    void setExitValues(int[] values);
 
     /**
      * Sets the handler for cleanup of started processes if the main process is going to terminate.
