@@ -78,7 +78,6 @@ public class CommandLine {
      * @throws IllegalArgumentException If line is null or all whitespace.
      */
     public static CommandLine parse(final String line, final Map<String, ?> substitutionMap) {
-
         if (line == null) {
             throw new IllegalArgumentException("Command line cannot be null");
         }
@@ -86,13 +85,11 @@ public class CommandLine {
             throw new IllegalArgumentException("Command line cannot be empty");
         }
         final String[] tmp = translateCommandline(line);
-
         final CommandLine cl = new CommandLine(tmp[0]);
         cl.setSubstitutionMap(substitutionMap);
         for (int i = 1; i < tmp.length; i++) {
             cl.addArgument(tmp[i]);
         }
-
         return cl;
     }
 
@@ -107,9 +104,7 @@ public class CommandLine {
             // no command? no string
             return new String[0];
         }
-
         // parse with a simple finite state machine.
-
         final int normal = 0;
         final int inQuote = 1;
         final int inDoubleQuote = 2;
@@ -118,7 +113,6 @@ public class CommandLine {
         final ArrayList<String> list = new ArrayList<>();
         StringBuilder current = new StringBuilder();
         boolean lastTokenHasBeenQuoted = false;
-
         while (tok.hasMoreTokens()) {
             final String nextTok = tok.nextToken();
             switch (state) {
@@ -160,15 +154,12 @@ public class CommandLine {
                 break;
             }
         }
-
         if (lastTokenHasBeenQuoted || current.length() != 0) {
             list.add(current.toString());
         }
-
         if (state == inQuote || state == inDoubleQuote) {
             throw new IllegalArgumentException("Unbalanced quotes in " + toProcess);
         }
-
         final String[] args = new String[list.size()];
         return list.toArray(args);
     }
@@ -259,17 +250,14 @@ public class CommandLine {
      * @return The command line itself.
      */
     public CommandLine addArgument(final String argument, final boolean handleQuoting) {
-
         if (argument == null) {
             return this;
         }
-
         // check if we can really quote the argument - if not throw an
         // IllegalArgumentException
         if (handleQuoting) {
             StringUtils.quoteArgument(argument);
         }
-
         arguments.add(new Argument(argument, handleQuoting));
         return this;
     }
@@ -298,7 +286,6 @@ public class CommandLine {
             final String[] argumentsArray = translateCommandline(addArguments);
             addArguments(argumentsArray, handleQuoting);
         }
-
         return this;
     }
 
@@ -345,17 +332,14 @@ public class CommandLine {
      * @return The quoted arguments.
      */
     public String[] getArguments() {
-
         Argument currArgument;
         String expandedArgument;
         final String[] result = new String[arguments.size()];
-
         for (int i = 0; i < result.length; i++) {
             currArgument = arguments.get(i);
             expandedArgument = expandArgument(currArgument.getValue());
             result[i] = currArgument.isHandleQuoting() ? StringUtils.quoteArgument(expandedArgument) : expandedArgument;
         }
-
         return result;
     }
 

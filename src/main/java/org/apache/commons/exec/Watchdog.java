@@ -171,7 +171,6 @@ public class Watchdog implements Runnable {
                 isWaiting = timeLeftMillis > 0;
             }
         }
-
         // notify the listeners outside of the synchronized block (see EXEC-60)
         if (!isWaiting) {
             fireTimeoutOccured();
