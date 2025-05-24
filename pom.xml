@@ -90,6 +90,12 @@ limitations under the License.
       <artifactId>junit-pioneer</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.17.0</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <defaultGoal>clean artifact:check-buildplan verify apache-rat:check japicmp:cmp checkstyle:check pmd:cpd-check pmd:check javadoc:javadoc spotbugs:check</defaultGoal>

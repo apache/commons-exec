@@ -27,7 +27,9 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Executors;
 
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -105,7 +107,12 @@ public class TutorialTest {
 
         // create a watchdog if requested
         if (printJobTimeout.toMillis() > 0) {
-            watchdog = ExecuteWatchdog.builder().setTimeout(printJobTimeout).get();
+            // @formatter:off
+            watchdog = ExecuteWatchdog.builder()
+                    .setTimeout(printJobTimeout)
+                    .setThreadFactory(new BasicThreadFactory.Builder().build())
+                    .get();
+            // @formatter:on
             executor.setWatchdog(watchdog);
         }
 
