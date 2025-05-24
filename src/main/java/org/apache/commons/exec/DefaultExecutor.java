@@ -62,8 +62,8 @@ public class DefaultExecutor implements Executor {
      */
     public static class Builder<T extends Builder<T>> implements Supplier<DefaultExecutor> {
 
-        private ThreadFactory threadFactory;
         private ExecuteStreamHandler executeStreamHandler;
+        private ThreadFactory threadFactory;
         private Path workingDirectory;
 
         /**
@@ -168,14 +168,14 @@ public class DefaultExecutor implements Executor {
         return new Builder<>();
     }
 
+    /** The first exception being caught to be thrown to the caller. */
+    private IOException exceptionCaught;
+
     /** Taking care of output and error stream. */
     private ExecuteStreamHandler executeStreamHandler;
 
-    /** The working directory of the process. */
-    private Path workingDirectory;
-
-    /** Monitoring of long running processes. */
-    private ExecuteWatchdog watchdog;
+    /** Worker thread for asynchronous execution. */
+    private Thread executorThread;
 
     /** The exit values considered to be successful. */
     private int[] exitValues;
@@ -186,16 +186,16 @@ public class DefaultExecutor implements Executor {
     /** Optional cleanup of started processes. */
     private ProcessDestroyer processDestroyer;
 
-    /** Worker thread for asynchronous execution. */
-    private Thread executorThread;
-
-    /** The first exception being caught to be thrown to the caller. */
-    private IOException exceptionCaught;
-
     /**
      * The thread factory.
      */
     private final ThreadFactory threadFactory;
+
+    /** Monitoring of long running processes. */
+    private ExecuteWatchdog watchdog;
+
+    /** The working directory of the process. */
+    private Path workingDirectory;
 
     /**
      * Constructs a default {@code PumpStreamHandler} and sets the working directory of the subprocess to the current working directory.

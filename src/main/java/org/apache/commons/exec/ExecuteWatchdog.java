@@ -120,23 +120,17 @@ public class ExecuteWatchdog implements TimeoutObserver {
         return new Builder();
     }
 
-    /** The process to execute and watch for duration. */
-    private Process process;
+    /** Exception that might be thrown during the process execution. */
+    private Exception caught;
 
     /** Is a user-supplied timeout in use. */
     private final boolean hasWatchdog;
 
-    /** Say whether or not the watchdog is currently monitoring a process. */
-    private boolean watch;
-
-    /** Exception that might be thrown during the process execution. */
-    private Exception caught;
-
     /** Say whether or not the process was killed due to running overtime. */
     private boolean killedProcess;
 
-    /** Will tell us whether timeout has occurred. */
-    private final Watchdog watchdog;
+    /** The process to execute and watch for duration. */
+    private Process process;
 
     /** Indicates that the process is verified as started */
     private volatile boolean processStarted;
@@ -145,6 +139,12 @@ public class ExecuteWatchdog implements TimeoutObserver {
      * The thread factory.
      */
     private final ThreadFactory threadFactory;
+
+    /** Say whether or not the watchdog is currently monitoring a process. */
+    private boolean watch;
+
+    /** Will tell us whether timeout has occurred. */
+    private final Watchdog watchdog;
 
     /**
      * Creates a new watchdog with a given timeout.
