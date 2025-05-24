@@ -529,7 +529,7 @@ public class DefaultExecutor implements Executor {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.apache.commons.exec.Executor#setExitValue(int)
      */
     @Override
