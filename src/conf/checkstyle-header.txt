@@ -16,10 +16,3 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-/**
- * <p>
- * Queries the operating system environment.
- * </p>
- */
-package org.apache.commons.exec.environment;

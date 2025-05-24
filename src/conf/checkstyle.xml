@@ -42,7 +42,7 @@
   <!-- Checks for Headers -->
   <!-- See https://checkstyle.sf.net/config_header.html -->
   <module name="Header">
-    <property name="headerFile" value="${checkstyle.header.file}" />
+    <property name="headerFile" value="src/conf/checkstyle-header.txt" />
     <property name="fileExtensions" value="java" />
   </module>
   <module name="FileLength" />
