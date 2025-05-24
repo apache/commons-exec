@@ -76,9 +76,9 @@ public class VmsCommandLauncher extends Java13CommandLauncher {
                     writer.println('\"');
                 }
             }
-
             final String command = cmd.getExecutable();
-            if (cmd.isFile()) {// We assume it is it a script file
+            if (cmd.isFile()) {
+                // We assume it is it a script file
                 writer.print("$ @");
                 // This is a bit crude, but seems to work
                 final String[] parts = StringUtils.split(command, "/");
