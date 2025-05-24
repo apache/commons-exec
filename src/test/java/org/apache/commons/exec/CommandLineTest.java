@@ -164,13 +164,13 @@ public class CommandLineTest {
 
         CommandLine cmdl;
 
-        final HashMap<String, Object> substitutionMap = new HashMap<>();
+        final Map<String, Object> substitutionMap = new HashMap<>();
         substitutionMap.put("JAVA_HOME", "/usr/local/java");
         substitutionMap.put("appMainClass", "foo.bar.Main");
         substitutionMap.put("file1", new File("./pom.xml"));
         substitutionMap.put("file2", new File(".\\temp\\READ ME.txt"));
 
-        final HashMap<String, String> incompleteMap = new HashMap<>();
+        final Map<String, String> incompleteMap = new HashMap<>();
         incompleteMap.put("JAVA_HOME", "/usr/local/java");
 
         // do not pass substitution map
@@ -211,7 +211,7 @@ public class CommandLineTest {
         String[] result;
 
         // build the user supplied parameters
-        final HashMap<String, String> substitutionMap = new HashMap<>();
+        final Map<String, String> substitutionMap = new HashMap<>();
         substitutionMap.put("JAVA_HOME", "C:\\Programme\\jdk1.5.0_12");
         substitutionMap.put("appMainClass", "foo.bar.Main");
 
@@ -258,7 +258,7 @@ public class CommandLineTest {
         cmdl.addArgument("/p");
         cmdl.addArgument("/h");
         cmdl.addArgument("${file}", false);
-        final HashMap<String, String> params = new HashMap<>();
+        final Map<String, String> params = new HashMap<>();
         params.put("file", "C:\\Document And Settings\\documents\\432432.pdf");
         cmdl.setSubstitutionMap(params);
         final String[] result = cmdl.toStrings();
@@ -381,7 +381,7 @@ public class CommandLineTest {
      */
     @Test
     public void testParseComplexCommandLine1() {
-        final HashMap<String, String> substitutionMap = new HashMap<>();
+        final Map<String, String> substitutionMap = new HashMap<>();
         substitutionMap.put("in", "source.jpg");
         substitutionMap.put("out", "target.jpg");
         final CommandLine cmdl = CommandLine.parse("cmd /C convert ${in} -resize \"\'500x> \'\" ${out}", substitutionMap);
@@ -428,7 +428,7 @@ public class CommandLineTest {
     @Test
     public void testToString() throws Exception {
         CommandLine cmdl;
-        final HashMap<String, String> params = new HashMap<>();
+        final Map<String, String> params = new HashMap<>();
 
         // use no arguments
         cmdl = CommandLine.parse("AcroRd32.exe", params);

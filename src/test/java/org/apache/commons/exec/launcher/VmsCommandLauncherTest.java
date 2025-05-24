@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.exec.CommandLine;
 import org.junit.jupiter.api.Test;
@@ -41,7 +42,7 @@ public class VmsCommandLauncherTest extends AbstractCommandLauncherTest<VmsComma
         final VmsCommandLauncher commandLauncher = createCommandLauncher();
         final CommandLine cl = CommandLine.parse("a b \"c d\"");
         assertNotNull(commandLauncher.createCommandFile(cl, null));
-        final HashMap<String, String> env = new HashMap<>();
+        final Map<String, String> env = new HashMap<>();
         assertNotNull(commandLauncher.createCommandFile(cl, env));
         env.put("EnvKey", "EnvValue");
         assertNotNull(commandLauncher.createCommandFile(cl, env));

@@ -31,20 +31,18 @@ import org.junit.jupiter.api.Test;
 /**
  */
 public class MapUtilTest {
+
     /**
      * Test copying of map
      */
     @Test
     public void testCopyMap() throws Exception {
-
-        final HashMap<String, String> procEnvironment = new HashMap<>();
+        final Map<String, String> procEnvironment = new HashMap<>();
         procEnvironment.put("JAVA_HOME", "/usr/opt/java");
-
         final Map<String, String> result = MapUtils.copy(procEnvironment);
         assertEquals(1, result.size());
         assertEquals(1, procEnvironment.size());
         assertEquals("/usr/opt/java", result.get("JAVA_HOME"));
-
         result.remove("JAVA_HOME");
         assertTrue(result.isEmpty());
         assertEquals(1, procEnvironment.size());
@@ -55,10 +53,8 @@ public class MapUtilTest {
      */
     @Test
     public void testMergeMap() throws Exception {
-
         final Map<String, String> procEnvironment = EnvironmentUtils.getProcEnvironment();
-        final HashMap<String, String> applicationEnvironment = new HashMap<>();
-
+        final Map<String, String> applicationEnvironment = new HashMap<>();
         applicationEnvironment.put("appMainClass", "foo.bar.Main");
         final Map<String, String> result = MapUtils.merge(procEnvironment, applicationEnvironment);
         assertEquals(procEnvironment.size() + applicationEnvironment.size(), result.size());
@@ -70,10 +66,8 @@ public class MapUtilTest {
      */
     @Test
     public void testPrefixMap() throws Exception {
-
-        final HashMap<String, String> procEnvironment = new HashMap<>();
+        final Map<String, String> procEnvironment = new HashMap<>();
         procEnvironment.put("JAVA_HOME", "/usr/opt/java");
-
         final Map<String, String> result = MapUtils.prefix(procEnvironment, "env");
         assertEquals(procEnvironment.size(), result.size());
         assertEquals("/usr/opt/java", result.get("env.JAVA_HOME"));
