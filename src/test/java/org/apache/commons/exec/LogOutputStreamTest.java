@@ -42,7 +42,7 @@ public class LogOutputStreamTest {
 
     private static final class SystemLogOutputStream extends LogOutputStream {
 
-        StringBuffer output = new StringBuffer();
+        private StringBuffer output = new StringBuffer();
 
         private SystemLogOutputStream(final int level) {
             super(level);
