@@ -79,7 +79,7 @@ public class LogOutputStreamTest {
     }
 
     @Test
-    public void testStdout() throws Exception {
+    void testStdout() throws Exception {
         this.systemOut = new SystemLogOutputStream(1);
         this.exec.setStreamHandler(new PumpStreamHandler(systemOut, systemOut));
 
@@ -90,7 +90,7 @@ public class LogOutputStreamTest {
 
     @Test
     @Disabled("The file utf8CharacterScript is missing from the repository and is not in its history")
-    public void testStdoutWithUTF8Characters() throws Exception {
+    void testStdoutWithUTF8Characters() throws Exception {
         this.systemOut = new SystemLogOutputStream(1, StandardCharsets.UTF_8);
         this.exec.setStreamHandler(new PumpStreamHandler(systemOut, systemOut));
 

@@ -29,14 +29,14 @@ abstract class AbstractCommandLauncherTest<T extends CommandLauncher> {
     abstract T createCommandLauncher();
 
     @Test
-    public void testIsFailure() throws Exception {
+    void testIsFailure() throws Exception {
         final T commandLauncher = createCommandLauncher();
         assertTrue(commandLauncher.isFailure(2));
         assertTrue(commandLauncher.isFailure(1));
     }
 
     @Test
-    public void testIsFailureZero() throws Exception {
+    void testIsFailureZero() throws Exception {
         assertFalse(createCommandLauncher().isFailure(0));
     }
 

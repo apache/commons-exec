@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 public class CommandLauncherFactoryTest {
 
     @Test
-    public void testCreateVMLauncher() throws Exception {
+    void testCreateVMLauncher() throws Exception {
         assertNotNull(CommandLauncherFactory.createVMLauncher());
     }
 

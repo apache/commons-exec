@@ -42,7 +42,7 @@ public class Exec33Test {
     private final File testScript = TestUtil.resolveScriptFileForOS(testDir + "/test");
 
     @Test
-    public void testExec33() throws Exception {
+    void testExec33() throws Exception {
         final CommandLine cl = new CommandLine(testScript);
         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(System.out, System.err, System.in);
         final DefaultExecutor executor = DefaultExecutor.builder().get();

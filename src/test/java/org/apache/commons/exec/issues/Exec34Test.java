@@ -50,7 +50,7 @@ public class Exec34Test {
      * @throws Exception the test failed
      */
     @Test
-    public void testExec34Part1() throws Exception {
+    void testExec34Part1() throws Exception {
 
         final CommandLine cmdLine = new CommandLine(pingScript);
         cmdLine.addArgument("10"); // sleep 10 seconds
@@ -71,7 +71,7 @@ public class Exec34Test {
      * @throws Exception the test failed
      */
     @Test
-    public void testExec34Part2() throws Exception {
+    void testExec34Part2() throws Exception {
 
         final CommandLine cmdLine = new CommandLine(pingScript);
         cmdLine.addArgument("10"); // sleep 10 seconds

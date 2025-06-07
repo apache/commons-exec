@@ -130,7 +130,7 @@ public class TutorialTest {
     }
 
     @Test
-    public void testTutorialExample() throws Exception {
+    void testTutorialExample() throws Exception {
 
         final Duration printJobTimeout = Duration.ofSeconds(15);
         final boolean printInBackground = false;

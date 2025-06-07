@@ -50,7 +50,7 @@ public class Exec41Test {
      * @throws Exception the test failed
      */
     @Test
-    public void testExec41WithoutStreams() throws Exception {
+    void testExec41WithoutStreams() throws Exception {
 
         final CommandLine cmdLine = new CommandLine(pingScript);
         cmdLine.addArgument("10"); // sleep 10 seconds
@@ -92,7 +92,7 @@ public class Exec41Test {
      * @throws Exception the test failed
      */
     @Test
-    public void testExec41WithStreams() throws Exception {
+    void testExec41WithStreams() throws Exception {
 
         CommandLine cmdLine;
 

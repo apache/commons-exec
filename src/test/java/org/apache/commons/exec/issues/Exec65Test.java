@@ -56,7 +56,7 @@ public class Exec65Test extends AbstractExecTest {
     // TODO: Fix test for Windows & Linux
     @EnabledOnOs(value = org.junit.jupiter.api.condition.OS.MAC)
     @Timeout(value = TEST_TIMEOUT, unit = TimeUnit.MILLISECONDS)
-    public void testExec65WithSleepUsingShellScript() throws Exception {
+    void testExec65WithSleepUsingShellScript() throws Exception {
         final DefaultExecutor executor = DefaultExecutor.builder().get();
         executor.setStreamHandler(new PumpStreamHandler(System.out, System.err));
         executor.setWatchdog(new ExecuteWatchdog(WATCHDOG_TIMEOUT));
@@ -70,7 +70,7 @@ public class Exec65Test extends AbstractExecTest {
      */
     @Test
     @Timeout(value = TEST_TIMEOUT, unit = TimeUnit.MILLISECONDS)
-    public void testExec65WithSleepUsingShellScriptAndJDKOnly() throws Exception {
+    void testExec65WithSleepUsingShellScriptAndJDKOnly() throws Exception {
 
         final Process process = Runtime.getRuntime().exec(resolveTestScript("sleep").getAbsolutePath());
         Thread.sleep(WATCHDOG_TIMEOUT);
@@ -89,7 +89,7 @@ public class Exec65Test extends AbstractExecTest {
     @Test
     @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
     @Timeout(value = TEST_TIMEOUT, unit = TimeUnit.MILLISECONDS)
-    public void testExec65WithSudoUsingShellScript() throws Exception {
+    void testExec65WithSudoUsingShellScript() throws Exception {
         assumeFalse(new File(".").getAbsolutePath().contains("travis"),
                 "Test is skipped on travis, because we have to be a sudoer to make the other tests pass.");
         // TODO: Fails on GitHub
@@ -106,7 +106,7 @@ public class Exec65Test extends AbstractExecTest {
     @Test
     @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
     @Timeout(value = TEST_TIMEOUT, unit = TimeUnit.MILLISECONDS)
-    public void testExec65WitSleepUsingSleepCommandDirectly() throws Exception {
+    void testExec65WitSleepUsingSleepCommandDirectly() throws Exception {
         final ExecuteWatchdog watchdog = new ExecuteWatchdog(WATCHDOG_TIMEOUT);
         final DefaultExecutor executor = DefaultExecutor.builder().get();
         final CommandLine command = new CommandLine("sleep");

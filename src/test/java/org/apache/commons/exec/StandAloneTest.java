@@ -39,7 +39,7 @@ public class StandAloneTest {
 
     @Test
     @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
-    public void testDefaultExecutorBuilderFromFile() throws Exception {
+    void testDefaultExecutorBuilderFromFile() throws Exception {
         final Path testScript = TestUtil.resolveScriptPathForOS("./src/test/scripts/standalone");
         // @formatter:off
         final Executor exec = DefaultExecutor.builder()
@@ -56,7 +56,7 @@ public class StandAloneTest {
 
     @Test
     @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
-    public void testDefaultExecutorBuilderFromPath() throws Exception {
+    void testDefaultExecutorBuilderFromPath() throws Exception {
         final Path testScript = TestUtil.resolveScriptPathForOS("./src/test/scripts/standalone");
         // @formatter:off
         final Executor exec = DefaultExecutor.builder()
@@ -73,7 +73,7 @@ public class StandAloneTest {
 
     @Test
     @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
-    public void testDefaultExecutorDefaultBuilder() throws Exception {
+    void testDefaultExecutorDefaultBuilder() throws Exception {
         final Path testScript = TestUtil.resolveScriptPathForOS("./src/test/scripts/standalone");
         final Executor exec = DefaultExecutor.builder().get();
         exec.setStreamHandler(new PumpStreamHandler());
@@ -84,7 +84,7 @@ public class StandAloneTest {
 
     @Test
     @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
-    public void testDefaultExecutorFromFile() throws Exception {
+    void testDefaultExecutorFromFile() throws Exception {
         final Path testScript = TestUtil.resolveScriptPathForOS("./src/test/scripts/standalone");
         final Executor exec = new DefaultExecutor();
         exec.setStreamHandler(new PumpStreamHandler());
@@ -95,7 +95,7 @@ public class StandAloneTest {
 
     @Test
     @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
-    public void testDefaultExecutorFromPath() throws Exception {
+    void testDefaultExecutorFromPath() throws Exception {
         final Path testScript = TestUtil.resolveScriptPathForOS("./src/test/scripts/standalone");
         final Executor exec = new DefaultExecutor();
         exec.setStreamHandler(new PumpStreamHandler());

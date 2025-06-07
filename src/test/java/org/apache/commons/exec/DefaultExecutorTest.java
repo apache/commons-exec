@@ -98,7 +98,7 @@ public class DefaultExecutorTest {
      */
     @Test
     @Disabled
-    public void testExecuteStability() throws Exception {
+    void testExecuteStability() throws Exception {
 
         // make a plain-vanilla test
         for (int i = 0; i < 100; i++) {
@@ -172,7 +172,7 @@ public class DefaultExecutorTest {
     }
 
     @Test
-    public void testAddEnvironmentVariableEmbeddedQuote() throws Exception {
+    void testAddEnvironmentVariableEmbeddedQuote() throws Exception {
         final Map<String, String> myEnvVars = new HashMap<>(EnvironmentUtils.getProcEnvironment());
         final String name = "NEW_VAR";
         final String value = "NEW_\"_VAL";
@@ -189,7 +189,7 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    public void testAddEnvironmentVariables() throws Exception {
+    void testAddEnvironmentVariables() throws Exception {
         final Map<String, String> myEnvVars = new HashMap<>(EnvironmentUtils.getProcEnvironment());
         myEnvVars.put("NEW_VAR", "NEW_VAL");
         exec.execute(new CommandLine(environmentSript), myEnvVars);
@@ -204,7 +204,7 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    public void testEnvironmentVariables() throws Exception {
+    void testEnvironmentVariables() throws Exception {
         exec.execute(new CommandLine(environmentSript));
         final String environment = baos.toString().trim();
         assertFalse(environment.isEmpty(), "Found no environment variables");
@@ -217,7 +217,7 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    public void testExecute() throws Exception {
+    void testExecute() throws Exception {
         final CommandLine cl = new CommandLine(testScript);
         final int exitValue = exec.execute(cl);
         assertEquals("FOO..", baos.toString().trim());
@@ -232,7 +232,7 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    public void testExecuteAsync() throws Exception {
+    void testExecuteAsync() throws Exception {
         final CommandLine cl = new CommandLine(testScript);
         final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
         exec.execute(cl, resultHandler);
@@ -247,7 +247,7 @@ public class DefaultExecutorTest {
      * Try to start an non-existing application where the exception is caught/processed by the result handler.
      */
     @Test
-    public void testExecuteAsyncNonExistingApplication() throws Exception {
+    void testExecuteAsyncNonExistingApplication() throws Exception {
         final CommandLine cl = new CommandLine(nonExistingTestScript);
         final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
         final DefaultExecutor executor = DefaultExecutor.builder().get();
@@ -266,7 +266,7 @@ public class DefaultExecutorTest {
      * @see <a href="https://issues.apache.org/jira/browse/EXEC-71">EXEC-71</a>
      */
     @Test
-    public void testExecuteAsyncNonExistingApplicationWithWatchdog() throws Exception {
+    void testExecuteAsyncNonExistingApplicationWithWatchdog() throws Exception {
         final CommandLine cl = new CommandLine(nonExistingTestScript);
         final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler() {
             @Override
@@ -294,7 +294,7 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    public void testExecuteAsyncWithError() throws Exception {
+    void testExecuteAsyncWithError() throws Exception {
         final CommandLine cl = new CommandLine(errorTestScript);
         final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
         exec.execute(cl, resultHandler);
@@ -312,7 +312,7 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    public void testExecuteAsyncWithProcessDestroyer() throws Exception {
+    void testExecuteAsyncWithProcessDestroyer() throws Exception {
 
         final CommandLine cl = new CommandLine(foreverTestScript);
         final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
@@ -351,7 +351,7 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    public void testExecuteAsyncWithTimelyUserTermination() throws Exception {
+    void testExecuteAsyncWithTimelyUserTermination() throws Exception {
         final CommandLine cl = new CommandLine(foreverTestScript);
         final ExecuteWatchdog watchdog = new ExecuteWatchdog(Integer.MAX_VALUE);
         exec.setWatchdog(watchdog);
@@ -377,7 +377,7 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    public void testExecuteAsyncWithTooLateUserTermination() throws Exception {
+    void testExecuteAsyncWithTooLateUserTermination() throws Exception {
         final CommandLine cl = new CommandLine(foreverTestScript);
         final DefaultExecuteResultHandler handler = new DefaultExecuteResultHandler();
         final ExecuteWatchdog watchdog = new ExecuteWatchdog(3000);
@@ -399,7 +399,7 @@ public class DefaultExecutorTest {
      * Try to start an non-existing application which should result in an exception.
      */
     @Test
-    public void testExecuteNonExistingApplication() throws Exception {
+    void testExecuteNonExistingApplication() throws Exception {
         final CommandLine cl = new CommandLine(nonExistingTestScript);
         final DefaultExecutor executor = DefaultExecutor.builder().get();
 
@@ -410,7 +410,7 @@ public class DefaultExecutorTest {
      * Try to start an non-existing application which should result in an exception.
      */
     @Test
-    public void testExecuteNonExistingApplicationWithWatchDog() throws Exception {
+    void testExecuteNonExistingApplicationWithWatchDog() throws Exception {
         final CommandLine cl = new CommandLine(nonExistingTestScript);
         final DefaultExecutor executor = DefaultExecutor.builder().get();
         executor.setWatchdog(new ExecuteWatchdog(ExecuteWatchdog.INFINITE_TIMEOUT));
@@ -425,7 +425,7 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    public void testExecuteWatchdogAsync() throws Exception {
+    void testExecuteWatchdogAsync() throws Exception {
 
         final long timeout = 10000;
 
@@ -453,7 +453,7 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    public void testExecuteWatchdogSync() throws Exception {
+    void testExecuteWatchdogSync() throws Exception {
 
         if (OS.isFamilyOpenVms()) {
             System.out.println("The test 'testExecuteWatchdogSync' currently hangs on the following OS : " + System.getProperty("os.name"));
@@ -491,7 +491,7 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    public void testExecuteWatchdogVeryLongTimeout() throws Exception {
+    void testExecuteWatchdogVeryLongTimeout() throws Exception {
         final long timeout = Long.MAX_VALUE;
 
         final CommandLine cl = new CommandLine(testScript);
@@ -510,7 +510,7 @@ public class DefaultExecutorTest {
     }
 
     @Test
-    public void testExecuteWithArg() throws Exception {
+    void testExecuteWithArg() throws Exception {
         final CommandLine cl = new CommandLine(testScript);
         cl.addArgument("BAR");
         final int exitValue = exec.execute(cl);
@@ -525,7 +525,7 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    public void testExecuteWithComplexArguments() throws Exception {
+    void testExecuteWithComplexArguments() throws Exception {
         final CommandLine cl = new CommandLine(printArgsScript);
         cl.addArgument("gdal_translate");
         cl.addArgument("HDF5:\"/home/kk/grass/data/4404.he5\"://HDFEOS/GRIDS/OMI_Column_Amount_O3/Data_Fields/ColumnAmountO3/home/kk/4.tif", false);
@@ -540,7 +540,7 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    public void testExecuteWithCustomExitValue1() throws Exception {
+    void testExecuteWithCustomExitValue1() throws Exception {
         exec.setExitValue(errorStatus);
         final CommandLine cl = new CommandLine(errorTestScript);
         exec.execute(cl);
@@ -552,7 +552,7 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    public void testExecuteWithCustomExitValue2() throws Exception {
+    void testExecuteWithCustomExitValue2() throws Exception {
         final CommandLine cl = new CommandLine(errorTestScript);
         exec.setExitValue(successStatus);
         try {
@@ -564,7 +564,7 @@ public class DefaultExecutorTest {
     }
 
     @Test
-    public void testExecuteWithError() throws Exception {
+    void testExecuteWithError() throws Exception {
         final CommandLine cl = new CommandLine(errorTestScript);
 
         try {
@@ -581,7 +581,7 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    public void testExecuteWithFancyArg() throws Exception {
+    void testExecuteWithFancyArg() throws Exception {
         final CommandLine cl = new CommandLine(testScript);
         cl.addArgument("test $;`(0)[1]{2}");
         final int exitValue = exec.execute(cl);
@@ -590,7 +590,7 @@ public class DefaultExecutorTest {
     }
 
     @Test
-    public void testExecuteWithInvalidWorkingDirectory() throws Exception {
+    void testExecuteWithInvalidWorkingDirectory() throws Exception {
         final File workingDir = new File("/foo/bar");
         final CommandLine cl = new CommandLine(testScript);
         exec.setWorkingDirectory(workingDir);
@@ -604,7 +604,7 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    public void testExecuteWithNullOutErr() throws Exception {
+    void testExecuteWithNullOutErr() throws Exception {
         final CommandLine cl = new CommandLine(testScript);
         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(null, null);
         final DefaultExecutor executor = DefaultExecutor.builder().get();
@@ -619,7 +619,7 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    public void testExecuteWithProcessDestroyer() throws Exception {
+    void testExecuteWithProcessDestroyer() throws Exception {
 
         final CommandLine cl = new CommandLine(testScript);
         final ShutdownHookProcessDestroyer processDestroyer = new ShutdownHookProcessDestroyer();
@@ -644,7 +644,7 @@ public class DefaultExecutorTest {
      */
     @Test
     @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
-    public void testExecuteWithRedirectedStreams() throws Exception {
+    void testExecuteWithRedirectedStreams() throws Exception {
         final int exitValue;
         try (FileInputStream fis = new FileInputStream("./NOTICE.txt")) {
             final CommandLine cl = new CommandLine(redirectScript);
@@ -665,7 +665,7 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    public void testExecuteWithRedirectOutErr() throws Exception {
+    void testExecuteWithRedirectOutErr() throws Exception {
         final Path outFile = Files.createTempFile("EXEC", ".test");
         final CommandLine cl = new CommandLine(testScript);
         try (OutputStream outAndErr = Files.newOutputStream(outFile)) {
@@ -684,7 +684,7 @@ public class DefaultExecutorTest {
      * Execute the test script and pass a environment containing 'TEST_ENV_VAR'.
      */
     @Test
-    public void testExecuteWithSingleEnvironmentVariable() throws Exception {
+    void testExecuteWithSingleEnvironmentVariable() throws Exception {
         final Map<String, String> env = new HashMap<>();
         env.put("TEST_ENV_VAR", "XYZ");
 
@@ -706,7 +706,7 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    public void testExecuteWithStdOutErr() throws Exception {
+    void testExecuteWithStdOutErr() throws Exception {
         final CommandLine cl = new CommandLine(testScript);
         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(System.out, System.err);
         final DefaultExecutor executor = DefaultExecutor.builder().get();
@@ -720,7 +720,7 @@ public class DefaultExecutorTest {
     // ======================================================================
 
     @Test
-    public void testExecuteWithWorkingDirectory() throws Exception {
+    void testExecuteWithWorkingDirectory() throws Exception {
         final Path workingDirPath = Paths.get("./target");
         final CommandLine cl = new CommandLine(testScript);
         final File workingDirFile = workingDirPath.toFile();
@@ -739,7 +739,7 @@ public class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    public void testStdInHandling() throws Exception {
+    void testStdInHandling() throws Exception {
         // newline not needed; causes problems for VMS
         final ByteArrayInputStream bais = new ByteArrayInputStream("Foo".getBytes());
         final CommandLine cl = new CommandLine(this.stdinSript);

@@ -36,7 +36,7 @@ public class MapUtilTest {
      * Test copying of map
      */
     @Test
-    public void testCopyMap() throws Exception {
+    void testCopyMap() throws Exception {
         final Map<String, String> procEnvironment = new HashMap<>();
         procEnvironment.put("JAVA_HOME", "/usr/opt/java");
         final Map<String, String> result = MapUtils.copy(procEnvironment);
@@ -52,7 +52,7 @@ public class MapUtilTest {
      * Test merging of maps
      */
     @Test
-    public void testMergeMap() throws Exception {
+    void testMergeMap() throws Exception {
         final Map<String, String> procEnvironment = EnvironmentUtils.getProcEnvironment();
         final Map<String, String> applicationEnvironment = new HashMap<>();
         applicationEnvironment.put("appMainClass", "foo.bar.Main");
@@ -65,7 +65,7 @@ public class MapUtilTest {
      * Test prefixing of map
      */
     @Test
-    public void testPrefixMap() throws Exception {
+    void testPrefixMap() throws Exception {
         final Map<String, String> procEnvironment = new HashMap<>();
         procEnvironment.put("JAVA_HOME", "/usr/opt/java");
         final Map<String, String> result = MapUtils.prefix(procEnvironment, "env");

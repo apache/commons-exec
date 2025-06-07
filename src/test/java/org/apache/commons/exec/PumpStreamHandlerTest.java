@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 public class PumpStreamHandlerTest {
 
     @Test
-    public void testSetStopTimeout() {
+    void testSetStopTimeout() {
         final PumpStreamHandler handler = new PumpStreamHandler();
         assertEquals(Duration.ZERO, handler.getStopTimeout());
         handler.setStopTimeout(Duration.ofMinutes(1));

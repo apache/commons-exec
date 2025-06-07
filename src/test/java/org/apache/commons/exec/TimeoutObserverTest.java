@@ -42,14 +42,14 @@ public class TimeoutObserverTest {
     private final TimeoutObserverFixture tof = new TimeoutObserverFixture();
 
     @Test
-    public void testAccept() {
+    void testAccept() {
         assertFalse(tof.b);
         tof.accept(null);
         assertTrue(tof.b);
     }
 
     @Test
-    public void testTimeoutOccured() {
+    void testTimeoutOccured() {
         assertFalse(tof.b);
         tof.timeoutOccured(null);
         assertTrue(tof.b);

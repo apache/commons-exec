@@ -38,7 +38,7 @@ public class VmsCommandLauncherTest extends AbstractCommandLauncherTest<VmsComma
     }
 
     @Test
-    public void testCreateCommandFile() throws IOException {
+    void testCreateCommandFile() throws IOException {
         final VmsCommandLauncher commandLauncher = createCommandLauncher();
         final CommandLine cl = CommandLine.parse("a b \"c d\"");
         assertNotNull(commandLauncher.createCommandFile(cl, null));
@@ -51,7 +51,7 @@ public class VmsCommandLauncherTest extends AbstractCommandLauncherTest<VmsComma
 
     @Override
     @Test
-    public void testIsFailure() throws Exception {
+    void testIsFailure() throws Exception {
         final CommandLauncher commandLauncher = createCommandLauncher();
         assertTrue(commandLauncher.isFailure(2));
         assertFalse(commandLauncher.isFailure(1));
@@ -59,7 +59,7 @@ public class VmsCommandLauncherTest extends AbstractCommandLauncherTest<VmsComma
 
     @Override
     @Test
-    public void testIsFailureZero() throws Exception {
+    void testIsFailureZero() throws Exception {
         assertTrue(createCommandLauncher().isFailure(0));
     }
 

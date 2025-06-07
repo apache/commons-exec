@@ -49,7 +49,7 @@ public class Exec44Test {
      * @throws Exception the test failed
      */
     @Test
-    public void testExec44() throws Exception {
+    void testExec44() throws Exception {
 
         final CommandLine cl = new CommandLine(foreverTestScript);
         final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();

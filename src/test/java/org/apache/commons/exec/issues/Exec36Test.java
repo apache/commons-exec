@@ -55,7 +55,7 @@ public class Exec36Test {
      */
     @Test
     @Disabled
-    public void testExec36Part4() throws Exception {
+    void testExec36Part4() throws Exception {
 
         CommandLine cmdl;
 
@@ -77,7 +77,7 @@ public class Exec36Test {
      */
     @Test
     @Disabled
-    public void testExec36Part5() {
+    void testExec36Part5() {
 
         CommandLine cmdl;
 
@@ -98,7 +98,7 @@ public class Exec36Test {
      */
     @Test
     @Disabled
-    public void testExec36Part6() {
+    void testExec36Part6() {
 
         final String commandLine = "C:\\CVS_DB\\WeightsEngine /f WeightsEngine.mak CFG=\"WeightsEngine - Win32Release\"";
 
@@ -129,7 +129,7 @@ public class Exec36Test {
      */
     @Test
     @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
-    public void testExec36Part1() throws Exception {
+    void testExec36Part1() throws Exception {
         CommandLine cmdl;
 
         /**
@@ -162,7 +162,7 @@ public class Exec36Test {
      * @throws Exception the test failed
      */
     @Test
-    public void testExec36Part2() throws Exception {
+    void testExec36Part2() throws Exception {
 
         String expected;
 

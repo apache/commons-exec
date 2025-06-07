@@ -48,7 +48,7 @@ public class Exec49Test {
      */
     @Test
     @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
-    public void testExec49Part1() throws Exception {
+    void testExec49Part1() throws Exception {
         final CommandLine cl = CommandLine.parse("/bin/ls");
         cl.addArgument("/opt");
         // redirect stdout/stderr to pipedOutputStream
@@ -79,7 +79,7 @@ public class Exec49Test {
      */
     @Test
     @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
-    public void testExec49Part2() throws Exception {
+    void testExec49Part2() throws Exception {
         final CommandLine cl = CommandLine.parse("/bin/ls");
         cl.addArgument("/opt");
         // redirect only stdout to pipedOutputStream

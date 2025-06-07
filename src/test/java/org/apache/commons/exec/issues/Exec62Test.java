@@ -80,7 +80,7 @@ public class Exec62Test {
     @Test
     @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
     @Timeout(value = 10, unit = TimeUnit.SECONDS)
-    public void testMe() throws Exception {
+    void testMe() throws Exception {
         execute("exec-62");
     }
 }

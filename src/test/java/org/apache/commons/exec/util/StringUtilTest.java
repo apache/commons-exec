@@ -34,7 +34,7 @@ public class StringUtilTest {
      * Test a default string substitution, e.g. all placeholders are expanded.
      */
     @Test
-    public void testDefaultStringSubstitution() throws Exception {
+    void testDefaultStringSubstitution() throws Exception {
         final Map<String, String> vars = new HashMap<>();
         vars.put("foo", "FOO");
         vars.put("bar", "BAR");
@@ -47,7 +47,7 @@ public class StringUtilTest {
      * Test a erroneous template.
      */
     @Test
-    public void testErroneousTemplate() throws Exception {
+    void testErroneousTemplate() throws Exception {
         final Map<String, String> vars = new HashMap<>();
         vars.put("foo", "FOO");
 
@@ -58,7 +58,7 @@ public class StringUtilTest {
      * Test an incomplete string substitution where not all placeholders are expanded.
      */
     @Test
-    public void testIncompleteSubstitution() throws Exception {
+    void testIncompleteSubstitution() throws Exception {
 
         final Map<String, String> vars = new HashMap<>();
         vars.put("foo", "FOO");
@@ -77,7 +77,7 @@ public class StringUtilTest {
      * Test no string substitution
      */
     @Test
-    public void testNoStringSubstitution() throws Exception {
+    void testNoStringSubstitution() throws Exception {
         final Map<String, String> vars = new HashMap<>();
         vars.put("foo", "FOO");
         vars.put("bar", "BAR");

@@ -47,7 +47,7 @@ public class Exec57Test extends AbstractExecTest {
     @Disabled("Broken for Unix-based systems")
     @Test
     @Timeout(value = TEST_TIMEOUT, unit = TimeUnit.MILLISECONDS)
-    public void testExecutionOfBackgroundProcess() throws IOException {
+    void testExecutionOfBackgroundProcess() throws IOException {
 
         final CommandLine cmdLine = new CommandLine("sh").addArgument("-c").addArgument("./src/test/scripts/issues/exec-57-nohup.sh", false);
         final DefaultExecutor executor = DefaultExecutor.builder().get();
@@ -66,7 +66,7 @@ public class Exec57Test extends AbstractExecTest {
     @Test
     @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
     @Timeout(value = TEST_TIMEOUT, unit = TimeUnit.MILLISECONDS)
-    public void testExecutionOfDetachedProcess() throws IOException {
+    void testExecutionOfDetachedProcess() throws IOException {
         final CommandLine cmdLine = new CommandLine("sh").addArgument("-c").addArgument("./src/test/scripts/issues/exec-57-detached.sh", false);
         final DefaultExecutor executor = DefaultExecutor.builder().get();
         final PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(System.out, System.err);

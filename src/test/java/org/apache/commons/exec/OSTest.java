@@ -31,14 +31,14 @@ import org.junit.jupiter.api.condition.EnabledOnOs;
 public class OSTest {
 
     @Test
-    public void testIsArch() {
+    void testIsArch() {
         assertFalse(OS.isArch(null));
         assertFalse(OS.isArch("...."));
     }
 
     @Test
     @EnabledOnOs(org.junit.jupiter.api.condition.OS.MAC)
-    public void testIsArchMacOs() {
+    void testIsArchMacOs() {
         assertFalse(OS.isFamilyDOS());
         assertTrue(OS.isFamilyMac());
         assertFalse(OS.isFamilyNetware());
@@ -54,7 +54,7 @@ public class OSTest {
     }
 
     @Test
-    public void testIsVersion() {
+    void testIsVersion() {
         assertFalse(OS.isVersion(null));
         assertFalse(OS.isVersion("...."));
     }
