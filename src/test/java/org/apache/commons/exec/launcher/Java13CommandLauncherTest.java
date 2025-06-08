@@ -19,7 +19,7 @@
 
 package org.apache.commons.exec.launcher;
 
-public class Java13CommandLauncherTest extends AbstractCommandLauncherTest<Java13CommandLauncher> {
+class Java13CommandLauncherTest extends AbstractCommandLauncherTest<Java13CommandLauncher> {
 
     @Override
     Java13CommandLauncher createCommandLauncher() {

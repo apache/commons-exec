@@ -30,7 +30,7 @@ import java.util.Map;
 import org.apache.commons.exec.CommandLine;
 import org.junit.jupiter.api.Test;
 
-public class VmsCommandLauncherTest extends AbstractCommandLauncherTest<VmsCommandLauncher> {
+class VmsCommandLauncherTest extends AbstractCommandLauncherTest<VmsCommandLauncher> {
 
     @Override
     VmsCommandLauncher createCommandLauncher() {

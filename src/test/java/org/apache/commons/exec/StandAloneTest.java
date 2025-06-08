@@ -35,7 +35,7 @@ import org.junitpioneer.jupiter.SetSystemProperty;
  */
 @SetSystemProperty(key = "org.apache.commons.exec.lenient", value = "false")
 @SetSystemProperty(key = "org.apache.commons.exec.debug", value = "true")
-public class StandAloneTest {
+class StandAloneTest {
 
     @Test
     @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)

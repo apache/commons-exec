@@ -35,7 +35,7 @@ import org.junit.jupiter.api.condition.DisabledOnOs;
 /**
  * Test EXEC-44 (https://issues.apache.org/jira/browse/EXEC-44).
  */
-public class Exec49Test {
+class Exec49Test {
 
     private static final Duration WAIT = Duration.ofSeconds(10);
     private final Executor exec = DefaultExecutor.builder().get();

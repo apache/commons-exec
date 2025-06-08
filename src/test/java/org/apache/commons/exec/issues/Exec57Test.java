@@ -34,7 +34,7 @@ import org.junit.jupiter.api.condition.DisabledOnOs;
 /**
  * Test EXEC-57 (https://issues.apache.org/jira/browse/EXEC-57).
  */
-public class Exec57Test extends AbstractExecTest {
+class Exec57Test extends AbstractExecTest {
 
     /**
      * DefaultExecutor.execute() does not return even if child process terminated - in this case the child process hangs because the grand children is connected

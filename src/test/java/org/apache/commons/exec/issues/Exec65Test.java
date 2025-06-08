@@ -43,7 +43,7 @@ import org.junit.jupiter.api.condition.EnabledOnOs;
  *
  * @see <a href="https://issues.apache.org/jira/browse/EXEC-65">EXEC-65</a>
  */
-public class Exec65Test extends AbstractExecTest {
+class Exec65Test extends AbstractExecTest {
 
     /**
      * This test currently only works for macOS X

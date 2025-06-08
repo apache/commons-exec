@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  */
-public class CommandLineTest {
+class CommandLineTest {
 
     @Test
     void testAddArgument() {

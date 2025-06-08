@@ -42,7 +42,7 @@ import org.junit.jupiter.api.condition.DisabledOnOs;
 /**
  * Test EXEC-36 see https://issues.apache.org/jira/browse/EXEC-36
  */
-public class Exec36Test {
+class Exec36Test {
 
     private final Executor exec = DefaultExecutor.builder().get();
     private final File testDir = new File("src/test/scripts");

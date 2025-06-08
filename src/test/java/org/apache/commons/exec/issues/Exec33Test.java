@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
  *
  * PumpStreamHandler hangs if System.in is redirect to process input stream.
  */
-public class Exec33Test {
+class Exec33Test {
 
     private final Executor exec = DefaultExecutor.builder().get();
     private final File testDir = new File("src/test/scripts");

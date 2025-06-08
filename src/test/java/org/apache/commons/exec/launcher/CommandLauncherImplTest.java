@@ -25,7 +25,7 @@ import java.util.Map;
 
 import org.apache.commons.exec.CommandLine;
 
-public class CommandLauncherImplTest extends AbstractCommandLauncherTest<CommandLauncherImpl> {
+class CommandLauncherImplTest extends AbstractCommandLauncherTest<CommandLauncherImpl> {
 
     static class CommandLauncherImplFixture extends CommandLauncherImpl {
 

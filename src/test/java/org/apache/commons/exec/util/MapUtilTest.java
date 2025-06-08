@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  */
-public class MapUtilTest {
+class MapUtilTest {
 
     /**
      * Test copying of map

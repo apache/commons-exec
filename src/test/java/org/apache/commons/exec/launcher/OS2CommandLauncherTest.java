@@ -19,7 +19,7 @@
 
 package org.apache.commons.exec.launcher;
 
-public class OS2CommandLauncherTest extends AbstractCommandLauncherTest<OS2CommandLauncher> {
+class OS2CommandLauncherTest extends AbstractCommandLauncherTest<OS2CommandLauncher> {
 
     @Override
     OS2CommandLauncher createCommandLauncher() {

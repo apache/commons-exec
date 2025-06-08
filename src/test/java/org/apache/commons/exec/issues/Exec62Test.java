@@ -41,7 +41,7 @@ import org.junit.jupiter.api.condition.DisabledOnOs;
 /**
  * @see <a href="https://issues.apache.org/jira/browse/EXEC-62">EXEC-62</a>
  */
-public class Exec62Test {
+class Exec62Test {
     private Path outputFile;
 
     private void execute(final String scriptName) throws Exception {

@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link EnvironmentUtils}.
  */
-public class EnvironmentUtilsTest {
+class EnvironmentUtilsTest {
 
     /**
      * Accessing environment variables is case-sensitive or not depending on the operating system but the values of the environment variable are always

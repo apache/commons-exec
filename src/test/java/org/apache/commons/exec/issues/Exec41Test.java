@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Test the patch for EXEC-41 (https://issues.apache.org/jira/browse/EXEC-41).
  */
-public class Exec41Test {
+class Exec41Test {
 
     private final File testDir = new File("src/test/scripts");
     private final File pingScript = TestUtil.resolveScriptFileForOS(testDir + "/ping");

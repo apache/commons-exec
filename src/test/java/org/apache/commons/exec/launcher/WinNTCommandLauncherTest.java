@@ -19,7 +19,7 @@
 
 package org.apache.commons.exec.launcher;
 
-public class WinNTCommandLauncherTest extends AbstractCommandLauncherTest<WinNTCommandLauncher> {
+class WinNTCommandLauncherTest extends AbstractCommandLauncherTest<WinNTCommandLauncher> {
 
     @Override
     WinNTCommandLauncher createCommandLauncher() {

@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
  * <li>with the {@code exitValue} returned from the print script
  * </ul>
  */
-public class TutorialTest {
+class TutorialTest {
 
     private final class PrintResultHandler extends DefaultExecuteResultHandler {
 

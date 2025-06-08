@@ -28,7 +28,7 @@ import org.junit.jupiter.api.condition.EnabledOnOs;
 /**
  * Tests {@link OS}.
  */
-public class OSTest {
+class OSTest {
 
     @Test
     void testIsArch() {

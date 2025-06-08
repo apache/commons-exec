@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
 /**
  * EXEC-34 https://issues.apache.org/jira/browse/EXEC-34
  */
-public class Exec34Test {
+class Exec34Test {
 
     private final Executor exec = DefaultExecutor.builder().get();
     private final File testDir = new File("src/test/scripts");

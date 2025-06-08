@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link PumpStreamHandler}.
  */
-public class PumpStreamHandlerTest {
+class PumpStreamHandlerTest {
 
     @Test
     void testSetStopTimeout() {

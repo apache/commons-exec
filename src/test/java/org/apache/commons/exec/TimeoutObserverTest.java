@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link TimeoutObserver}.
  */
-public class TimeoutObserverTest {
+class TimeoutObserverTest {
 
     static class TimeoutObserverFixture implements TimeoutObserver {
 

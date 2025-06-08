@@ -38,7 +38,7 @@ import org.junitpioneer.jupiter.SetSystemProperty;
 // turn on debug mode and throw an exception for each encountered problem
 @SetSystemProperty(key = "org.apache.commons.exec.lenient", value = "false")
 @SetSystemProperty(key = "org.apache.commons.exec.debug", value = "true")
-public class LogOutputStreamTest {
+class LogOutputStreamTest {
 
     private static final class SystemLogOutputStream extends LogOutputStream {
 

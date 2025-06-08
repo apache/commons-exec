@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link CommandLauncherFactory}.
  */
-public class CommandLauncherFactoryTest {
+class CommandLauncherFactoryTest {
 
     @Test
     void testCreateVMLauncher() throws Exception {
