@@ -62,7 +62,7 @@ public interface CommandLauncher {
      * @throws IOException if trying to change directory.
      * @since 1.5.0
      */
-    default Process exec(CommandLine commandLine, Map<String, String> env, Path workingDirectory) throws IOException {
+    default Process exec(final CommandLine commandLine, final Map<String, String> env, final Path workingDirectory) throws IOException {
         return exec(commandLine, env, workingDirectory != null ? workingDirectory.toFile() : null);
     }
 

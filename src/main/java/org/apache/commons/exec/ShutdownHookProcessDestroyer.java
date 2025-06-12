@@ -33,7 +33,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
         /**
          * Whether to run the ShutdownHookProcessDestroyer.
          */
-        private AtomicBoolean shouldDestroy = new AtomicBoolean(true);
+        private final AtomicBoolean shouldDestroy = new AtomicBoolean(true);
 
         private ProcessDestroyerThread() {
             super("ProcessDestroyer Shutdown Hook");
@@ -58,12 +58,12 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
     private ProcessDestroyerThread destroyProcessThread;
 
     /** Whether or not this ProcessDestroyer has been registered as a shutdown hook. */
-    private AtomicBoolean added = new AtomicBoolean();
+    private final AtomicBoolean added = new AtomicBoolean();
 
     /**
      * Whether or not this ProcessDestroyer is currently running as shutdown hook.
      */
-    private AtomicBoolean running = new AtomicBoolean();
+    private final AtomicBoolean running = new AtomicBoolean();
 
     /**
      * Constructs a {@code ProcessDestroyer} and obtains {@code Runtime.addShutdownHook()} and {@code Runtime.removeShutdownHook()} through reflection. The
