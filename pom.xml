@@ -45,6 +45,10 @@ limitations under the License.
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-exec</developerConnection>
     <url>https://gitbox.apache.org/repos/asf/commons-exec</url>
   </scm>
+  <ciManagement>
+    <system>GitHub</system>
+    <url>https://github.com/apache/commons-exec/actions</url>
+  </ciManagement>
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
