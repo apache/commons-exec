@@ -30,6 +30,7 @@
       <action type="add" dev="ggregory" due-to="Gary Gregory">TimeoutObserver now extends Consumer&lt;Watchdog&gt;.</action>
       <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump org.apache.commons:commons-parent from 83 to 85.</action>
+      <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump org.apache.commons:commons-lang3 from 3.17.0 to 3.18.0 #282.</action>
     </release>
     <release version="1.5.0" date="2025-05-16" description="Maintenance and feature Release (Java 8 or above)">
       <!-- ADD -->
