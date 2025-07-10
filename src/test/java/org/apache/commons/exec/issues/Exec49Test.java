@@ -31,6 +31,7 @@ import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 /**
  * Test EXEC-44 (https://issues.apache.org/jira/browse/EXEC-44).
@@ -47,7 +48,7 @@ class Exec49Test {
      * @throws Exception the test failed
      */
     @Test
-    @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
+    @DisabledOnOs(OS.WINDOWS)
     void testExec49Part1() throws Exception {
         final CommandLine cl = CommandLine.parse("/bin/ls");
         cl.addArgument("/opt");
@@ -78,7 +79,7 @@ class Exec49Test {
      * @throws Exception the test failed
      */
     @Test
-    @DisabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
+    @DisabledOnOs(OS.WINDOWS)
     void testExec49Part2() throws Exception {
         final CommandLine cl = CommandLine.parse("/bin/ls");
         cl.addArgument("/opt");
