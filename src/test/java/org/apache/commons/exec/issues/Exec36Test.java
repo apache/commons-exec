@@ -57,12 +57,9 @@ class Exec36Test {
     @Test
     @Disabled
     void testExec36Part4() throws Exception {
-
         CommandLine cmdl;
-
-        final String line = "./script/jrake " + "cruise:publish_installers " + "INSTALLER_VERSION=unstable_2_1 "
-                + "INSTALLER_PATH=\"/var/lib/cruise-agent/installers\" " + "INSTALLER_DOWNLOAD_SERVER='something'" + "WITHOUT_HELP_DOC=true";
-
+        final String line = "./script/jrake cruise:publish_installers INSTALLER_VERSION=unstable_2_1 "
+                + "INSTALLER_PATH=\"/var/lib/cruise-agent/installers\" INSTALLER_DOWNLOAD_SERVER='something'WITHOUT_HELP_DOC=true";
         cmdl = CommandLine.parse(line);
         final String[] args = cmdl.toStrings();
         assertEquals("./script/jrake", args[0]);
@@ -82,7 +79,7 @@ class Exec36Test {
 
         CommandLine cmdl;
 
-        final String line = "dotnetfx.exe" + " /q:a "
+        final String line = "dotnetfx.exe /q:a "
                 + "/c:\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"";
 
         cmdl = CommandLine.parse(line);
@@ -137,10 +134,15 @@ class Exec36Test {
          * ./script/jrake cruise:publish_installers INSTALLER_VERSION=unstable_2_1 \ INSTALLER_PATH="/var/lib/ cruise-agent/installers"
          * INSTALLER_DOWNLOAD_SERVER='something' WITHOUT_HELP_DOC=true
          */
-
-        final String expected = "./script/jrake\n" + "cruise:publish_installers\n" + "INSTALLER_VERSION=unstable_2_1\n"
-                + "INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\"\n" + "INSTALLER_DOWNLOAD_SERVER='something'\n" + "WITHOUT_HELP_DOC=true";
-
+        // @formatter:off
+        final String expected =
+                "./script/jrake\n"
+                + "cruise:publish_installers\n"
+                + "INSTALLER_VERSION=unstable_2_1\n"
+                + "INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\"\n"
+                + "INSTALLER_DOWNLOAD_SERVER='something'\n"
+                + "WITHOUT_HELP_DOC=true";
+        // @formatter:on
         cmdl = new CommandLine(printArgsScript);
         cmdl.addArgument("./script/jrake", false);
         cmdl.addArgument("cruise:publish_installers", false);
@@ -171,9 +173,17 @@ class Exec36Test {
         // dotnetfx.exe /q:a /c:"install.exe /l ""\Documents and Settings\myusername\Local Settings\Temp\netfx.log"" /q"
 
         if (OS.isFamilyWindows()) {
-            expected = "dotnetfx.exe\n" + "/q:a\n" + "/c:\"install.exe /l \"\"\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"";
+            // @formatter:off
+            expected = "dotnetfx.exe\n"
+                    + "/q:a\n"
+                    + "/c:\"install.exe /l \"\"\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"";
+            // @formatter:on
         } else if (OS.isFamilyUnix()) {
-            expected = "dotnetfx.exe\n" + "/q:a\n" + "/c:\"install.exe /l \"\"/Documents and Settings/myusername/Local Settings/Temp/netfx.log\"\" /q\"";
+            // @formatter:off
+            expected = "dotnetfx.exe\n"
+                    + "/q:a\n"
+                    + "/c:\"install.exe /l \"\"/Documents and Settings/myusername/Local Settings/Temp/netfx.log\"\" /q\"";
+            // @formatter:on
         } else {
             System.err.println("The test 'testExec36_3' does not support the following OS : " + SystemProperties.getOsName());
             return;

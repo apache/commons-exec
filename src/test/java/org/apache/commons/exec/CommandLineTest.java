@@ -393,8 +393,8 @@ class CommandLineTest {
      */
     @Test
     void testParseComplexCommandLine2() {
-        final String commandLine = "./script/jrake cruise:publish_installers " + "INSTALLER_VERSION=unstable_2_1 "
-                + "INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\" " + "INSTALLER_DOWNLOAD_SERVER=\'something\' " + "WITHOUT_HELP_DOC=true";
+        final String commandLine = "./script/jrake cruise:publish_installers INSTALLER_VERSION=unstable_2_1 "
+                + "INSTALLER_PATH=\"/var/lib/ cruise-agent/installers\" INSTALLER_DOWNLOAD_SERVER=\'something\' WITHOUT_HELP_DOC=true";
         final CommandLine cmdl = CommandLine.parse(commandLine);
         final String[] args = cmdl.getArguments();
         assertEquals(args[0], "cruise:publish_installers");
