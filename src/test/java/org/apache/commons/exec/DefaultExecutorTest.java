@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.exec.environment.EnvironmentUtils;
+import org.apache.commons.lang3.SystemProperties;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -456,7 +457,7 @@ class DefaultExecutorTest {
     void testExecuteWatchdogSync() throws Exception {
 
         if (OS.isFamilyOpenVms()) {
-            System.out.println("The test 'testExecuteWatchdogSync' currently hangs on the following OS : " + System.getProperty("os.name"));
+            System.out.println("The test 'testExecuteWatchdogSync' currently hangs on the following OS : " + SystemProperties.getOsName());
             return;
         }
 

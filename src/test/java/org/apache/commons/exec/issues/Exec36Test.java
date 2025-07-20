@@ -33,6 +33,7 @@ import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.exec.TestUtil;
+import org.apache.commons.lang3.SystemProperties;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -174,7 +175,7 @@ class Exec36Test {
         } else if (OS.isFamilyUnix()) {
             expected = "dotnetfx.exe\n" + "/q:a\n" + "/c:\"install.exe /l \"\"/Documents and Settings/myusername/Local Settings/Temp/netfx.log\"\" /q\"";
         } else {
-            System.err.println("The test 'testExec36_3' does not support the following OS : " + System.getProperty("os.name"));
+            System.err.println("The test 'testExec36_3' does not support the following OS : " + SystemProperties.getOsName());
             return;
         }
 

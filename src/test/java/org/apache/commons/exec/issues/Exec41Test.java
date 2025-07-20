@@ -30,6 +30,7 @@ import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.exec.TestUtil;
+import org.apache.commons.lang3.SystemProperties;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -98,13 +99,13 @@ class Exec41Test {
 
         if (OS.isFamilyWindows()) {
             cmdLine = CommandLine.parse("ping.exe -n 10 -w 1000 127.0.0.1");
-        } else if ("HP-UX".equals(System.getProperty("os.name"))) {
+        } else if ("HP-UX".equals(SystemProperties.getOsName())) {
             // see EXEC-52 - option must appear after the hostname!
             cmdLine = CommandLine.parse("ping 127.0.0.1 -n 10");
         } else if (OS.isFamilyUnix()) {
             cmdLine = CommandLine.parse("ping -c 10 127.0.0.1");
         } else {
-            System.err.println("The test 'testExec41WithStreams' does not support the following OS : " + System.getProperty("os.name"));
+            System.err.println("The test 'testExec41WithStreams' does not support the following OS : " + SystemProperties.getOsName());
             return;
         }
 
