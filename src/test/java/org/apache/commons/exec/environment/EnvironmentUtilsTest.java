@@ -28,11 +28,11 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.exec.OS;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -91,8 +91,8 @@ class EnvironmentUtilsTest {
         for (final Entry<String, String> entry : procEnvironment.entrySet()) {
             final String key = entry.getKey();
             final String value = entry.getValue();
-            assertEquals(value, procEnvironment.get(key.toLowerCase(Locale.ROOT)));
-            assertEquals(value, procEnvironment.get(key.toUpperCase(Locale.ROOT)));
+            assertEquals(value, procEnvironment.get(StringUtils.toRootLowerCase(key)));
+            assertEquals(value, procEnvironment.get(StringUtils.toRootUpperCase(key)));
         }
 
         // add an environment variable and check access
