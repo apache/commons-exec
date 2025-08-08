@@ -43,7 +43,7 @@ import java.util.Map;
  * <pre>
  * Executor exec = DefaultExecutor.builder().get();
  * CommandLine cl = new CommandLine("ls -l");
- * int exitvalue = exec.execute(cl);
+ * int exitValue = exec.execute(cl);
  * </pre>
  */
 
@@ -57,7 +57,7 @@ public interface Executor {
      *
      * @param command the command to execute.
      * @return process exit value.
-     * @throws ExecuteException execution of subprocess failed or the subprocess returned a exit value indicating a failure {@link Executor#setExitValue(int)}.
+     * @throws ExecuteException execution of subprocess failed or the subprocess returned an exit value indicating a failure {@link Executor#setExitValue(int)}.
      * @throws IOException      If an I/O error occurs.
      */
     int execute(CommandLine command) throws ExecuteException, IOException;
@@ -78,7 +78,7 @@ public interface Executor {
      * @param command     the command to execute.
      * @param environment The environment for the new process. If null, the environment of the current process is used.
      * @return process exit value.
-     * @throws ExecuteException execution of subprocess failed or the subprocess returned a exit value indicating a failure {@link Executor#setExitValue(int)}.
+     * @throws ExecuteException execution of subprocess failed or the subprocess returned an exit value indicating a failure {@link Executor#setExitValue(int)}.
      * @throws IOException      If an I/O error occurs.
      */
     int execute(CommandLine command, Map<String, String> environment) throws ExecuteException, IOException;

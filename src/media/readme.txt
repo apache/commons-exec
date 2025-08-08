@@ -20,4 +20,4 @@ Edit SVG files with Inkscape from https://inkscape.org/
 
 Export an SVG file to a PNG in src/site/resources/images file of width 350 px.
 
-Using an SVG file directly can have unexpected results, using a SVG viewbox might help in the future.
+Using an SVG file directly can have unexpected results, using an SVG viewbox might help in the future.

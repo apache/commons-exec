@@ -59,7 +59,7 @@ class Exec57Test extends AbstractExecTest {
     }
 
     /**
-     * The same approach using a completely detached process works nicely on macOS X.
+     * The same approach using a completely detached process works nicely on Mac OS X.
      *
      * @throws IOException
      */

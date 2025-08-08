@@ -46,7 +46,7 @@ import org.junit.jupiter.api.condition.EnabledOnOs;
 class Exec65Test extends AbstractExecTest {
 
     /**
-     * This test currently only works for macOS X
+     * This test currently only works for Mac OS X
      * <ul>
      * <li>Linux hangs on the process stream while the process is finished</li>
      * <li>Windows seems to have similar problems</li>
@@ -66,7 +66,8 @@ class Exec65Test extends AbstractExecTest {
     }
 
     /**
-     * This is the original code snippet from the JIRA to show that killing the process actually works with JDK only but it does not re-direct any streams.
+     * This is the original code snippet from the JIRA to show that killing the process actually works with JDK only,
+     * but it does not re-direct any streams.
      */
     @Test
     @Timeout(value = TEST_TIMEOUT, unit = TimeUnit.MILLISECONDS)

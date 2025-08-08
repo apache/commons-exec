@@ -228,7 +228,7 @@ class DefaultExecutorTest {
     }
 
     /**
-     * Start a asynchronous process which returns an success exit value.
+     * Start an asynchronous process which returns a success exit value.
      *
      * @throws Exception the test failed
      */
@@ -245,7 +245,7 @@ class DefaultExecutorTest {
     }
 
     /**
-     * Try to start an non-existing application where the exception is caught/processed by the result handler.
+     * Try to start a non-existing application where the exception is caught/processed by the result handler.
      */
     @Test
     void testExecuteAsyncNonExistingApplication() throws Exception {
@@ -261,7 +261,7 @@ class DefaultExecutorTest {
     }
 
     /**
-     * Try to start an non-existing application where the exception is caught/processed by the result handler. The watchdog in notified to avoid waiting for the
+     * Try to start a non-existing application where the exception is caught/processed by the result handler. The watchdog in notified to avoid waiting for the
      * process infinitely.
      *
      * @see <a href="https://issues.apache.org/jira/browse/EXEC-71">EXEC-71</a>
@@ -290,7 +290,7 @@ class DefaultExecutorTest {
     }
 
     /**
-     * Start a asynchronous process which returns an error exit value.
+     * Start an asynchronous process which returns an error exit value.
      *
      * @throws Exception the test failed
      */
@@ -347,7 +347,7 @@ class DefaultExecutorTest {
     }
 
     /**
-     * Start a asynchronous process and terminate it manually before the watchdog timeout occurs.
+     * Start an asynchronous process and terminate it manually before the watchdog timeout occurs.
      *
      * @throws Exception the test failed
      */
@@ -372,7 +372,7 @@ class DefaultExecutorTest {
     }
 
     /**
-     * Start a asynchronous process and try to terminate it manually but the process was already terminated by the watchdog. This is basically a race condition
+     * Start an asynchronous process and try to terminate it manually but the process was already terminated by the watchdog. This is basically a race condition
      * between infrastructure and user code.
      *
      * @throws Exception the test failed
@@ -397,7 +397,7 @@ class DefaultExecutorTest {
     }
 
     /**
-     * Try to start an non-existing application which should result in an exception.
+     * Try to start a non-existing application which should result in an exception.
      */
     @Test
     void testExecuteNonExistingApplication() throws Exception {
@@ -408,7 +408,7 @@ class DefaultExecutorTest {
     }
 
     /**
-     * Try to start an non-existing application which should result in an exception.
+     * Try to start a non-existing application which should result in an exception.
      */
     @Test
     void testExecuteNonExistingApplicationWithWatchDog() throws Exception {
@@ -420,7 +420,7 @@ class DefaultExecutorTest {
     }
 
     /**
-     * Start a script looping forever (asynchronously) and check if the ExecuteWatchdog kicks in killing the run away process. To make killing a process more
+     * Start a script looping forever (asynchronously) and check if the ExecuteWatchdog kicks in killing the runaway process. To make killing a process more
      * testable the "forever" scripts write each second a '.' into "./target/forever.txt" (a marker file). After a test run we should have a few dots in there.
      *
      * @throws Exception the test failed
@@ -448,7 +448,7 @@ class DefaultExecutorTest {
     }
 
     /**
-     * Start a script looping forever (synchronously) and check if the ExecuteWatchdog kicks in killing the run away process. To make killing a process more
+     * Start a script looping forever (synchronously) and check if the ExecuteWatchdog kicks in killing the runaway process. To make killing a process more
      * testable the "forever" scripts write each second a '.' into "./target/forever.txt" (a marker file). After a test run we should have a few dots in there.
      *
      * @throws Exception the test failed
@@ -615,7 +615,7 @@ class DefaultExecutorTest {
     }
 
     /**
-     * Test the proper handling of ProcessDestroyer for an synchronous process.
+     * Test the proper handling of ProcessDestroyer for a synchronous process.
      *
      * @throws Exception the test failed
      */
@@ -639,7 +639,7 @@ class DefaultExecutorTest {
 
     /**
      * Start a process with redirected streams - stdin of the newly created process is connected to a FileInputStream whereas the "redirect" script reads all
-     * lines from stdin and prints them on stdout. Furthermore the script prints a status message on stderr.
+     * lines from stdin and prints them on stdout. Furthermore, the script prints a status message on stderr.
      *
      * @throws Exception the test failed
      */
@@ -682,7 +682,7 @@ class DefaultExecutorTest {
     }
 
     /**
-     * Execute the test script and pass a environment containing 'TEST_ENV_VAR'.
+     * Execute the test script and pass an environment containing 'TEST_ENV_VAR'.
      */
     @Test
     void testExecuteWithSingleEnvironmentVariable() throws Exception {

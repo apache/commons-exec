@@ -49,7 +49,7 @@ import org.apache.commons.exec.launcher.CommandLauncherFactory;
  * <pre>
  * Executor exec = DefaultExecutor.builder().get();
  * CommandLine cl = new CommandLine("ls -l");
- * int exitvalue = exec.execute(cl);
+ * int exitValue = exec.execute(cl);
  * </pre>
  */
 public class DefaultExecutor implements Executor {
@@ -202,7 +202,7 @@ public class DefaultExecutor implements Executor {
      */
     private final ThreadFactory threadFactory;
 
-    /** Monitoring of long running processes. */
+    /** Monitoring of long-running processes. */
     private ExecuteWatchdog watchdog;
 
     /** The working directory of the process. */

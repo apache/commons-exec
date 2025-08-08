@@ -24,8 +24,8 @@ import java.util.Locale;
 
 /**
  * Condition that tests the OS type.
- *
- * Copied and adapted from Apache Ant 1.9.6 from org.apache.tools.ant.taskdefs.condition.OS.
+ * <p>
+ * Copied and adapted from Apache Ant 1.9.6 from {@code org.apache.tools.ant.taskdefs.condition.OS}.
  */
 public final class OS {
 
@@ -333,7 +333,7 @@ public final class OS {
     }
 
     /**
-     * Tests whether the OS on which commonss-exec is executing matches the given OS version.
+     * Tests whether the OS on which commons-exec is executing matches the given OS version.
      *
      * @param version the OS version to check for.
      * @return whether if the OS matches.

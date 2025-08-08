@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * Helper classes to manipulate maps to pass substition map to the CommandLine. This class is not part of the public API and could change without warning.
+ * Helper classes to manipulate maps to pass substitution map to the CommandLine. This class is not part of the public API and could change without warning.
  */
 public class MapUtils {
     /**
