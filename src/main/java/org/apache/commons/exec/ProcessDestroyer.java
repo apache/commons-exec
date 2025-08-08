@@ -27,7 +27,7 @@ package org.apache.commons.exec;
 public interface ProcessDestroyer {
 
     /**
-     * Returns {@code true} if the specified {@link Process} was successfully added to the list of processes to be destroy.
+     * Returns {@code true} if the specified {@link Process} was successfully added to the list of processes to be destroyed.
      *
      * @param process the process to add.
      * @return {@code true} if the specified {@link Process} was successfully added.
@@ -35,7 +35,7 @@ public interface ProcessDestroyer {
     boolean add(Process process);
 
     /**
-     * Returns {@code true} if the specified {@link Process} was successfully removed from the list of processes to be destroy.
+     * Returns {@code true} if the specified {@link Process} was successfully removed from the list of processes to be destroyed.
      *
      * @param process the process to remove.
      * @return {@code true} if the specified {@link Process} was successfully removed.

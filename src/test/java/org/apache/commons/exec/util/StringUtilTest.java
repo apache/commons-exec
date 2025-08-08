@@ -44,7 +44,7 @@ class StringUtilTest {
     }
 
     /**
-     * Test a erroneous template.
+     * Test an erroneous template.
      */
     @Test
     void testErroneousTemplate() throws Exception {

@@ -26,7 +26,7 @@ import java.nio.charset.Charset;
 
 /**
  * Base class to connect a logging system to the output and/or error stream of then external process. The implementation parses the incoming data to construct a
- * line and passes the complete line to an user-defined implementation.
+ * line and passes the complete line to a user-defined implementation.
  */
 public abstract class LogOutputStream extends OutputStream {
 
@@ -41,7 +41,7 @@ public abstract class LogOutputStream extends OutputStream {
     }
 
     /** Initial buffer size. */
-    private static final int INTIAL_SIZE = 132;
+    private static final int INITIAL_SIZE = 132;
 
     /** Carriage return. */
     private static final int CR = 0x0d;
@@ -50,7 +50,7 @@ public abstract class LogOutputStream extends OutputStream {
     private static final int LF = 0x0a;
 
     /** The internal buffer. */
-    private final ByteArrayOutputStreamX buffer = new ByteArrayOutputStreamX(INTIAL_SIZE);
+    private final ByteArrayOutputStreamX buffer = new ByteArrayOutputStreamX(INITIAL_SIZE);
 
     /**
      * Last written char was a CR.

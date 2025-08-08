@@ -25,7 +25,7 @@ import java.io.OutputStream;
 import org.apache.commons.exec.util.DebugUtils;
 
 /**
- * Copies all data from an System.input stream to an output stream of the executed process.
+ * Copies all data from a {@code System.input} stream to an output stream of the executed process.
  */
 public class InputStreamPumper implements Runnable {
 

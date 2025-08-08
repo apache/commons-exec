@@ -272,7 +272,7 @@ public class CommandLine {
      * Add multiple arguments. Handles parsing of quotes and whitespace. Please note that the parsing can have undesired side-effects therefore it is
      * recommended to build the command line incrementally.
      *
-     * @param addArguments An string containing multiple arguments.
+     * @param addArguments A string containing multiple arguments.
      * @return The command line itself.
      */
     public CommandLine addArguments(final String addArguments) {
@@ -283,7 +283,7 @@ public class CommandLine {
      * Add multiple arguments. Handles parsing of quotes and whitespace. Please note that the parsing can have undesired side-effects therefore it is
      * recommended to build the command line incrementally.
      *
-     * @param addArguments  An string containing multiple arguments.
+     * @param addArguments  A string containing multiple arguments.
      * @param handleQuoting Add the argument with/without handling quoting.
      * @return The command line itself.
      */
@@ -405,7 +405,8 @@ public class CommandLine {
     }
 
     /**
-     * Stringify operator returns the command line as a string. Parameters are correctly quoted when containing a space or left untouched if the are already
+     * Stringify operator returns the command line as a string.
+     * Parameters are correctly quoted when containing a space or left untouched if they are already
      * quoted.
      *
      * @return the command line as single string.
@@ -418,7 +419,7 @@ public class CommandLine {
     /**
      * Converts the command line as an array of strings.
      *
-     * @return The command line as an string array.
+     * @return The command line as a string array.
      */
     public String[] toStrings() {
         final String[] result = new String[arguments.size() + 1];

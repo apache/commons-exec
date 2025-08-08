@@ -139,7 +139,7 @@ class CommandLineTest {
     }
 
     /**
-     * A little example how to add two command line arguments in one line, e.g. to make commenting out some options less error prone.
+     * A little example how to add two command line arguments in one line, e.g. to make commenting out some options less error-prone.
      */
     @Test
     void testAddTwoArguments() {
@@ -183,7 +183,7 @@ class CommandLineTest {
         assertTrue(cmdl.getExecutable().startsWith("${JAVA_HOME}"));
         assertArrayEquals(new String[] { "${appMainClass}" }, cmdl.getArguments());
 
-        // pass an complete substitution map
+        // pass a complete substitution map
         cmdl = CommandLine.parse("${JAVA_HOME}/bin/java ${appMainClass}", substitutionMap);
         assertFalse(cmdl.getExecutable().contains("${JAVA_HOME}"));
         assertTrue(cmdl.getExecutable().indexOf("local") > 0);
@@ -201,7 +201,7 @@ class CommandLineTest {
     }
 
     /**
-     * Test expanding the command line based on a user-supplied map. The main goal of the test is to setup a command line using macros and reuse it multiple
+     * Test expanding the command line based on a user-supplied map. The main goal of the test is to set up a command line using macros and reuse it multiple
      * times.
      */
     @Test
@@ -296,7 +296,7 @@ class CommandLineTest {
 
     /**
      * Create a command line with pre-quoted strings to test SANDBOX-192, e.g. "runMemorySud.cmd", "10", "30", "-XX:+UseParallelGC",
-     * "\"-XX:ParallelGCThreads=2\"" Please not that we re forced to add additional single quotes to get the test working - don't know if this is a bug or a
+     * "\"-XX:ParallelGCThreads=2\"" Please note that we re forced to add additional single quotes to get the test working - don't know if this is a bug or a
      * feature.
      */
     @Test
@@ -405,9 +405,10 @@ class CommandLineTest {
     }
 
     /**
-     * Test the following command line
-     *
+     * Test the following command line:
+     * <pre>
      * cmd.exe /C c:\was51\Web Sphere\AppServer\bin\versionInfo.bat
+     * </pre>
      */
     @Test
     void testParseRealLifeCommandLine() {

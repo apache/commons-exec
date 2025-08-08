@@ -1,6 +1,6 @@
 @ECHO OFF
 
-REM Little batch file to run nearly foerver
+REM Little batch file to run nearly forever
 REM see https://malektips.com/dos0017.html
 REM
 REM Licensed to the Apache Software Foundation (ASF) under one or more

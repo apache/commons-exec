@@ -44,7 +44,7 @@ class Exec44Test {
     /**
      *
      * Because the ExecuteWatchdog is the only way to destroy asynchronous processes, it should be possible to set it to an infinite timeout, for processes
-     * which should not timeout, but manually destroyed under some circumstances.
+     * which should not time out, but manually destroyed under some circumstances.
      *
      * @throws Exception the test failed
      */

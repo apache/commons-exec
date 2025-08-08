@@ -62,7 +62,7 @@ class Exec60Test extends AbstractExecTest {
             // wait progressively longer for process to complete
             // tricky to get this test right. We want to try and catch the process while it is terminating,
             // so we increase the timeout gradually until the test terminates normally.
-            // However if the increase is too gradual, we never wait long enough for any test to exit normally
+            // However, if the increase is too gradual, we never wait long enough for any test to exit normally
             final ExecuteWatchdog watchdog = new ExecuteWatchdog(seconds * 1000 + offset * offsetMultiplier);
             exec.setWatchdog(watchdog);
             try {

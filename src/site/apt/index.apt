@@ -24,7 +24,7 @@ Apache Commons Exec
 
 * Rationale
 
-  Executing external processes from Java is a well-known problem area. It is inheriently platform dependent and requires
+  Executing external processes from Java is a well-known problem area. It is inherently platform dependent and requires
   the developer to know and test for platform specific behaviors, for example using cmd.exe on Windows or limited buffer
   sizes causing deadlocks. The JRE support for this is very limited, albeit better with the Java SE 1.5
   ProcessBuilder class.

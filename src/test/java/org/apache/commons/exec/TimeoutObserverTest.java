@@ -49,7 +49,7 @@ class TimeoutObserverTest {
     }
 
     @Test
-    void testTimeoutOccured() {
+    void testTimeoutOccurred() {
         assertFalse(tof.b);
         tof.timeoutOccured(null);
         assertTrue(tof.b);

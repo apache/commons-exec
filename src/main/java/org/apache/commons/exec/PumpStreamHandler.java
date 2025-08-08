@@ -159,7 +159,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     }
 
     /**
-     * Creates a stream pumper to copy the given input stream to the given output stream. When the 'os' is an PipedOutputStream we are closing 'os' afterwards
+     * Creates a stream pumper to copy the given input stream to the given output stream. When the 'os' is an PipedOutputStream we are closing 'os' afterward
      * to avoid an IOException ("Write end dead").
      *
      * @param is the input stream to copy from.

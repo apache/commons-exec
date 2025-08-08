@@ -63,7 +63,7 @@ public class StringUtils {
     }
 
     /**
-     * Determines if this is a quoted argument - either single or double quoted.
+     * Determines if this is a quoted argument - either single or double-quoted.
      *
      * @param argument the argument to check.
      * @return true when the argument is quoted.

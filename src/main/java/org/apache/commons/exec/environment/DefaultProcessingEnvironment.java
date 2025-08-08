@@ -59,7 +59,7 @@ public class DefaultProcessingEnvironment {
     /**
      * Creates the list of environment variables for this process.
      *
-     * @return a amp containing the environment variables.
+     * @return a map containing the environment variables.
      * @throws IOException the operation failed.
      */
     protected Map<String, String> createProcEnvironment() throws IOException {
@@ -134,8 +134,8 @@ public class DefaultProcessingEnvironment {
             procEnvironment = createProcEnvironment();
         }
         // create a copy of the map just in case that
-        // anyone is going to modifiy it, e.g. removing
-        // or setting an evironment variable
+        // anyone is going to modify it, e.g. removing
+        // or setting an environment variable
         final Map<String, String> copy = createEnvironmentMap();
         copy.putAll(procEnvironment);
         return copy;
