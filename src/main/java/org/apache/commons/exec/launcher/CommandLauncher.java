@@ -35,7 +35,7 @@ public interface CommandLauncher {
      * Executes the given command in a new process.
      *
      * @param commandLine The command to execute.
-     * @param env         The environment for the new process. If null, the environment of the current process is used.
+     * @param env         The environment for the new process. If {@code null}, the environment of the current process is used.
      * @return the newly created process.
      * @throws IOException if attempting to run a command in a specific directory.
      */
@@ -45,8 +45,8 @@ public interface CommandLauncher {
      * Executes the given command in a new process, in the given working directory.
      *
      * @param commandLine      The command to execute.
-     * @param env              The environment for the new process. If null, the environment of the current process is used.
-     * @param workingDirectory The directory to start the command in. If null, the current directory is used.
+     * @param env              The environment for the new process. If {@code null}, the environment of the current process is used.
+     * @param workingDirectory The directory to start the command in. If {@code null}, the current directory is used.
      * @return the newly created process.
      * @throws IOException if trying to change directory.
      */
@@ -56,8 +56,8 @@ public interface CommandLauncher {
      * Executes the given command in a new process, in the given working directory.
      *
      * @param commandLine      The command to execute.
-     * @param env              The environment for the new process. If null, the environment of the current process is used.
-     * @param workingDirectory The directory to start the command in. If null, the current directory is used.
+     * @param env              The environment for the new process. If {@code null}, the environment of the current process is used.
+     * @param workingDirectory The directory to start the command in. If {@code null}, the current directory is used.
      * @return the newly created process.
      * @throws IOException if trying to change directory.
      * @since 1.5.0
