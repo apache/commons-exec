@@ -125,7 +125,7 @@ public class DefaultExecutor implements Executor {
         /**
          * Sets the PumpStreamHandler.
          *
-         * @param executeStreamHandler the ExecuteStreamHandler, null resets to the default.
+         * @param executeStreamHandler the ExecuteStreamHandler, {@code null} resets to the default.
          * @return {@code this} instance.
          */
         public T setExecuteStreamHandler(final ExecuteStreamHandler executeStreamHandler) {
@@ -136,7 +136,7 @@ public class DefaultExecutor implements Executor {
         /**
          * Sets the ThreadFactory.
          *
-         * @param threadFactory the ThreadFactory, null resets to the default.
+         * @param threadFactory the ThreadFactory, {@code null} resets to the default.
          * @return {@code this} instance.
          */
         public T setThreadFactory(final ThreadFactory threadFactory) {
@@ -147,7 +147,7 @@ public class DefaultExecutor implements Executor {
         /**
          * Sets the working directory.
          *
-         * @param workingDirectory the working directory., null resets to the default.
+         * @param workingDirectory the working directory. {@code null} resets to the default.
          * @return {@code this} instance.
          */
         public T setWorkingDirectory(final File workingDirectory) {
@@ -158,7 +158,7 @@ public class DefaultExecutor implements Executor {
         /**
          * Sets the working directory.
          *
-         * @param workingDirectory the working directory., null resets to the default.
+         * @param workingDirectory the working directory. {@code null} resets to the default.
          * @return {@code this} instance.
          * @since 1.5.0
          */
