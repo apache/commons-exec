@@ -19,9 +19,6 @@
 
 package org.apache.commons.exec;
 
-import java.nio.file.Path;
-import java.util.concurrent.ThreadFactory;
-
 /**
  * Runs daemon processes asynchronously. Callers are expected to register a {@link ProcessDestroyer} before executing any processes.
  *
@@ -50,7 +47,7 @@ public class DaemonExecutor extends DefaultExecutor {
          */
         @Override
         public DefaultExecutor get() {
-            return new DaemonExecutor(getThreadFactory(), getExecuteStreamHandler(), getWorkingDirectoryPath());
+            return new DaemonExecutor(this);
         }
 
     }
@@ -75,8 +72,8 @@ public class DaemonExecutor extends DefaultExecutor {
         // super
     }
 
-    private DaemonExecutor(final ThreadFactory threadFactory, final ExecuteStreamHandler executeStreamHandler, final Path workingDirectory) {
-        super(threadFactory, executeStreamHandler, workingDirectory);
+    private DaemonExecutor(final Builder builder) {
+        super(builder.getThreadFactory(), builder.getExecuteStreamHandler(), builder.getWorkingDirectoryPath());
     }
 
     /**
