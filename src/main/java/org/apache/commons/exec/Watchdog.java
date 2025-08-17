@@ -80,7 +80,7 @@ public class Watchdog implements Runnable {
         /**
          * Sets the timeout duration.
          *
-         * @param timeout the timeout duration, null resets to the default 30 seconds.
+         * @param timeout the timeout duration, null resets to the default 30 seconds timeout.
          * @return {@code this} instance.
          */
         public Builder setTimeout(final Duration timeout) {
