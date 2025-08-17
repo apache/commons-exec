@@ -80,7 +80,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
          */
         @Override
         public ExecuteWatchdog get() {
-            return new ExecuteWatchdog(threadFactory, timeout);
+            return new ExecuteWatchdog(this);
         }
 
         /**
@@ -157,7 +157,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
      */
     @Deprecated
     public ExecuteWatchdog(final long timeoutMillis) {
-        this(Executors.defaultThreadFactory(), Duration.ofMillis(timeoutMillis));
+        this(builder().setTimeout(Duration.ofMillis(timeoutMillis)));
     }
 
     /**
@@ -166,14 +166,14 @@ public class ExecuteWatchdog implements TimeoutObserver {
      * @param threadFactory the thread factory.
      * @param timeout       the timeout Duration for the process. It must be greater than 0 or {@code INFINITE_TIMEOUT_DURATION}.
      */
-    private ExecuteWatchdog(final ThreadFactory threadFactory, final Duration timeout) {
+    private ExecuteWatchdog(final Builder builder) {
         this.killedProcess = false;
         this.watch = false;
-        this.hasWatchdog = !INFINITE_TIMEOUT_DURATION.equals(timeout);
+        this.hasWatchdog = !INFINITE_TIMEOUT_DURATION.equals(builder.timeout);
         this.processStarted = false;
-        this.threadFactory = threadFactory != null ? threadFactory : Executors.defaultThreadFactory();
+        this.threadFactory = builder.threadFactory != null ? builder.threadFactory : Executors.defaultThreadFactory();
         if (this.hasWatchdog) {
-            this.watchdog = Watchdog.builder().setThreadFactory(this.threadFactory).setTimeout(timeout).get();
+            this.watchdog = Watchdog.builder().setThreadFactory(this.threadFactory).setTimeout(builder.timeout).get();
             this.watchdog.addTimeoutObserver(this);
         } else {
             this.watchdog = null;
