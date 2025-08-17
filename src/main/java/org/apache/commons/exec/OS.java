@@ -26,6 +26,7 @@ import java.util.Locale;
  * Condition that tests the OS type.
  * <p>
  * Copied and adapted from Apache Ant 1.9.6 from {@code org.apache.tools.ant.taskdefs.condition.OS}.
+ * </p>
  */
 public final class OS {
 
