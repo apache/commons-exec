@@ -193,7 +193,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
     }
 
     /**
-     * reset the monitor flag and the process.
+     * Resets the monitor flag and the process.
      */
     protected synchronized void cleanUp() {
         watch = false;
@@ -235,7 +235,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
     }
 
     /**
-     * Indicates whether the watchdog is still monitoring the process.
+     * Tests whether the watchdog is still monitoring the process.
      *
      * @return {@code true} if the process is still running, otherwise {@code false}.
      */
@@ -245,7 +245,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
     }
 
     /**
-     * Indicates whether the last process run was killed.
+     * Tests whether the last process run was killed.
      *
      * @return {@code true} if the process was killed {@code false}.
      */
