@@ -173,7 +173,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
         this.processStarted = false;
         this.threadFactory = builder.threadFactory != null ? builder.threadFactory : Executors.defaultThreadFactory();
         if (this.hasWatchdog) {
-            this.watchdog = Watchdog.builder().setThreadFactory(this.threadFactory).setTimeout(builder.timeout).get();
+            this.watchdog = Watchdog.builder().setThreadFactory(threadFactory).setTimeout(builder.timeout).get();
             this.watchdog.addTimeoutObserver(this);
         } else {
             this.watchdog = null;

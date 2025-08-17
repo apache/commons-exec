@@ -73,7 +73,7 @@ public class DaemonExecutor extends DefaultExecutor {
     }
 
     private DaemonExecutor(final Builder builder) {
-        super(builder.getThreadFactory(), builder.getExecuteStreamHandler(), builder.getWorkingDirectoryPath());
+        super(builder);
     }
 
     /**

@@ -107,7 +107,7 @@ public class DefaultExecutor implements Executor {
          */
         @Override
         public DefaultExecutor get() {
-            return new DefaultExecutor(threadFactory, executeStreamHandler, workingDirectory);
+            return new DefaultExecutor(this);
         }
 
         ExecuteStreamHandler getExecuteStreamHandler() {
@@ -218,13 +218,13 @@ public class DefaultExecutor implements Executor {
      */
     @Deprecated
     public DefaultExecutor() {
-        this(Executors.defaultThreadFactory(), new PumpStreamHandler(), Paths.get("."));
+        this(builder().setExecuteStreamHandler(new PumpStreamHandler()).setWorkingDirectory(Paths.get(".")));
     }
 
-    DefaultExecutor(final ThreadFactory threadFactory, final ExecuteStreamHandler executeStreamHandler, final Path workingDirectory) {
-        this.threadFactory = threadFactory != null ? threadFactory : Executors.defaultThreadFactory();
-        this.executeStreamHandler = executeStreamHandler != null ? executeStreamHandler : new PumpStreamHandler();
-        this.workingDirectory = workingDirectory != null ? workingDirectory : Paths.get(".");
+    DefaultExecutor(final Builder<?> builder) {
+        this.threadFactory = builder.threadFactory != null ? builder.threadFactory : Executors.defaultThreadFactory();
+        this.executeStreamHandler = builder.executeStreamHandler != null ? builder.executeStreamHandler : new PumpStreamHandler();
+        this.workingDirectory = builder.workingDirectory != null ? builder.workingDirectory : Paths.get(".");
         this.launcher = CommandLauncherFactory.createVMLauncher();
         this.exitValues = new int[0];
     }
