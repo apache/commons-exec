@@ -39,13 +39,15 @@ public class Watchdog implements Runnable {
      */
     public static final class Builder implements Supplier<Watchdog> {
 
+        private static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(30);
+
         /** Thread factory. */
         private ThreadFactory threadFactory;
 
         /**
          * Timeout duration.
          */
-        private Duration timeout;
+        private Duration timeout = DEFAULT_TIMEOUT;
 
         /**
          * Constructs a new instance.
@@ -61,7 +63,7 @@ public class Watchdog implements Runnable {
          */
         @Override
         public Watchdog get() {
-            return new Watchdog(threadFactory, timeout);
+            return new Watchdog(this);
         }
 
         /**
@@ -78,11 +80,11 @@ public class Watchdog implements Runnable {
         /**
          * Sets the timeout duration.
          *
-         * @param timeout the timeout duration.
+         * @param timeout the timeout duration, null resets to the default 30 seconds.
          * @return {@code this} instance.
          */
         public Builder setTimeout(final Duration timeout) {
-            this.timeout = timeout;
+            this.timeout = timeout != null ? timeout : DEFAULT_TIMEOUT;
             return this;
         }
 
@@ -126,7 +128,7 @@ public class Watchdog implements Runnable {
      */
     @Deprecated
     public Watchdog(final long timeoutMillis) {
-        this(null, Duration.ofMillis(timeoutMillis));
+        this(builder().setTimeout(Duration.ofMillis(timeoutMillis)));
     }
 
     /**
@@ -135,12 +137,12 @@ public class Watchdog implements Runnable {
      * @param threadFactory the thread factory.
      * @param timeout       the timeout duration.
      */
-    private Watchdog(final ThreadFactory threadFactory, final Duration timeout) {
-        if (timeout.isNegative() || Duration.ZERO.equals(timeout)) {
-            throw new IllegalArgumentException("timeout must not be less than 1.");
+    private Watchdog(final Builder builder) {
+        if (builder.timeout.isNegative() || Duration.ZERO.equals(builder.timeout)) {
+            throw new IllegalArgumentException("Timeout must be positive.");
         }
-        this.timeoutMillis = timeout.toMillis();
-        this.threadFactory = threadFactory;
+        this.timeoutMillis = builder.timeout.toMillis();
+        this.threadFactory = builder.threadFactory;
     }
 
     /**
