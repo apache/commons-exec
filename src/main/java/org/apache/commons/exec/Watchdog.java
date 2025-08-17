@@ -22,6 +22,7 @@ package org.apache.commons.exec;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.function.Supplier;
 
@@ -39,10 +40,13 @@ public class Watchdog implements Runnable {
      */
     public static final class Builder implements Supplier<Watchdog> {
 
+        /**
+         * Default timeout.
+         */
         private static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(30);
 
         /** Thread factory. */
-        private ThreadFactory threadFactory;
+        private ThreadFactory threadFactory = Executors.defaultThreadFactory();
 
         /**
          * Timeout duration.
@@ -69,11 +73,11 @@ public class Watchdog implements Runnable {
         /**
          * Sets the thread factory.
          *
-         * @param threadFactory the thread factory.
+         * @param threadFactory the thread factory, null resets to the default {@link Executors#defaultThreadFactory()}.
          * @return {@code this} instance.
          */
         public Builder setThreadFactory(final ThreadFactory threadFactory) {
-            this.threadFactory = threadFactory;
+            this.threadFactory = threadFactory != null ? threadFactory : Executors.defaultThreadFactory();
             return this;
         }
 
@@ -108,7 +112,7 @@ public class Watchdog implements Runnable {
     /**
      * Timeout duration.
      */
-    private final long timeoutMillis;
+    private final Duration timeout;
 
     /**
      * Whether this is stopped.
@@ -123,17 +127,6 @@ public class Watchdog implements Runnable {
     /**
      * Constructs a new instance.
      *
-     * @param timeoutMillis the timeout duration.
-     * @deprecated Use {@link Builder#get()}.
-     */
-    @Deprecated
-    public Watchdog(final long timeoutMillis) {
-        this(builder().setTimeout(Duration.ofMillis(timeoutMillis)));
-    }
-
-    /**
-     * Constructs a new instance.
-     *
      * @param threadFactory the thread factory.
      * @param timeout       the timeout duration.
      */
@@ -141,8 +134,19 @@ public class Watchdog implements Runnable {
         if (builder.timeout.isNegative() || Duration.ZERO.equals(builder.timeout)) {
             throw new IllegalArgumentException("Timeout must be positive.");
         }
-        this.timeoutMillis = builder.timeout.toMillis();
+        this.timeout = builder.timeout;
         this.threadFactory = builder.threadFactory;
+    }
+
+    /**
+     * Constructs a new instance.
+     *
+     * @param timeoutMillis the timeout duration.
+     * @deprecated Use {@link Builder#get()}.
+     */
+    @Deprecated
+    public Watchdog(final long timeoutMillis) {
+        this(builder().setTimeout(Duration.ofMillis(timeoutMillis)));
     }
 
     /**
@@ -162,6 +166,25 @@ public class Watchdog implements Runnable {
     }
 
     /**
+     * Gets the thread factory.
+     *
+     * @return the thread factory.
+     */
+    ThreadFactory getThreadFactory() {
+        return threadFactory;
+    }
+
+    /**
+     * Gets the timeout.
+     *
+     * @return the timeout.
+     * @since 1.6.0
+     */
+    public Duration getTimeout() {
+        return timeout;
+    }
+
+    /**
      * Removes a TimeoutObserver.
      *
      * @param to a TimeoutObserver to remove.
@@ -175,6 +198,7 @@ public class Watchdog implements Runnable {
         final long startTimeMillis = System.currentTimeMillis();
         boolean isWaiting;
         synchronized (this) {
+            final long timeoutMillis = timeout.toMillis();
             long timeLeftMillis = timeoutMillis - (System.currentTimeMillis() - startTimeMillis);
             isWaiting = timeLeftMillis > 0;
             while (!stopped && isWaiting) {

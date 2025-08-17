@@ -21,22 +21,24 @@ package org.apache.commons.exec;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.Duration;
 
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests {@link Watchdog}.
+ * Tests {@link ExecuteWatchdog}.
  */
-class WatchdogTest {
+class ExecuteWatchdogTest {
 
     @Test
     void testBuilder() {
-        assertNotNull(Watchdog.builder().get());
-        assertNotNull(Watchdog.builder().setTimeout(null).get());
-        assertEquals(Duration.ofMinutes(1), Watchdog.builder().setTimeout(Duration.ofMinutes(1)).get().getTimeout());
-        assertNotNull(Watchdog.builder().setThreadFactory(null).get());
-        assertNotNull(Watchdog.builder().setThreadFactory(null).get().getThreadFactory());
+        assertNotNull(ExecuteWatchdog.builder().get());
+        assertNull(ExecuteWatchdog.builder().get().getWatchdog());
+        assertNotNull(ExecuteWatchdog.builder().setTimeout(null).get());
+        assertEquals(Duration.ofMinutes(1), ExecuteWatchdog.builder().setTimeout(Duration.ofMinutes(1)).get().getWatchdog().getTimeout());
+        assertNotNull(ExecuteWatchdog.builder().setThreadFactory(null).get());
+        assertNotNull(ExecuteWatchdog.builder().setThreadFactory(null).setTimeout(Duration.ofMinutes(1)).get().getWatchdog().getThreadFactory());
     }
 }
