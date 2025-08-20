@@ -93,7 +93,7 @@ public class DefaultExecutor implements Executor {
          * (B) this
          * </pre>
          *
-         * @return this instance typed as the subclass type {@code T}.
+         * @return {@code this} instance typed as the subclass type {@code T}.
          */
         @SuppressWarnings("unchecked")
         T asThis() {
