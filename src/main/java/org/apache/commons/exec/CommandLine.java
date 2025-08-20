@@ -69,7 +69,7 @@ public class CommandLine {
      *
      * @param line the first element becomes the executable, the rest the arguments.
      * @return the parsed command line.
-     * @throws IllegalArgumentException If line is null or all whitespace.
+     * @throws IllegalArgumentException If line is {@code null} or all whitespace.
      */
     public static CommandLine parse(final String line) {
         return parse(line, null);
@@ -81,7 +81,7 @@ public class CommandLine {
      * @param line            the first element becomes the executable, the rest the arguments.
      * @param substitutionMap the name/value pairs used for substitution.
      * @return the parsed command line.
-     * @throws IllegalArgumentException If line is null or all whitespace.
+     * @throws IllegalArgumentException If line is {@code null} or all whitespace.
      */
     public static CommandLine parse(final String line, final Map<String, ?> substitutionMap) {
         if (line == null) {
@@ -103,7 +103,7 @@ public class CommandLine {
      * Crack a command line.
      *
      * @param toProcess the command line to process.
-     * @return the command line broken into strings. An empty or null toProcess parameter results in a zero sized array.
+     * @return the command line broken into strings. An empty or {@code null} toProcess parameter results in a zero sized array.
      */
     private static String[] translateCommandline(final String toProcess) {
         if (toProcess == null || toProcess.trim().isEmpty()) {
@@ -229,7 +229,7 @@ public class CommandLine {
      * Constructs a command line without any arguments.
      *
      * @param executable the executable.
-     * @throws NullPointerException     on null input.
+     * @throws NullPointerException     on {@code null} input.
      * @throws IllegalArgumentException on empty input.
      */
     public CommandLine(final String executable) {
@@ -393,7 +393,7 @@ public class CommandLine {
      *
      * @param dirtyExecutable the executable.
      * @return the platform-specific executable string.
-     * @throws NullPointerException     on null input.
+     * @throws NullPointerException     on {@code null} input.
      * @throws IllegalArgumentException on empty input.
      */
     private String toCleanExecutable(final String dirtyExecutable) {
