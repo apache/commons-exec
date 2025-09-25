@@ -76,7 +76,7 @@ public interface Executor {
      * Executes a command synchronously.
      *
      * @param command     the command to execute.
-     * @param environment The environment for the new process. If null, the environment of the current process is used.
+     * @param environment The environment for the new process. If {@code null}, the environment of the current process is used.
      * @return process exit value.
      * @throws ExecuteException execution of subprocess failed or the subprocess returned an exit value indicating a failure {@link Executor#setExitValue(int)}.
      * @throws IOException      If an I/O error occurs.
@@ -87,7 +87,7 @@ public interface Executor {
      * Executes a command asynchronously. The child process inherits all environment variables of the parent process. Result provided to callback handler.
      *
      * @param command     the command to execute.
-     * @param environment The environment for the new process. If null, the environment of the current process is used.
+     * @param environment The environment for the new process. If {@code null}, the environment of the current process is used.
      * @param handler     capture process termination and exit code.
      * @throws ExecuteException execution of subprocess failed.
      * @throws IOException      If an I/O error occurs.
@@ -154,7 +154,7 @@ public interface Executor {
      * <ul>
      * <li>an array of exit values to be considered successful</li>
      * <li>an empty array for auto-detect of successful exit codes relying on {@link org.apache.commons.exec.Executor#isFailure(int)}</li>
-     * <li>null to indicate to skip checking of exit codes</li>
+     * <li>{@code null} to indicate to skip checking of exit codes</li>
      * </ul>
      *
      * If an undefined exit value is returned by the process then {@link org.apache.commons.exec.Executor#execute(CommandLine)} will throw an
