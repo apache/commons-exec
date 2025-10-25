@@ -50,7 +50,7 @@ int exitValue = executor.execute(cmdLine);
 +----------------------------------------------------------------------------
 
   You successfully printed your first PDF document but at the end an exception is thrown - what
-  happend? Oops, Acrobat Reader returned an exit value of '1' on success which is usually
+  happened? Oops, Acrobat Reader returned an exit value of '1' on success which is usually
   considered as an execution failure. So we have to tweak our code to fix this odd behavior -
   we define the exit value of "1" to be considered as successful execution.
 
