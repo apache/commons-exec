@@ -87,13 +87,13 @@ public class StringUtils {
 
         String cleanedArgument = argument.trim();
 
-        // strip the quotes from both ends
-        while (cleanedArgument.startsWith(SINGLE_QUOTE) || cleanedArgument.startsWith(DOUBLE_QUOTE)) {
-            cleanedArgument = cleanedArgument.substring(1);
+        // strip the quotes from both starts and ends
+        while (cleanedArgument.startsWith(SINGLE_QUOTE) && cleanedArgument.endsWith(SINGLE_QUOTE)) {
+            cleanedArgument = cleanedArgument.substring(1, cleanedArgument.length() - 1);
         }
 
-        while (cleanedArgument.endsWith(SINGLE_QUOTE) || cleanedArgument.endsWith(DOUBLE_QUOTE)) {
-            cleanedArgument = cleanedArgument.substring(0, cleanedArgument.length() - 1);
+        while (cleanedArgument.startsWith(DOUBLE_QUOTE) && cleanedArgument.endsWith(DOUBLE_QUOTE)) {
+            cleanedArgument = cleanedArgument.substring(1, cleanedArgument.length() - 1);
         }
 
         final StringBuilder buf = new StringBuilder();

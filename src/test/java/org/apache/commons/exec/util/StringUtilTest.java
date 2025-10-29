@@ -20,6 +20,7 @@
 package org.apache.commons.exec.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.HashMap;
@@ -84,4 +85,18 @@ class StringUtilTest {
 
         assertEquals("This is a FOO & BAR test", StringUtils.stringSubstitution("This is a FOO & BAR test", vars, true).toString());
     }
+
+    @Test
+    void testQuoteArgument() throws Exception {
+        assertEquals("hi", StringUtils.quoteArgument("'hi'"));
+        assertEquals("hi", StringUtils.quoteArgument("\"hi\""));
+
+        // cmd : bash -c "echo 'hi'"
+        assertEquals("\"echo 'hi'\"", StringUtils.quoteArgument("echo 'hi'"));
+        assertEquals("'echo \"hi\"'", StringUtils.quoteArgument("echo \"hi\""));
+
+        assertThrows(IllegalArgumentException.class, () -> StringUtils.quoteArgument("echo \"hi 'world'\""),
+                "Can't handle single and double quotes in same argument");
+    }
+
 }
