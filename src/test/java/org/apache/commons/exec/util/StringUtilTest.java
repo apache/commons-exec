@@ -95,7 +95,8 @@ class StringUtilTest {
         assertEquals("\"echo 'hi'\"", StringUtils.quoteArgument("echo 'hi'"));
         assertEquals("'echo \"hi\"'", StringUtils.quoteArgument("echo \"hi\""));
 
-        assertThrows(IllegalArgumentException.class, () -> StringUtils.quoteArgument("echo \"hi 'world'\""), "Can't handle single and double quotes in same argument");
+        assertThrows(IllegalArgumentException.class, () -> StringUtils.quoteArgument("echo \"hi 'world'\""),
+                "Can't handle single and double quotes in same argument");
     }
 
 }
