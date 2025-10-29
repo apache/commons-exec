@@ -84,4 +84,15 @@ class StringUtilTest {
 
         assertEquals("This is a FOO & BAR test", StringUtils.stringSubstitution("This is a FOO & BAR test", vars, true).toString());
     }
+
+    @Test
+    void testQuoteArgument() throws Exception {
+        assertEquals("hi", StringUtils.quoteArgument("'hi'"));
+        assertEquals("hi", StringUtils.quoteArgument("\"hi\""));
+
+        // cmd : bash -c "echo 'hi'"
+        assertEquals("\"echo 'hi'\"", StringUtils.quoteArgument("echo 'hi'"));
+        assertEquals("'echo \"hi\"'", StringUtils.quoteArgument("echo \"hi\""));
+    }
+
 }
