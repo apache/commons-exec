@@ -38,7 +38,7 @@
       <action type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.exec.Watchdog.getTimeout().</action>
       <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump org.apache.commons:commons-parent from 83 to 92 #299, #308, #314.</action>
-      <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump org.apache.commons:commons-lang3 from 3.17.0 to 3.19.0 #282.</action>
+      <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump org.apache.commons:commons-lang3 from 3.17.0 to 3.20.0 #282.</action>
     </release>
     <release version="1.5.0" date="2025-05-16" description="This is a feature and maintenance release. Java 8 or later is required.">
       <!-- ADD -->
