@@ -203,9 +203,9 @@ limitations under the License.
         <groupId>org.apache.rat</groupId>
         <artifactId>apache-rat-plugin</artifactId>
         <configuration>
-          <excludes>
-            <exclude>src/test/resources/eml/*.eml</exclude>
-          </excludes>
+          <inputExcludes>
+            <inputExclude>src/test/resources/eml/*.eml</inputExclude>
+          </inputExcludes>
         </configuration>
       </plugin>
     </plugins>

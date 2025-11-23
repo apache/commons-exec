@@ -33,6 +33,7 @@
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Calling org.apache.commons.exec.ExecuteWatchdog.Builder.setThreadFactory(ThreadFactory) with null now resets to the default java.util.concurrent.Executors.defaultThreadFactory().</action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix Checkstyle issues.</action>
       <action type="fix" dev="ggregory" due-to="Xin Wang, Sebb, Gary Gregory">Fix StringUtils.quoteArgument(String) when input contains single and double quotes #309.</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix Apache RAT plugin console warnings.</action>
       <!-- ADD -->
       <action type="add" dev="ggregory" due-to="Gary Gregory">TimeoutObserver now extends Consumer&lt;Watchdog&gt;.</action>
       <action type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.exec.Watchdog.getTimeout().</action>
