@@ -14,6 +14,51 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
+Apache Commons Exec 1.6.0 Release Notes
+---------------------------------------
+
+The Apache Commons Exec team is pleased to announce the release of Apache Commons Exec 1.6.0.
+
+Apache Commons Exec is a library that reliably executes external processes from within the JVM.
+
+This is a feature and maintenance release. Java 8 or later is required.
+
+Changes in this version include:
+
+New features:
+o            TimeoutObserver now extends Consumer<Watchdog>. Thanks to Gary Gregory.
+o            Add org.apache.commons.exec.Watchdog.getTimeout(). Thanks to Gary Gregory.
+
+Fixed Bugs:
+o            Watchdog.builder().get() now uses a default timeout of 30 seconds instead of throwing a NullPointerException. Thanks to Gary Gregory.
+o            ExecuteWatchdog.builder().get() now uses a default timeout of 30 seconds instead of throwing a NullPointerException. Thanks to Gary Gregory.
+o            Calling org.apache.commons.exec.Watchdog.Builder.setTimeout(Duration) with null now resets to the default INFINITE_TIMEOUT_DURATION timeout. Thanks to Gary Gregory.
+o            Calling org.apache.commons.exec.ExecuteWatchdog.Builder.setTimeout(Duration) with null now resets to the default INFINITE_TIMEOUT_DURATION timeout. Thanks to Gary Gregory.
+o            Calling org.apache.commons.exec.Watchdog.Builder.setThreadFactory(ThreadFactory) with null now resets to the default java.util.concurrent.Executors.defaultThreadFactory(). Thanks to Gary Gregory.
+o            Calling org.apache.commons.exec.ExecuteWatchdog.Builder.setThreadFactory(ThreadFactory) with null now resets to the default java.util.concurrent.Executors.defaultThreadFactory(). Thanks to Gary Gregory.
+o            Fix Checkstyle issues. Thanks to Gary Gregory.
+o            Fix StringUtils.quoteArgument(String) when input contains single and double quotes #309. Thanks to Xin Wang, Sebb, Gary Gregory.
+o            Fix Apache RAT plugin console warnings. Thanks to Gary Gregory.
+
+Changes:
+o            Bump org.apache.commons:commons-parent from 83 to 93 #299, #308, #314, #316. Thanks to Dependabot, Gary Gregory.
+o            Bump org.apache.commons:commons-lang3 from 3.17.0 to 3.20.0 #282. Thanks to Dependabot, Gary Gregory.
+
+
+Historical list of changes: https://commons.apache.org/proper/commons-exec//changes.html
+
+For complete information on Apache Commons Exec, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Commons Exec website:
+
+https://commons.apache.org/proper/commons-exec/
+
+Download page: https://commons.apache.org/proper/commons-exec//download_exec.cgi
+
+Have fun!
+-Apache Commons Team
+
+=============================================================================
+
 Apache Commons Exec 1.5.0 Release Notes
 ---------------------------------------
 
