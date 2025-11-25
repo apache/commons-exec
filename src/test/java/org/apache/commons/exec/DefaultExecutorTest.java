@@ -92,42 +92,6 @@ class DefaultExecutorTest {
     private final Path environmentSript = TestUtil.resolveScriptPathForOS(testDir + "/environment");
 //    private final File wrapperScript = TestUtil.resolveScriptForOS(testDir + "/wrapper");
 
-    /**
-     * Start any processes in a loop to make sure that we do not leave any handles/resources open.
-     *
-     * @throws Exception the test failed
-     */
-    @Test
-    @Disabled
-    void testExecuteStability() throws Exception {
-
-        // make a plain-vanilla test
-        for (int i = 0; i < 100; i++) {
-            final Map<String, String> env = new HashMap<>();
-            env.put("TEST_ENV_VAR", Integer.toString(i));
-            final CommandLine cl = new CommandLine(testScript);
-            final int exitValue = exec.execute(cl, env);
-            assertFalse(exec.isFailure(exitValue));
-            assertEquals("FOO." + i + ".", baos.toString().trim());
-            baos.reset();
-        }
-
-        // now be nasty and use the watchdog to kill out sub-processes
-        for (int i = 0; i < 100; i++) {
-            final Map<String, String> env = new HashMap<>();
-            env.put("TEST_ENV_VAR", Integer.toString(i));
-            final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
-            final CommandLine cl = new CommandLine(foreverTestScript);
-            final ExecuteWatchdog watchdog = new ExecuteWatchdog(500);
-            exec.setWatchdog(watchdog);
-            exec.execute(cl, env, resultHandler);
-            resultHandler.waitFor(WAITFOR_TIMEOUT);
-            assertTrue(resultHandler.hasResult(), "ResultHandler received a result");
-            assertNotNull(resultHandler.getException());
-            baos.reset();
-        }
-    }
-
     private int getOccurrences(final String data, final char c) {
 
         int result = 0;
@@ -417,6 +381,42 @@ class DefaultExecutorTest {
         executor.setWatchdog(new ExecuteWatchdog(ExecuteWatchdog.INFINITE_TIMEOUT));
 
         assertThrows(IOException.class, () -> executor.execute(cl));
+    }
+
+    /**
+     * Start any processes in a loop to make sure that we do not leave any handles/resources open.
+     *
+     * @throws Exception the test failed
+     */
+    @Test
+    @Disabled
+    void testExecuteStability() throws Exception {
+
+        // make a plain-vanilla test
+        for (int i = 0; i < 100; i++) {
+            final Map<String, String> env = new HashMap<>();
+            env.put("TEST_ENV_VAR", Integer.toString(i));
+            final CommandLine cl = new CommandLine(testScript);
+            final int exitValue = exec.execute(cl, env);
+            assertFalse(exec.isFailure(exitValue));
+            assertEquals("FOO." + i + ".", baos.toString().trim());
+            baos.reset();
+        }
+
+        // now be nasty and use the watchdog to kill out sub-processes
+        for (int i = 0; i < 100; i++) {
+            final Map<String, String> env = new HashMap<>();
+            env.put("TEST_ENV_VAR", Integer.toString(i));
+            final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
+            final CommandLine cl = new CommandLine(foreverTestScript);
+            final ExecuteWatchdog watchdog = new ExecuteWatchdog(500);
+            exec.setWatchdog(watchdog);
+            exec.execute(cl, env, resultHandler);
+            resultHandler.waitFor(WAITFOR_TIMEOUT);
+            assertTrue(resultHandler.hasResult(), "ResultHandler received a result");
+            assertNotNull(resultHandler.getException());
+            baos.reset();
+        }
     }
 
     /**

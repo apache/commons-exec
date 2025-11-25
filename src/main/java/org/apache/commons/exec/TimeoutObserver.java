@@ -29,13 +29,6 @@ import java.util.function.Consumer;
 public interface TimeoutObserver extends Consumer<Watchdog> {
 
     /**
-     * Called when the watchdog times out.
-     *
-     * @param w the watchdog that timed out.
-     */
-    void timeoutOccured(Watchdog w);
-
-    /**
      * {@inheritDoc}
      *
      * @since 1.6.0
@@ -44,4 +37,11 @@ public interface TimeoutObserver extends Consumer<Watchdog> {
     default void accept(final Watchdog w) {
         timeoutOccured(w);
     }
+
+    /**
+     * Called when the watchdog times out.
+     *
+     * @param w the watchdog that timed out.
+     */
+    void timeoutOccured(Watchdog w);
 }

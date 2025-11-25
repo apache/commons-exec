@@ -51,62 +51,6 @@ class Exec36Test {
 
     private ByteArrayOutputStream baos;
 
-    /**
-     * Some complex real-life command line from https://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
-     */
-    @Test
-    @Disabled
-    void testExec36Part4() throws Exception {
-        CommandLine cmdl;
-        final String line = "./script/jrake cruise:publish_installers INSTALLER_VERSION=unstable_2_1 "
-                + "INSTALLER_PATH=\"/var/lib/cruise-agent/installers\" INSTALLER_DOWNLOAD_SERVER='something'WITHOUT_HELP_DOC=true";
-        cmdl = CommandLine.parse(line);
-        final String[] args = cmdl.toStrings();
-        assertEquals("./script/jrake", args[0]);
-        assertEquals("cruise:publish_installers", args[1]);
-        assertEquals("INSTALLER_VERSION=unstable_2_1", args[2]);
-        assertEquals("INSTALLER_PATH=\"/var/lib/cruise-agent/installers\"", args[3]);
-        assertEquals("INSTALLER_DOWNLOAD_SERVER='something'", args[4]);
-        assertEquals("WITHOUT_HELP_DOC=true", args[5]);
-    }
-
-    /**
-     * Some complex real-life command line from https://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
-     */
-    @Test
-    @Disabled
-    void testExec36Part5() {
-
-        CommandLine cmdl;
-
-        final String line = "dotnetfx.exe /q:a "
-                + "/c:\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"";
-
-        cmdl = CommandLine.parse(line);
-        final String[] args = cmdl.toStrings();
-        assertEquals("dotnetfx.exe", args[0]);
-        assertEquals("/q:a", args[1]);
-        assertEquals("/c:\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"", args[2]);
-    }
-
-    /**
-     * Test the following command line
-     *
-     * C:\CVS_DB\WeightsEngine /f WeightsEngine.mak CFG="WeightsEngine - Win32Release"
-     */
-    @Test
-    @Disabled
-    void testExec36Part6() {
-
-        final String commandLine = "C:\\CVS_DB\\WeightsEngine /f WeightsEngine.mak CFG=\"WeightsEngine - Win32Release\"";
-
-        final CommandLine cmdl = CommandLine.parse(commandLine);
-        final String[] args = cmdl.getArguments();
-        assertEquals("/f", args[0]);
-        assertEquals("WeightsEngine.mak", args[1]);
-        assertEquals("CFG=\"WeightsEngine - Win32Release\"", args[2]);
-    }
-
     @BeforeEach
     public void setUp() throws Exception {
         // prepare a ready to Executor
@@ -208,5 +152,61 @@ class Exec36Test {
             // the parameters fall literally apart under Windows - need to disable the check for Win32
             assertEquals(expected, result);
         }
+    }
+
+    /**
+     * Some complex real-life command line from https://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
+     */
+    @Test
+    @Disabled
+    void testExec36Part4() throws Exception {
+        CommandLine cmdl;
+        final String line = "./script/jrake cruise:publish_installers INSTALLER_VERSION=unstable_2_1 "
+                + "INSTALLER_PATH=\"/var/lib/cruise-agent/installers\" INSTALLER_DOWNLOAD_SERVER='something'WITHOUT_HELP_DOC=true";
+        cmdl = CommandLine.parse(line);
+        final String[] args = cmdl.toStrings();
+        assertEquals("./script/jrake", args[0]);
+        assertEquals("cruise:publish_installers", args[1]);
+        assertEquals("INSTALLER_VERSION=unstable_2_1", args[2]);
+        assertEquals("INSTALLER_PATH=\"/var/lib/cruise-agent/installers\"", args[3]);
+        assertEquals("INSTALLER_DOWNLOAD_SERVER='something'", args[4]);
+        assertEquals("WITHOUT_HELP_DOC=true", args[5]);
+    }
+
+    /**
+     * Some complex real-life command line from https://blogs.msdn.com/b/astebner/archive/2005/12/13/503471.aspx
+     */
+    @Test
+    @Disabled
+    void testExec36Part5() {
+
+        CommandLine cmdl;
+
+        final String line = "dotnetfx.exe /q:a "
+                + "/c:\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"";
+
+        cmdl = CommandLine.parse(line);
+        final String[] args = cmdl.toStrings();
+        assertEquals("dotnetfx.exe", args[0]);
+        assertEquals("/q:a", args[1]);
+        assertEquals("/c:\"install.exe /l \"\"c:\\Documents and Settings\\myusername\\Local Settings\\Temp\\netfx.log\"\" /q\"", args[2]);
+    }
+
+    /**
+     * Test the following command line
+     *
+     * C:\CVS_DB\WeightsEngine /f WeightsEngine.mak CFG="WeightsEngine - Win32Release"
+     */
+    @Test
+    @Disabled
+    void testExec36Part6() {
+
+        final String commandLine = "C:\\CVS_DB\\WeightsEngine /f WeightsEngine.mak CFG=\"WeightsEngine - Win32Release\"";
+
+        final CommandLine cmdl = CommandLine.parse(commandLine);
+        final String[] args = cmdl.getArguments();
+        assertEquals("/f", args[0]);
+        assertEquals("WeightsEngine.mak", args[1]);
+        assertEquals("CFG=\"WeightsEngine - Win32Release\"", args[2]);
     }
 }
