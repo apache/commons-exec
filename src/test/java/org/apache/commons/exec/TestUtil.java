@@ -35,10 +35,7 @@ public final class TestUtil {
      * @return int array[2] = {ok, success}
      */
     public static int[] getTestScriptCodesForOS() {
-        if (OS.isFamilyWindows()) {
-            return new int[] { 0, 1 };
-        }
-        if (OS.isFamilyUnix()) {
+        if (OS.isFamilyWindows() || OS.isFamilyUnix()) {
             return new int[] { 0, 1 };
         }
         if (OS.isFamilyOpenVms()) {
