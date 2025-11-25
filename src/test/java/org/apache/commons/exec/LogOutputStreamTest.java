@@ -40,15 +40,15 @@ import org.junitpioneer.jupiter.SetSystemProperty;
 @SetSystemProperty(key = "org.apache.commons.exec.debug", value = "true")
 class LogOutputStreamTest {
 
-    private static final class SystemLogOutputStream extends LogOutputStream {
+    private static final class TestLogOutputStream extends LogOutputStream {
 
         private final StringBuffer output = new StringBuffer();
 
-        private SystemLogOutputStream(final int level) {
+        private TestLogOutputStream(final int level) {
             super(level);
         }
 
-        private SystemLogOutputStream(final int level, final Charset charset) {
+        private TestLogOutputStream(final int level, final Charset charset) {
             super(level, charset);
         }
 
@@ -58,7 +58,6 @@ class LogOutputStreamTest {
 
         @Override
         protected void processLine(final String line, final int level) {
-            System.out.println(line);
             output.append(line);
         }
     }
@@ -66,9 +65,7 @@ class LogOutputStreamTest {
     private final Executor exec = DefaultExecutor.builder().get();
     private final File testDir = new File("src/test/scripts");
     private OutputStream systemOut;
-
     private final Path environmentScript = TestUtil.resolveScriptPathForOS(testDir + "/environment");
-
     private final Path utf8CharacterScript = TestUtil.resolveScriptPathForOS(testDir + "/utf8Characters");
 
     @AfterEach
@@ -80,9 +77,8 @@ class LogOutputStreamTest {
 
     @Test
     void testStdout() throws Exception {
-        this.systemOut = new SystemLogOutputStream(1);
+        this.systemOut = new TestLogOutputStream(1);
         this.exec.setStreamHandler(new PumpStreamHandler(systemOut, systemOut));
-
         final CommandLine cl = new CommandLine(environmentScript);
         final int exitValue = exec.execute(cl);
         assertFalse(exec.isFailure(exitValue));
@@ -91,14 +87,13 @@ class LogOutputStreamTest {
     @Test
     @Disabled("The file utf8CharacterScript is missing from the repository and is not in its history")
     void testStdoutWithUTF8Characters() throws Exception {
-        this.systemOut = new SystemLogOutputStream(1, StandardCharsets.UTF_8);
+        this.systemOut = new TestLogOutputStream(1, StandardCharsets.UTF_8);
         this.exec.setStreamHandler(new PumpStreamHandler(systemOut, systemOut));
-
         final CommandLine cl = new CommandLine(utf8CharacterScript);
         final int exitValue = exec.execute(cl);
         assertFalse(exec.isFailure(exitValue));
         assertEquals("This string contains UTF-8 characters like the see no evil monkey \uD83D\uDE48 and the right single quotation mark \u2019",
-                ((SystemLogOutputStream) systemOut).getOutput());
+                ((TestLogOutputStream) systemOut).getOutput());
     }
 
 }
