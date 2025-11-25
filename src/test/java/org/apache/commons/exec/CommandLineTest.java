@@ -453,14 +453,11 @@ class CommandLineTest {
      */
     @Test
     void testToStringTroubleshooting() throws Exception {
-        System.out.println("testToStringTroubleshooting");
         // On HP-UX quotes handling leads to errors,
         // also usage of quotes isn't mandatory on other platforms too
         // so it probably should work correctly either way.
         final CommandLine cmd1 = new CommandLine("sh").addArgument("-c").addArgument("echo 1", false);
         final CommandLine cmd2 = new CommandLine("sh").addArgument("-c").addArgument("echo").addArgument("1");
-        System.out.println("cmd1: " + cmd1.toString());
-        System.out.println("cmd2: " + cmd2.toString());
         assertTrue(!cmd1.toString().equals(cmd2.toString()), "toString() is useful for troubleshooting");
     }
 
