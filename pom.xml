@@ -25,7 +25,7 @@ limitations under the License.
   <modelVersion>4.0.0</modelVersion>
   <name>Apache Commons Exec</name>
   <artifactId>commons-exec</artifactId>
-  <version>1.6.0-SNAPSHOT</version>
+  <version>1.6.0</version>
   <inceptionYear>2005</inceptionYear>
   <description>Apache Commons Exec is a library that reliably executes external processes from within the JVM.</description>
   <url>https://commons.apache.org/proper/commons-exec/</url>
@@ -64,7 +64,7 @@ limitations under the License.
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
     <test>*Test</test>
     <!-- project.build.outputTimestamp is managed by Maven plugins, see https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
-    <project.build.outputTimestamp>2025-05-23T14:12:30Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2025-11-25T21:23:37Z</project.build.outputTimestamp>
     <!-- JaCoCo: Don't make code coverage worse than: -->
     <commons.jacoco.haltOnFailure>true</commons.jacoco.haltOnFailure>
     <commons.jacoco.classRatio>0.76</commons.jacoco.classRatio>
