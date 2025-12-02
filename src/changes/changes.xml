@@ -23,6 +23,11 @@
     <title>Apache Commons Exec Release Notes</title>
   </properties>
   <body>
+    <release version="1.7.0" date="YYYY-MM-DD" description="This is a feature and maintenance release. Java 8 or later is required.">
+      <!-- FIX -->
+      <!-- ADD -->
+      <!-- UPDATE -->
+    </release>
     <release version="1.6.0" date="2025-11-25" description="This is a feature and maintenance release. Java 8 or later is required.">
       <!-- FIX -->
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Watchdog.builder().get() now uses a default timeout of 30 seconds instead of throwing a NullPointerException.</action>
