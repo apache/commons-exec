@@ -135,12 +135,12 @@ public class StringUtils {
      * A key consists of the following characters:
      * </p>
      * <ul>
-     * <li>letter
-     * <li>digit
-     * <li>dot character
-     * <li>hyphen character
-     * <li>plus character
-     * <li>underscore character
+     * <li>letter</li>
+     * <li>digit</li>
+     * <li>dot character</li>
+     * <li>hyphen character</li>
+     * <li>plus character</li>
+     * <li>underscore character</li>
      * </ul>
      *
      * @param argStr    the argument string to be processed.
