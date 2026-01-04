@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test;
 /**
  */
 class StringUtilTest {
+
     /**
      * Test a default string substitution, e.g. all placeholders are expanded.
      */
