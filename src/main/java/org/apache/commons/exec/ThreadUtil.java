@@ -38,7 +38,7 @@ final class ThreadUtil {
     static Thread newThread(final ThreadFactory threadFactory, final Runnable runnable, final String prefix, final boolean daemon) {
         final Thread thread = threadFactory.newThread(runnable);
         if (thread == null) {
-            throw new IllegalStateException(String.format("The ThreadFactory %s cound not construct a thread for '%s'", threadFactory, prefix));
+            throw new IllegalStateException(String.format("The ThreadFactory %s could not construct a thread for '%s'", threadFactory, prefix));
         }
         thread.setName(prefix + thread.getName());
         thread.setDaemon(daemon);
