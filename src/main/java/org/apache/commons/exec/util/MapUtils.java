@@ -45,8 +45,8 @@ public class MapUtils {
      *
      * @param lhs the first map.
      * @param rhs the second map.
-     * @param <K> the map key type.
-     * @param <V> the map value type.
+     * @param <K> The map key type.
+     * @param <V> The map value type.
      * @return the merged map.
      */
     public static <K, V> Map<K, V> merge(final Map<K, V> lhs, final Map<K, V> rhs) {
