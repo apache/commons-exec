@@ -29,9 +29,9 @@ final class ThreadUtil {
     /**
      * Creates a new Thread from the given factory and prefixes it's name with a prefix and sets the daemon flag.
      *
-     * @param threadFactory the thread factory.
+     * @param threadFactory The thread factory.
      * @param runnable      The runnable to thread.
-     * @param prefix        the thread name prefix
+     * @param prefix        The thread name prefix
      * @param daemon        marks this thread as a daemon thread
      * @return constructed thread, or {@code null} if the request to create a thread is rejected
      */

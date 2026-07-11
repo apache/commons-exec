@@ -41,7 +41,7 @@ public interface TimeoutObserver extends Consumer<Watchdog> {
     /**
      * Called when the watchdog times out.
      *
-     * @param w the watchdog that timed out.
+     * @param w The watchdog that timed out.
      */
     void timeoutOccured(Watchdog w);
 }

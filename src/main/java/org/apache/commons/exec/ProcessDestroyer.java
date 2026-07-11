@@ -29,7 +29,7 @@ public interface ProcessDestroyer {
     /**
      * Returns {@code true} if the specified {@link Process} was successfully added to the list of processes to be destroyed.
      *
-     * @param process the process to add.
+     * @param process The process to add.
      * @return {@code true} if the specified {@link Process} was successfully added.
      */
     boolean add(Process process);
@@ -37,7 +37,7 @@ public interface ProcessDestroyer {
     /**
      * Returns {@code true} if the specified {@link Process} was successfully removed from the list of processes to be destroyed.
      *
-     * @param process the process to remove.
+     * @param process The process to remove.
      * @return {@code true} if the specified {@link Process} was successfully removed.
      */
     boolean remove(Process process);

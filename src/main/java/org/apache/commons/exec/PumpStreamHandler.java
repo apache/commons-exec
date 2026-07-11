@@ -85,7 +85,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Constructs a new {@link PumpStreamHandler}.
      *
-     * @param allOutputStream the output/error {@link OutputStream}. The {@code OutputStream}
+     * @param allOutputStream The output/error {@link OutputStream}. The {@code OutputStream}
      *      implementation must be thread-safe because the output and error reader threads will
      *      concurrently write to it.
      */
@@ -99,8 +99,8 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * <p>If the same {@link OutputStream} instance is used for output and error, then it must be
      * thread-safe because the output and error reader threads will concurrently write to it.
      *
-     * @param outputStream      the output {@link OutputStream}.
-     * @param errorOutputStream the error {@link OutputStream}.
+     * @param outputStream      The output {@link OutputStream}.
+     * @param errorOutputStream The error {@link OutputStream}.
      */
     public PumpStreamHandler(final OutputStream outputStream, final OutputStream errorOutputStream) {
         this(outputStream, errorOutputStream, null);
@@ -112,9 +112,9 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * <p>If the same {@link OutputStream} instance is used for output and error, then it must be
      * thread-safe because the output and error reader threads will concurrently write to it.
      *
-     * @param outputStream      the output {@link OutputStream}.
-     * @param errorOutputStream the error {@link OutputStream}.
-     * @param inputStream       the input {@link InputStream}.
+     * @param outputStream      The output {@link OutputStream}.
+     * @param errorOutputStream The error {@link OutputStream}.
+     * @param inputStream       The input {@link InputStream}.
      */
     public PumpStreamHandler(final OutputStream outputStream, final OutputStream errorOutputStream, final InputStream inputStream) {
         this(Executors.defaultThreadFactory(), outputStream, errorOutputStream, inputStream);
@@ -126,9 +126,9 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * <p>If the same {@link OutputStream} instance is used for output and error, then it must be
      * thread-safe because the output and error reader threads will concurrently write to it.
      *
-     * @param outputStream      the output {@link OutputStream}.
-     * @param errorOutputStream the error {@link OutputStream}.
-     * @param inputStream       the input {@link InputStream}.
+     * @param outputStream      The output {@link OutputStream}.
+     * @param errorOutputStream The error {@link OutputStream}.
+     * @param inputStream       The input {@link InputStream}.
      */
     private PumpStreamHandler(final ThreadFactory threadFactory, final OutputStream outputStream, final OutputStream errorOutputStream,
             final InputStream inputStream) {
@@ -141,8 +141,8 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Create the pump to handle error output.
      *
-     * @param is the {@link InputStream}.
-     * @param os the {@link OutputStream}.
+     * @param is The {@link InputStream}.
+     * @param os The {@link OutputStream}.
      */
     protected void createProcessErrorPump(final InputStream is, final OutputStream os) {
         errorThread = createPump(is, os);
@@ -151,8 +151,8 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Create the pump to handle process output.
      *
-     * @param is the {@link InputStream}.
-     * @param os the {@link OutputStream}.
+     * @param is The {@link InputStream}.
+     * @param os The {@link OutputStream}.
      */
     protected void createProcessOutputPump(final InputStream is, final OutputStream os) {
         outputThread = createPump(is, os);
@@ -162,8 +162,8 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * Creates a stream pumper to copy the given input stream to the given output stream. When the 'os' is an PipedOutputStream we are closing 'os' afterward
      * to avoid an IOException ("Write end dead").
      *
-     * @param is the input stream to copy from.
-     * @param os the output stream to copy into.
+     * @param is The input stream to copy from.
+     * @param os The output stream to copy into.
      * @return The stream pumper thread.
      */
     protected Thread createPump(final InputStream is, final OutputStream os) {
@@ -173,8 +173,8 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Creates a stream pumper to copy the given input stream to the given output stream.
      *
-     * @param is                 the input stream to copy from.
-     * @param os                 the output stream to copy into.
+     * @param is                 The input stream to copy from.
+     * @param os                 The output stream to copy into.
      * @param closeWhenExhausted close the output stream when the input stream is exhausted.
      * @return The stream pumper thread.
      */
@@ -185,8 +185,8 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Creates a stream pumper to copy the given input stream to the given output stream.
      *
-     * @param is the System.in input stream to copy from.
-     * @param os the output stream to copy into.
+     * @param is The System.in input stream to copy from.
+     * @param os The output stream to copy into.
      * @return The stream pumper thread.
      */
     private Thread createSystemInPump(final InputStream is, final OutputStream os) {
@@ -219,7 +219,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Sets the {@link InputStream} from which to read the standard error of the process.
      *
-     * @param is the {@link InputStream}.
+     * @param is The {@link InputStream}.
      */
     @Override
     public void setProcessErrorStream(final InputStream is) {
@@ -231,7 +231,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Sets the {@link OutputStream} by means of which input can be sent to the process.
      *
-     * @param os the {@link OutputStream}.
+     * @param os The {@link OutputStream}.
      */
     @Override
     public void setProcessInputStream(final OutputStream os) {
@@ -254,7 +254,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
     /**
      * Sets the {@link InputStream} from which to read the standard output of the process.
      *
-     * @param is the {@link InputStream}.
+     * @param is The {@link InputStream}.
      */
     @Override
     public void setProcessOutputStream(final InputStream is) {
@@ -342,8 +342,8 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * Stops a pumper thread. The implementation actually waits longer than specified in 'timeout' to detect if the timeout was indeed exceeded. If the timeout
      * was exceeded an IOException is created to be thrown to the caller.
      *
-     * @param thread  the thread to be stopped.
-     * @param timeout the time in ms to wait to join.
+     * @param thread  The thread to be stopped.
+     * @param timeout The time in ms to wait to join.
      */
     private void stop(final Thread thread, final Duration timeout) {
         if (thread != null) {
@@ -368,8 +368,8 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * Stops a pumper thread. The implementation actually waits longer than specified in 'timeout' to detect if the timeout was indeed exceeded. If the timeout
      * was exceeded an IOException is created to be thrown to the caller.
      *
-     * @param thread        the thread to be stopped.
-     * @param timeoutMillis the time in ms to wait to join.
+     * @param thread        The thread to be stopped.
+     * @param timeoutMillis The time in ms to wait to join.
      */
     protected void stopThread(final Thread thread, final long timeoutMillis) {
         stop(thread, Duration.ofMillis(timeoutMillis));

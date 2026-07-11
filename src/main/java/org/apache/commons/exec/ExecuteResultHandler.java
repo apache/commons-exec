@@ -30,14 +30,14 @@ public interface ExecuteResultHandler {
     /**
      * The asynchronous execution completed.
      *
-     * @param exitValue the exit value of the sub-process.
+     * @param exitValue The exit value of the sub-process.
      */
     void onProcessComplete(int exitValue);
 
     /**
      * The asynchronous execution failed.
      *
-     * @param e the {@code ExecuteException} containing the root cause.
+     * @param e The {@code ExecuteException} containing the root cause.
      */
     void onProcessFailed(ExecuteException e);
 }

@@ -80,8 +80,8 @@ public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
 //     * symbols from {@code in} and adds them to {@code environment}.
 //     * {@code in} is expected to be the output of "SHOW SYMBOL/GLOBAL *".
 //     *
-//     * @param environment the current environment
-//     * @param in the reader from the process to determine VMS env variables
+//     * @param environment The current environment
+//     * @param in The reader from the process to determine VMS env variables
 //     * @return The updated environment
 //     * @throws IOException operation failed
 //     */

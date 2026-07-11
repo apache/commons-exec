@@ -39,7 +39,7 @@ public class OS2CommandLauncher extends CommandLauncherProxy {
     /**
      * Constructs a new instance.
      *
-     * @param launcher the command launcher to use.
+     * @param launcher The command launcher to use.
      */
     public OS2CommandLauncher(final CommandLauncher launcher) {
         super(launcher);
@@ -48,8 +48,8 @@ public class OS2CommandLauncher extends CommandLauncherProxy {
     /**
      * Launches the given command in a new process, in the given working directory.
      *
-     * @param cmd        the command line to execute as an array of strings.
-     * @param env        the environment to set as an array of strings.
+     * @param cmd        The command line to execute as an array of strings.
+     * @param env        The environment to set as an array of strings.
      * @param workingDir working directory where the command should run.
      * @throws IOException forwarded from the exec method of the command launcher.
      */

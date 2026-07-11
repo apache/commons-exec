@@ -119,7 +119,7 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
      * Causes the current thread to wait, if necessary, until the process has terminated. This method returns immediately if the process has already terminated.
      * If the process has not yet terminated, the calling thread will be blocked until the process exits.
      *
-     * @param timeout the maximum time to wait.
+     * @param timeout The maximum time to wait.
      * @throws InterruptedException if the current thread is {@linkplain Thread#interrupt() interrupted} by another thread while it is waiting, then the wait is
      *                              ended and an {@link InterruptedException} is thrown.
      * @since 1.4.0
@@ -135,7 +135,7 @@ public class DefaultExecuteResultHandler implements ExecuteResultHandler {
      * Causes the current thread to wait, if necessary, until the process has terminated. This method returns immediately if the process has already terminated.
      * If the process has not yet terminated, the calling thread will be blocked until the process exits.
      *
-     * @param timeoutMillis the maximum time to wait in milliseconds.
+     * @param timeoutMillis The maximum time to wait in milliseconds.
      * @throws InterruptedException if the current thread is {@linkplain Thread#interrupt() interrupted} by another thread while it is waiting, then the wait is
      *                              ended and an {@link InterruptedException} is thrown.
      * @deprecated Use {@link #waitFor(Duration)}.

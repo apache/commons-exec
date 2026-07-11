@@ -55,7 +55,7 @@ public class StringUtils {
      * <li>'\\' &#x2192; File.separatorChar</li>
      * </ul>
      *
-     * @param arg the argument to fix.
+     * @param arg The argument to fix.
      * @return The transformed argument.
      */
     public static String fixFileSeparatorChar(final String arg) {
@@ -65,7 +65,7 @@ public class StringUtils {
     /**
      * Determines if this is a quoted argument - either single or double-quoted.
      *
-     * @param argument the argument to check.
+     * @param argument The argument to check.
      * @return true when the argument is quoted.
      */
     public static boolean isQuoted(final String argument) {
@@ -79,7 +79,7 @@ public class StringUtils {
      * quotes.
      * </p>
      *
-     * @param argument the argument to be quoted.
+     * @param argument The argument to be quoted.
      * @return The quoted argument.
      * @throws IllegalArgumentException If argument contains both types of quotes.
      */
@@ -143,7 +143,7 @@ public class StringUtils {
      * <li>underscore character</li>
      * </ul>
      *
-     * @param argStr    the argument string to be processed.
+     * @param argStr    The argument string to be processed.
      * @param vars      name/value pairs used for substitution.
      * @param isLenient ignore a key not found in vars or throw a RuntimeException?
      * @return String target string with replacements.
@@ -233,8 +233,8 @@ public class StringUtils {
     /**
      * Concatenates an array of string using a separator.
      *
-     * @param strings   the strings to concatenate.
-     * @param separator the separator between two strings.
+     * @param strings   The strings to concatenate.
+     * @param separator The separator between two strings.
      * @return The concatenated strings.
      * @deprecated Use {@link String#join(CharSequence, CharSequence...)}.
      */

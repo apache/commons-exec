@@ -39,7 +39,7 @@ public class DebugUtils {
      * Handles an exception based on the system properties.
      *
      * @param msg message describing the problem.
-     * @param e   an exception being handled.
+     * @param e   An exception being handled.
      */
     public static void handleException(final String msg, final Exception e) {
         if (isDebugEnabled()) {

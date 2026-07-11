@@ -35,7 +35,7 @@ public abstract class CommandLauncherProxy extends CommandLauncherImpl {
     /**
      * Constructs a new instance.
      *
-     * @param launcher the command launcher to use.
+     * @param launcher The command launcher to use.
      */
     public CommandLauncherProxy(final CommandLauncher launcher) {
         this.launcher = launcher;
@@ -44,8 +44,8 @@ public abstract class CommandLauncherProxy extends CommandLauncherImpl {
     /**
      * Launches the given command in a new process. Delegates this method to the proxied launcher.
      *
-     * @param cmd the command line to execute as an array of strings.
-     * @param env the environment to set as an array of strings.
+     * @param cmd The command line to execute as an array of strings.
+     * @param env The environment to set as an array of strings.
      * @throws IOException forwarded from the exec method of the command launcher.
      */
     @Override

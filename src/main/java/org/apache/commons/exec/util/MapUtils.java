@@ -31,7 +31,7 @@ public class MapUtils {
     /**
      * Clones a map.
      *
-     * @param source the Map to clone.
+     * @param source The Map to clone.
      * @param <K>    the map key type.
      * @param <V>    the map value type.
      * @return The cloned map.
@@ -43,8 +43,8 @@ public class MapUtils {
     /**
      * Clones the lhs map and add all things from the rhs map.
      *
-     * @param lhs the first map.
-     * @param rhs the second map.
+     * @param lhs The first map.
+     * @param rhs The second map.
      * @param <K> The map key type.
      * @param <V> The map value type.
      * @return The merged map.
@@ -65,8 +65,8 @@ public class MapUtils {
     /**
      * Clones a map and prefixes the keys in the clone, e.g. for mapping "JAVA_HOME" to "env.JAVA_HOME" to simulate the behavior of Ant.
      *
-     * @param source the source map.
-     * @param prefix the prefix used for all names.
+     * @param source The source map.
+     * @param prefix The prefix used for all names.
      * @param <K>    the map key type.
      * @param <V>    the map value type.
      * @return The clone of the source map.

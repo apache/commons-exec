@@ -79,8 +79,8 @@ class TutorialTest {
     /**
      * Simulate printing a PDF document.
      *
-     * @param file              the file to print
-     * @param printJobTimeout   the printJobTimeout (ms) before the watchdog terminates the print process
+     * @param file              The file to print
+     * @param printJobTimeout   The printJobTimeout (ms) before the watchdog terminates the print process
      * @param printInBackground printing done in the background or blocking
      * @return A print result handler (implementing a future)
      * @throws IOException the test failed

@@ -113,7 +113,7 @@ public final class OS {
     /**
      * Tests whether the OS on which commons-exec is executing matches the given OS architecture.
      *
-     * @param arch the OS architecture to check for.
+     * @param arch The OS architecture to check for.
      * @return whether if the OS matches.
      */
     public static boolean isArch(final String arch) {
@@ -123,7 +123,7 @@ public final class OS {
     /**
      * Tests whether the OS on which commons-exec is executing matches the given OS family.
      *
-     * @param family the family to check for.
+     * @param family The family to check for.
      * @return whether if the OS matches.
      */
     private static boolean isFamily(final String family) {
@@ -241,7 +241,7 @@ public final class OS {
     /**
      * Tests whether if the OS on which commons-exec is executing matches the given OS name.
      *
-     * @param name the OS name to check for.
+     * @param name The OS name to check for.
      * @return whether the OS matches.
      */
     public static boolean isName(final String name) {
@@ -336,7 +336,7 @@ public final class OS {
     /**
      * Tests whether the OS on which commons-exec is executing matches the given OS version.
      *
-     * @param version the OS version to check for.
+     * @param version The OS version to check for.
      * @return whether if the OS matches.
      */
     public static boolean isVersion(final String version) {

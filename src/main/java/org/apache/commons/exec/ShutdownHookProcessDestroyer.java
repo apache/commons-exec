@@ -77,7 +77,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
     /**
      * Returns {@code true} if the specified {@code Process} was successfully added to the list of processes to destroy upon VM exit.
      *
-     * @param process the process to add.
+     * @param process The process to add.
      * @return {@code true} if the specified {@code Process} was successfully added.
      */
     @Override
@@ -125,7 +125,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
     /**
      * Returns {@code true} if the specified {@code Process} was successfully removed from the list of processes to destroy upon VM exit.
      *
-     * @param process the process to remove.
+     * @param process The process to remove.
      * @return {@code true} if the specified {@code Process} was successfully removed.
      */
     @Override

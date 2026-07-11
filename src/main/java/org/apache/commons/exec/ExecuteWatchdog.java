@@ -86,7 +86,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
         /**
          * Sets the thread factory.
          *
-         * @param threadFactory the thread factory, null resets to the default {@link Executors#defaultThreadFactory()}.
+         * @param threadFactory The thread factory, null resets to the default {@link Executors#defaultThreadFactory()}.
          * @return {@code this} instance.
          */
         public Builder setThreadFactory(final ThreadFactory threadFactory) {
@@ -97,7 +97,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
         /**
          * Sets the timeout duration.
          *
-         * @param timeout the timeout duration, null resets to default {@link #INFINITE_TIMEOUT_DURATION}.
+         * @param timeout The timeout duration, null resets to default {@link #INFINITE_TIMEOUT_DURATION}.
          * @return {@code this} instance.
          */
         public Builder setTimeout(final Duration timeout) {
@@ -152,8 +152,8 @@ public class ExecuteWatchdog implements TimeoutObserver {
     /**
      * Creates a new watchdog with a given timeout.
      *
-     * @param threadFactory the thread factory.
-     * @param timeout       the timeout Duration for the process. It must be greater than 0 or {@code INFINITE_TIMEOUT_DURATION}.
+     * @param threadFactory The thread factory.
+     * @param timeout       The timeout Duration for the process. It must be greater than 0 or {@code INFINITE_TIMEOUT_DURATION}.
      */
     private ExecuteWatchdog(final Builder builder) {
         this.killedProcess = false;
@@ -172,7 +172,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
     /**
      * Creates a new watchdog with a given timeout.
      *
-     * @param timeoutMillis the timeout for the process in milliseconds. It must be greater than 0 or {@code INFINITE_TIMEOUT}.
+     * @param timeoutMillis The timeout for the process in milliseconds. It must be greater than 0 or {@code INFINITE_TIMEOUT}.
      * @deprecated Use {@link Builder#get()}.
      */
     @Deprecated
@@ -226,7 +226,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
     /**
      * Notification that starting the process failed.
      *
-     * @param e the offending exception.
+     * @param e The offending exception.
      */
     public synchronized void failedToStart(final Exception e) {
         processStarted = true;
@@ -269,7 +269,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
     /**
      * Watches the given process and terminates it, if it runs for too long. All information from the previous run are reset.
      *
-     * @param processToMonitor the process to monitor. It cannot be {@code null}.
+     * @param processToMonitor The process to monitor. It cannot be {@code null}.
      * @throws IllegalStateException if a process is still being monitored.
      */
     public synchronized void start(final Process processToMonitor) {

@@ -67,7 +67,7 @@ public class CommandLine {
     /**
      * Create a command line from a string.
      *
-     * @param line the first element becomes the executable, the rest the arguments.
+     * @param line The first element becomes the executable, the rest the arguments.
      * @return The parsed command line.
      * @throws IllegalArgumentException If line is null or all whitespace.
      */
@@ -78,8 +78,8 @@ public class CommandLine {
     /**
      * Create a command line from a string.
      *
-     * @param line            the first element becomes the executable, the rest the arguments.
-     * @param substitutionMap the name/value pairs used for substitution.
+     * @param line            The first element becomes the executable, the rest the arguments.
+     * @param substitutionMap The name/value pairs used for substitution.
      * @return The parsed command line.
      * @throws IllegalArgumentException If line is null or all whitespace.
      */
@@ -102,7 +102,7 @@ public class CommandLine {
     /**
      * Crack a command line.
      *
-     * @param toProcess the command line to process.
+     * @param toProcess The command line to process.
      * @return The command line broken into strings. An empty or null toProcess parameter results in a zero sized array.
      */
     private static String[] translateCommandline(final String toProcess) {
@@ -193,7 +193,7 @@ public class CommandLine {
     /**
      * Copy constructor.
      *
-     * @param other the instance to copy.
+     * @param other The instance to copy.
      */
     public CommandLine(final CommandLine other) {
         this.executable = other.getExecutable();
@@ -207,7 +207,7 @@ public class CommandLine {
     /**
      * Constructs a command line without any arguments.
      *
-     * @param executable the executable file.
+     * @param executable The executable file.
      */
     public CommandLine(final File executable) {
         this.isFile = true;
@@ -217,7 +217,7 @@ public class CommandLine {
     /**
      * Constructs a command line without any arguments.
      *
-     * @param executable the executable file.
+     * @param executable The executable file.
      * @since 1.5.0
      */
     public CommandLine(final Path executable) {
@@ -228,7 +228,7 @@ public class CommandLine {
     /**
      * Constructs a command line without any arguments.
      *
-     * @param executable the executable.
+     * @param executable The executable.
      * @throws NullPointerException     on null input.
      * @throws IllegalArgumentException on empty input.
      */
@@ -324,7 +324,7 @@ public class CommandLine {
     /**
      * Expand variables in a command line argument.
      *
-     * @param argument the argument.
+     * @param argument The argument.
      * @return The expanded string.
      */
     private String expandArgument(final String argument) {
@@ -382,7 +382,7 @@ public class CommandLine {
     /**
      * Sets the substitutionMap to expand variables in the command line.
      *
-     * @param substitutionMap the map
+     * @param substitutionMap The map
      */
     public void setSubstitutionMap(final Map<String, ?> substitutionMap) {
         this.substitutionMap = substitutionMap;
@@ -391,7 +391,7 @@ public class CommandLine {
     /**
      * Cleans the executable string. The argument is trimmed and '/' and '\\' are replaced with the platform specific file separator char
      *
-     * @param dirtyExecutable the executable.
+     * @param dirtyExecutable The executable.
      * @return The platform-specific executable string.
      * @throws NullPointerException     on null input.
      * @throws IllegalArgumentException on empty input.

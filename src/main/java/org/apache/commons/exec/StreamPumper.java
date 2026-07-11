@@ -78,7 +78,7 @@ public class StreamPumper implements Runnable {
      * @param is                 input stream to read data from.
      * @param os                 output stream to write data to.
      * @param closeWhenExhausted if true, the output stream will be closed when the input is exhausted.
-     * @param size               the size of the internal buffer for copying the streams.
+     * @param size               The size of the internal buffer for copying the streams.
      */
     public StreamPumper(final InputStream is, final OutputStream os, final boolean closeWhenExhausted, final int size) {
         this.is = is;

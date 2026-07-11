@@ -40,9 +40,9 @@ public class Java13CommandLauncher extends CommandLauncherImpl {
     /**
      * Launches the given command in a new process, in the given working directory.
      *
-     * @param cmd        the command line to execute as an array of strings.
-     * @param env        the environment to set as an array of strings.
-     * @param workingDir the working directory where the command should run.
+     * @param cmd        The command line to execute as an array of strings.
+     * @param env        The environment to set as an array of strings.
+     * @param workingDir The working directory where the command should run.
      * @throws IOException probably forwarded from {@link Runtime#exec(String[], String[], File)}.
      */
     @Override

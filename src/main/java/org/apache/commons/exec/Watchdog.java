@@ -73,7 +73,7 @@ public class Watchdog implements Runnable {
         /**
          * Sets the thread factory.
          *
-         * @param threadFactory the thread factory, null resets to the default {@link Executors#defaultThreadFactory()}.
+         * @param threadFactory The thread factory, null resets to the default {@link Executors#defaultThreadFactory()}.
          * @return {@code this} instance.
          */
         public Builder setThreadFactory(final ThreadFactory threadFactory) {
@@ -84,7 +84,7 @@ public class Watchdog implements Runnable {
         /**
          * Sets the timeout duration.
          *
-         * @param timeout the timeout duration, null resets to the default 30 seconds timeout.
+         * @param timeout The timeout duration, null resets to the default 30 seconds timeout.
          * @return {@code this} instance.
          */
         public Builder setTimeout(final Duration timeout) {
@@ -127,8 +127,8 @@ public class Watchdog implements Runnable {
     /**
      * Constructs a new instance.
      *
-     * @param threadFactory the thread factory.
-     * @param timeout       the timeout duration.
+     * @param threadFactory The thread factory.
+     * @param timeout       The timeout duration.
      */
     private Watchdog(final Builder builder) {
         if (builder.timeout.isNegative() || Duration.ZERO.equals(builder.timeout)) {
@@ -141,7 +141,7 @@ public class Watchdog implements Runnable {
     /**
      * Constructs a new instance.
      *
-     * @param timeoutMillis the timeout duration.
+     * @param timeoutMillis The timeout duration.
      * @deprecated Use {@link Builder#get()}.
      */
     @Deprecated
@@ -152,7 +152,7 @@ public class Watchdog implements Runnable {
     /**
      * Adds a TimeoutObserver.
      *
-     * @param to a TimeoutObserver to add.
+     * @param to A TimeoutObserver to add.
      */
     public void addTimeoutObserver(final TimeoutObserver to) {
         observers.add(to);
@@ -187,7 +187,7 @@ public class Watchdog implements Runnable {
     /**
      * Removes a TimeoutObserver.
      *
-     * @param to a TimeoutObserver to remove.
+     * @param to A TimeoutObserver to remove.
      */
     public void removeTimeoutObserver(final TimeoutObserver to) {
         observers.remove(to);

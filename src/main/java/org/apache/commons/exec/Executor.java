@@ -55,7 +55,7 @@ public interface Executor {
     /**
      * Executes a command synchronously. The child process inherits all environment variables of the parent process.
      *
-     * @param command the command to execute.
+     * @param command The command to execute.
      * @return process exit value.
      * @throws ExecuteException execution of subprocess failed or the subprocess returned an exit value indicating a failure {@link Executor#setExitValue(int)}.
      * @throws IOException      If an I/O error occurs.
@@ -65,7 +65,7 @@ public interface Executor {
     /**
      * Executes a command asynchronously. The child process inherits all environment variables of the parent process. Result provided to callback handler.
      *
-     * @param command the command to execute.
+     * @param command The command to execute.
      * @param handler capture process termination and exit code.
      * @throws ExecuteException execution of subprocess failed.
      * @throws IOException      If an I/O error occurs.
@@ -75,7 +75,7 @@ public interface Executor {
     /**
      * Executes a command synchronously.
      *
-     * @param command     the command to execute.
+     * @param command     The command to execute.
      * @param environment The environment for the new process. If null, the environment of the current process is used.
      * @return process exit value.
      * @throws ExecuteException execution of subprocess failed or the subprocess returned an exit value indicating a failure {@link Executor#setExitValue(int)}.
@@ -86,7 +86,7 @@ public interface Executor {
     /**
      * Executes a command asynchronously. The child process inherits all environment variables of the parent process. Result provided to callback handler.
      *
-     * @param command     the command to execute.
+     * @param command     The command to execute.
      * @param environment The environment for the new process. If null, the environment of the current process is used.
      * @param handler     capture process termination and exit code.
      * @throws ExecuteException execution of subprocess failed.
@@ -136,7 +136,7 @@ public interface Executor {
      * Tests whether {@code exitValue} signals a failure. If no exit values are set than the default conventions of the OS is used. e.g. most OS regard an exit
      * code of '0' as successful execution and everything else as failure.
      *
-     * @param exitValue the exit value (return code) to be checked.
+     * @param exitValue The exit value (return code) to be checked.
      * @return {@code true} if {@code exitValue} signals a failure.
      */
     boolean isFailure(int exitValue);
@@ -145,7 +145,7 @@ public interface Executor {
      * Sets the {@code exitValue} of the process to be considered successful. If a different exit value is returned by the process then
      * {@link org.apache.commons.exec.Executor#execute(CommandLine)} will throw an {@link org.apache.commons.exec.ExecuteException}.
      *
-     * @param value the exit code representing successful execution.
+     * @param value The exit code representing successful execution.
      */
     void setExitValue(int value);
 
@@ -160,14 +160,14 @@ public interface Executor {
      * If an undefined exit value is returned by the process then {@link org.apache.commons.exec.Executor#execute(CommandLine)} will throw an
      * {@link org.apache.commons.exec.ExecuteException}.
      *
-     * @param values a list of the exit codes.
+     * @param values A list of the exit codes.
      */
     void setExitValues(int[] values);
 
     /**
      * Sets the handler for cleanup of started processes if the main process is going to terminate.
      *
-     * @param processDestroyer the ProcessDestroyer.
+     * @param processDestroyer The ProcessDestroyer.
      */
     void setProcessDestroyer(ProcessDestroyer processDestroyer);
 
@@ -175,21 +175,21 @@ public interface Executor {
      * Sets a custom the StreamHandler used for providing input and retrieving the output. If you don't provide a proper stream handler the executed process
      * might block when writing to stdout and/or stderr (see {@link Process Process}).
      *
-     * @param streamHandler the stream handler.
+     * @param streamHandler The stream handler.
      */
     void setStreamHandler(ExecuteStreamHandler streamHandler);
 
     /**
      * Sets the watchdog used to kill of processes running, typically, too long time.
      *
-     * @param watchDog the watchdog.
+     * @param watchDog The watchdog.
      */
     void setWatchdog(ExecuteWatchdog watchDog);
 
     /**
      * Sets the working directory of the created process. The working directory must exist when you start the process.
      *
-     * @param dir the working directory.
+     * @param dir The working directory.
      */
     void setWorkingDirectory(File dir);
 

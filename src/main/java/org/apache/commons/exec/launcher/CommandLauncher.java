@@ -74,7 +74,7 @@ public interface CommandLauncher {
      * but this signals a failure on OpenVMS. So if you execute a new Java VM on OpenVMS, you cannot trust this method.
      * </p>
      *
-     * @param exitValue the exit value (return code) to be checked.
+     * @param exitValue The exit value (return code) to be checked.
      * @return {@code true} if {@code exitValue} signals a failure.
      */
     boolean isFailure(int exitValue);

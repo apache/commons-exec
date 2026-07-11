@@ -125,7 +125,7 @@ public class DefaultExecutor implements Executor {
         /**
          * Sets the PumpStreamHandler.
          *
-         * @param executeStreamHandler the ExecuteStreamHandler, null resets to the default.
+         * @param executeStreamHandler The ExecuteStreamHandler, null resets to the default.
          * @return {@code this} instance.
          */
         public T setExecuteStreamHandler(final ExecuteStreamHandler executeStreamHandler) {
@@ -136,7 +136,7 @@ public class DefaultExecutor implements Executor {
         /**
          * Sets the ThreadFactory.
          *
-         * @param threadFactory the ThreadFactory, null resets to the default.
+         * @param threadFactory The ThreadFactory, null resets to the default.
          * @return {@code this} instance.
          */
         public T setThreadFactory(final ThreadFactory threadFactory) {
@@ -147,7 +147,7 @@ public class DefaultExecutor implements Executor {
         /**
          * Sets the working directory.
          *
-         * @param workingDirectory the working directory., null resets to the default.
+         * @param workingDirectory The working directory., null resets to the default.
          * @return {@code this} instance.
          */
         public T setWorkingDirectory(final File workingDirectory) {
@@ -158,7 +158,7 @@ public class DefaultExecutor implements Executor {
         /**
          * Sets the working directory.
          *
-         * @param workingDirectory the working directory., null resets to the default.
+         * @param workingDirectory The working directory., null resets to the default.
          * @return {@code this} instance.
          * @since 1.5.0
          */
@@ -248,7 +248,7 @@ public class DefaultExecutor implements Executor {
     /**
      * Closes the Closeable, remembering any exception.
      *
-     * @param closeable the {@link Closeable} to close.
+     * @param closeable The {@link Closeable} to close.
      */
     private void closeCatch(final Closeable closeable) {
         try {
@@ -261,7 +261,7 @@ public class DefaultExecutor implements Executor {
     /**
      * Closes the streams belonging to the given Process.
      *
-     * @param process the {@link Process}.
+     * @param process The {@link Process}.
      */
     @SuppressWarnings("resource")
     private void closeProcessStreams(final Process process) {
@@ -273,8 +273,8 @@ public class DefaultExecutor implements Executor {
     /**
      * Creates a thread waiting for the result of an asynchronous execution.
      *
-     * @param runnable the runnable passed to the thread.
-     * @param name     the name of the thread.
+     * @param runnable The runnable passed to the thread.
+     * @param name     The name of the thread.
      * @return The thread
      */
     protected Thread createThread(final Runnable runnable, final String name) {
@@ -333,9 +333,9 @@ public class DefaultExecutor implements Executor {
     /**
      * Execute an internal process. If the executing thread is interrupted while waiting for the child process to return the child process will be killed.
      *
-     * @param command          the command to execute.
-     * @param environment      the execution environment.
-     * @param workingDirectory the working directory.
+     * @param command          The command to execute.
+     * @param environment      The execution environment.
+     * @param workingDirectory The working directory.
      * @param streams          process the streams (in, out, err) of the process.
      * @return The exit code of the process.
      * @throws IOException executing the process failed.
@@ -495,9 +495,9 @@ public class DefaultExecutor implements Executor {
     /**
      * Creates a process that runs a command.
      *
-     * @param command          the command to run.
-     * @param env              the environment for the command.
-     * @param workingDirectory the working directory for the command.
+     * @param command          The command to run.
+     * @param env              The environment for the command.
+     * @param workingDirectory The working directory for the command.
      * @return The process started.
      * @throws IOException forwarded from the particular launcher used.
      */
@@ -512,9 +512,9 @@ public class DefaultExecutor implements Executor {
     /**
      * Creates a process that runs a command.
      *
-     * @param command          the command to run.
-     * @param env              the environment for the command.
-     * @param workingDirectory the working directory for the command.
+     * @param command          The command to run.
+     * @param env              The environment for the command.
+     * @param workingDirectory The working directory for the command.
      * @return The process started.
      * @throws IOException forwarded from the particular launcher used.
      * @since 1.5.0
@@ -530,7 +530,7 @@ public class DefaultExecutor implements Executor {
     /**
      * Sets the first IOException thrown.
      *
-     * @param e the IOException.
+     * @param e The IOException.
      */
     private void setExceptionCaught(final IOException e) {
         if (exceptionCaught == null) {

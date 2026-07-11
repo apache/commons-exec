@@ -40,8 +40,8 @@ public class EnvironmentUtils {
     /**
      * Adds a key/value pair to the given environment. If the key matches an existing key, the previous setting is replaced.
      *
-     * @param environment the current environment.
-     * @param keyAndValue the key/value pair.
+     * @param environment The current environment.
+     * @param keyAndValue The key/value pair.
      */
     public static void addVariableToEnvironment(final Map<String, String> environment, final String keyAndValue) {
         final String[] parsedVariable = parseEnvironmentVariable(keyAndValue);
@@ -62,7 +62,7 @@ public class EnvironmentUtils {
     /**
      * Parses a key/value pair into a String[]. It is assumed that the ky/value pair contains a '=' character.
      *
-     * @param keyAndValue the key/value pair.
+     * @param keyAndValue The key/value pair.
      * @return A String[] containing the key and value.
      */
     private static String[] parseEnvironmentVariable(final String keyAndValue) {
@@ -83,7 +83,7 @@ public class EnvironmentUtils {
     /**
      * Converts a variable map as an array.
      *
-     * @param environment the environment to use, may be {@code null}.
+     * @param environment The environment to use, may be {@code null}.
      * @return array of key=value assignment strings or {@code null} if and only if the input map was {@code null}.
      */
     public static String[] toStrings(final Map<String, String> environment) {
