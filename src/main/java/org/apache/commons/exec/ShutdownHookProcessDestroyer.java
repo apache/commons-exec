@@ -184,7 +184,7 @@ public class ShutdownHookProcessDestroyer implements ProcessDestroyer, Runnable 
     /**
      * Returns the number of registered processes.
      *
-     * @return the number of register process.
+     * @return The number of register process.
      */
     @Override
     public int size() {

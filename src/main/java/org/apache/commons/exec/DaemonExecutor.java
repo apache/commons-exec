@@ -81,7 +81,7 @@ public class DaemonExecutor extends DefaultExecutor {
      *
      * @param runnable the runnable passed to the thread.
      * @param name     the name of the thread.
-     * @return the thread.
+     * @return The thread.
      */
     @Override
     protected Thread createThread(final Runnable runnable, final String name) {

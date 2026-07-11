@@ -56,7 +56,7 @@ public class StringUtils {
      * </ul>
      *
      * @param arg the argument to fix.
-     * @return the transformed argument.
+     * @return The transformed argument.
      */
     public static String fixFileSeparatorChar(final String arg) {
         return arg.replace(SLASH_CHAR, File.separatorChar).replace(BACKSLASH_CHAR, File.separatorChar);
@@ -80,7 +80,7 @@ public class StringUtils {
      * </p>
      *
      * @param argument the argument to be quoted.
-     * @return the quoted argument.
+     * @return The quoted argument.
      * @throws IllegalArgumentException If argument contains both types of quotes.
      */
     public static String quoteArgument(final String argument) {
@@ -114,7 +114,7 @@ public class StringUtils {
      *
      * @param input     what to split.
      * @param splitChar what to split on.
-     * @return the array of strings.
+     * @return The array of strings.
      */
     public static String[] split(final String input, final String splitChar) {
         final StringTokenizer tokens = new StringTokenizer(input, splitChar);
@@ -235,7 +235,7 @@ public class StringUtils {
      *
      * @param strings   the strings to concatenate.
      * @param separator the separator between two strings.
-     * @return the concatenated strings.
+     * @return The concatenated strings.
      * @deprecated Use {@link String#join(CharSequence, CharSequence...)}.
      */
     @Deprecated

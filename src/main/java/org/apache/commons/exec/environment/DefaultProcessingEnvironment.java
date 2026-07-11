@@ -73,7 +73,7 @@ public class DefaultProcessingEnvironment {
     /**
      * Determine the OS specific command line to get a list of environment variables.
      *
-     * @return the command line.
+     * @return The command line.
      * @deprecated No longer needed.
      */
     @Deprecated

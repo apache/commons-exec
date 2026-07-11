@@ -65,7 +65,7 @@ public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
 //     * Determine the OS specific command line to get a list of environment
 //     * variables.
 //     *
-//     * @return the command line
+//     * @return The command line
 //     */
 //    @Override
 //    protected CommandLine getProcEnvCommand() {
@@ -82,7 +82,7 @@ public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
 //     *
 //     * @param environment the current environment
 //     * @param in the reader from the process to determine VMS env variables
-//     * @return the updated environment
+//     * @return The updated environment
 //     * @throws IOException operation failed
 //     */
 //    private Map<String, String> addVMSenvironmentVariables(final Map<String, String> environment,

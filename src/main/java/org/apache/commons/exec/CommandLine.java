@@ -68,7 +68,7 @@ public class CommandLine {
      * Create a command line from a string.
      *
      * @param line the first element becomes the executable, the rest the arguments.
-     * @return the parsed command line.
+     * @return The parsed command line.
      * @throws IllegalArgumentException If line is null or all whitespace.
      */
     public static CommandLine parse(final String line) {
@@ -80,7 +80,7 @@ public class CommandLine {
      *
      * @param line            the first element becomes the executable, the rest the arguments.
      * @param substitutionMap the name/value pairs used for substitution.
-     * @return the parsed command line.
+     * @return The parsed command line.
      * @throws IllegalArgumentException If line is null or all whitespace.
      */
     public static CommandLine parse(final String line, final Map<String, ?> substitutionMap) {
@@ -103,7 +103,7 @@ public class CommandLine {
      * Crack a command line.
      *
      * @param toProcess the command line to process.
-     * @return the command line broken into strings. An empty or null toProcess parameter results in a zero sized array.
+     * @return The command line broken into strings. An empty or null toProcess parameter results in a zero sized array.
      */
     private static String[] translateCommandline(final String toProcess) {
         if (toProcess == null || toProcess.trim().isEmpty()) {
@@ -325,7 +325,7 @@ public class CommandLine {
      * Expand variables in a command line argument.
      *
      * @param argument the argument.
-     * @return the expanded string.
+     * @return The expanded string.
      */
     private String expandArgument(final String argument) {
         final StringBuffer stringBuffer = StringUtils.stringSubstitution(argument, getSubstitutionMap(), true);
@@ -364,7 +364,7 @@ public class CommandLine {
     /**
      * Gets the substitution map.
      *
-     * @return the substitution map.
+     * @return The substitution map.
      */
     public Map<String, ?> getSubstitutionMap() {
         return substitutionMap;
@@ -392,7 +392,7 @@ public class CommandLine {
      * Cleans the executable string. The argument is trimmed and '/' and '\\' are replaced with the platform specific file separator char
      *
      * @param dirtyExecutable the executable.
-     * @return the platform-specific executable string.
+     * @return The platform-specific executable string.
      * @throws NullPointerException     on null input.
      * @throws IllegalArgumentException on empty input.
      */
@@ -409,7 +409,7 @@ public class CommandLine {
      * Parameters are correctly quoted when containing a space or left untouched if they are already
      * quoted.
      *
-     * @return the command line as single string.
+     * @return The command line as single string.
      */
     @Override
     public String toString() {

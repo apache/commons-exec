@@ -34,7 +34,7 @@ public class MapUtils {
      * @param source the Map to clone.
      * @param <K>    the map key type.
      * @param <V>    the map value type.
-     * @return the cloned map.
+     * @return The cloned map.
      */
     public static <K, V> Map<K, V> copy(final Map<K, V> source) {
         return source == null ? null : new HashMap<>(source);
@@ -47,7 +47,7 @@ public class MapUtils {
      * @param rhs the second map.
      * @param <K> The map key type.
      * @param <V> The map value type.
-     * @return the merged map.
+     * @return The merged map.
      */
     public static <K, V> Map<K, V> merge(final Map<K, V> lhs, final Map<K, V> rhs) {
         Map<K, V> result = null;
@@ -69,7 +69,7 @@ public class MapUtils {
      * @param prefix the prefix used for all names.
      * @param <K>    the map key type.
      * @param <V>    the map value type.
-     * @return the clone of the source map.
+     * @return The clone of the source map.
      */
     public static <K, V> Map<String, V> prefix(final Map<K, V> source, final String prefix) {
         if (source == null) {

@@ -275,7 +275,7 @@ public class DefaultExecutor implements Executor {
      *
      * @param runnable the runnable passed to the thread.
      * @param name     the name of the thread.
-     * @return the thread
+     * @return The thread
      */
     protected Thread createThread(final Runnable runnable, final String name) {
         return ThreadUtil.newThread(threadFactory, runnable, name, false);
@@ -337,7 +337,7 @@ public class DefaultExecutor implements Executor {
      * @param environment      the execution environment.
      * @param workingDirectory the working directory.
      * @param streams          process the streams (in, out, err) of the process.
-     * @return the exit code of the process.
+     * @return The exit code of the process.
      * @throws IOException executing the process failed.
      */
     private int executeInternal(final CommandLine command, final Map<String, String> environment, final Path workingDirectory,
@@ -419,7 +419,7 @@ public class DefaultExecutor implements Executor {
     /**
      * Gets the first IOException being thrown.
      *
-     * @return the first IOException being caught.
+     * @return The first IOException being caught.
      */
     private IOException getExceptionCaught() {
         return exceptionCaught;
@@ -428,7 +428,7 @@ public class DefaultExecutor implements Executor {
     /**
      * Gets the worker thread being used for asynchronous execution.
      *
-     * @return the worker thread.
+     * @return The worker thread.
      */
     protected Thread getExecutorThread() {
         return executorThread;
@@ -453,7 +453,7 @@ public class DefaultExecutor implements Executor {
     /**
      * Gets the thread factory. Z
      *
-     * @return the thread factory.
+     * @return The thread factory.
      */
     ThreadFactory getThreadFactory() {
         return threadFactory;
@@ -498,7 +498,7 @@ public class DefaultExecutor implements Executor {
      * @param command          the command to run.
      * @param env              the environment for the command.
      * @param workingDirectory the working directory for the command.
-     * @return the process started.
+     * @return The process started.
      * @throws IOException forwarded from the particular launcher used.
      */
     protected Process launch(final CommandLine command, final Map<String, String> env, final File workingDirectory) throws IOException {
@@ -515,7 +515,7 @@ public class DefaultExecutor implements Executor {
      * @param command          the command to run.
      * @param env              the environment for the command.
      * @param workingDirectory the working directory for the command.
-     * @return the process started.
+     * @return The process started.
      * @throws IOException forwarded from the particular launcher used.
      * @since 1.5.0
      */

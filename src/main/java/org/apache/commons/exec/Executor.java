@@ -97,35 +97,35 @@ public interface Executor {
     /**
      * Sets the handler for cleanup of started processes if the main process is going to terminate.
      *
-     * @return the ProcessDestroyer.
+     * @return The ProcessDestroyer.
      */
     ProcessDestroyer getProcessDestroyer();
 
     /**
      * Gets the StreamHandler used for providing input and retrieving the output.
      *
-     * @return the StreamHandler.
+     * @return The StreamHandler.
      */
     ExecuteStreamHandler getStreamHandler();
 
     /**
      * Gets the watchdog used to kill of processes running, typically, too long time.
      *
-     * @return the watchdog.
+     * @return The watchdog.
      */
     ExecuteWatchdog getWatchdog();
 
     /**
      * Gets the working directory of the created process.
      *
-     * @return the working directory.
+     * @return The working directory.
      */
     File getWorkingDirectory();
 
     /**
      * Gets the working directory of the created process.
      *
-     * @return the working directory.
+     * @return The working directory.
      * @since 1.5.0
      */
     default Path getWorkingDirectoryPath() {

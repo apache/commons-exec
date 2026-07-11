@@ -164,7 +164,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      *
      * @param is the input stream to copy from.
      * @param os the output stream to copy into.
-     * @return the stream pumper thread.
+     * @return The stream pumper thread.
      */
     protected Thread createPump(final InputStream is, final OutputStream os) {
         return createPump(is, os, os instanceof PipedOutputStream);
@@ -176,7 +176,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      * @param is                 the input stream to copy from.
      * @param os                 the output stream to copy into.
      * @param closeWhenExhausted close the output stream when the input stream is exhausted.
-     * @return the stream pumper thread.
+     * @return The stream pumper thread.
      */
     protected Thread createPump(final InputStream is, final OutputStream os, final boolean closeWhenExhausted) {
         return ThreadUtil.newThread(threadFactory, new StreamPumper(is, os, closeWhenExhausted), "CommonsExecStreamPumper-", true);
@@ -187,7 +187,7 @@ public class PumpStreamHandler implements ExecuteStreamHandler {
      *
      * @param is the System.in input stream to copy from.
      * @param os the output stream to copy into.
-     * @return the stream pumper thread.
+     * @return The stream pumper thread.
      */
     private Thread createSystemInPump(final InputStream is, final OutputStream os) {
         inputStreamPumper = new InputStreamPumper(is, os);

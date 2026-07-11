@@ -168,7 +168,7 @@ public class Watchdog implements Runnable {
     /**
      * Gets the thread factory.
      *
-     * @return the thread factory.
+     * @return The thread factory.
      */
     ThreadFactory getThreadFactory() {
         return threadFactory;
@@ -177,7 +177,7 @@ public class Watchdog implements Runnable {
     /**
      * Gets the timeout.
      *
-     * @return the timeout.
+     * @return The timeout.
      * @since 1.6.0
      */
     public Duration getTimeout() {

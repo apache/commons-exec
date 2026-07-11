@@ -122,7 +122,7 @@ public abstract class LogOutputStream extends OutputStream {
     /**
      * Gets the trace level of the log system.
      *
-     * @return the trace level of the log system.
+     * @return The trace level of the log system.
      */
     public int getMessageLevel() {
         return level;

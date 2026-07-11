@@ -36,7 +36,7 @@ public interface CommandLauncher {
      *
      * @param commandLine The command to execute.
      * @param env         The environment for the new process. If null, the environment of the current process is used.
-     * @return the newly created process.
+     * @return The newly created process.
      * @throws IOException if attempting to run a command in a specific directory.
      */
     Process exec(CommandLine commandLine, Map<String, String> env) throws IOException;
@@ -47,7 +47,7 @@ public interface CommandLauncher {
      * @param commandLine      The command to execute.
      * @param env              The environment for the new process. If null, the environment of the current process is used.
      * @param workingDirectory The directory to start the command in. If null, the current directory is used.
-     * @return the newly created process.
+     * @return The newly created process.
      * @throws IOException if trying to change directory.
      */
     Process exec(CommandLine commandLine, Map<String, String> env, File workingDirectory) throws IOException;
@@ -58,7 +58,7 @@ public interface CommandLauncher {
      * @param commandLine      The command to execute.
      * @param env              The environment for the new process. If null, the environment of the current process is used.
      * @param workingDirectory The directory to start the command in. If null, the current directory is used.
-     * @return the newly created process.
+     * @return The newly created process.
      * @throws IOException if trying to change directory.
      * @since 1.5.0
      */

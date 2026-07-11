@@ -237,7 +237,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
     /**
      * Gets the watchdog.
      *
-     * @return the watchdog.
+     * @return The watchdog.
      */
     Watchdog getWatchdog() {
         return watchdog;

@@ -45,7 +45,7 @@ public interface ProcessDestroyer {
     /**
      * Returns the number of registered processes.
      *
-     * @return the number of register process.
+     * @return The number of register process.
      */
     int size();
 }

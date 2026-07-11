@@ -29,7 +29,7 @@ public final class CommandLauncherFactory {
     /**
      * Factory method to create an appropriate launcher.
      *
-     * @return the command launcher.
+     * @return The command launcher.
      */
     public static CommandLauncher createVMLauncher() {
         // Try using a JDK 1.3 launcher
