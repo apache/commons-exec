@@ -48,7 +48,7 @@ public class OpenVmsProcessingEnvironment extends DefaultProcessingEnvironment {
 //    /**
 //     * Find the list of environment variables for this process.
 //     *
-//     * @return a map containing the environment variables
+//     * @return A map containing the environment variables
 //     * @throws IOException the operation failed
 //     */
 //    @Override

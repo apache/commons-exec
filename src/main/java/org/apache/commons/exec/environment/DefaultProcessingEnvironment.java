@@ -59,7 +59,7 @@ public class DefaultProcessingEnvironment {
     /**
      * Creates the list of environment variables for this process.
      *
-     * @return a map containing the environment variables.
+     * @return A map containing the environment variables.
      * @throws IOException the operation failed.
      */
     protected Map<String, String> createProcEnvironment() throws IOException {
@@ -126,7 +126,7 @@ public class DefaultProcessingEnvironment {
     /**
      * Gets the list of environment variables for this process.
      *
-     * @return a map containing the environment variables.
+     * @return A map containing the environment variables.
      * @throws IOException obtaining the environment variables failed.
      */
     public synchronized Map<String, String> getProcEnvironment() throws IOException {
@@ -144,7 +144,7 @@ public class DefaultProcessingEnvironment {
     /**
      * Runs a process to list the environment variables.
      *
-     * @return a reader containing the output of the process.
+     * @return A reader containing the output of the process.
      * @throws IOException starting the process failed.
      * @deprecated No longer needed.
      */

@@ -63,7 +63,7 @@ public class Watchdog implements Runnable {
         /**
          * Creates a new configured ExecuteWatchdog.
          *
-         * @return a new configured ExecuteWatchdog.
+         * @return A new configured ExecuteWatchdog.
          */
         @Override
         public Watchdog get() {
@@ -97,7 +97,7 @@ public class Watchdog implements Runnable {
     /**
      * Creates a new builder.
      *
-     * @return a new builder.
+     * @return A new builder.
      * @since 1.4.0
      */
     public static Builder builder() {

@@ -82,7 +82,7 @@ class TutorialTest {
      * @param file              the file to print
      * @param printJobTimeout   the printJobTimeout (ms) before the watchdog terminates the print process
      * @param printInBackground printing done in the background or blocking
-     * @return a print result handler (implementing a future)
+     * @return A print result handler (implementing a future)
      * @throws IOException the test failed
      */
     public PrintResultHandler print(final File file, final Duration printJobTimeout, final boolean printInBackground) throws IOException {

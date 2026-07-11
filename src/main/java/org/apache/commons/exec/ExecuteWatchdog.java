@@ -76,7 +76,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
         /**
          * Creates a new configured ExecuteWatchdog.
          *
-         * @return a new configured ExecuteWatchdog.
+         * @return A new configured ExecuteWatchdog.
          */
         @Override
         public ExecuteWatchdog get() {
@@ -116,7 +116,7 @@ public class ExecuteWatchdog implements TimeoutObserver {
     /**
      * Creates a new builder.
      *
-     * @return a new builder.
+     * @return A new builder.
      * @since 1.4.0
      */
     public static Builder builder() {

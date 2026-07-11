@@ -43,7 +43,7 @@ public class DaemonExecutor extends DefaultExecutor {
         /**
          * Creates a new configured DaemonExecutor.
          *
-         * @return a new configured DaemonExecutor.
+         * @return A new configured DaemonExecutor.
          */
         @Override
         public DefaultExecutor get() {
@@ -55,7 +55,7 @@ public class DaemonExecutor extends DefaultExecutor {
     /**
      * Creates a new builder.
      *
-     * @return a new builder.
+     * @return A new builder.
      * @since 1.4.0
      */
     public static Builder builder() {

@@ -52,7 +52,7 @@ public class EnvironmentUtils {
      * Gets the list of environment variables for this process. The returned map preserves the casing of a variable's name on all platforms but obeys the casing
      * rules of the current platform during lookup, e.g. key names will be case-insensitive on Windows platforms.
      *
-     * @return a map containing the environment variables, may be empty but never {@code null}.
+     * @return A map containing the environment variables, may be empty but never {@code null}.
      * @throws IOException the operation failed.
      */
     public static Map<String, String> getProcEnvironment() throws IOException {
@@ -63,7 +63,7 @@ public class EnvironmentUtils {
      * Parses a key/value pair into a String[]. It is assumed that the ky/value pair contains a '=' character.
      *
      * @param keyAndValue the key/value pair.
-     * @return a String[] containing the key and value.
+     * @return A String[] containing the key and value.
      */
     private static String[] parseEnvironmentVariable(final String keyAndValue) {
         final int index = keyAndValue.indexOf('=');

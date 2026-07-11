@@ -103,7 +103,7 @@ public class DefaultExecutor implements Executor {
         /**
          * Creates a new configured DefaultExecutor.
          *
-         * @return a new configured DefaultExecutor.
+         * @return A new configured DefaultExecutor.
          */
         @Override
         public DefaultExecutor get() {
@@ -172,7 +172,7 @@ public class DefaultExecutor implements Executor {
     /**
      * Creates a new builder.
      *
-     * @return a new builder.
+     * @return A new builder.
      * @since 1.4.0
      */
     public static Builder<?> builder() {
