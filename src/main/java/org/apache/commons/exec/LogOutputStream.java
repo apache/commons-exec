@@ -159,7 +159,7 @@ public abstract class LogOutputStream extends OutputStream {
      * @param b   The array containing the data.
      * @param off The offset into the array where data starts.
      * @param len The length of block.
-     * @throws IOException if the data cannot be written into the stream.
+     * @throws IOException Thrown if the data cannot be written into the stream.
      * @see OutputStream#write(byte[], int, int)
      */
     @Override
