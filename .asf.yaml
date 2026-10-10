@@ -16,6 +16,8 @@
 github:
   description: "Apache Commons Exec"
   homepage: https://commons.apache.org/exec/
+  autolink_jira:
+    - EXEC
   
   pull_requests:
     # allow auto-merge
