@@ -25,6 +25,7 @@
   <body>
     <release version="1.7.0" date="YYYY-MM-DD" description="This is a feature and maintenance release. Java 8 or later is required.">
       <!-- FIX -->
+      <action type="fix" issue="EXEC-125" due-to="Aryan Ganjoo">Preserve trailing dollar signs in string substitution instead of throwing an index exception.</action>
       <action type="fix" dev="ggregory" due-to="Martin Wiesner">Fix typo in ThreadUtil exception message #138.</action>
       <!-- ADD -->
       <!-- UPDATE -->
