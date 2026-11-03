@@ -553,27 +553,18 @@ class DefaultExecutorTest {
      * @throws Exception the test failed
      */
     @Test
-    void testExecuteWithCustomExitValue2() throws Exception {
+    void testExecuteWithCustomExitValue2() {
         final CommandLine cl = new CommandLine(errorTestScript);
         exec.setExitValue(successStatus);
-        try {
-            exec.execute(cl);
-            fail("Must throw ExecuteException");
-        } catch (final ExecuteException e) {
-            assertTrue(exec.isFailure(e.getExitValue()));
-        }
+        final ExecuteException e = assertThrows(ExecuteException.class, () -> exec.execute(cl));
+        assertTrue(exec.isFailure(e.getExitValue()));
     }
 
     @Test
-    void testExecuteWithError() throws Exception {
+    void testExecuteWithError() {
         final CommandLine cl = new CommandLine(errorTestScript);
-
-        try {
-            exec.execute(cl);
-            fail("Must throw ExecuteException");
-        } catch (final ExecuteException e) {
-            assertTrue(exec.isFailure(e.getExitValue()));
-        }
+        final ExecuteException e = assertThrows(ExecuteException.class, () -> exec.execute(cl));
+        assertTrue(exec.isFailure(e.getExitValue()));
     }
 
     /**
