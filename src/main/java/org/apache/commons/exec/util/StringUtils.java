@@ -21,6 +21,7 @@ package org.apache.commons.exec.util;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -76,7 +77,7 @@ public class StringUtils {
      * Put quotes around the given String if necessary.
      * <p>
      * If the argument doesn't include spaces or quotes, return it as is. If it contains double quotes, use single quotes - else surround the argument by double
-     * quotes.
+     * quotes. Backslashes at the end of a double-quoted argument are doubled, so that the closing double quote stays a delimiter.
      * </p>
      *
      * @param argument The argument to be quoted.
@@ -104,9 +105,34 @@ public class StringUtils {
             return buf.append(SINGLE_QUOTE).append(cleanedArgument).append(SINGLE_QUOTE).toString();
         }
         if (cleanedArgument.contains(SINGLE_QUOTE) || cleanedArgument.contains(" ")) {
-            return buf.append(DOUBLE_QUOTE).append(cleanedArgument).append(DOUBLE_QUOTE).toString();
+            return buf.append(DOUBLE_QUOTE).append(escapeTrailingBackslashes(cleanedArgument)).append(DOUBLE_QUOTE).toString();
         }
         return cleanedArgument;
+    }
+
+    /**
+     * Doubles the backslashes at the end of an argument that is embedded in double quotes.
+     * <p>
+     * A backslash immediately in front of a quoting double quote escapes that quote, so an argument such as {@code "C:\Program Files\"} loses its
+     * trailing backslash and gains a trailing double quote when the receiving process parses the command line. Doubling the backslashes keeps the
+     * closing double quote a delimiter, which is how {@code CommandLineToArgvW} and the JVM launcher read a command line.
+     * </p>
+     *
+     * @param argument The argument to escape.
+     * @return The argument with its trailing backslashes doubled.
+     */
+    private static String escapeTrailingBackslashes(final String argument) {
+        int index = argument.length();
+        while (index > 0 && argument.charAt(index - 1) == BACKSLASH_CHAR) {
+            index--;
+        }
+        if (index == argument.length()) {
+            return argument;
+        }
+        final char[] chars = new char[argument.length() + argument.length() - index];
+        argument.getChars(0, index, chars, 0);
+        Arrays.fill(chars, index, chars.length, BACKSLASH_CHAR);
+        return new String(chars);
     }
 
     /**
