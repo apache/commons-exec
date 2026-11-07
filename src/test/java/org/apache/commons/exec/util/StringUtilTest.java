@@ -57,6 +57,32 @@ class StringUtilTest {
     }
 
     /**
+     * Test a '$' at the end of the template, which must be copied as is.
+     */
+    @Test
+    void testTrailingDollarSign() throws Exception {
+        final Map<String, String> vars = new HashMap<>();
+        vars.put("foo", "FOO");
+
+        assertEquals("FOO costs 5$", StringUtils.stringSubstitution("${foo} costs 5$", vars, true).toString());
+        assertEquals("FOO costs 5$", StringUtils.stringSubstitution("${foo} costs 5$", vars, false).toString());
+        assertEquals("$", StringUtils.stringSubstitution("$", vars, true).toString());
+        assertEquals("\\\\server\\c$", StringUtils.stringSubstitution("\\\\server\\c$", vars, true).toString());
+    }
+
+    /**
+     * Test a variable without a closing delimiter at the end of the template.
+     */
+    @Test
+    void testUnterminatedVariableAtEnd() throws Exception {
+        final Map<String, String> vars = new HashMap<>();
+        vars.put("foo", "FOO");
+
+        assertThrows(IllegalArgumentException.class, () -> StringUtils.stringSubstitution("${foo", vars, true));
+        assertThrows(IllegalArgumentException.class, () -> StringUtils.stringSubstitution("${", vars, true));
+    }
+
+    /**
      * Test an incomplete string substitution where not all placeholders are expanded.
      */
     @Test
