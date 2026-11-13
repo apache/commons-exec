@@ -461,4 +461,16 @@ class CommandLineTest {
         assertTrue(!cmd1.toString().equals(cmd2.toString()), "toString() is useful for troubleshooting");
     }
 
+    /**
+     * An argument ending with '$' (e.g. a regex anchor or a Windows admin share) must not break expansion of a command line using a substitution map.
+     */
+    @Test
+    void testTrailingDollarSignWithSubstitutionMap() throws Exception {
+        final Map<String, String> params = new HashMap<>();
+        params.put("file", "a.txt");
+        final CommandLine cmdl = new CommandLine("grep").addArgument("end$").addArgument("${file}");
+        cmdl.setSubstitutionMap(params);
+        assertArrayEquals(new String[] { "grep", "end$", "a.txt" }, cmdl.toStrings());
+    }
+
 }
