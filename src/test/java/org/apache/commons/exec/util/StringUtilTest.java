@@ -100,4 +100,17 @@ class StringUtilTest {
                 "Can't handle single and double quotes in same argument");
     }
 
+    /**
+     * A backslash in front of the closing double quote escapes that quote, so the backslashes at the end of a quoted argument must be doubled for the argument
+     * to arrive unchanged. See MSDN, "Parsing C++ Command-Line Arguments".
+     */
+    @Test
+    void testQuoteArgumentEndingInBackslash() throws Exception {
+        assertEquals("\"dir with space\\\\\"", StringUtils.quoteArgument("dir with space\\"));
+        // the backslashes at the end are doubled, so an argument that already ends with two backslashes ends up with four
+        assertEquals("\"dir with space\\\\\\\\\"", StringUtils.quoteArgument("dir with space\\\\"));
+        assertEquals("\"dir with space\"", StringUtils.quoteArgument("dir with space"));
+        // no space, so no quoting is needed
+        assertEquals("dir\\", StringUtils.quoteArgument("dir\\"));
+    }
 }

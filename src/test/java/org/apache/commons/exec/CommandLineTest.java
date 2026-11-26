@@ -26,15 +26,96 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.exec.util.StringUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 /**
  */
 class CommandLineTest {
+
+    /** Directory the child process writes the arguments it received into. */
+    private static final Path RECORDED_ARGS_DIR = Paths.get("target", "quoted-arguments");
+
+    /**
+     * Runs the current JVM as a child process with the given arguments and returns the arguments the child process actually received. The child process writes
+     * each argument to its own file, so the comparison is not affected by the console encoding.
+     */
+    private static List<String> runChildProcess(final String... arguments) throws Exception {
+        final Path outDir = RECORDED_ARGS_DIR.toAbsolutePath();
+        if (Files.isDirectory(outDir)) {
+            try (java.util.stream.Stream<Path> stream = Files.list(outDir)) {
+                for (final Path path : stream.toArray(Path[]::new)) {
+                    Files.deleteIfExists(path);
+                }
+            }
+        }
+        final Path java = Paths.get(System.getProperty("java.home"), "bin", "java");
+        final CommandLine commandLine = new CommandLine(java);
+        commandLine.addArgument("-cp");
+        commandLine.addArgument(System.getProperty("java.class.path"));
+        commandLine.addArgument(QuotedArgumentRecorder.class.getName());
+        commandLine.addArgument(outDir.toString());
+        commandLine.addArguments(arguments);
+        new DefaultExecutor().execute(commandLine);
+        final List<String> received = new ArrayList<>();
+        for (int i = 0;; i++) {
+            final Path file = outDir.resolve(String.format("%03d.txt", i));
+            if (!Files.exists(file)) {
+                break;
+            }
+            received.add(new String(Files.readAllBytes(file), StandardCharsets.UTF_8));
+        }
+        assertEquals(String.valueOf(received.size()), new String(Files.readAllBytes(outDir.resolve("count.txt")), StandardCharsets.UTF_8),
+                "the child process recorded a different number of arguments than this test read back");
+        return received;
+    }
+
+    /**
+     * An argument that ends in a backslash must survive being quoted and passed to a child process. A backslash in front of the closing double quote escapes
+     * that quote, which used to turn {@code C:\Program Files\} into {@code C:\Program Files"} in the child process.
+     */
+    @Test
+    @EnabledOnOs(OS.WINDOWS)
+    void testAddArgumentEndingInBackslashIsDeliveredUnchanged() throws Exception {
+        final String directoryWithSpace = "C:\\Program Files\\";
+        final String pathWithSpace = "C:\\Program Files\\Apache Software Foundation\\";
+        assertEquals(Arrays.asList(directoryWithSpace, "plain"),
+                runChildProcess(directoryWithSpace, "plain"), "argument ending with a backslash was changed while being passed to the child process");
+        assertEquals(Arrays.asList(pathWithSpace), runChildProcess(pathWithSpace),
+                "path ending with a backslash was changed while being passed to the child process");
+    }
+
+    /**
+     * An argument without spaces is not quoted, so its trailing backslashes stay as they are.
+     */
+    @Test
+    void testAddArgumentEndingInBackslashWithoutSpaceIsNotQuoted() {
+        final CommandLine cmdl = new CommandLine("test");
+        cmdl.addArgument("C:\\dir\\");
+        assertArrayEquals(new String[] { "test", "C:\\dir\\" }, cmdl.toStrings());
+    }
+
+    /**
+     * An argument without a backslash in front of the closing quote keeps working.
+     */
+    @Test
+    @EnabledOnOs(OS.WINDOWS)
+    void testAddArgumentWithSpaceIsDeliveredUnchanged() throws Exception {
+        assertEquals(Arrays.asList("C:\\Program Files"), runChildProcess("C:\\Program Files"));
+        assertEquals(Arrays.asList("key=a b"), runChildProcess("key=a b"));
+    }
 
     @Test
     void testAddArgument() {
