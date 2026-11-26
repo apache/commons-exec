@@ -171,7 +171,8 @@ public class StringUtils {
 
             case '$':
                 final StringBuilder nameBuf = new StringBuilder();
-                del = argStr.charAt(cIdx + 1);
+                // a trailing '$' has no following delimiter and is copied as is
+                del = cIdx + 1 < argStrLength ? argStr.charAt(cIdx + 1) : ' ';
                 if (del == '{') {
                     cIdx++;
 
@@ -207,9 +208,7 @@ public class StringUtils {
                             argBuf.append("${").append(nameBuf.toString()).append("}");
                         }
 
-                        del = argStr.charAt(cIdx);
-
-                        if (del != '}') {
+                        if (cIdx >= argStrLength || argStr.charAt(cIdx) != '}') {
                             throw new IllegalArgumentException("Delimiter not found for : " + nameBuf);
                         }
                     }
